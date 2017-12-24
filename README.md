@@ -23,11 +23,12 @@ The Admin API Key is referenced in this documentation as the parameter "YOUR_API
 
 ## Installing
 
-A step by step series of examples that tell you have to get a development env running
+First clone the repository using:
+```
+git clone https://github.com/opsmatters/newrelic-api.git
+```
 
-Say what the step will be
-
-To compile the source code and produce all artefacts (including sources, Javadoc, etc):
+To compile the source code, run all tests, and generate all artefacts (including sources, javadoc, etc):
 ```
 mvn package -Dnewrelic.apiKey="<YOUR_API_KEY>" 
 ```
@@ -41,7 +42,7 @@ mvn clean test -Dnewrelic.apiKey="<YOUR_API_KEY>"
 
 The following tests are included:
 
-* PolicyAndInfraCondition: Creates an alert policy, followed by a host_not_reporting infrastructure condition and then removes them.
+* PolicyAndInfraCondition: Creates an alert policy, followed by a host_not_reporting infrastructure condition and then deletes them.
 
 ## Deployment
 
@@ -69,11 +70,13 @@ Please read [CONTRIBUTING.md](https://www.contributor-covenant.org/version/1/4/c
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/opsmatters/newrelic-api/tags). 
+This project use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/opsmatters/newrelic-api/tags). 
 
 ## Authors
 
 * **Gerald Curley** - *Initial work* - [opsmatters](https://github.com/opsmatters)
+
+See also the list of [contributors](https://github.com/opsmatters/newrelic-api/contributors) who participated in this project.
 
 ## License
 
