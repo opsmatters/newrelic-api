@@ -1,0 +1,15 @@
+# Auto detect text files and perform LF normalization
+*        text=auto
+
+#*.java   text diff=java
+*.html   text diff=html
+*.htm    text diff=html
+*.css    text
+*.js     text
+*.sh     text eol=lf
+*.conf   text eol=lf
+
+# paths that don't start with / are treated relative to the .gitattributes folder
+relative/path/*.txt text eol=lf
+relative/path/*.sh  text eol=lf
+relative/path/*.conf  text eol=lf
