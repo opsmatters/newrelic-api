@@ -6,11 +6,52 @@
   <version>0.1</version>
   <packaging>jar</packaging>
   <name>newrelic-api</name>
-  <url>http://maven.apache.org</url>
+  <description>Java library for the New Relic REST APIs built using Jersey and Gson</description>
+  <url>https://github.com/opsmatters/newrelic-api</url>
+
+  <issueManagement>
+    <url>https://github.com/opsmatters/newrelic-api/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>Apache 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/opsmatters/newrelic-api</url>
+    <connection>scm:git:git://github.com/opsmatters/newrelic-api.git</connection>
+    <developerConnection>scm:git:git@github.com:opsmatters/newrelic-api.git</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <email>gerald@opsmatters.com</email>
+      <name>Gerald Curley</name>
+      <url>https://github.com/opsmatters</url>
+      <id>opsdemon</id>
+    </developer>
+  </developers>
 
   <properties>
-    <project.build.sourceEncoding>ISO8859-1</project.build.sourceEncoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 
   <build>
 
@@ -106,12 +147,80 @@ built.on=${TODAY}
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20.1</version>
+        <configuration>
+          <systemPropertyVariables>
+            <newrelic.apiKey>${newrelic.apiKey}</newrelic.apiKey>
+            <java.util.logging.config.file>${project.build.directory}/test-classes/logging.properties</java.util.logging.config.file>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <useReleaseProfile>false</useReleaseProfile>
+          <releaseProfiles>release</releaseProfiles>
+          <goals>deploy</goals>
+        </configuration>
+      </plugin>
+
     </plugins>
 
   </build>
 
   <reporting>
     <plugins>
+
       <plugin> 
         <artifactId>maven-javadoc-plugin</artifactId> 
         <version>3.0.0</version> 
@@ -131,6 +240,13 @@ built.on=${TODAY}
           </additionalJOptions>
         </configuration> 
       </plugin> 
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+
     </plugins>
   </reporting>
 
@@ -178,6 +294,13 @@ built.on=${TODAY}
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
   <version>20.0</version>
+</dependency>
+
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.12</version>
+  <scope>test</scope>
 </dependency>
 
 </dependencies>

@@ -32,6 +32,8 @@ import com.opsmatters.newrelic.httpclient.filter.ApiKeyFilter;
  */
 public class ApiKeyHttpClientProvider implements HttpClientProvider
 {
+    private static final Logger logger = Logger.getLogger(ApiKeyHttpClientProvider.class.getName());
+
     private String apikey;
     
     /**
@@ -64,8 +66,8 @@ public class ApiKeyHttpClientProvider implements HttpClientProvider
         config.register(GsonMessageBodyHandler.class);   
         Client client = ClientBuilder.newClient(config);
         client.register(new ApiKeyFilter(this.apikey));
-        client.register(new LoggingFeature(Logger.getLogger(getClass().getName()), 
-            Level.INFO, LoggingFeature.Verbosity.PAYLOAD_TEXT, 8192));
+        if(logger.isLoggable(Level.FINE))
+            client.register(new LoggingFeature(logger, Level.FINE, LoggingFeature.Verbosity.PAYLOAD_TEXT, 8192));
         return client;
     }
 }
