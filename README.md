@@ -2,88 +2,79 @@
 
 A Java library for the New Relic REST APIs built using Jersey and Gson.
 
-## Getting Started
+The following New Relic APIs are currently supported:
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-## APM API
+# APM API
 * Applications (List, Show, Update, Delete, Metric Names, Metric Data)
 
-## Alerts API
+# Alerts API
 * Alerts Policies (List, Create, Update, Delete)
 * Infrastructure Alert Conditions (List, Create, Update, Delete)
 * Alerts Nrql Conditions (List, Create, Update, Delete)
 
-### Prerequisites
+Other APIs can be included on request.
 
-What things you need to install the software and how to install them
-GERALD Admin API Key The [License Key](https://docs.newrelic.com/docs/accounts-partnerships/accounts/account-setup/license-key) is used for Agents or Plugins to send data to your account. |
+## Prerequisites
 
-```
-Give examples
-```
+A New Relic account with an Admin user.
+The user needs to generate an [Admin API Key](https://docs.newrelic.com/docs/accounts-partnerships/accounts/account-setup/new-relic-rest-api-key-types) 
+to provide read-write access via the [New Relic REST APIs](https://api.newrelic.com).
+The Admin API Key is referenced in this documentation as the parameter "YOUR_API_KEY".
 
-### Installing
+## Installing
 
 A step by step series of examples that tell you have to get a development env running
 
 Say what the step will be
 
+To compile the source code and produce all artefacts (including sources, Javadoc, etc):
 ```
-Give the example
+mvn package -Dnewrelic.apiKey="<YOUR_API_KEY>" 
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+To execute the unit tests:
 ```
-Give an example
+mvn clean test -Dnewrelic.apiKey="<YOUR_API_KEY>"
 ```
+
+The following tests are included:
+
+* PolicyAndInfraCondition: Creates an alert policy, followed by a host_not_reporting infrastructure condition and then removes them.
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+The build artefacts are hosted in The Maven Central Repository. 
+
+To perform a release:
+```
+mvn release:clean release:prepare
+```
+Then answer the prompts for versions and tags, followed by:
+```
+mvn release:perform
+```
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [Jersey](https://jersey.github.io/) - RESTful Web Services in Java
+* [Gson](https://github.com/google/gson) - Java serialization/deserialization library
+* [Guava](https://github.com/google/guava/wiki) - An open-source set of common libraries for Java
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/opsmatters/newrelic-api/tags). 
 
 ## Authors
 
 * **Gerald Curley** - *Initial work* - [opsmatters](https://github.com/opsmatters)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
 ## License
 
 This project is licensed under the terms of the [Apache license 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
-
