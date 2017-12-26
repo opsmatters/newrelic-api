@@ -83,4 +83,4 @@ See also the list of [contributors](https://github.com/opsmatters/newrelic-api/c
 
 This project is licensed under the terms of the [Apache license 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
 
-[[https://imgur.com/a/1P6xN]]
+[opsmatters](https://imgur.com/a/1P6xN)
