@@ -211,6 +211,7 @@ built.on=${TODAY}
           <useReleaseProfile>false</useReleaseProfile>
           <releaseProfiles>release</releaseProfiles>
           <goals>deploy</goals>
+          <arguments>-Dnewrelic.apiKey=${newrelic.apiKey}</arguments>
         </configuration>
       </plugin>
 
