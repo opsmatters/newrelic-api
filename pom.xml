@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
   <name>newrelic-api</name>
   <description>Java library for the New Relic REST APIs built using Jersey and Gson</description>
