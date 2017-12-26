@@ -25,7 +25,8 @@ The Admin API Key is referenced in this documentation as the parameter "YOUR_API
 
 First clone the repository using:
 ```
-git clone https://github.com/opsmatters/newrelic-api.git
+>$ git clone https://github.com/opsmatters/newrelic-api.git
+>$ cd newrelic-api
 ```
 
 To compile the source code, run all tests, and generate all artefacts (including sources, javadoc, etc):
@@ -81,3 +82,5 @@ See also the list of [contributors](https://github.com/opsmatters/newrelic-api/c
 ## License
 
 This project is licensed under the terms of the [Apache license 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
+
+[[https://imgur.com/a/1P6xN]]
