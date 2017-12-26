@@ -213,7 +213,7 @@ built.on=${TODAY}
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <useReleaseProfile>false</useReleaseProfile>
-          <releaseProfiles>ossrh</releaseProfiles>
+          <releaseProfiles>release</releaseProfiles>
           <goals>deploy</goals>
           <arguments>-Dnewrelic.apiKey=${newrelic.apiKey}</arguments>
         </configuration>

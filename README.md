@@ -50,13 +50,13 @@ The following tests are included:
 
 The build artefacts are hosted in The Maven Central Repository. 
 
-To perform a release:
+Add the following dependency to include the artefact within your project:
 ```
-mvn release:clean release:prepare
-```
-Then answer the prompts for versions and tags, followed by:
-```
-mvn release:perform
+<dependency>
+  <groupId>com.opsmatters</groupId>
+  <artifactId>newrelic-api</artifactId>
+  <version>0.1.0</version>
+</dependency>
 ```
 
 ## Built With
