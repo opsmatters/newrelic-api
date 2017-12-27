@@ -30,10 +30,11 @@
 
   <developers>
     <developer>
+      <id>opsdemon</id>
       <email>gerald@opsmatters.com</email>
       <name>Gerald Curley</name>
       <url>https://github.com/opsmatters</url>
-      <id>opsdemon</id>
+      <organization>http://opsmatters.com</organization>
     </developer>
   </developers>
 
