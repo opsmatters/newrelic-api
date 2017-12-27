@@ -23,10 +23,6 @@
 
   <scm>
     <url>https://github.com/opsmatters/newrelic-api</url>
-<!-- GERALD
-    <connection>scm:git:git@github.com:opsmatters/newrelic-api.git</connection>
-    <developerConnection>scm:git:git@github.com:opsmatters/newrelic-api.git</developerConnection>
--->
     <connection>scm:git:https://github.com/opsmatters/newrelic-api.git</connection>
     <developerConnection>scm:git:https://github.com/opsmatters/newrelic-api.git</developerConnection>
     <tag>newrelic-api-0.1.0</tag>
