@@ -246,7 +246,7 @@ public class HttpContext
         Map<String, Object> queryParams, GenericType<T> returnType)
     {
         WebTarget target = this.client.target(uri);
-        applyQueryParams(target, queryParams);
+        target = applyQueryParams(target, queryParams);
         Invocation.Builder invocation = target.request(MediaType.APPLICATION_JSON);
         applyHeaders(invocation, headers);
         Response response = invocation.get();
@@ -394,16 +394,19 @@ public class HttpContext
      * Add the given set of query parameters to the web target.
      * @param target The web target to add the parameters to
      * @param queryParams The query parameters to add
+     * @return The updated target
      */
-    private void applyQueryParams(WebTarget target, Map<String, Object> queryParams)
+    private WebTarget applyQueryParams(WebTarget target, Map<String, Object> queryParams)
     {
         if(queryParams != null)
         {
             for (Map.Entry<String, Object> e : queryParams.entrySet())
             {
-                target.queryParam(e.getKey(), e.getValue());
+                target = target.queryParam(e.getKey(), e.getValue());
             }
         }
+
+        return target;
     }
 
     /**

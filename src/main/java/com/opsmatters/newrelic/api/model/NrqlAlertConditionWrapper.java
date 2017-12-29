@@ -17,56 +17,38 @@
 package com.opsmatters.newrelic.api.model;
 
 /**
- * Represents the base class for all top-level model objects.  
+ * Wrapper used to marshall a New Relic NRQL alert condition.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class BaseObject
+public class NrqlAlertConditionWrapper
 {
-    private Long id;
-    private String name;
+    private NrqlAlertCondition nrql_condition;
     
     /**
-     * Default constructor.
+     * Constructor that takes an NRQL alert condition.
+     * @param condition The alert condition
      */
-    public BaseObject()
+    public NrqlAlertConditionWrapper(NrqlAlertCondition condition)
     {
-    }
-   
-    /**
-     * Returns the id of the object.
-     * @return The id of the object
-     */
-    public long getId()
-    {
-        return id;
+        this.nrql_condition = condition;
     }
 
     /**
-     * Sets the name of the object.
-     * @param name The name of the object
+     * Returns the contents of the wrapper.
+     * @return The alert condition
      */
-    public void setName(String name)
+    public NrqlAlertCondition getContents()
     {
-        this.name = name;
+        return nrql_condition;
     }
 
-    /**
-     * Returns the name of the object.
-     * @return The name of the object
-     */
-    public String getName()
-    {
-        return name;
-    }
-    
     /**
      * Returns a string representation of the object.
      */
     @Override
     public String toString()
     {
-        return "id="+id
-            +", name="+name;
+        return "NrqlAlertConditionWrapper [nrql_condition="+nrql_condition+"]";
     }
 }

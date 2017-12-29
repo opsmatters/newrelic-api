@@ -16,57 +16,59 @@
 
 package com.opsmatters.newrelic.api.model;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
- * Represents the base class for all top-level model objects.  
+ * Represents a New Relic alert condition with terms.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class BaseObject
+public abstract class TermsCondition extends BaseCondition
 {
-    private Long id;
-    private String name;
+    private List<Term> terms = new ArrayList<Term>();
     
     /**
      * Default constructor.
      */
-    public BaseObject()
+    public TermsCondition()
     {
-    }
-   
-    /**
-     * Returns the id of the object.
-     * @return The id of the object
-     */
-    public long getId()
-    {
-        return id;
-    }
-
-    /**
-     * Sets the name of the object.
-     * @param name The name of the object
-     */
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    /**
-     * Returns the name of the object.
-     * @return The name of the object
-     */
-    public String getName()
-    {
-        return name;
     }
     
+    /**
+     * Sets the terms of the alert condition.
+     * @param terms The terms of the alert condition
+     */
+    public void setTerms(List<Term> terms)
+    {
+        this.terms = terms;
+    }
+
+    /**
+     * Adds a term to the alert condition.
+     * @param term The term to be added
+     */
+    public void addTerm(Term term)
+    {
+        this.terms.add(term);
+    }
+
+    /**
+     * Returns the terms of the alert condition.
+     * @return The terms of the alert condition
+     */
+    public List<Term> getTerms()
+    {
+        return terms;
+    }
+
     /**
      * Returns a string representation of the object.
      */
     @Override
     public String toString()
     {
-        return "id="+id
-            +", name="+name;
+        return super.toString()
+            +", terms="+terms;
     }
 }

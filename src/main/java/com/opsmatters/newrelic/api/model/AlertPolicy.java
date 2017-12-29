@@ -28,6 +28,21 @@ public class AlertPolicy extends BaseObject
     private Long updated_at;
 
     /**
+     * The "PER_POLICY" incident preference.
+     */
+    public static final String PER_POLICY_PREFERENCE = "PER_POLICY";
+
+    /**
+     * The "PER_CONDITION" incident preference.
+     */
+    public static final String PER_CONDITION_PREFERENCE = "PER_CONDITION";
+
+    /**
+     * The "PER_CONDITION_AND_TARGET" incident preference.
+     */
+    public static final String PER_CONDITION_AND_TARGET_PREFERENCE = "PER_CONDITION_AND_TARGET";
+
+    /**
      * Default constructor.
      */
     public AlertPolicy()
@@ -120,13 +135,43 @@ public class AlertPolicy extends BaseObject
         }
 
         /**
-         * Sets the incident_preference of the alert policy.
-         * @param incident_preference The incident_preference of the alert policy
+         * Sets the incident preference of the alert policy.
+         * @param incident_preference The incident preference of the alert policy
          * @return This object
          */
         public Builder incidentPreference(String incident_preference)
         {
             policy.setIncidentPreference(incident_preference);
+            return this;
+        }
+
+        /**
+         * Sets the incident preference of the alert policy to "PER_POLICY".
+         * @return This object
+         */
+        public Builder perPolicyIncidentPreference()
+        {
+            policy.setIncidentPreference(PER_POLICY_PREFERENCE);
+            return this;
+        }
+
+        /**
+         * Sets the incident preference of the alert policy to "PER_CONDITION".
+         * @return This object
+         */
+        public Builder perConditionIncidentPreference()
+        {
+            policy.setIncidentPreference(PER_CONDITION_PREFERENCE);
+            return this;
+        }
+
+        /**
+         * Sets the incident preference of the alert policy to "PER_CONDITION_AND_TARGET".
+         * @return This object
+         */
+        public Builder perConditionAndTargetIncidentPreference()
+        {
+            policy.setIncidentPreference(PER_CONDITION_AND_TARGET_PREFERENCE);
             return this;
         }
 

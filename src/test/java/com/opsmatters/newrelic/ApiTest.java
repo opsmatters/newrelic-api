@@ -25,6 +25,9 @@ import com.opsmatters.newrelic.api.NewRelicApiService;
 import com.opsmatters.newrelic.api.model.AlertPolicy;
 import com.opsmatters.newrelic.api.model.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.CriticalThreshold;
+import com.opsmatters.newrelic.api.model.NrqlAlertCondition;
+import com.opsmatters.newrelic.api.model.Term;
+import com.opsmatters.newrelic.api.model.Nrql;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -41,6 +44,7 @@ public class ApiTest
     private String key = System.getProperty("newrelic.apiKey");
     private String policyName = "test-policy";
     private String hostConditionName = "test-host-condition";
+    private String nrqlConditionName = "test-nrql-condition";
 
     @Test
     public void testPolicyAndInfraCondition()
@@ -69,43 +73,11 @@ public class ApiTest
             Assert.assertTrue(ret.isPresent());
         }
 
-        // Create the host condition
-        logger.info("Create the host condition: "+hostConditionName);
-        InfraAlertCondition condition = getHostNotReportingCondition(testPolicy.getId(), hostConditionName);
-        InfraAlertCondition testCondition = infraapi.infraAlertConditions().create(condition).get();
-        Assert.assertNotNull(testCondition);
+        // Test an infrastructure condition
+        testInfraCondition(infraapi, testPolicy);
 
-        // Get the condition
-        {
-            logger.info("Get the host condition: "+testCondition.getId());
-            Optional<InfraAlertCondition> ret = infraapi.infraAlertConditions().get(testCondition.getId());
-            Assert.assertTrue(ret.isPresent());
-        }
-
-        // Get all conditions for the policy
-        {
-            logger.info("Get all conditions for policy: "+testPolicy.getId());
-            Collection<InfraAlertCondition> ret = infraapi.infraAlertConditions().all(testPolicy.getId());
-            Assert.assertTrue(ret.size() > 0);
-        }
-
-        // Delete the condition
-        {
-            logger.info("Delete the condition: "+testCondition.getId());
-            infraapi.infraAlertConditions().delete(testCondition.getId());
-
-            Optional<InfraAlertCondition> ret = Optional.absent();
-
-            try
-            {
-                ret = infraapi.infraAlertConditions().get(testCondition.getId());
-            }
-            catch(RuntimeException e)
-            {
-            }
-
-            Assert.assertFalse(ret.isPresent());
-        }
+        // Test an NRQL condition
+        testNrqlCondition(api, testPolicy);
 
         // Delete the policy
         {
@@ -140,7 +112,7 @@ public class ApiTest
     {
         return AlertPolicy.builder()
             .name(name)
-            .incidentPreference("PER_POLICY")
+            .perPolicyIncidentPreference()
             .build();
     }
 
@@ -154,5 +126,111 @@ public class ApiTest
             .criticalThreshold(new CriticalThreshold(10))
             .enabled(true)
             .build();
+    }
+
+    public void testInfraCondition(NewRelicApiService api, AlertPolicy policy)
+    {
+        // Create the host infra condition
+        logger.info("Create the host condition: "+hostConditionName);
+        InfraAlertCondition condition = getHostNotReportingCondition(policy.getId(), hostConditionName);
+        InfraAlertCondition testCondition = api.infraAlertConditions().create(condition).get();
+        Assert.assertNotNull(testCondition);
+
+        // Get the infra condition
+        {
+            logger.info("Get the host condition: "+testCondition.getId());
+            Optional<InfraAlertCondition> ret = api.infraAlertConditions().get(testCondition.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        // Get all infra conditions for the policy
+        {
+            logger.info("Get all conditions for policy: "+policy.getId());
+            Collection<InfraAlertCondition> ret = api.infraAlertConditions().all(policy.getId());
+            Assert.assertTrue(ret.size() > 0);
+        }
+
+        // Delete the infra condition
+        {
+            logger.info("Delete the infra condition: "+testCondition.getId());
+            api.infraAlertConditions().delete(testCondition.getId());
+
+            Optional<InfraAlertCondition> ret = Optional.absent();
+
+            try
+            {
+                ret = api.infraAlertConditions().get(testCondition.getId());
+            }
+            catch(RuntimeException e)
+            {
+            }
+
+            Assert.assertFalse(ret.isPresent());
+        }
+    }
+
+    public NrqlAlertCondition getNrqlCondition(long policyId, String name)
+    {
+        Term term = Term.builder()
+            .duration(10)
+            .criticalPriority()
+            .aboveOperator()
+            .allTimeFunction()
+            .threshold(1)
+            .build();
+
+        Nrql nrql = Nrql.builder()
+            .query("SELECT average(cpuPercent) from ProcessSample WHERE hostname like 'ip-%'")
+            .sinceValue(3)
+            .build();
+
+        return NrqlAlertCondition.builder()
+            .name(nrqlConditionName)
+            .singleValueFunction()
+            .addTerm(term)
+            .nrql(nrql)
+            .enabled(true)
+            .build();
+    }
+
+    public void testNrqlCondition(NewRelicApiService api, AlertPolicy policy)
+    {
+        // Create the nrql condition
+        logger.info("Create the nrql condition: "+nrqlConditionName);
+        NrqlAlertCondition condition = getNrqlCondition(policy.getId(), nrqlConditionName);
+        NrqlAlertCondition testCondition = api.nrqlAlertConditions().create(policy.getId(), condition).get();
+        Assert.assertNotNull(testCondition);
+
+        // Get the nrql condition
+        {
+            logger.info("Get the nrql condition: "+testCondition.getId());
+            Optional<NrqlAlertCondition> ret = api.nrqlAlertConditions().get(policy.getId(), testCondition.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        // Get all nrql conditions for the policy
+        {
+            logger.info("Get all conditions for policy: "+policy.getId());
+            Collection<NrqlAlertCondition> ret = api.nrqlAlertConditions().all(policy.getId());
+            Assert.assertTrue(ret.size() > 0);
+        }
+
+        // Delete the nrql condition
+        {
+            logger.info("Delete the nrql condition: "+testCondition.getId());
+            api.nrqlAlertConditions().delete(testCondition.getId());
+
+            Optional<NrqlAlertCondition> ret = Optional.absent();
+
+            try
+            {
+                ret = api.nrqlAlertConditions().get(policy.getId(), testCondition.getId());
+            }
+            catch(RuntimeException e)
+            {
+            }
+
+            Assert.assertFalse(ret.isPresent());
+        }
     }
 }

@@ -30,6 +30,21 @@ public class InfraAlertCondition extends BaseObject
     private Long policy_id;
     private Long created_at_epoch_millis;
     private Long updated_at_epoch_millis;
+
+    /**
+     * The "infra_host_not_reporting" type.
+     */
+    public static final String HOST_NOT_REPORTING_TYPE = "infra_host_not_reporting";
+
+    /**
+     * The "infra_process_running" type.
+     */
+    public static final String PROCESS_RUNNING_TYPE = "infra_process_running";
+
+    /**
+     * The "infra_metric" type.
+     */
+    public static final String METRIC_TYPE = "infra_metric";
     
     /**
      * Default constructor.
@@ -216,7 +231,7 @@ public class InfraAlertCondition extends BaseObject
          */
         public Builder metricType()
         {
-            condition.setType("infra_metric");
+            condition.setType(METRIC_TYPE);
             return this;
         }
 
@@ -226,7 +241,7 @@ public class InfraAlertCondition extends BaseObject
          */
         public Builder processRunningType()
         {
-            condition.setType("infra_process_running");
+            condition.setType(PROCESS_RUNNING_TYPE);
             return this;
         }
 
@@ -236,7 +251,7 @@ public class InfraAlertCondition extends BaseObject
          */
         public Builder hostNotReportingType()
         {
-            condition.setType("infra_host_not_reporting");
+            condition.setType(HOST_NOT_REPORTING_TYPE);
             return this;
         }
 
@@ -275,7 +290,7 @@ public class InfraAlertCondition extends BaseObject
 
         /**
          * Sets the critical threshold of the alert condition.
-         * @param critical_threshold The critical_threshold of the alert condition
+         * @param critical_threshold The critical threshold of the alert condition
          * @return This object
          */
         public Builder criticalThreshold(CriticalThreshold critical_threshold)

@@ -148,6 +148,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to nrql alert conditions.
+     * @return The nrql alert condition operations
+     */
+    public NrqlAlertConditionOperations nrqlAlertConditions()
+    {
+        checkInitialize();
+        return new NrqlAlertConditionOperations(httpContext, this);
+    }
+
+    /**
      * Initialise the HTTP client provider and context.
      */
     private void checkInitialize()

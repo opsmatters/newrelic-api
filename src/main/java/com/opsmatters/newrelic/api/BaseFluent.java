@@ -38,6 +38,9 @@ public class BaseFluent
     protected static final GenericType<InfraAlertConditionWrapper> INFRA_ALERT_CONDITION = new GenericType<InfraAlertConditionWrapper>(){};
     protected static final GenericType<InfraAlertConditionsWrapper> INFRA_ALERT_CONDITIONS = new GenericType<InfraAlertConditionsWrapper>(){};
 
+    protected static final GenericType<NrqlAlertConditionWrapper> NRQL_ALERT_CONDITION = new GenericType<NrqlAlertConditionWrapper>(){};
+    protected static final GenericType<NrqlAlertConditionsWrapper> NRQL_ALERT_CONDITIONS = new GenericType<NrqlAlertConditionsWrapper>(){};
+
     protected HttpContext HTTP;
     private NewRelicApiService apiService;
 
