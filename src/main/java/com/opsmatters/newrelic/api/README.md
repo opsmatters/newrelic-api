@@ -7,7 +7,7 @@
 - [Alerts Channels](#alerts-channels)
 - [Alerts Policies](#alerts-policies)
 - [Alerts NRQL Conditions](#alerts-nrql-conditions)
-- [Alerts Infrastructure Conditions](#alerts-infra-conditions)
+- [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
 
 ### Initialisation
 
