@@ -46,6 +46,7 @@ public class NewRelicApiTest
     private String policyName = "test-policy";
     private String hostConditionName = "test-host-condition";
     private String nrqlConditionName = "test-nrql-condition";
+    private String whereClause = "env=prod";
     private String email = "info@opsmatters.com";
     private String channel = "#enquiries";
     private String webhookUrl = "https://hooks.slack.com/services/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";
@@ -62,8 +63,8 @@ public class NewRelicApiTest
         NewRelicApiService api = getService();
         Assert.assertNotNull(api);
 
-        NewRelicInfraApiService infraapi = getInfraService();
-        Assert.assertNotNull(infraapi);
+        NewRelicInfraApiService infraApi = getInfraService();
+        Assert.assertNotNull(infraApi);
 
         // Create the email alert channel
         AlertChannel emailChannel = createEmailChannel(api, email);
@@ -78,13 +79,13 @@ public class NewRelicApiTest
         AlertPolicy policy = createPolicy(api);
 
         // Create the infrastructure condition
-        InfraAlertCondition infraCondition = createInfraCondition(infraapi, policy);
+        InfraAlertCondition infraCondition = createInfraCondition(infraApi, policy);
 
         // Create the NRQL condition
         NrqlAlertCondition nrqlCondition = createNrqlCondition(api, policy);
 
         // Delete the infrastructure condition
-        deleteInfraCondition(infraapi, infraCondition);
+        deleteInfraCondition(infraApi, infraCondition);
 
         // Delete the NRQL condition
         deleteNrqlCondition(api, policy, nrqlCondition);
@@ -125,18 +126,18 @@ public class NewRelicApiTest
     {
         // Create the policy
         logger.info("Create the policy: "+policyName);
-        AlertPolicy policy = getPolicy(policyName);
-        AlertPolicy testPolicy = api.alertPolicies().create(policy).get();
-        Assert.assertNotNull(testPolicy);
+        AlertPolicy input = getPolicy(policyName);
+        AlertPolicy policy = api.alertPolicies().create(input).get();
+        Assert.assertNotNull(policy);
 
         // Get the policy
         {
-            logger.info("Get the policy: "+testPolicy.getId()+"-"+testPolicy.getName());
-            Optional<AlertPolicy> ret = api.alertPolicies().get(testPolicy.getName(), testPolicy.getId());
+            logger.info("Get the policy: "+policy.getId()+"-"+policy.getName());
+            Optional<AlertPolicy> ret = api.alertPolicies().get(policy.getName(), policy.getId());
             Assert.assertTrue(ret.isPresent());
         }
 
-        return testPolicy;
+        return policy;
     }
 
     public void deletePolicy(NewRelicApiService api, AlertPolicy policy)
@@ -147,13 +148,13 @@ public class NewRelicApiTest
         Assert.assertFalse(ret.isPresent());
     }
 
-    public InfraAlertCondition getHostNotReportingCondition(long policyId, String name)
+    public InfraAlertCondition getHostNotReportingCondition(long policyId, String name, String whereClause)
     {
         return InfraAlertCondition.builder()
             .policyId(policyId)
             .name(name)
             .hostNotReportingType()
-            .whereClause("env=prod")
+            .whereClause(whereClause)
             .criticalThreshold(new CriticalThreshold(10))
             .enabled(true)
             .build();
@@ -163,14 +164,14 @@ public class NewRelicApiTest
     {
         // Create the host infra condition
         logger.info("Create the host condition: "+hostConditionName);
-        InfraAlertCondition condition = getHostNotReportingCondition(policy.getId(), hostConditionName);
-        InfraAlertCondition testCondition = api.infraAlertConditions().create(condition).get();
-        Assert.assertNotNull(testCondition);
+        InfraAlertCondition input = getHostNotReportingCondition(policy.getId(), hostConditionName, whereClause);
+        InfraAlertCondition condition = api.infraAlertConditions().create(input).get();
+        Assert.assertNotNull(condition);
 
         // Get the infra condition
         {
-            logger.info("Get the host condition: "+testCondition.getId());
-            Optional<InfraAlertCondition> ret = api.infraAlertConditions().get(testCondition.getId());
+            logger.info("Get the host condition: "+condition.getId());
+            Optional<InfraAlertCondition> ret = api.infraAlertConditions().get(condition.getId());
             Assert.assertTrue(ret.isPresent());
         }
 
@@ -181,7 +182,7 @@ public class NewRelicApiTest
             Assert.assertTrue(ret.size() > 0);
         }
 
-        return testCondition;
+        return condition;
     }
 
     public void deleteInfraCondition(NewRelicInfraApiService api, InfraAlertCondition condition)
@@ -230,14 +231,14 @@ public class NewRelicApiTest
     {
         // Create the nrql condition
         logger.info("Create the nrql condition: "+nrqlConditionName);
-        NrqlAlertCondition condition = getNrqlCondition(policy.getId(), nrqlConditionName);
-        NrqlAlertCondition testCondition = api.nrqlAlertConditions().create(policy.getId(), condition).get();
-        Assert.assertNotNull(testCondition);
+        NrqlAlertCondition input = getNrqlCondition(policy.getId(), nrqlConditionName);
+        NrqlAlertCondition condition = api.nrqlAlertConditions().create(policy.getId(), input).get();
+        Assert.assertNotNull(condition);
 
         // Get the nrql condition
         {
-            logger.info("Get the nrql condition: "+testCondition.getId());
-            Optional<NrqlAlertCondition> ret = api.nrqlAlertConditions().get(policy.getId(), testCondition.getId());
+            logger.info("Get the nrql condition: "+condition.getId());
+            Optional<NrqlAlertCondition> ret = api.nrqlAlertConditions().get(policy.getId(), condition.getId());
             Assert.assertTrue(ret.isPresent());
         }
 
@@ -248,7 +249,7 @@ public class NewRelicApiTest
             Assert.assertTrue(ret.size() > 0);
         }
 
-        return testCondition;
+        return condition;
     }
 
     public void deleteNrqlCondition(NewRelicApiService api, AlertPolicy policy, NrqlAlertCondition condition)
@@ -275,6 +276,7 @@ public class NewRelicApiTest
             .recipients(email)
             .includeJsonAttachment(true)
             .build();
+
         return AlertChannel.builder()
             .name(email)
             .configuration(configuration)
@@ -287,6 +289,7 @@ public class NewRelicApiTest
             .channel(channel)
             .url(url)
             .build();
+
         return AlertChannel.builder()
             .name(channel)
             .configuration(configuration)
@@ -295,34 +298,34 @@ public class NewRelicApiTest
 
     public AlertChannel createEmailChannel(NewRelicApiService api, String email)
     {
-        AlertChannel emailChannel = getEmailChannel(email);
-        AlertChannel testEmailChannel = api.alertChannels().create(emailChannel).get();
-        logger.info("Create email alert channel: "+testEmailChannel.getId());
+        AlertChannel input = getEmailChannel(email);
+        AlertChannel channel = api.alertChannels().create(input).get();
+        logger.info("Create email alert channel: "+channel.getId());
 
         // Get the email alert channel
         {
-            logger.info("Get the email alert channel: "+testEmailChannel.getId());
-            Optional<AlertChannel> ret = api.alertChannels().get(testEmailChannel.getId());
+            logger.info("Get the email alert channel: "+channel.getId());
+            Optional<AlertChannel> ret = api.alertChannels().get(channel.getId());
             Assert.assertTrue(ret.isPresent());
         }
 
-        return testEmailChannel;
+        return channel;
     }
 
-    public AlertChannel createSlackChannel(NewRelicApiService api, String url, String channel)
+    public AlertChannel createSlackChannel(NewRelicApiService api, String url, String channelName)
     {
-        AlertChannel slackChannel = getSlackChannel(url, channel);
-        AlertChannel testSlackChannel = api.alertChannels().create(slackChannel).get();
-        logger.info("Create slack alert channel: "+testSlackChannel.getId());
+        AlertChannel input = getSlackChannel(url, channelName);
+        AlertChannel channel = api.alertChannels().create(input).get();
+        logger.info("Create slack alert channel: "+channel.getId());
 
         // Get the slack alert channel
         {
-            logger.info("Get the slack alert channel: "+testSlackChannel.getId());
-            Optional<AlertChannel> ret = api.alertChannels().get(testSlackChannel.getId());
+            logger.info("Get the slack alert channel: "+channel.getId());
+            Optional<AlertChannel> ret = api.alertChannels().get(channel.getId());
             Assert.assertTrue(ret.isPresent());
         }
 
-        return testSlackChannel;
+        return channel;
     }
 
     public Collection<AlertChannel> getAllChannels(NewRelicApiService api)
