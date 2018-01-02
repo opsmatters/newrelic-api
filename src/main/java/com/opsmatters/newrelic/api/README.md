@@ -61,6 +61,16 @@ Other operations have also been included for alert channels:
 * get(id): returns the alert channel with the given id.
 * delete(id): deletes the alert channel with the given id.
 
+Configurations are included for all available channel types:
+* Email
+* HipChat
+* Slack
+* Campfire
+* OpsGenie
+* PagerDuty
+* VictorOps
+* Webhook
+
 ### Alerts Policies
 To create an alert policy called "test-policy" with a PER_POLICY rollup strategy, first instantiate the policy and then pass it to the "create" operation:
 ```
