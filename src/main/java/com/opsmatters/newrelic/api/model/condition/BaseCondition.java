@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.condition;
+
+import com.opsmatters.newrelic.api.model.NamedEntity;
 
 /**
  * Represents a New Relic alert condition.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class BaseCondition extends BaseObject
+public abstract class BaseCondition extends NamedEntity
 {
     private Boolean enabled;
     private String runbook_url;

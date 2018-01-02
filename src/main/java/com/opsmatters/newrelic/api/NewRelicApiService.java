@@ -32,11 +32,21 @@ import com.opsmatters.newrelic.httpclient.HttpClientProvider;
 public class NewRelicApiService
 {
     private static final Logger logger = Logger.getLogger(NewRelicApiService.class.getName());
-    
-    private String hostname;
-    private int port;
-    private HttpContext httpContext;
-    private HttpClientProvider provider;
+ 
+    /**
+     * The default hostname for New Relic.
+     */
+    public static final String DEFAULT_HOST = "api.newrelic.com";
+
+    /**
+     * The default port for New Relic.
+     */
+    public static final int DEFAULT_PORT = 443;
+
+    private String hostname = DEFAULT_HOST;
+    private int port = DEFAULT_PORT;
+    protected HttpContext httpContext;
+    protected HttpClientProvider provider;
     private boolean handleErrors = true;
     
     /**
@@ -68,8 +78,9 @@ public class NewRelicApiService
         Client client = provider.getClient();
         String protocol = provider.useSsl() ? "https" : "http";
         httpContext = new HttpContext(client, protocol, hostname, port);
-        httpContext.setThrowExceptions(handleErrors);       
-        logger.info("NewRelicApiService initialized");
+        httpContext.setThrowExceptions(handleErrors);
+        String className = getClass().getName();
+        logger.info(className.substring(className.lastIndexOf(".")+1)+" initialized");
         return this;
     }
     
@@ -84,6 +95,8 @@ public class NewRelicApiService
 
     /**
      * Sets the name of the host to connect to.
+     * <P>
+     * The default hostname is "api.newrelic.com".
      * @param hostname The name of the host
      */
     public void setHostname(String hostname)
@@ -93,6 +106,8 @@ public class NewRelicApiService
 
     /**
      * Sets the port of the host to connect to.
+     * <P>
+     * The default port is 443.
      * @param port The port of the host
      */
     public void setPort(int port)
@@ -138,16 +153,6 @@ public class NewRelicApiService
     }
 
     /**
-     * Returns the operations related to infra alert conditions.
-     * @return The infra alert condition operations
-     */
-    public InfraAlertConditionOperations infraAlertConditions()
-    {
-        checkInitialize();
-        return new InfraAlertConditionOperations(httpContext, this);
-    }
-
-    /**
      * Returns the operations related to nrql alert conditions.
      * @return The nrql alert condition operations
      */
@@ -158,9 +163,19 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to alert channels.
+     * @return The alert channel operations
+     */
+    public AlertChannelOperations alertChannels()
+    {
+        checkInitialize();
+        return new AlertChannelOperations(httpContext, this);
+    }
+
+    /**
      * Initialise the HTTP client provider and context.
      */
-    private void checkInitialize()
+    protected void checkInitialize()
     {
         if(httpContext == null)
             initialize();
@@ -180,12 +195,14 @@ public class NewRelicApiService
      */
     public static class Builder 
     {
-        private String hostname = "localhost";
-        private int port = 80;
-        private HttpClientProvider provider = new ApiKeyHttpClientProvider("");
+        protected String hostname = DEFAULT_HOST;
+        protected int port = DEFAULT_PORT;
+        protected HttpClientProvider provider = new ApiKeyHttpClientProvider("");
 
         /**
          * Sets the name of the host to connect to.
+         * <P>
+         * The default hostname is "api.newrelic.com".
          * @param hostname The name of the host
          * @return This object
          */
@@ -197,6 +214,8 @@ public class NewRelicApiService
 
         /**
          * Sets the port of the host to connect to.
+         * <P>
+         * The default port is 443.
          * @param port The port of the host
          * @return This object
          */

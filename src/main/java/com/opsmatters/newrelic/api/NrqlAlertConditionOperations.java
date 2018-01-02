@@ -20,8 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-import com.opsmatters.newrelic.api.model.NrqlAlertCondition;
-import com.opsmatters.newrelic.api.model.NrqlAlertConditionWrapper;
+import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 
 /**
  * The set of operations used for NRQL alert conditions.
@@ -49,7 +48,7 @@ public class NrqlAlertConditionOperations extends BaseFluent
     {
         Map<String,Object> queryParams = Maps.newHashMap();
         queryParams.put("policy_id", new Long(policyId));
-        return HTTP.GET("/alerts_nrql_conditions.json", null, queryParams, NRQL_ALERT_CONDITIONS).get().getContents();
+        return HTTP.GET("/alerts_nrql_conditions.json", null, queryParams, NRQL_ALERT_CONDITIONS).get();
     }
 
     /**
@@ -80,7 +79,7 @@ public class NrqlAlertConditionOperations extends BaseFluent
      */
     public Optional<NrqlAlertCondition> create(long policyId, NrqlAlertCondition condition)
     {
-        return Optional.of(HTTP.POST(String.format("/alerts_nrql_conditions/policies/%d", policyId), new NrqlAlertConditionWrapper(condition), NRQL_ALERT_CONDITION).get().getContents());
+        return Optional.of(HTTP.POST(String.format("/alerts_nrql_conditions/policies/%d", policyId), condition, NRQL_ALERT_CONDITION).get());
     }
     
     /**

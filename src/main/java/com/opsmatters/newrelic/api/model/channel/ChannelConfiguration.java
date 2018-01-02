@@ -14,33 +14,42 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.channel;
 
 /**
- * Wrapper used to marshall a New Relic infrastructure alert condition.  
+ * Represents a New Relic channel configuration.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class InfraAlertConditionWrapper
+public class ChannelConfiguration
 {
-    private InfraAlertCondition data;
-    
+    private transient String type;
+
     /**
-     * Constructor that takes an infrastructure alert condition.
-     * @param condition The alert condition
+     * Constructor that takes a channel type.
+     * @param type The channel type
      */
-    public InfraAlertConditionWrapper(InfraAlertCondition condition)
+    public ChannelConfiguration(String type)
     {
-        this.data = condition;
+        setType(type);
     }
 
     /**
-     * Returns the contents of the wrapper.
-     * @return The alert condition
+     * Sets the channel type for the alerts.
+     * @param type The channel type for the alerts
      */
-    public InfraAlertCondition getContents()
+    public void setType(String type)
     {
-        return data;
+        this.type = type;
+    }
+
+    /**
+     * Returns the channel type for the alerts.
+     * @return The channel type for the alerts
+     */
+    public String getType()
+    {
+        return type;
     }
 
     /**
@@ -49,6 +58,6 @@ public class InfraAlertConditionWrapper
     @Override
     public String toString()
     {
-        return "InfraAlertConditionWrapper [data="+data+"]";
+        return "type="+type;
     }
 }

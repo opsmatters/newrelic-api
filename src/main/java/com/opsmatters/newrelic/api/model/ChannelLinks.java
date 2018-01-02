@@ -16,57 +16,50 @@
 
 package com.opsmatters.newrelic.api.model;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
- * Represents the base class for all top-level model objects.  
+ * Represents a set of New Relic channel links.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class BaseObject
+public class ChannelLinks
 {
-    private Long id;
-    private String name;
+    private List<Integer> policy_ids = new ArrayList<Integer>();
     
     /**
      * Default constructor.
      */
-    public BaseObject()
+    public ChannelLinks()
     {
-    }
-   
-    /**
-     * Returns the id of the object.
-     * @return The id of the object
-     */
-    public long getId()
-    {
-        return id;
     }
 
     /**
-     * Sets the name of the object.
-     * @param name The name of the object
+     * Sets the list of policy ids.
+     * @param policyIds The list of policy ids
      */
-    public void setName(String name)
+    public void setPolicyIds(List<Integer> policyIds)
     {
-        this.name = name;
+        policy_ids.clear();
+        policy_ids.addAll(policyIds);
     }
 
     /**
-     * Returns the name of the object.
-     * @return The name of the object
+     * Returns the list of policy ids.
+     * @return The list of policy ids
      */
-    public String getName()
+    public List<Integer> getPolicyIds()
     {
-        return name;
+        return policy_ids;
     }
-    
+
     /**
      * Returns a string representation of the object.
      */
     @Override
     public String toString()
     {
-        return "id="+id
-            +", name="+name;
+        return "ChannelLinks [policy_ids="+policy_ids+"]";
     }
 }

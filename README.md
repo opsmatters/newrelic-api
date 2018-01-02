@@ -13,9 +13,10 @@ The following New Relic APIs are currently supported:
 * Applications (List, Show, Update, Delete, Metric Names, Metric Data)
 
 ### Alerts API
+* Alerts Channels (List, Create, Delete)
 * Alerts Policies (List, Create, Update, Delete)
-* Infrastructure Alert Conditions (List, Create, Update, Delete)
 * Alerts Nrql Conditions (List, Create, Update, Delete)
+* Alerts Infrastructure Conditions (List, Create, Update, Delete)
 
 Other APIs can be included on request.
 
@@ -48,7 +49,11 @@ mvn clean test -Dnewrelic.apiKey="<YOUR_API_KEY>"
 
 The following tests are included:
 
-* PolicyAndInfraCondition: Creates an alert policy, followed by a host_not_reporting infrastructure condition and then deletes them.
+* ChannelsAndPolicy: Creates several alert channels, an alert policy with several conditions and then deletes them.
+
+## Examples
+
+A detailed set of examples of the usage of the API can be found in [api](src/main/java/com/opsmatters/newrelic/api).
 
 ## Deployment
 
@@ -87,6 +92,5 @@ See also the list of [contributors](https://github.com/opsmatters/newrelic-api/c
 ## License
 
 This project is licensed under the terms of the [Apache license 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
-
 
 <sub>Copyright (c) 2018 opsmatters</sub>

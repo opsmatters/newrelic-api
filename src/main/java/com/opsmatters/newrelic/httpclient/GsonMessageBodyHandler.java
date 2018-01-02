@@ -19,6 +19,7 @@ package com.opsmatters.newrelic.httpclient;
 import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.ws.rs.Produces;
@@ -31,8 +32,25 @@ import javax.ws.rs.ext.Provider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import com.opsmatters.newrelic.httpclient.serializers.AlertPolicySerializer;
+import com.opsmatters.newrelic.httpclient.serializers.AlertChannelSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.InfraAlertConditionSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.NrqlAlertConditionSerializer;
+import com.opsmatters.newrelic.httpclient.deserializers.AlertPolicyDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.AlertPoliciesDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.AlertChannelDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.AlertChannelsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.InfraAlertConditionDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.InfraAlertConditionsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.NrqlAlertConditionDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.NrqlAlertConditionsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.ResponseErrorDeserializer;
+import com.opsmatters.newrelic.api.model.AlertPolicy;
+import com.opsmatters.newrelic.api.model.AlertChannel;
 import com.opsmatters.newrelic.api.model.ResponseError;
+import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 
 /**
  * Provides GSON support for serializing and deserializing objects.
@@ -46,6 +64,11 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Logger logger = Logger.getLogger(GsonMessageBodyHandler.class.getName());
     private static final String CHARSET = "UTF-8";
 
+    private static final Type ALERT_POLICIES_TYPE = new TypeToken<Collection<AlertPolicy>>(){}.getType();
+    private static final Type ALERT_CHANNELS_TYPE = new TypeToken<Collection<AlertChannel>>(){}.getType();
+    private static final Type INFRA_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<InfraAlertCondition>>(){}.getType();
+    private static final Type NRQL_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<NrqlAlertCondition>>(){}.getType();
+
     private Gson gson;
 
     /**
@@ -57,6 +80,19 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
         if (gson == null)
         {
             GsonBuilder builder = new GsonBuilder();
+
+            builder.registerTypeAdapter(AlertPolicy.class, new AlertPolicySerializer());
+            builder.registerTypeAdapter(AlertPolicy.class, new AlertPolicyDeserializer());
+            builder.registerTypeAdapter(ALERT_POLICIES_TYPE, new AlertPoliciesDeserializer());
+            builder.registerTypeAdapter(AlertChannel.class, new AlertChannelSerializer());
+            builder.registerTypeAdapter(AlertChannel.class, new AlertChannelDeserializer());
+            builder.registerTypeAdapter(ALERT_CHANNELS_TYPE, new AlertChannelsDeserializer());
+            builder.registerTypeAdapter(InfraAlertCondition.class, new InfraAlertConditionSerializer());
+            builder.registerTypeAdapter(InfraAlertCondition.class, new InfraAlertConditionDeserializer());
+            builder.registerTypeAdapter(INFRA_ALERT_CONDITIONS_TYPE, new InfraAlertConditionsDeserializer());
+            builder.registerTypeAdapter(NrqlAlertCondition.class, new NrqlAlertConditionSerializer());
+            builder.registerTypeAdapter(NrqlAlertCondition.class, new NrqlAlertConditionDeserializer());
+            builder.registerTypeAdapter(NRQL_ALERT_CONDITIONS_TYPE, new NrqlAlertConditionsDeserializer());
             builder.registerTypeAdapter(ResponseError.class, new ResponseErrorDeserializer());
             gson = builder.create();
         }

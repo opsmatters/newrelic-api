@@ -17,38 +17,56 @@
 package com.opsmatters.newrelic.api.model;
 
 /**
- * Wrapper used to marshall a New Relic NRQL alert condition.  
+ * Represents the base class for all named entities.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class NrqlAlertConditionWrapper
+public abstract class NamedEntity
 {
-    private NrqlAlertCondition nrql_condition;
+    private Long id;
+    private String name;
     
     /**
-     * Constructor that takes an NRQL alert condition.
-     * @param condition The alert condition
+     * Default constructor.
      */
-    public NrqlAlertConditionWrapper(NrqlAlertCondition condition)
+    public NamedEntity()
     {
-        this.nrql_condition = condition;
+    }
+   
+    /**
+     * Returns the id of the entity.
+     * @return The id of the entity
+     */
+    public long getId()
+    {
+        return id;
     }
 
     /**
-     * Returns the contents of the wrapper.
-     * @return The alert condition
+     * Sets the name of the entity.
+     * @param name The name of the entity
      */
-    public NrqlAlertCondition getContents()
+    public void setName(String name)
     {
-        return nrql_condition;
+        this.name = name;
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns the name of the entity.
+     * @return The name of the entity
+     */
+    public String getName()
+    {
+        return name;
+    }
+    
+    /**
+     * Returns a string representation of the entity.
      */
     @Override
     public String toString()
     {
-        return "NrqlAlertConditionWrapper [nrql_condition="+nrql_condition+"]";
+        return "id="+id
+            +", name="+name;
     }
 }

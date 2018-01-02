@@ -21,26 +21,11 @@ package com.opsmatters.newrelic.api.model;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicy extends BaseObject
+public class AlertPolicy extends NamedEntity
 {
     private String incident_preference;
     private Long created_at;
     private Long updated_at;
-
-    /**
-     * The "PER_POLICY" incident preference.
-     */
-    public static final String PER_POLICY_PREFERENCE = "PER_POLICY";
-
-    /**
-     * The "PER_CONDITION" incident preference.
-     */
-    public static final String PER_CONDITION_PREFERENCE = "PER_CONDITION";
-
-    /**
-     * The "PER_CONDITION_AND_TARGET" incident preference.
-     */
-    public static final String PER_CONDITION_AND_TARGET_PREFERENCE = "PER_CONDITION_AND_TARGET";
 
     /**
      * Default constructor.
@@ -65,6 +50,15 @@ public class AlertPolicy extends BaseObject
     public void setIncidentPreference(String incident_preference)
     {
         this.incident_preference = incident_preference;
+    }
+
+    /**
+     * Sets the incident preference of the policy.
+     * @param incident_preference The incident preference of the policy
+     */
+    public void setIncidentPreference(IncidentPreference incident_preference)
+    {
+        setIncidentPreference(incident_preference.name());
     }
 
     /**
@@ -151,7 +145,7 @@ public class AlertPolicy extends BaseObject
          */
         public Builder perPolicyIncidentPreference()
         {
-            policy.setIncidentPreference(PER_POLICY_PREFERENCE);
+            policy.setIncidentPreference(IncidentPreference.PER_POLICY);
             return this;
         }
 
@@ -161,7 +155,7 @@ public class AlertPolicy extends BaseObject
          */
         public Builder perConditionIncidentPreference()
         {
-            policy.setIncidentPreference(PER_CONDITION_PREFERENCE);
+            policy.setIncidentPreference(IncidentPreference.PER_CONDITION);
             return this;
         }
 
@@ -171,7 +165,7 @@ public class AlertPolicy extends BaseObject
          */
         public Builder perConditionAndTargetIncidentPreference()
         {
-            policy.setIncidentPreference(PER_CONDITION_AND_TARGET_PREFERENCE);
+            policy.setIncidentPreference(IncidentPreference.PER_CONDITION_AND_TARGET);
             return this;
         }
 

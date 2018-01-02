@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.condition;
+
+import com.opsmatters.newrelic.api.model.NamedEntity;
 
 /**
  * Represents a New Relic Infrastructure alert condition.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class InfraAlertCondition extends BaseObject
+public class InfraAlertCondition extends NamedEntity
 {
     private String type;
     private Boolean enabled;
@@ -31,21 +33,6 @@ public class InfraAlertCondition extends BaseObject
     private Long created_at_epoch_millis;
     private Long updated_at_epoch_millis;
 
-    /**
-     * The "infra_host_not_reporting" type.
-     */
-    public static final String HOST_NOT_REPORTING_TYPE = "infra_host_not_reporting";
-
-    /**
-     * The "infra_process_running" type.
-     */
-    public static final String PROCESS_RUNNING_TYPE = "infra_process_running";
-
-    /**
-     * The "infra_metric" type.
-     */
-    public static final String METRIC_TYPE = "infra_metric";
-    
     /**
      * Default constructor.
      */
@@ -69,6 +56,15 @@ public class InfraAlertCondition extends BaseObject
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    /**
+     * Sets the type of the alert condition.
+     * @param type The type of the alert condition
+     */
+    public void setType(InfraAlertConditionType type)
+    {
+        setType(type.value());
     }
 
     /**
@@ -231,7 +227,7 @@ public class InfraAlertCondition extends BaseObject
          */
         public Builder metricType()
         {
-            condition.setType(METRIC_TYPE);
+            condition.setType(InfraAlertConditionType.METRIC);
             return this;
         }
 
@@ -241,7 +237,7 @@ public class InfraAlertCondition extends BaseObject
          */
         public Builder processRunningType()
         {
-            condition.setType(PROCESS_RUNNING_TYPE);
+            condition.setType(InfraAlertConditionType.PROCESS_RUNNING);
             return this;
         }
 
@@ -251,7 +247,7 @@ public class InfraAlertCondition extends BaseObject
          */
         public Builder hostNotReportingType()
         {
-            condition.setType(HOST_NOT_REPORTING_TYPE);
+            condition.setType(InfraAlertConditionType.HOST_NOT_REPORTING);
             return this;
         }
 

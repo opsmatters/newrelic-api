@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.condition;
 
 /**
  * Represents a New Relic alert condition term.  
@@ -29,41 +29,6 @@ public class Term
     private String threshold;
     private String time_function;
 
-    /**
-     * The "any" time function.
-     */
-    public static final String ANY_TIME_FUNCTION = "any";
-
-    /**
-     * The "all" time function.
-     */
-    public static final String ALL_TIME_FUNCTION = "all";
-
-    /**
-     * The "critical" priority.
-     */
-    public static final String CRITICAL_PRIORITY = "critical";
-
-    /**
-     * The "warning" priority.
-     */
-    public static final String WARNING_PRIORITY = "warning";
-
-    /**
-     * The "above" operator.
-     */
-    public static final String ABOVE_OPERATOR = "above";
-
-    /**
-     * The "below" operator.
-     */
-    public static final String BELOW_OPERATOR = "below";
-
-    /**
-     * The "equal" operator.
-     */
-    public static final String EQUAL_OPERATOR = "equal";
-    
     /**
      * Default constructor.
      */
@@ -108,6 +73,15 @@ public class Term
     }
 
     /**
+     * Sets the operator of the term.
+     * @param operator The operator of the term
+     */
+    public void setOperator(Operator operator)
+    {
+        setOperator(operator.value());
+    }
+
+    /**
      * Returns the operator of the term.
      * @return The operator of the term
      */
@@ -123,6 +97,15 @@ public class Term
     public void setPriority(String priority)
     {
         this.priority = priority;
+    }
+
+    /**
+     * Sets the priority of the term.
+     * @param priority The priority of the term
+     */
+    public void setPriority(Priority priority)
+    {
+        setPriority(priority.value());
     }
 
     /**
@@ -168,6 +151,15 @@ public class Term
     public void setTimeFunction(String time_function)
     {
         this.time_function = time_function;
+    }
+
+    /**
+     * Sets the time function of the term.
+     * @param time_function The time function of the term
+     */
+    public void setTimeFunction(TimeFunction time_function)
+    {
+        setTimeFunction(time_function.value());
     }
 
     /**
@@ -248,7 +240,7 @@ public class Term
          */
         public Builder aboveOperator()
         {
-            term.setOperator(ABOVE_OPERATOR);
+            term.setOperator(Operator.ABOVE);
             return this;
         }
 
@@ -258,7 +250,7 @@ public class Term
          */
         public Builder belowOperator()
         {
-            term.setOperator(BELOW_OPERATOR);
+            term.setOperator(Operator.BELOW);
             return this;
         }
 
@@ -268,7 +260,7 @@ public class Term
          */
         public Builder equalOperator()
         {
-            term.setOperator(EQUAL_OPERATOR);
+            term.setOperator(Operator.EQUAL);
             return this;
         }
 
@@ -289,7 +281,7 @@ public class Term
          */
         public Builder criticalPriority()
         {
-            term.setPriority(CRITICAL_PRIORITY);
+            term.setPriority(Priority.CRITICAL);
             return this;
         }
 
@@ -299,7 +291,7 @@ public class Term
          */
         public Builder warningPriority()
         {
-            term.setPriority(WARNING_PRIORITY);
+            term.setPriority(Priority.WARNING);
             return this;
         }
 
@@ -342,7 +334,7 @@ public class Term
          */
         public Builder anyTimeFunction()
         {
-            term.setTimeFunction(ANY_TIME_FUNCTION);
+            term.setTimeFunction(TimeFunction.ANY);
             return this;
         }
 
@@ -352,7 +344,7 @@ public class Term
          */
         public Builder allTimeFunction()
         {
-            term.setTimeFunction(ALL_TIME_FUNCTION);
+            term.setTimeFunction(TimeFunction.ALL);
             return this;
         }
 

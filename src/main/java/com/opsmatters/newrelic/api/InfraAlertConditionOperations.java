@@ -20,8 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-import com.opsmatters.newrelic.api.model.InfraAlertCondition;
-import com.opsmatters.newrelic.api.model.InfraAlertConditionWrapper;
+import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 
 /**
  * The set of operations used for infrastructure alert conditions.
@@ -49,7 +48,7 @@ public class InfraAlertConditionOperations extends BaseFluent
     {
         Map<String,Object> queryParams = Maps.newHashMap();
         queryParams.put("policy_id", policyId);
-        return HTTP.GET("/alerts/conditions", null, queryParams, INFRA_ALERT_CONDITIONS).get().getContents();
+        return HTTP.GET("/alerts/conditions", null, queryParams, INFRA_ALERT_CONDITIONS).get();
     }
 
     /**
@@ -59,7 +58,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public Optional<InfraAlertCondition> get(long id)
     {
-        return Optional.of(HTTP.GET(String.format("/alerts/conditions/%d", id), null, null, INFRA_ALERT_CONDITION).get().getContents());
+        return Optional.of(HTTP.GET(String.format("/alerts/conditions/%d", id), null, null, INFRA_ALERT_CONDITION).get());
     }
    
     /**
@@ -69,7 +68,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public Optional<InfraAlertCondition> create(InfraAlertCondition condition)
     {
-        return Optional.of(HTTP.POST("/alerts/conditions", new InfraAlertConditionWrapper(condition), INFRA_ALERT_CONDITION).get().getContents());
+        return Optional.of(HTTP.POST("/alerts/conditions", condition, INFRA_ALERT_CONDITION).get());
     }
     
     /**

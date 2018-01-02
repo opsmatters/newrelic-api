@@ -21,7 +21,6 @@ import java.util.Map;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.AlertPolicy;
-import com.opsmatters.newrelic.api.model.AlertPolicyWrapper;
 
 /**
  * The set of operations used for alert policies.
@@ -45,8 +44,8 @@ public class AlertPolicyOperations extends BaseFluent
      * @return The set of alert policies
      */
     public Collection<AlertPolicy> all()
-    {    
-        return HTTP.GET("/alerts_policies.json", null, null, ALERT_POLICIES).get().getContents();
+    {
+        return HTTP.GET("/alerts_policies.json", null, null, ALERT_POLICIES).get();
     }
 
     /**
@@ -58,7 +57,7 @@ public class AlertPolicyOperations extends BaseFluent
     {
         Map<String,Object> queryParams = Maps.newHashMap();
         queryParams.put("filter[name]", name);
-        return HTTP.GET("/alerts_policies.json", null, queryParams, ALERT_POLICIES).get().getContents();
+        return HTTP.GET("/alerts_policies.json", null, queryParams, ALERT_POLICIES).get();
     }
 
     /**
@@ -88,7 +87,7 @@ public class AlertPolicyOperations extends BaseFluent
      */
     public Optional<AlertPolicy> create(AlertPolicy policy)
     {
-        return Optional.of(HTTP.POST("/alerts_policies.json", new AlertPolicyWrapper(policy), ALERT_POLICY).get().getContents());
+        return Optional.of(HTTP.POST("/alerts_policies.json", policy, ALERT_POLICY).get());
     }
     
     /**

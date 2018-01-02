@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.condition;
 
 import java.util.List;
 
@@ -28,16 +28,6 @@ public class NrqlAlertCondition extends TermsCondition
     private String value_function;
     private Nrql nrql;
 
-    /**
-     * The "single_value" value function.
-     */
-    public static final String SINGLE_VALUE_FUNCTION = "single_value";
-
-    /**
-     * The "sum" value function.
-     */
-    public static final String SUM_VALUE_FUNCTION = "sum";
-    
     /**
      * Default constructor.
      */
@@ -61,6 +51,15 @@ public class NrqlAlertCondition extends TermsCondition
     public void setValueFunction(String value_function)
     {
         this.value_function = value_function;
+    }
+
+    /**
+     * Sets the value function of the alert condition.
+     * @param value_function The value function of the alert condition
+     */
+    public void setValueFunction(ValueFunction value_function)
+    {
+        setValueFunction(value_function.value());
     }
 
     /**
@@ -157,7 +156,7 @@ public class NrqlAlertCondition extends TermsCondition
          */
         public Builder singleValueFunction()
         {
-            condition.setValueFunction(SINGLE_VALUE_FUNCTION);
+            condition.setValueFunction(ValueFunction.SINGLE_VALUE);
             return this;
         }
 
@@ -167,7 +166,7 @@ public class NrqlAlertCondition extends TermsCondition
          */
         public Builder sumValueFunction()
         {
-            condition.setValueFunction(SUM_VALUE_FUNCTION);
+            condition.setValueFunction(ValueFunction.SUM);
             return this;
         }
 

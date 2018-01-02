@@ -17,38 +17,13 @@
 package com.opsmatters.newrelic.api.model;
 
 /**
- * Wrapper used to marshall a New Relic alert policy.  
+ * Represents a New Relic incident preference.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicyWrapper
+public enum IncidentPreference
 {
-    private AlertPolicy policy;
-    
-    /**
-     * Constructor that takes an alert policy.
-     * @param policy The alert policy
-     */
-    public AlertPolicyWrapper(AlertPolicy policy)
-    {
-        this.policy = policy;
-    }
-
-    /**
-     * Returns the contents of the wrapper.
-     * @return The alert policy
-     */
-    public AlertPolicy getContents()
-    {
-        return policy;
-    }
-
-    /**
-     * Returns a string representation of the object.
-     */
-    @Override
-    public String toString()
-    {
-        return "AlertPolicyWrapper [policy="+policy+"]";
-    }
+    PER_POLICY,
+    PER_CONDITION,
+    PER_CONDITION_AND_TARGET;
 }
