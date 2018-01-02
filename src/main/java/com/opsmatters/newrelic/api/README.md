@@ -7,7 +7,7 @@
 - [Alert Channels](#alert-channels)
 - [Alert Policies](#alert-policies)
 
-###Initialisation
+### Initialisation
 
 To obtain a service instance to carry out most New Relic operations use the builder provided:
 ```
@@ -39,7 +39,7 @@ NewRelicInfraApiService infraApi = NewRelicInfraApiService.builder()
     .build();
 ```
 
-###Alert Channels
+### Alert Channels
 To create an email alert channel called "alerts@test.com", first instantiate the channel with an "email" configuration and then pass it to the "create" operation::
 ```
 EmailConfiguration configuration = EmailConfiguration.builder()
@@ -59,7 +59,7 @@ Other operations have also been included for alert channels:
 * get(id): returns the alert channel with the given id.
 * delete(id): deletes the alert channel with the given id.
 
-###Alert Policies
+### Alert Policies
 To create an alert policy called "test-policy" with a PER_POLICY rollup strategy, first instantiate the policy and then pass it to the "create" operation::
 ```
 AlertPolicy p = AlertPolicy.builder()
