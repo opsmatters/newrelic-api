@@ -43,7 +43,7 @@ public class AlertPolicyOperations extends BaseFluent
      * Returns the set of alert policies.
      * @return The set of alert policies
      */
-    public Collection<AlertPolicy> all()
+    public Collection<AlertPolicy> list()
     {
         return HTTP.GET("/alerts_policies.json", null, null, ALERT_POLICIES).get();
     }
@@ -53,7 +53,7 @@ public class AlertPolicyOperations extends BaseFluent
      * @param name The name of the alert policy to return
      * @return The set of alert policies
      */
-    public Collection<AlertPolicy> get(String name)
+    public Collection<AlertPolicy> list(String name)
     {
         Map<String,Object> queryParams = Maps.newHashMap();
         queryParams.put("filter[name]", name);
@@ -71,7 +71,7 @@ public class AlertPolicyOperations extends BaseFluent
     public Optional<AlertPolicy> get(String name, long id)
     {
         Optional<AlertPolicy> ret = Optional.absent();
-        Collection<AlertPolicy> policies = get(name);
+        Collection<AlertPolicy> policies = list(name);
         for(AlertPolicy policy : policies)
         {
             if(policy.getId() == id)
@@ -87,9 +87,19 @@ public class AlertPolicyOperations extends BaseFluent
      */
     public Optional<AlertPolicy> create(AlertPolicy policy)
     {
-        return Optional.of(HTTP.POST("/alerts_policies.json", policy, ALERT_POLICY).get());
+        return HTTP.POST("/alerts_policies.json", policy, ALERT_POLICY);
     }
-    
+
+    /**
+     * Updates the given alert policy.
+     * @param policy The alert policy to update
+     * @return The alert policy that was updated
+     */
+    public Optional<AlertPolicy> update(AlertPolicy policy)
+    {
+        return HTTP.PUT(String.format("/alerts_policies/%d.json", policy.getId()), policy, ALERT_POLICY);
+    }
+
     /**
      * Deletes the alert policy with the given id.
      * @param id The id of the alert policy to delete

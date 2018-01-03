@@ -139,13 +139,46 @@ public class HttpContext
     /**
      * Execute a PUT call against the partial URL.
      * @param partialUrl The partial URL to build
-     * @param headers A set of headers to add to the request
      * @param payload The object to use for the PUT
+     * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
      */
-    public void PUT(String partialUrl, Map<String, Object> headers, Object payload)
+    public void PUT(String partialUrl, Object payload, Map<String, Object> headers, 
+        Map<String, Object> queryParams)
     {
         URI uri = buildUri(partialUrl);
-        executePutRequest(uri, headers, payload);
+        executePutRequest(uri, payload, headers, queryParams);
+    }
+
+    /**
+     * Execute a PUT call against the partial URL.
+     * @param <T> The type parameter used for the return object
+     * @param partialUrl The partial URL to build
+     * @param payload The object to use for the PUT
+     * @param returnType The expected return type
+     * @return The return type
+     */
+    public <T> Optional<T> PUT(String partialUrl, Object payload, GenericType<T> returnType)
+    {    
+        URI uri = buildUri(partialUrl);   
+        return executePutRequest(uri, payload, null, null, returnType);
+    }
+
+    /**
+     * Execute a PUT call against the partial URL.
+     * @param <T> The type parameter used for the return object
+     * @param partialUrl The partial URL to build
+     * @param payload The object to use for the PUT
+     * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
+     * @param returnType The expected return type
+     * @return The return type
+     */
+    public <T> Optional<T> PUT(String partialUrl, Object payload, 
+        Map<String, Object> headers, Map<String, Object> queryParams, GenericType<T> returnType)
+    {
+        URI uri = buildUri(partialUrl);
+        return executePutRequest(uri, payload, headers, queryParams, returnType);
     }
 
     /**
@@ -162,13 +195,13 @@ public class HttpContext
     /**
      * Execute a POST call against the partial URL.
      * @param partialUrl The partial URL to build
-     * @param headers A set of headers to add to the request
      * @param payload The object to use for the POST
+     * @param headers A set of headers to add to the request
      */
-    public void POST(String partialUrl, Map<String, Object> headers, Object payload)
+    public void POST(String partialUrl, Object payload, Map<String, Object> headers)
     {
         URI uri = buildUri(partialUrl);
-        executePostRequest(uri, headers, payload);
+        executePostRequest(uri, payload, headers);
     }
 
     /**
@@ -194,7 +227,8 @@ public class HttpContext
      * @param returnType The expected return type
      * @return The return type
      */
-    public <T> Optional<T> POST(String partialUrl, Object payload, Map<String, Object> headers, GenericType<T> returnType)
+    public <T> Optional<T> POST(String partialUrl, Object payload, 
+        Map<String, Object> headers, GenericType<T> returnType)
     {
         URI uri = buildUri(partialUrl);
         return executePostRequest(uri, payload, headers, returnType);
@@ -214,11 +248,12 @@ public class HttpContext
      * Execute a DELETE call against the partial URL.
      * @param partialUrl The partial URL to build
      * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
      */
-    public void DELETE(String partialUrl, Map<String, Object> headers)
+    public void DELETE(String partialUrl, Map<String, Object> headers, Map<String, Object> queryParams)
     {
         URI uri = buildUri(partialUrl);
-        executeDeleteRequest(uri, headers);
+        executeDeleteRequest(uri, headers, queryParams);
     }
     
     /**
@@ -261,8 +296,8 @@ public class HttpContext
      * @param obj The object to use for the PUT
      */
     protected void executePutRequest(URI uri, Object obj)
-    {    
-        executePutRequest(uri, null, obj);
+    {
+        executePutRequest(uri, obj, null, null);
     }
 
     /**
@@ -270,14 +305,45 @@ public class HttpContext
      * @param uri The URI to call
      * @param obj The object to use for the PUT
      * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
      */
-    protected void executePutRequest(URI uri, Map<String, Object> headers, Object obj)
+    protected void executePutRequest(URI uri, Object obj, Map<String, Object> headers, 
+        Map<String, Object> queryParams)
     {
-        Invocation.Builder invocation = this.client.target(uri).request(MediaType.APPLICATION_JSON);
+        WebTarget target = this.client.target(uri);
+        target = applyQueryParams(target, queryParams);
+        Invocation.Builder invocation = target.request(MediaType.APPLICATION_JSON);
         applyHeaders(invocation, headers);
+        if(obj == null)
+            obj = Entity.text("");
         Response response = invocation.put(Entity.entity(obj, MediaType.APPLICATION_JSON));
         handleResponseError("PUT", uri, response);
         logResponse(uri, response);
+    }
+
+    /**
+     * Execute a PUT request with a return object.
+     * @param <T> The type parameter used for the return object
+     * @param uri The URI to call
+     * @param obj The object to use for the PUT
+     * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
+     * @param returnType The type to marshall the result back into
+     * @return The return type
+     */
+    protected <T> Optional<T> executePutRequest(URI uri, Object obj, Map<String, Object> headers, 
+        Map<String, Object> queryParams, GenericType<T> returnType)
+    {
+        WebTarget target = this.client.target(uri);
+        target = applyQueryParams(target, queryParams);
+        Invocation.Builder invocation = target.request(MediaType.APPLICATION_JSON);
+        applyHeaders(invocation, headers);
+        if(obj == null)
+            obj = Entity.text("");
+        Response response = invocation.put(Entity.entity(obj, MediaType.APPLICATION_JSON));
+        handleResponseError("PUT", uri, response);
+        logResponse(uri, response);
+        return extractEntityFromResponse(response, returnType);
     }
     
     /**
@@ -287,16 +353,16 @@ public class HttpContext
      */
     protected void executePostRequest(URI uri, Object obj)
     {    
-        executePostRequest(uri, null, obj);
+        executePostRequest(uri, obj, (Map<String, Object>)null);
     }
 
     /**
      * Execute a POST request.
      * @param uri The URI to call
-     * @param headers A set of headers to add to the request
      * @param obj The object to use for the POST
+     * @param headers A set of headers to add to the request
      */
-    protected void executePostRequest(URI uri, Map<String, Object> headers, Object obj)
+    protected void executePostRequest(URI uri, Object obj, Map<String, Object> headers)
     {
         Invocation.Builder invocation = this.client.target(uri).request(MediaType.APPLICATION_JSON);
         applyHeaders(invocation, headers);
@@ -342,18 +408,21 @@ public class HttpContext
      * @param uri The URI to call
      */
     protected void executeDeleteRequest(URI uri)
-    {    
-        executeDeleteRequest(uri, null);
+    {
+        executeDeleteRequest(uri, null, null);
     }
 
     /**
      * Execute a DELETE request.
      * @param uri The URI to call
      * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
      */
-    protected void executeDeleteRequest(URI uri, Map<String, Object> headers)
+    protected void executeDeleteRequest(URI uri, Map<String, Object> headers, Map<String, Object> queryParams)
     {
-        Invocation.Builder invocation = this.client.target(uri).request(MediaType.APPLICATION_JSON);
+        WebTarget target = this.client.target(uri);
+        target = applyQueryParams(target, queryParams);
+        Invocation.Builder invocation = target.request(MediaType.APPLICATION_JSON);
         applyHeaders(invocation, headers);
         Response response = invocation.delete();
         handleResponseError("DELETE", uri, response);

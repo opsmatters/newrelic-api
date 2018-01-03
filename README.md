@@ -15,6 +15,7 @@ The following New Relic APIs are currently supported:
 ### Alerts API
 * Alerts Channels (List, Create, Delete)
 * Alerts Policies (List, Create, Update, Delete)
+* Alerts Policy Channels (Update, Delete)
 * Alerts NRQL Conditions (List, Create, Update, Delete)
 * Alerts Infrastructure Conditions (List, Create, Update, Delete)
 

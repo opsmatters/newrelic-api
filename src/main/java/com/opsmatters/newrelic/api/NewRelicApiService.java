@@ -171,6 +171,15 @@ public class NewRelicApiService
         checkInitialize();
         return new AlertChannelOperations(httpContext, this);
     }
+    /**
+     * Returns the operations related to alert policy channels.
+     * @return The alert policy channel operations
+     */
+    public AlertPolicyChannelOperations alertPolicyChannels()
+    {
+        checkInitialize();
+        return new AlertPolicyChannelOperations(httpContext, this);
+    }
 
     /**
      * Initialise the HTTP client provider and context.

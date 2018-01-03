@@ -44,7 +44,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      * @param policyId The id of the alert policy to return the conditions for
      * @return The set of alert conditions
      */
-    public Collection<InfraAlertCondition> all(long policyId)
+    public Collection<InfraAlertCondition> list(long policyId)
     {
         Map<String,Object> queryParams = Maps.newHashMap();
         queryParams.put("policy_id", policyId);
@@ -58,7 +58,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public Optional<InfraAlertCondition> get(long id)
     {
-        return Optional.of(HTTP.GET(String.format("/alerts/conditions/%d", id), null, null, INFRA_ALERT_CONDITION).get());
+        return HTTP.GET(String.format("/alerts/conditions/%d", id), null, null, INFRA_ALERT_CONDITION);
     }
    
     /**
@@ -68,9 +68,19 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public Optional<InfraAlertCondition> create(InfraAlertCondition condition)
     {
-        return Optional.of(HTTP.POST("/alerts/conditions", condition, INFRA_ALERT_CONDITION).get());
+        return HTTP.POST("/alerts/conditions", condition, INFRA_ALERT_CONDITION);
     }
-    
+
+    /**
+     * Updates the given infrastructure alert condition.
+     * @param condition The alert condition to update
+     * @return The alert condition that was updated
+     */
+    public Optional<InfraAlertCondition> update(InfraAlertCondition condition)
+    {
+        return HTTP.PUT(String.format("/alerts/conditions/%d", condition.getId()), condition, INFRA_ALERT_CONDITION);
+    }
+
     /**
      * Deletes the infrastructure alert condition with the given id.
      * @param id The id of the alert condition to delete

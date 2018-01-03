@@ -44,7 +44,7 @@ public class NrqlAlertConditionOperations extends BaseFluent
      * @param policyId The id of the alert policy to return the conditions for
      * @return The set of alert conditions
      */
-    public Collection<NrqlAlertCondition> all(long policyId)
+    public Collection<NrqlAlertCondition> list(long policyId)
     {
         Map<String,Object> queryParams = Maps.newHashMap();
         queryParams.put("policy_id", new Long(policyId));
@@ -62,7 +62,7 @@ public class NrqlAlertConditionOperations extends BaseFluent
     public Optional<NrqlAlertCondition> get(long policyId, long id)
     {
         Optional<NrqlAlertCondition> ret = Optional.absent();
-        Collection<NrqlAlertCondition> conditions = all(policyId);
+        Collection<NrqlAlertCondition> conditions = list(policyId);
         for(NrqlAlertCondition condition : conditions)
         {
             if(condition.getId() == id)
@@ -79,9 +79,19 @@ public class NrqlAlertConditionOperations extends BaseFluent
      */
     public Optional<NrqlAlertCondition> create(long policyId, NrqlAlertCondition condition)
     {
-        return Optional.of(HTTP.POST(String.format("/alerts_nrql_conditions/policies/%d", policyId), condition, NRQL_ALERT_CONDITION).get());
+        return HTTP.POST(String.format("/alerts_nrql_conditions/policies/%d", policyId), condition, NRQL_ALERT_CONDITION);
     }
-    
+
+    /**
+     * Updates the given NRQL alert condition.
+     * @param condition The alert condition to update
+     * @return The alert condition that was updated
+     */
+    public Optional<NrqlAlertCondition> update(NrqlAlertCondition condition)
+    {
+        return HTTP.PUT(String.format("/alerts_nrql_conditions/%d.json", condition.getId()), condition, NRQL_ALERT_CONDITION);
+    }
+
     /**
      * Deletes the NRQL alert condition with the given id.
      * @param id The id of the alert condition to delete

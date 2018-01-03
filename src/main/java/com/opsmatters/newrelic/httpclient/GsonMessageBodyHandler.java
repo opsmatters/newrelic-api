@@ -41,6 +41,7 @@ import com.opsmatters.newrelic.httpclient.deserializers.AlertPolicyDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertPoliciesDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertChannelDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertChannelsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.AlertPolicyChannelDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.InfraAlertConditionDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.InfraAlertConditionsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.NrqlAlertConditionDeserializer;
@@ -48,6 +49,7 @@ import com.opsmatters.newrelic.httpclient.deserializers.NrqlAlertConditionsDeser
 import com.opsmatters.newrelic.httpclient.deserializers.ResponseErrorDeserializer;
 import com.opsmatters.newrelic.api.model.AlertPolicy;
 import com.opsmatters.newrelic.api.model.AlertChannel;
+import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
 import com.opsmatters.newrelic.api.model.ResponseError;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
@@ -87,6 +89,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(AlertChannel.class, new AlertChannelSerializer());
             builder.registerTypeAdapter(AlertChannel.class, new AlertChannelDeserializer());
             builder.registerTypeAdapter(ALERT_CHANNELS_TYPE, new AlertChannelsDeserializer());
+            builder.registerTypeAdapter(AlertPolicyChannel.class, new AlertPolicyChannelDeserializer());
             builder.registerTypeAdapter(InfraAlertCondition.class, new InfraAlertConditionSerializer());
             builder.registerTypeAdapter(InfraAlertCondition.class, new InfraAlertConditionDeserializer());
             builder.registerTypeAdapter(INFRA_ALERT_CONDITIONS_TYPE, new InfraAlertConditionsDeserializer());

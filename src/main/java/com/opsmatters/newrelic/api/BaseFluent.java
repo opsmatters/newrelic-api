@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.GenericType;
 import com.opsmatters.newrelic.api.model.AlertPolicy;
 import com.opsmatters.newrelic.api.model.AlertChannel;
+import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 
@@ -40,6 +41,8 @@ public class BaseFluent
 
     protected static final GenericType<AlertChannel> ALERT_CHANNEL = new GenericType<AlertChannel>(){};
     protected static final GenericType<Collection<AlertChannel>> ALERT_CHANNELS = new GenericType<Collection<AlertChannel>>(){};
+
+    protected static final GenericType<AlertPolicyChannel> ALERT_POLICY_CHANNEL = new GenericType<AlertPolicyChannel>(){};
 
     protected static final GenericType<InfraAlertCondition> INFRA_ALERT_CONDITION = new GenericType<InfraAlertCondition>(){};
     protected static final GenericType<Collection<InfraAlertCondition>> INFRA_ALERT_CONDITIONS = new GenericType<Collection<InfraAlertCondition>>(){};

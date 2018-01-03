@@ -21,15 +21,17 @@ import java.util.logging.Logger;
 import org.junit.Test;
 import junit.framework.Assert;
 import com.google.common.base.Optional;
+import org.apache.commons.lang3.ArrayUtils;
 import com.opsmatters.newrelic.api.NewRelicApiService;
 import com.opsmatters.newrelic.api.NewRelicInfraApiService;
 import com.opsmatters.newrelic.api.model.AlertPolicy;
+import com.opsmatters.newrelic.api.model.AlertChannel;
+import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.CriticalThreshold;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.Term;
 import com.opsmatters.newrelic.api.model.condition.Nrql;
-import com.opsmatters.newrelic.api.model.AlertChannel;
 import com.opsmatters.newrelic.api.model.channel.EmailConfiguration;
 import com.opsmatters.newrelic.api.model.channel.SlackConfiguration;
 
@@ -83,6 +85,14 @@ public class NewRelicApiTest
 
         // Create the NRQL condition
         NrqlAlertCondition nrqlCondition = createNrqlCondition(api, policy);
+
+        // Add the channels to the policy
+        addPolicyChannel(api, policy, emailChannel);
+        addPolicyChannel(api, policy, slackChannel);
+
+        // Delete the channels from the policy
+        deletePolicyChannel(api, policy, emailChannel);
+        deletePolicyChannel(api, policy, slackChannel);
 
         // Delete the infrastructure condition
         deleteInfraCondition(infraApi, infraCondition);
@@ -178,7 +188,7 @@ public class NewRelicApiTest
         // Get all infra conditions for the policy
         {
             logger.info("Get all conditions for policy: "+policy.getId());
-            Collection<InfraAlertCondition> ret = api.infraAlertConditions().all(policy.getId());
+            Collection<InfraAlertCondition> ret = api.infraAlertConditions().list(policy.getId());
             Assert.assertTrue(ret.size() > 0);
         }
 
@@ -245,7 +255,7 @@ public class NewRelicApiTest
         // Get all nrql conditions for the policy
         {
             logger.info("Get all conditions for policy: "+policy.getId());
-            Collection<NrqlAlertCondition> ret = api.nrqlAlertConditions().all(policy.getId());
+            Collection<NrqlAlertCondition> ret = api.nrqlAlertConditions().list(policy.getId());
             Assert.assertTrue(ret.size() > 0);
         }
 
@@ -331,7 +341,7 @@ public class NewRelicApiTest
     public Collection<AlertChannel> getAllChannels(NewRelicApiService api)
     {
         logger.info("Get all alert channels: ");
-        Collection<AlertChannel> ret = api.alertChannels().all();
+        Collection<AlertChannel> ret = api.alertChannels().list();
         Assert.assertTrue(ret.size() > 0);
         return ret;
     }
@@ -342,5 +352,18 @@ public class NewRelicApiTest
         api.alertChannels().delete(channel.getId());
         Optional<AlertChannel> ret = api.alertChannels().get(channel.getId());
         Assert.assertTrue(!ret.isPresent());
+    }
+
+    public void addPolicyChannel(NewRelicApiService api, AlertPolicy policy, AlertChannel channel)
+    {
+        logger.info("Adding alert channel: "+channel.getId()+" to policy: "+policy.getId());
+        Optional<AlertPolicyChannel> ret = api.alertPolicyChannels().update(policy.getId(), channel.getId());
+        Assert.assertTrue(ret.isPresent() && ArrayUtils.contains(ret.get().getChannelIdArray(), channel.getId()));
+    }
+
+    public void deletePolicyChannel(NewRelicApiService api, AlertPolicy policy, AlertChannel channel)
+    {
+        logger.info("Deleting alert channel: "+channel.getId()+" from policy: "+policy.getId());
+        api.alertPolicyChannels().delete(policy.getId(), channel.getId());
     }
 }

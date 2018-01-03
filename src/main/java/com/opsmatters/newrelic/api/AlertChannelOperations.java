@@ -43,7 +43,7 @@ public class AlertChannelOperations extends BaseFluent
      * Returns the set of alert channels.
      * @return The set of alert channels
      */
-    public Collection<AlertChannel> all()
+    public Collection<AlertChannel> list()
     {
         return HTTP.GET("/alerts_channels.json", null, null, ALERT_CHANNELS).get();
     }
@@ -58,7 +58,7 @@ public class AlertChannelOperations extends BaseFluent
     public Optional<AlertChannel> get(long id)
     {
         Optional<AlertChannel> ret = Optional.absent();
-        Collection<AlertChannel> channels = all();
+        Collection<AlertChannel> channels = list();
         for(AlertChannel channel : channels)
         {
             if(channel.getId() == id)
@@ -76,7 +76,7 @@ public class AlertChannelOperations extends BaseFluent
     {
         return Optional.of(HTTP.POST("/alerts_channels.json", channel, ALERT_CHANNELS).get().iterator().next());
     }
-    
+
     /**
      * Deletes the alert channel with the given id.
      * @param id The id of the alert channel to delete

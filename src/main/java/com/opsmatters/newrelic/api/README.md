@@ -6,6 +6,7 @@
 - [Initialisation](#initialisation)
 - [Alerts Channels](#alerts-channels)
 - [Alerts Policies](#alerts-policies)
+- [Alerts Policy Channels](#alerts-policy-channels)
 - [Alerts NRQL Conditions](#alerts-nrql-conditions)
 - [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
 
@@ -57,7 +58,7 @@ AlertChannel channel = api.alertChannels().create(c).get();
 The alert channel returned includes all the additional fields that were populated by the server on creation eg, "id", "links".
 
 Other operations have also been included for alert channels:
-* all(): returns all alert channels for the account.
+* list(): returns all alert channels for the account.
 * get(id): returns the alert channel with the given id.
 * delete(id): deletes the alert channel with the given id.
 
@@ -83,10 +84,21 @@ AlertPolicy policy = api.alertPolicies().create(p).get();
 The alert policy returned includes all the additional fields that were populated by the server on creation eg, "id", "created_at".
 
 Other operations have also been included for alert policies:
-* all(): returns all alert policies for the account.
-* get(name): returns all alert policies with the given name.
-* get(name,id): returns all alert policies with the given name and id.
+* list(): returns all alert policies for the account.
+* list(name): returns all alert policies with the given name.
+* get(name,id): returns the alert policy with the given name and id.
+* update(policy): updates the alert policy with the given policy details.
 * delete(id): deletes the alert policy with the given id.
+
+### Alerts Policy Channels
+To add an alert channel to an existing policy, pass the policy id and channel id to the "update" operation:
+```
+AlertPolicyChannel policyChannel = api.alertPolicyChannels().update(policy.getId(), channel.getId()).get();
+```
+The alert policy channel returned includes all the additional fields that were populated by the server on update eg, "channel_ids".
+
+Other operations have also been included for alert policy channels:
+* delete(policyId, id): deletes the alert channel with the given id from the policy.
 
 ### Alerts NRQL Conditions
 To add a critical NRQL alert condition for average CPU percentage above 80%, instantiate a term and nrql object and then pass them to the "create" operation:
@@ -114,7 +126,7 @@ NrqlAlertCondition condition = api.nrqlAlertConditions().create(policy.getId(), 
 The NRQL alert condition returned includes all the additional fields that were populated by the server on creation eg, "id".
 
 Other operations have also been included for NRQL alert conditions:
-* all(policyId): returns all NRQL alert conditions for the given policy id.
+* list(policyId): returns all NRQL alert conditions for the given policy id.
 * get(policyId,id): returns the NRQL alert condition for the given policy id and condition id.
 * delete(id): deletes the NRQL alert condition with the given id.
 
@@ -134,7 +146,7 @@ InfraAlertCondition condition = infraApi.infraAlertConditions().create(c).get();
 The infrastructure alert condition returned includes all the additional fields that were populated by the server on creation eg, "id" and "created_at_epoch_millis".
 
 Other operations have also been included for infrastructure alert conditions:
-* all(policyId): returns all infrastructure alert conditions for the given policy id.
+* list(policyId): returns all infrastructure alert conditions for the given policy id.
 * get(id): returns the infrastructure alert condition for the given condition id.
 * delete(id): deletes the infrastructure alert condition with the given id.
 
