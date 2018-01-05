@@ -7,6 +7,7 @@
 - [Alerts Channels](#alerts-channels)
 - [Alerts Policies](#alerts-policies)
 - [Alerts Policy Channels](#alerts-policy-channels)
+- [Alerts Conditions](#alerts-conditions)
 - [Alerts NRQL Conditions](#alerts-nrql-conditions)
 - [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
 
@@ -43,15 +44,12 @@ NewRelicInfraApiService infraApi = NewRelicInfraApiService.builder()
 ```
 
 ### Alerts Channels
-To create an email alert channel called "alerts@test.com", first instantiate the channel with an "email" configuration and then pass it to the "create" operation:
+To create an email alert channel called "alerts@test.com", first instantiate the channel object and then pass it to the "create" operation:
 ```
-EmailConfiguration configuration = EmailConfiguration.builder()
+EmailChannel c = EmailChannel.builder()
+    .name("alerts@test.com")
     .recipients("alerts@test.com")
     .includeJsonAttachment(true)
-    .build();
-AlertChannel c = AlertChannel.builder()
-    .name("alerts@test.com")
-    .configuration(configuration)
     .build();
 AlertChannel channel = api.alertChannels().create(c).get();
 ```
@@ -62,15 +60,16 @@ Other operations have also been included for alert channels:
 * get(id): returns the alert channel with the given id.
 * delete(id): deletes the alert channel with the given id.
 
-Configurations are included for all available channel types:
-* Email
-* HipChat
-* Slack
-* Campfire
-* OpsGenie
-* PagerDuty
-* VictorOps
-* Webhook
+The available channel types are:
+* UserChannel
+* EmailChannel
+* HipChatChannel
+* SlackChannel
+* CampfireChannel
+* OpsGenieChannel
+* PagerDutyChannel
+* VictorOpsChannel
+* WebhookChannel
 
 ### Alerts Policies
 To create an alert policy called "test-policy" with a PER_POLICY rollup strategy, first instantiate the policy and then pass it to the "create" operation:
@@ -99,6 +98,33 @@ The alert policy channel returned includes all the additional fields that were p
 
 Other operations have also been included for alert policy channels:
 * delete(policyId, id): deletes the alert channel with the given id from the policy.
+
+### Alerts Conditions
+To add a critical APM alert condition for application Apdex above 0.7, instantiate a term object and then pass it to the "create" operation:
+```
+Term term = Term.builder()
+    .duration(Term.Duration.MINUTES_10)
+    .criticalPriority()
+    .aboveOperator()
+    .allTimeFunction()
+    .threshold(0.7)
+    .build();
+AlertCondition c = ApmAppAlertCondition.builder()
+    .name("apdex-application")
+    .metric(ApmAppAlertCondition.Metric.APDEX)
+    .applicationConditionScope()
+    .violationCloseTimer(AlertCondition.HOURS_12)
+    .addTerm(term)
+    .enabled(true)
+    .build();
+AlertCondition condition = api.alertConditions().create(policy.getId(), c).get();
+```
+The APM alert condition returned includes all the additional fields that were populated by the server on creation eg, "id".
+
+Other operations have also been included for APM alert conditions:
+* list(policyId): returns all APM alert conditions for the given policy id.
+* get(policyId,id): returns the APM alert condition for the given policy id and condition id.
+* delete(id): deletes the APM alert condition with the given id.
 
 ### Alerts NRQL Conditions
 To add a critical NRQL alert condition for average CPU percentage above 80%, instantiate a term and nrql object and then pass them to the "create" operation:
@@ -133,12 +159,11 @@ Other operations have also been included for NRQL alert conditions:
 ### Alerts Infrastructure Conditions
 To add a critical infrastructure alert condition for a host becoming unavailable, instantiate a condition object and then pass it to the "create" operation:
 ```
-InfraAlertCondition c = InfraAlertCondition.builder()
+InfraAlertCondition c = InfraHostNotReportingAlertCondition.builder()
     .policyId(policy.getId())
     .name("host-unavailable-error")
-    .hostNotReportingType()
     .whereClause("env=prod")
-    .criticalThreshold(new CriticalThreshold(10))
+    .criticalThreshold(new Threshold(10))
     .enabled(true)
     .build();
 InfraAlertCondition condition = infraApi.infraAlertConditions().create(c).get();

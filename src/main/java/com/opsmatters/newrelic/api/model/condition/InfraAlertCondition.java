@@ -16,22 +16,74 @@
 
 package com.opsmatters.newrelic.api.model.condition;
 
-import com.opsmatters.newrelic.api.model.NamedEntity;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Represents a New Relic Infrastructure alert condition.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class InfraAlertCondition extends NamedEntity
+public abstract class InfraAlertCondition extends BaseCondition
 {
     private String type;
-    private Boolean enabled;
-    private String where_clause;
-    private CriticalThreshold critical_threshold;
-    private Long policy_id;
-    private Long created_at_epoch_millis;
-    private Long updated_at_epoch_millis;
+
+    @SerializedName("where_clause")
+    private String whereClause;
+
+    private String filter;
+
+    @SerializedName("critical_threshold")
+    private Threshold criticalThreshold;
+
+    @SerializedName("warning_threshold")
+    private Threshold warningThreshold;
+
+    @SerializedName("policy_id")
+    private Long policyId;
+
+    @SerializedName("created_at_epoch_millis")
+    private Long createdAtEpochMillis;
+
+    @SerializedName("updated_at_epoch_millis")
+    private Long updatedAtEpochMillis;
+
+    /**
+     * Represents the available types for this condition.  
+     */
+    public enum ConditionType
+    {
+        HOST_NOT_REPORTING("infra_host_not_reporting"),
+        PROCESS_RUNNING("infra_process_running"),
+        METRIC("infra_metric");
+
+        ConditionType(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        /**
+         * Returns the type for the given value.
+         * @param value The type value
+         * @return The type for the given value
+         */
+        public static ConditionType fromValue(String value)
+        {
+            ConditionType[] types = values();
+            for(ConditionType type : types)
+            {
+                if(type.value().equals(value))
+                    return type;
+            }
+            return null;
+        }
+
+        private String value;
+    }
 
     /**
      * Default constructor.
@@ -41,30 +93,12 @@ public class InfraAlertCondition extends NamedEntity
     }
     
     /**
-     * Constructor that takes a name.
-     * @param name The name of the alert condition
-     */
-    public InfraAlertCondition(String name)
-    {
-        setName(name);
-    }
-
-    /**
      * Sets the type of the alert condition.
      * @param type The type of the alert condition
      */
     public void setType(String type)
     {
         this.type = type;
-    }
-
-    /**
-     * Sets the type of the alert condition.
-     * @param type The type of the alert condition
-     */
-    public void setType(InfraAlertConditionType type)
-    {
-        setType(type.value());
     }
 
     /**
@@ -77,30 +111,12 @@ public class InfraAlertCondition extends NamedEntity
     }
 
     /**
-     * Set to <CODE>true</CODE> if the alert condition is enabled.
-     * @param enabled <CODE>true</CODE> if the alert condition is enabled
-     */
-    public void setEnabled(boolean enabled)
-    {
-        this.enabled = enabled;
-    }
-
-    /**
-     * Returns <CODE>true</CODE> if the alert condition is enabled.
-     * @return <CODE>true</CODE> if the alert condition is enabled
-     */
-    public boolean getEnabled()
-    {
-        return enabled;
-    }
-
-    /**
      * Sets the where clause of the alert condition.
-     * @param where_clause The where clause of the alert condition
+     * @param whereClause The where clause of the alert condition
      */
-    public void setWhereClause(String where_clause)
+    public void setWhereClause(String whereClause)
     {
-        this.where_clause = where_clause;
+        this.whereClause = whereClause;
     }
 
     /**
@@ -109,16 +125,34 @@ public class InfraAlertCondition extends NamedEntity
      */
     public String getWhereClause()
     {
-        return where_clause;
+        return whereClause;
+    }
+
+    /**
+     * Sets the filter of the alert condition.
+     * @param filter The filter of the alert condition
+     */
+    public void setFilter(String filter)
+    {
+        this.filter = filter;
+    }
+
+    /**
+     * Returns the filter of the alert condition.
+     * @return The filter of the alert condition
+     */
+    public String getFilter()
+    {
+        return filter;
     }
 
     /**
      * Sets the policy id of the alert condition.
-     * @param policy_id The policy id of the alert condition
+     * @param policyId The policy id of the alert condition
      */
-    public void setPolicyId(long policy_id)
+    public void setPolicyId(long policyId)
     {
-        this.policy_id = policy_id;
+        this.policyId = policyId;
     }
 
     /**
@@ -127,25 +161,43 @@ public class InfraAlertCondition extends NamedEntity
      */
     public long getPolicyId()
     {
-        return policy_id;
+        return policyId;
     }
 
     /**
      * Sets the critical threshold of the alert condition.
-     * @param critical_threshold The critical threshold of the alert condition
+     * @param criticalThreshold The critical threshold of the alert condition
      */
-    public void setCriticalThreshold(CriticalThreshold critical_threshold)
+    public void setCriticalThreshold(Threshold criticalThreshold)
     {
-        this.critical_threshold = critical_threshold;
+        this.criticalThreshold = criticalThreshold;
     }
 
     /**
      * Returns the critical threshold of the alert condition.
      * @return The critical threshold of the alert condition
      */
-    public CriticalThreshold getCriticalThreshold()
+    public Threshold getCriticalThreshold()
     {
-        return critical_threshold;
+        return criticalThreshold;
+    }
+
+    /**
+     * Sets the warning threshold of the alert condition.
+     * @param warningThreshold The warning threshold of the alert condition
+     */
+    public void setWarningThreshold(Threshold warningThreshold)
+    {
+        this.warningThreshold = warningThreshold;
+    }
+
+    /**
+     * Returns the warning threshold of the alert condition.
+     * @return The warning threshold of the alert condition
+     */
+    public Threshold getWarningThreshold()
+    {
+        return warningThreshold;
     }
 
     /**
@@ -154,7 +206,7 @@ public class InfraAlertCondition extends NamedEntity
      */
     public long getCreatedAtEpochMillis()
     {
-        return created_at_epoch_millis;
+        return createdAtEpochMillis;
     }
 
     /**
@@ -163,7 +215,7 @@ public class InfraAlertCondition extends NamedEntity
      */
     public long getUpdatedAtEpochMillis()
     {
-        return updated_at_epoch_millis;
+        return updatedAtEpochMillis;
     }
 
     /**
@@ -172,42 +224,44 @@ public class InfraAlertCondition extends NamedEntity
     @Override
     public String toString()
     {
-        return "InfraAlertCondition ["+super.toString()
+        return super.toString()
             +", type="+type
-            +", enabled="+enabled
-            +", policy_id="+policy_id
-            +", where_clause="+where_clause
-            +", critical_threshold="+critical_threshold
-            +", created_at_epoch_millis="+created_at_epoch_millis
-            +", updated_at_epoch_millis="+updated_at_epoch_millis
-            +"]";
-    }
-
-    /**
-     * Returns a builder for the alert condition.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
+            +", policyId="+policyId
+            +", whereClause="+whereClause
+            +", filter="+filter
+            +", criticalThreshold="+criticalThreshold
+            +", warningThreshold="+warningThreshold
+            +", createdAtEpochMillis="+createdAtEpochMillis
+            +", updatedAtEpochMillis="+updatedAtEpochMillis;
     }
 
     /**
      * Builder to make alert condition construction easier.
      */
-    public static class Builder
+    protected abstract static class Builder<T extends InfraAlertCondition, B extends Builder<T,B>>
     {
-        private InfraAlertCondition condition = new InfraAlertCondition();
+        protected InfraAlertCondition condition;
+
+        /**
+         * Sets the alert condition.
+         * @param condition The alert condition
+         * @return This object
+         */
+        public B condition(InfraAlertCondition condition)
+        {
+            this.condition = condition;
+            return self();
+        }
 
         /**
          * Sets the name of the alert condition.
          * @param name The name of the alert condition
          * @return This object
          */
-        public Builder name(String name)
+        public B name(String name)
         {
             condition.setName(name);
-            return this;
+            return self();
         }
 
         /**
@@ -215,40 +269,10 @@ public class InfraAlertCondition extends NamedEntity
          * @param type The type of the alert condition
          * @return This object
          */
-        public Builder type(String type)
+        public B type(String type)
         {
             condition.setType(type);
-            return this;
-        }
-
-        /**
-         * Sets the type of the alert condition to "infra_metric".
-         * @return This object
-         */
-        public Builder metricType()
-        {
-            condition.setType(InfraAlertConditionType.METRIC);
-            return this;
-        }
-
-        /**
-         * Sets the type of the alert condition to "infra_process_running".
-         * @return This object
-         */
-        public Builder processRunningType()
-        {
-            condition.setType(InfraAlertConditionType.PROCESS_RUNNING);
-            return this;
-        }
-
-        /**
-         * Sets the type of the alert condition to "infra_host_not_reporting".
-         * @return This object
-         */
-        public Builder hostNotReportingType()
-        {
-            condition.setType(InfraAlertConditionType.HOST_NOT_REPORTING);
-            return this;
+            return self();
         }
 
         /**
@@ -256,52 +280,77 @@ public class InfraAlertCondition extends NamedEntity
          * @param enabled <CODE>true</CODE> if the alert condition is enabled
          * @return This object
          */
-        public Builder enabled(boolean enabled)
+        public B enabled(boolean enabled)
         {
             condition.setEnabled(enabled);
-            return this;
+            return self();
         }
 
         /**
          * Sets the where clause of the alert condition.
-         * @param where_clause The where clause of the alert condition
+         * @param whereClause The where clause of the alert condition
          * @return This object
          */
-        public Builder whereClause(String where_clause)
+        public B whereClause(String whereClause)
         {
-            condition.setWhereClause(where_clause);
-            return this;
+            condition.setWhereClause(whereClause);
+            return self();
+        }
+
+        /**
+         * Sets the filter of the alert condition.
+         * @param filter The filter of the alert condition
+         * @return This object
+         */
+        public B filter(String filter)
+        {
+            condition.setFilter(filter);
+            return self();
         }
 
         /**
          * Sets the policy id of the alert condition.
-         * @param policy_id The policy id of the alert condition
+         * @param policyId The policy id of the alert condition
          * @return This object
          */
-        public Builder policyId(long policy_id)
+        public B policyId(long policyId)
         {
-            condition.setPolicyId(policy_id);
-            return this;
+            condition.setPolicyId(policyId);
+            return self();
         }
 
         /**
          * Sets the critical threshold of the alert condition.
-         * @param critical_threshold The critical threshold of the alert condition
+         * @param criticalThreshold The critical threshold of the alert condition
          * @return This object
          */
-        public Builder criticalThreshold(CriticalThreshold critical_threshold)
+        public B criticalThreshold(Threshold criticalThreshold)
         {
-            condition.setCriticalThreshold(critical_threshold);
-            return this;
+            condition.setCriticalThreshold(criticalThreshold);
+            return self();
         }
 
         /**
-         * Returns the configured alert condition instance
-         * @return The alert condition instance
+         * Sets the warning threshold of the alert condition.
+         * @param warningThreshold The warning threshold of the alert condition
+         * @return This object
          */
-        public InfraAlertCondition build()
+        public B warningThreshold(Threshold warningThreshold)
         {
-            return condition;
+            condition.setWarningThreshold(warningThreshold);
+            return self();
         }
+
+        /**
+         * Returns this object.
+         * @return This object
+         */
+        protected abstract B self();
+
+        /**
+         * Returns the configured alert channel instance
+         * @return The alert channel instance
+         */
+        public abstract T build();
     }
 }

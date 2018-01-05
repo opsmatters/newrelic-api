@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.model.channel;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a New Relic OpsGenie channel configuration.  
  * 
@@ -23,7 +25,14 @@ package com.opsmatters.newrelic.api.model.channel;
  */
 public class OpsGenieConfiguration extends ChannelConfiguration
 {
-    private String api_key;
+    /**
+     * The type of the channel configuration.
+     */
+    public static final ChannelType TYPE = ChannelType.OPSGENIE;
+
+    @SerializedName("api_key")
+    private String apiKey;
+
     private String teams;
     private String tags;
     private String recipients;
@@ -33,19 +42,9 @@ public class OpsGenieConfiguration extends ChannelConfiguration
      */
     public OpsGenieConfiguration()
     {
-        super("opsgenie");
+        super(TYPE.value());
     }
    
-    /**
-     * Constructor that takes a list of recipients.
-     * @param recipients The list of recipients
-     */
-    public OpsGenieConfiguration(String recipients)
-    {
-        this();
-        setRecipients(recipients);
-    }
-
     /**
      * Sets the recipients of the alerts.
      * @param recipients The recipients of the alerts
@@ -66,11 +65,11 @@ public class OpsGenieConfiguration extends ChannelConfiguration
 
     /**
      * Sets the API key for the alerts.
-     * @param api_key The API key for the alerts
+     * @param apiKey The API key for the alerts
      */
-    public void setApiKey(String api_key)
+    public void setApiKey(String apiKey)
     {
-        this.api_key = api_key;
+        this.apiKey = apiKey;
     }
 
     /**
@@ -79,7 +78,7 @@ public class OpsGenieConfiguration extends ChannelConfiguration
      */
     public String getApiKey()
     {
-        return api_key;
+        return apiKey;
     }
 
     /**
@@ -126,79 +125,9 @@ public class OpsGenieConfiguration extends ChannelConfiguration
     {
         return "OpsGenieConfiguration ["+super.toString()
             +", recipients="+recipients
-            +", api_key="+api_key
+            +", apiKey="+apiKey
             +", teams="+teams
             +", tags="+tags
             +"]";
-    }
-
-    /**
-     * Returns a builder for the OpsGenie configuration.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    /**
-     * Builder to make OpsGenie configuration construction easier.
-     */
-    public static class Builder
-    {
-        private OpsGenieConfiguration configuration = new OpsGenieConfiguration();
-
-        /**
-         * Sets the recipients of the OpsGenie configuration.
-         * @param recipients The recipients of the alerts
-         * @return This object
-         */
-        public Builder recipients(String recipients)
-        {
-            configuration.setRecipients(recipients);
-            return this;
-        }
-
-        /**
-         * Sets the API key of the OpsGenie configuration.
-         * @param api_key The API key of the alerts
-         * @return This object
-         */
-        public Builder apiKey(String api_key)
-        {
-            configuration.setApiKey(api_key);
-            return this;
-        }
-
-        /**
-         * Sets the teams of the OpsGenie configuration.
-         * @param teams The teams of the alerts
-         * @return This object
-         */
-        public Builder teams(String teams)
-        {
-            configuration.setTeams(teams);
-            return this;
-        }
-
-        /**
-         * Sets the tags of the OpsGenie configuration.
-         * @param tags The tags of the alerts
-         * @return This object
-         */
-        public Builder tags(String tags)
-        {
-            configuration.setTags(tags);
-            return this;
-        }
-
-        /**
-         * Returns the configured OpsGenie configuration instance
-         * @return The OpsGenie configuration instance
-         */
-        public OpsGenieConfiguration build()
-        {
-            return configuration;
-        }
     }
 }

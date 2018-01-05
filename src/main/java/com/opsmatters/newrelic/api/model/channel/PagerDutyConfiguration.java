@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.model.channel;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a New Relic PagerDuty channel configuration.  
  * 
@@ -23,33 +25,29 @@ package com.opsmatters.newrelic.api.model.channel;
  */
 public class PagerDutyConfiguration extends ChannelConfiguration
 {
-    private String service_key;
+    /**
+     * The type of the channel configuration.
+     */
+    public static final ChannelType TYPE = ChannelType.PAGERDUTY;
+
+    @SerializedName("service_key")
+    private String serviceKey;
 
     /**
      * Default constructor.
      */
     public PagerDutyConfiguration()
     {
-        super("pagerduty");
+        super(TYPE.value());
     }
    
     /**
-     * Constructor that takes a service key.
-     * @param service_key The service key
-     */
-    public PagerDutyConfiguration(String service_key)
-    {
-        this();
-        setServiceKey(service_key);
-    }
-
-    /**
      * Sets the service key for the alerts.
-     * @param service_key The service key for the alerts
+     * @param serviceKey The service key for the alerts
      */
-    public void setServiceKey(String service_key)
+    public void setServiceKey(String serviceKey)
     {
-        this.service_key = service_key;
+        this.serviceKey = serviceKey;
     }
 
     /**
@@ -58,7 +56,7 @@ public class PagerDutyConfiguration extends ChannelConfiguration
      */
     public String getServiceKey()
     {
-        return service_key;
+        return serviceKey;
     }
 
     /**
@@ -68,44 +66,7 @@ public class PagerDutyConfiguration extends ChannelConfiguration
     public String toString()
     {
         return "PagerDutyConfiguration ["+super.toString()
-            +", service_key="+service_key
+            +", serviceKey="+serviceKey
             +"]";
-    }
-
-    /**
-     * Returns a builder for the PagerDuty configuration.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    /**
-     * Builder to make PagerDuty configuration construction easier.
-     */
-    public static class Builder
-    {
-        private PagerDutyConfiguration configuration = new PagerDutyConfiguration();
-
-        /**
-         * Sets the service key of the PagerDuty configuration.
-         * @param service_key The service key of the alerts
-         * @return This object
-         */
-        public Builder serviceKey(String service_key)
-        {
-            configuration.setServiceKey(service_key);
-            return this;
-        }
-
-        /**
-         * Returns the configured PagerDuty configuration instance
-         * @return The PagerDuty configuration instance
-         */
-        public PagerDutyConfiguration build()
-        {
-            return configuration;
-        }
     }
 }

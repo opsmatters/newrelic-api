@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.serializers;
+package com.opsmatters.newrelic.httpclient.serializers.condition;
 
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 
 /**
- * Deserializer class for NRQL alert conditions.
+ * Deserializer class for APM alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class NrqlAlertConditionSerializer implements JsonSerializer<NrqlAlertCondition>
+public class AlertConditionSerializer implements JsonSerializer<AlertCondition>
 {
     private static Gson gson = new Gson();
 
@@ -37,11 +37,11 @@ public class NrqlAlertConditionSerializer implements JsonSerializer<NrqlAlertCon
      * @return The JSON data that was serialized
      */
     @Override
-    public JsonElement serialize(NrqlAlertCondition condition, Type type, JsonSerializationContext context)
+    public JsonElement serialize(AlertCondition condition, Type type, JsonSerializationContext context)
     {
         JsonElement element = gson.toJsonTree(condition, type);
         JsonObject obj = new JsonObject();
-        obj.add("nrql_condition", element);
+        obj.add("condition", element);
         return obj;
     }
 }

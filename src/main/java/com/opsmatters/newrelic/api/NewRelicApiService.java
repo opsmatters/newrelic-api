@@ -153,8 +153,18 @@ public class NewRelicApiService
     }
 
     /**
-     * Returns the operations related to nrql alert conditions.
-     * @return The nrql alert condition operations
+     * Returns the operations related to APM alert conditions.
+     * @return The APM alert condition operations
+     */
+    public AlertConditionOperations alertConditions()
+    {
+        checkInitialize();
+        return new AlertConditionOperations(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to NRQL alert conditions.
+     * @return The NRQL alert condition operations
      */
     public NrqlAlertConditionOperations nrqlAlertConditions()
     {
@@ -194,15 +204,15 @@ public class NewRelicApiService
      * Returns a builder for the NewRelicApiService.
      * @return The builder instance.
      */
-    public static Builder builder()
+    public static ServiceBuilder<?,?> builder()
     {
         return new Builder();
     }
 
     /**
-     * Builder to make NewRelicApiService construction easier.
+     * Abstract Builder from which the other service Builders derive.
      */
-    public static class Builder 
+    public abstract static class ServiceBuilder<T extends NewRelicApiService, B extends ServiceBuilder<T,B>>
     {
         protected String hostname = DEFAULT_HOST;
         protected int port = DEFAULT_PORT;
@@ -215,10 +225,10 @@ public class NewRelicApiService
          * @param hostname The name of the host
          * @return This object
          */
-        public Builder hostname(String hostname)
+        public B hostname(String hostname)
         {
             this.hostname = hostname;
-            return this;
+            return self();
         }
 
         /**
@@ -228,10 +238,10 @@ public class NewRelicApiService
          * @param port The port of the host
          * @return This object
          */
-        public Builder port(int port)
+        public B port(int port)
         {
             this.port = port;
-            return this;
+            return self();
         }
 
         /**
@@ -239,9 +249,37 @@ public class NewRelicApiService
          * @param key The API key
          * @return This object
          */
-        public Builder apiKey(String key)
+        public B apiKey(String key)
         {
             this.provider = new ApiKeyHttpClientProvider(key);
+            return self();
+        }
+
+        /**
+         * Returns this object.
+         * @return This object
+         */
+        protected abstract B self();
+
+        /**
+         * Returns the configured API service instance
+         * @return The API service instance
+         */
+        public abstract T build();
+    }
+
+    /**
+     * Builder to make NewRelicApiService construction easier.
+     */
+    public static class Builder extends ServiceBuilder<NewRelicApiService, Builder>
+    {
+        /**
+         * Returns this object.
+         * @return This object
+         */
+        @Override
+        protected Builder self()
+        {
             return this;
         }
 
@@ -249,6 +287,7 @@ public class NewRelicApiService
          * Returns the configured API service instance
          * @return The API service instance
          */
+        @Override
         public NewRelicApiService build()
         {
             return new NewRelicApiService(hostname, port, provider);

@@ -14,48 +14,49 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.channel;
 
-import java.util.List;
-import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Represents a New Relic alert policy channel.  
+ * Represents a New Relic User channel configuration.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicyChannel extends NamedEntity
+public class UserConfiguration extends ChannelConfiguration
 {
-    @SerializedName("channel_ids")
-    private List<Long> channelIds = new ArrayList<Long>();
+    /**
+     * The type of the channel configuration.
+     */
+    public static final ChannelType TYPE = ChannelType.USER;
+
+    @SerializedName("user_id")
+    private String userId;
 
     /**
      * Default constructor.
      */
-    public AlertPolicyChannel()
+    public UserConfiguration()
     {
+        super(TYPE.value());
     }
    
     /**
-     * Returns the list of channel ids for the policy.
-     * @return The list of channel ids
+     * Sets the user id of the alerts.
+     * @param userId The user id of the alerts
      */
-    public List<Long> getChannelIds()
+    public void setUserId(String userId)
     {
-        return channelIds;
+        this.userId = userId;
     }
 
     /**
-     * Returns the array of channel ids for the policy.
-     * @return The array of channel ids
+     * Returns the user id of the alerts.
+     * @return The userId of the alerts
      */
-    public long[] getChannelIdArray()
+    public String getUserId()
     {
-        long[] ret = new long[channelIds.size()];
-        for(int i = 0; i < channelIds.size(); i++)
-            ret[i] = channelIds.get(i);
-        return ret;
+        return userId;
     }
 
     /**
@@ -64,8 +65,8 @@ public class AlertPolicyChannel extends NamedEntity
     @Override
     public String toString()
     {
-        return "AlertPolicyChannel ["+super.toString()
-            +", channelIds="+channelIds
+        return "UserConfiguration ["+super.toString()
+            +", userId="+userId
             +"]";
     }
 }

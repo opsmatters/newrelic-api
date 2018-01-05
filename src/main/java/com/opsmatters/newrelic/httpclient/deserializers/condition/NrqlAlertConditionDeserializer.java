@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.deserializers;
+package com.opsmatters.newrelic.httpclient.deserializers.condition;
 
 import java.lang.reflect.Type;
 import com.google.gson.*;

@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.deserializers;
+package com.opsmatters.newrelic.httpclient.deserializers.condition;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.AlertChannel;
+import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 
 /**
- * Deserializer class for alert channels.
+ * Deserializer class for NRQL alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertChannelDeserializer implements JsonDeserializer<AlertChannel>
+public class NrqlAlertConditionsDeserializer implements JsonDeserializer<Collection<NrqlAlertCondition>>
 {
     private static Gson gson = new Gson();
 
@@ -34,16 +37,20 @@ public class AlertChannelDeserializer implements JsonDeserializer<AlertChannel>
      * @param element The Json data being deserialized
      * @param type The type of the Object to deserialize to 
      * @param context The JSON deserialization context
-     * @return The alert channel 
+     * @return The alert conditions 
      */
     @Override
-    public AlertChannel deserialize(JsonElement element, Type type, JsonDeserializationContext context)
+    public Collection<NrqlAlertCondition> deserialize(JsonElement element, Type type, JsonDeserializationContext context)
         throws JsonParseException
     {
         JsonObject obj = element.getAsJsonObject();
-        JsonElement channel = obj.get("channel");
-        if(channel != null && channel.isJsonObject())
-            return gson.fromJson(channel, AlertChannel.class);
-        return gson.fromJson(element, AlertChannel.class);
+        JsonArray conditions = obj.getAsJsonArray("nrql_conditions");
+        List<NrqlAlertCondition> values = new ArrayList<NrqlAlertCondition>();
+        if(conditions != null && conditions.isJsonArray())
+        {
+            for(JsonElement condition : conditions)
+                values.add(gson.fromJson(condition, NrqlAlertCondition.class));
+        }
+        return values;
     }
 }

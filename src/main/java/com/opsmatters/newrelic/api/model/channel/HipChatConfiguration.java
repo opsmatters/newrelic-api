@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.model.channel;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a New Relic HipChat channel configuration.  
  * 
@@ -23,34 +25,32 @@ package com.opsmatters.newrelic.api.model.channel;
  */
 public class HipChatConfiguration extends ChannelConfiguration
 {
-    private String auth_token;
-    private String room_id;
+    /**
+     * The type of the channel configuration.
+     */
+    public static final ChannelType TYPE = ChannelType.HIPCHAT;
+
+    @SerializedName("auth_token")
+    private String authToken;
+
+    @SerializedName("room_id")
+    private String roomId;
 
     /**
      * Default constructor.
      */
     public HipChatConfiguration()
     {
-        super("hipchat");
+        super(TYPE.value());
     }
    
     /**
-     * Constructor that takes a room id.
-     * @param room_id The room id
-     */
-    public HipChatConfiguration(String room_id)
-    {
-        this();
-        setRoomId(room_id);
-    }
-
-    /**
      * Sets the HipChat room id for the alerts.
-     * @param room_id The room id for the alerts
+     * @param roomId The room id for the alerts
      */
-    public void setRoomId(String room_id)
+    public void setRoomId(String roomId)
     {
-        this.room_id = room_id;
+        this.roomId = roomId;
     }
 
     /**
@@ -59,16 +59,16 @@ public class HipChatConfiguration extends ChannelConfiguration
      */
     public String getRoomId()
     {
-        return room_id;
+        return roomId;
     }
 
     /**
      * Sets the HipChat auth token for the alerts.
-     * @param auth_token The auth token for the alerts
+     * @param authToken The auth token for the alerts
      */
-    public void setAuthToken(String auth_token)
+    public void setAuthToken(String authToken)
     {
-        this.auth_token = auth_token;
+        this.authToken = authToken;
     }
 
     /**
@@ -77,7 +77,7 @@ public class HipChatConfiguration extends ChannelConfiguration
      */
     public String getAuthToken()
     {
-        return auth_token;
+        return authToken;
     }
 
     /**
@@ -87,56 +87,8 @@ public class HipChatConfiguration extends ChannelConfiguration
     public String toString()
     {
         return "HipChatConfiguration ["+super.toString()
-            +", room_id="+room_id
-            +", auth_token="+auth_token
+            +", roomId="+roomId
+            +", authToken="+authToken
             +"]";
-    }
-
-    /**
-     * Returns a builder for the HipChat configuration.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    /**
-     * Builder to make HipChat configuration construction easier.
-     */
-    public static class Builder
-    {
-        private HipChatConfiguration configuration = new HipChatConfiguration();
-
-        /**
-         * Sets the room id of the HipChat configuration.
-         * @param room_id The room id of the alerts
-         * @return This object
-         */
-        public Builder roomId(String room_id)
-        {
-            configuration.setRoomId(room_id);
-            return this;
-        }
-
-        /**
-         * Sets the auth token of the HipChat configuration.
-         * @param auth_token The auth token of the alerts
-         * @return This object
-         */
-        public Builder authToken(String auth_token)
-        {
-            configuration.setAuthToken(auth_token);
-            return this;
-        }
-
-        /**
-         * Returns the configured HipChat configuration instance
-         * @return The HipChat configuration instance
-         */
-        public HipChatConfiguration build()
-        {
-            return configuration;
-        }
     }
 }

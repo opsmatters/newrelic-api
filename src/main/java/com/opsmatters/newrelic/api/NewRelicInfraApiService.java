@@ -85,7 +85,7 @@ public class NewRelicInfraApiService extends NewRelicApiService
     /**
      * Builder to make NewRelicInfraApiService construction easier.
      */
-    public static class Builder extends NewRelicApiService.Builder
+    public static class Builder extends NewRelicApiService.ServiceBuilder<NewRelicInfraApiService, Builder>
     {
         /**
          * Default constructor.
@@ -109,26 +109,12 @@ public class NewRelicInfraApiService extends NewRelicApiService
         }
 
         /**
-         * Sets the port of the host to connect to.
-         * <P>
-         * The default port is 443.
-         * @param port The port of the host
+         * Returns this object.
          * @return This object
          */
-        public Builder port(int port)
+        @Override
+        protected Builder self()
         {
-            super.port(port);
-            return this;
-        }
-
-        /**
-         * Sets the API key used to authenticate the connection.
-         * @param key The API key
-         * @return This object
-         */
-        public Builder apiKey(String key)
-        {
-            super.apiKey(key);
             return this;
         }
 
@@ -136,6 +122,7 @@ public class NewRelicInfraApiService extends NewRelicApiService
          * Returns the configured infra API service instance
          * @return The infra API service instance
          */
+        @Override
         public NewRelicInfraApiService build()
         {
             return new NewRelicInfraApiService(hostname, port, provider);

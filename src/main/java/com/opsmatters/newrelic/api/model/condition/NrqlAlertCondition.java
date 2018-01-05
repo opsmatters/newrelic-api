@@ -17,6 +17,7 @@
 package com.opsmatters.newrelic.api.model.condition;
 
 import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Represents a New Relic NRQL alert condition.  
@@ -25,8 +26,31 @@ import java.util.List;
  */
 public class NrqlAlertCondition extends TermsCondition
 {
-    private String value_function;
+    @SerializedName("value_function")
+    private String valueFunction;
+
     private Nrql nrql;
+
+    /**
+     * Represents an NRQL alert condition value function.  
+     */
+    public enum ValueFunction
+    {
+        SINGLE_VALUE("single_value"),
+        SUM("sum");
+
+        ValueFunction(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
 
     /**
      * Default constructor.
@@ -36,30 +60,21 @@ public class NrqlAlertCondition extends TermsCondition
     }
     
     /**
-     * Constructor that takes a name.
-     * @param name The name of the alert condition
+     * Sets the value function of the alert condition.
+     * @param valueFunction The value function of the alert condition
      */
-    public NrqlAlertCondition(String name)
+    public void setValueFunction(String valueFunction)
     {
-        setName(name);
+        this.valueFunction = valueFunction;
     }
 
     /**
      * Sets the value function of the alert condition.
-     * @param value_function The value function of the alert condition
+     * @param valueFunction The value function of the alert condition
      */
-    public void setValueFunction(String value_function)
+    public void setValueFunction(ValueFunction valueFunction)
     {
-        this.value_function = value_function;
-    }
-
-    /**
-     * Sets the value function of the alert condition.
-     * @param value_function The value function of the alert condition
-     */
-    public void setValueFunction(ValueFunction value_function)
-    {
-        setValueFunction(value_function.value());
+        setValueFunction(valueFunction.value());
     }
 
     /**
@@ -68,7 +83,7 @@ public class NrqlAlertCondition extends TermsCondition
      */
     public String getValueFunction()
     {
-        return value_function;
+        return valueFunction;
     }
 
     /**
@@ -96,7 +111,7 @@ public class NrqlAlertCondition extends TermsCondition
     public String toString()
     {
         return "NrqlAlertCondition ["+super.toString()
-            +", value_function="+value_function
+            +", valueFunction="+valueFunction
             +", nrql="+nrql
             +"]";
     }
@@ -141,12 +156,12 @@ public class NrqlAlertCondition extends TermsCondition
 
         /**
          * Sets the value function of the alert condition.
-         * @param value_function The value function of the alert condition
+         * @param valueFunction The value function of the alert condition
          * @return This object
          */
-        public Builder valueFunction(String value_function)
+        public Builder valueFunction(String valueFunction)
         {
-            condition.setValueFunction(value_function);
+            condition.setValueFunction(valueFunction);
             return this;
         }
 

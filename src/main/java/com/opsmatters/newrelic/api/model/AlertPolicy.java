@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a New Relic alert policy.  
  * 
@@ -23,9 +25,24 @@ package com.opsmatters.newrelic.api.model;
  */
 public class AlertPolicy extends NamedEntity
 {
-    private String incident_preference;
-    private Long created_at;
-    private Long updated_at;
+    @SerializedName("incident_preference")
+    private String incidentPreference;
+
+    @SerializedName("created_at")
+    private Long createdAt;
+
+    @SerializedName("updated_at")
+    private Long updatedAt;
+
+    /**
+     * Represents an incident preference.  
+     */
+    public enum IncidentPreference
+    {
+        PER_POLICY,
+        PER_CONDITION,
+        PER_CONDITION_AND_TARGET;
+    }
 
     /**
      * Default constructor.
@@ -35,30 +52,21 @@ public class AlertPolicy extends NamedEntity
     }
    
     /**
-     * Constructor that takes a name.
-     * @param name The name of the policy
+     * Sets the incident preference of the policy.
+     * @param incidentPreference The incident preference of the policy
      */
-    public AlertPolicy(String name)
+    public void setIncidentPreference(String incidentPreference)
     {
-        setName(name);
+        this.incidentPreference = incidentPreference;
     }
 
     /**
      * Sets the incident preference of the policy.
-     * @param incident_preference The incident preference of the policy
+     * @param incidentPreference The incident preference of the policy
      */
-    public void setIncidentPreference(String incident_preference)
+    public void setIncidentPreference(IncidentPreference incidentPreference)
     {
-        this.incident_preference = incident_preference;
-    }
-
-    /**
-     * Sets the incident preference of the policy.
-     * @param incident_preference The incident preference of the policy
-     */
-    public void setIncidentPreference(IncidentPreference incident_preference)
-    {
-        setIncidentPreference(incident_preference.name());
+        setIncidentPreference(incidentPreference.name());
     }
 
     /**
@@ -67,7 +75,7 @@ public class AlertPolicy extends NamedEntity
      */
     public String getIncidentPreference()
     {
-        return incident_preference;
+        return incidentPreference;
     }
 
     /**
@@ -76,7 +84,7 @@ public class AlertPolicy extends NamedEntity
      */
     public long getCreatedAt()
     {
-        return created_at;
+        return createdAt;
     }
 
     /**
@@ -85,7 +93,7 @@ public class AlertPolicy extends NamedEntity
      */
     public long getUpdatedAt()
     {
-        return updated_at;
+        return updatedAt;
     }
 
     /**
@@ -95,9 +103,9 @@ public class AlertPolicy extends NamedEntity
     public String toString()
     {
         return "AlertPolicy ["+super.toString()
-            +", incident_preference="+incident_preference
-            +", created_at="+created_at
-            +", updated_at="+updated_at
+            +", incidentPreference="+incidentPreference
+            +", createdAt="+createdAt
+            +", updatedAt="+updatedAt
             +"]";
     }
 
@@ -130,12 +138,12 @@ public class AlertPolicy extends NamedEntity
 
         /**
          * Sets the incident preference of the alert policy.
-         * @param incident_preference The incident preference of the alert policy
+         * @param incidentPreference The incident preference of the alert policy
          * @return This object
          */
-        public Builder incidentPreference(String incident_preference)
+        public Builder incidentPreference(String incidentPreference)
         {
-            policy.setIncidentPreference(incident_preference);
+            policy.setIncidentPreference(incidentPreference);
             return this;
         }
 

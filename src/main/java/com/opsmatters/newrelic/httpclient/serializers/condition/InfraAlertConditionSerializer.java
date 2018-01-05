@@ -14,34 +14,34 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.serializers;
+package com.opsmatters.newrelic.httpclient.serializers.condition;
 
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.AlertChannel;
+import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 
 /**
- * Deserializer class for alert policies.
+ * Deserializer class for infrastructure alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertChannelSerializer implements JsonSerializer<AlertChannel>
+public class InfraAlertConditionSerializer implements JsonSerializer<InfraAlertCondition>
 {
     private static Gson gson = new Gson();
 
     /**
      * Gson invokes this call-back method during serialization when it encounters a field of the specified type.
-     * @param channel The alert channel being serialized
+     * @param condition The alert condition being serialized
      * @param type The type of the Object to deserialize to 
      * @param context The JSON serialization context
      * @return The JSON data that was serialized
      */
     @Override
-    public JsonElement serialize(AlertChannel channel, Type type, JsonSerializationContext context)
+    public JsonElement serialize(InfraAlertCondition condition, Type type, JsonSerializationContext context)
     {
-        JsonElement element = gson.toJsonTree(channel, type);
+        JsonElement element = gson.toJsonTree(condition, type);
         JsonObject obj = new JsonObject();
-        obj.add("channel", element);
+        obj.add("data", element);
         return obj;
     }
 }

@@ -23,6 +23,11 @@ package com.opsmatters.newrelic.api.model.channel;
  */
 public class CampfireConfiguration extends ChannelConfiguration
 {
+    /**
+     * The type of the channel configuration.
+     */
+    public static final ChannelType TYPE = ChannelType.CAMPFIRE;
+
     private String subdomain;
     private String token;
     private String room;
@@ -32,19 +37,9 @@ public class CampfireConfiguration extends ChannelConfiguration
      */
     public CampfireConfiguration()
     {
-        super("campfire");
+        super(TYPE.value());
     }
    
-    /**
-     * Constructor that takes a room.
-     * @param room The room
-     */
-    public CampfireConfiguration(String room)
-    {
-        this();
-        setRoom(room);
-    }
-
     /**
      * Sets the room of the alerts.
      * @param room The room of the alerts
@@ -110,64 +105,5 @@ public class CampfireConfiguration extends ChannelConfiguration
             +", token="+token
             +", subdomain="+subdomain
             +"]";
-    }
-
-    /**
-     * Returns a builder for the Campfire configuration.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    /**
-     * Builder to make Campfire configuration construction easier.
-     */
-    public static class Builder
-    {
-        private CampfireConfiguration configuration = new CampfireConfiguration();
-
-        /**
-         * Sets the room of the Campfire configuration.
-         * @param room The room of the alerts
-         * @return This object
-         */
-        public Builder room(String room)
-        {
-            configuration.setRoom(room);
-            return this;
-        }
-
-        /**
-         * Sets the token of the Campfire configuration.
-         * @param token The token of the alerts
-         * @return This object
-         */
-        public Builder token(String token)
-        {
-            configuration.setToken(token);
-            return this;
-        }
-
-        /**
-         * Sets the subdomain of the Campfire configuration.
-         * @param subdomain The subdomain of the alerts
-         * @return This object
-         */
-        public Builder subdomain(String subdomain)
-        {
-            configuration.setSubdomain(subdomain);
-            return this;
-        }
-
-        /**
-         * Returns the configured Campfire configuration instance
-         * @return The Campfire configuration instance
-         */
-        public CampfireConfiguration build()
-        {
-            return configuration;
-        }
     }
 }

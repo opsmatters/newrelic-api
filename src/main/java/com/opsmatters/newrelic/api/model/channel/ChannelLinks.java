@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.channel;
 
 import java.util.List;
 import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Represents a set of New Relic channel links.  
@@ -26,7 +27,8 @@ import java.util.ArrayList;
  */
 public class ChannelLinks
 {
-    private List<Integer> policy_ids = new ArrayList<Integer>();
+    @SerializedName("policy_ids")
+    private List<Integer> policyIds = new ArrayList<Integer>();
     
     /**
      * Default constructor.
@@ -41,8 +43,8 @@ public class ChannelLinks
      */
     public void setPolicyIds(List<Integer> policyIds)
     {
-        policy_ids.clear();
-        policy_ids.addAll(policyIds);
+        policyIds.clear();
+        policyIds.addAll(policyIds);
     }
 
     /**
@@ -51,7 +53,7 @@ public class ChannelLinks
      */
     public List<Integer> getPolicyIds()
     {
-        return policy_ids;
+        return policyIds;
     }
 
     /**
@@ -60,6 +62,6 @@ public class ChannelLinks
     @Override
     public String toString()
     {
-        return "ChannelLinks [policy_ids="+policy_ids+"]";
+        return "ChannelLinks [policyIds="+policyIds+"]";
     }
 }

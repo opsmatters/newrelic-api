@@ -16,6 +16,7 @@
 
 package com.opsmatters.newrelic.api.model.condition;
 
+import com.google.gson.annotations.SerializedName;
 import com.opsmatters.newrelic.api.model.NamedEntity;
 
 /**
@@ -26,7 +27,9 @@ import com.opsmatters.newrelic.api.model.NamedEntity;
 public abstract class BaseCondition extends NamedEntity
 {
     private Boolean enabled;
-    private String runbook_url;
+
+    @SerializedName("runbook_url")
+    private String runbookUrl;
     
     /**
      * Default constructor.
@@ -55,11 +58,11 @@ public abstract class BaseCondition extends NamedEntity
 
     /**
      * Sets the runbook URL of the alert condition.
-     * @param runbook_url The runbook URL of the alert condition
+     * @param runbookUrl The runbook URL of the alert condition
      */
-    public void setRunbookUrl(String runbook_url)
+    public void setRunbookUrl(String runbookUrl)
     {
-        this.runbook_url = runbook_url;
+        this.runbookUrl = runbookUrl;
     }
 
     /**
@@ -68,7 +71,7 @@ public abstract class BaseCondition extends NamedEntity
      */
     public String getRunbookUrl()
     {
-        return runbook_url;
+        return runbookUrl;
     }
 
     /**
@@ -79,6 +82,6 @@ public abstract class BaseCondition extends NamedEntity
     {
         return super.toString()
             +", enabled="+enabled
-            +", runbook_url="+runbook_url;
+            +", runbookUrl="+runbookUrl;
     }
 }

@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.model.channel;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a New Relic VictorOps channel configuration.  
  * 
@@ -23,27 +25,24 @@ package com.opsmatters.newrelic.api.model.channel;
  */
 public class VictorOpsConfiguration extends ChannelConfiguration
 {
+    /**
+     * The type of the channel configuration.
+     */
+    public static final ChannelType TYPE = ChannelType.VICTOROPS;
+
     private String key;
-    private String route_key;
+
+    @SerializedName("route_key")
+    private String routeKey;
 
     /**
      * Default constructor.
      */
     public VictorOpsConfiguration()
     {
-        super("victorops");
+        super(TYPE.value());
     }
    
-    /**
-     * Constructor that takes a route key.
-     * @param route_key The route key
-     */
-    public VictorOpsConfiguration(String route_key)
-    {
-        this();
-        setRouteKey(route_key);
-    }
-
     /**
      * Sets the key of the alerts.
      * @param key The key of the alerts
@@ -64,11 +63,11 @@ public class VictorOpsConfiguration extends ChannelConfiguration
 
     /**
      * Sets the route key of the alerts.
-     * @param route_key The route key of the alerts
+     * @param routeKey The route key of the alerts
      */
-    public void setRouteKey(String route_key)
+    public void setRouteKey(String routeKey)
     {
-        this.route_key = route_key;
+        this.routeKey = routeKey;
     }
 
     /**
@@ -77,7 +76,7 @@ public class VictorOpsConfiguration extends ChannelConfiguration
      */
     public String getRouteKey()
     {
-        return route_key;
+        return routeKey;
     }
 
     /**
@@ -88,55 +87,7 @@ public class VictorOpsConfiguration extends ChannelConfiguration
     {
         return "VictorOpsConfiguration ["+super.toString()
             +", key="+key
-            +", route_key="+route_key
+            +", routeKey="+routeKey
             +"]";
-    }
-
-    /**
-     * Returns a builder for the VictorOps configuration.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    /**
-     * Builder to make VictorOps configuration construction easier.
-     */
-    public static class Builder
-    {
-        private VictorOpsConfiguration configuration = new VictorOpsConfiguration();
-
-        /**
-         * Sets the key of the VictorOps configuration.
-         * @param key The key of the alerts
-         * @return This object
-         */
-        public Builder key(String key)
-        {
-            configuration.setKey(key);
-            return this;
-        }
-
-        /**
-         * Sets the route key of the VictorOps configuration.
-         * @param route_key The route key of the alerts
-         * @return This object
-         */
-        public Builder routeKey(String route_key)
-        {
-            configuration.setRouteKey(route_key);
-            return this;
-        }
-
-        /**
-         * Returns the configured VictorOps configuration instance
-         * @return The VictorOps configuration instance
-         */
-        public VictorOpsConfiguration build()
-        {
-            return configuration;
-        }
     }
 }

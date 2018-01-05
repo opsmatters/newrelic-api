@@ -16,6 +16,7 @@ The following New Relic APIs are currently supported:
 * Alerts Channels (List, Create, Delete)
 * Alerts Policies (List, Create, Update, Delete)
 * Alerts Policy Channels (Update, Delete)
+* Alerts Conditions (List, Create, Update, Delete)
 * Alerts NRQL Conditions (List, Create, Update, Delete)
 * Alerts Infrastructure Conditions (List, Create, Update, Delete)
 
@@ -24,7 +25,7 @@ Other APIs can be included on request.
 ## Prerequisites
 
 A New Relic account with an Admin user.
-The user needs to generate an [Admin API Key](https://docs.newrelic.com/docs/accounts-partnerships/accounts/account-setup/new-relic-rest-api-key-types) 
+The user needs to generate an [Admin API Key](https://docs.newrelic.com/docs/apis/rest-api-v2/getting-started/api-keys) 
 to provide read-write access via the [New Relic REST APIs](https://api.newrelic.com).
 The Admin API Key is referenced in this documentation as the parameter "YOUR_API_KEY".
 

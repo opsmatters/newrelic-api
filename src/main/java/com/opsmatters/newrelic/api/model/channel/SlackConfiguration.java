@@ -23,6 +23,11 @@ package com.opsmatters.newrelic.api.model.channel;
  */
 public class SlackConfiguration extends ChannelConfiguration
 {
+    /**
+     * The type of the channel configuration.
+     */
+    public static final ChannelType TYPE = ChannelType.SLACK;
+
     private String url;
     private String channel;
 
@@ -31,19 +36,9 @@ public class SlackConfiguration extends ChannelConfiguration
      */
     public SlackConfiguration()
     {
-        super("slack");
+        super(TYPE.value());
     }
    
-    /**
-     * Constructor that takes a channel.
-     * @param channel The channel
-     */
-    public SlackConfiguration(String channel)
-    {
-        this();
-        setChannel(channel);
-    }
-
     /**
      * Sets the Slack channel for the alerts.
      * @param channel The channel for the alerts
@@ -90,53 +85,5 @@ public class SlackConfiguration extends ChannelConfiguration
             +", channel="+channel
             +", url="+url
             +"]";
-    }
-
-    /**
-     * Returns a builder for the Slack configuration.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    /**
-     * Builder to make Slack configuration construction easier.
-     */
-    public static class Builder
-    {
-        private SlackConfiguration configuration = new SlackConfiguration();
-
-        /**
-         * Sets the channel of the Slack configuration.
-         * @param channel The channel of the alerts
-         * @return This object
-         */
-        public Builder channel(String channel)
-        {
-            configuration.setChannel(channel);
-            return this;
-        }
-
-        /**
-         * Sets the URL of the Slack configuration.
-         * @param url The url of the alerts
-         * @return This object
-         */
-        public Builder url(String url)
-        {
-            configuration.setUrl(url);
-            return this;
-        }
-
-        /**
-         * Returns the configured Slack configuration instance
-         * @return The Slack configuration instance
-         */
-        public SlackConfiguration build()
-        {
-            return configuration;
-        }
     }
 }

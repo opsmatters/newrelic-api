@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model.condition;
+package com.opsmatters.newrelic.api.model.channel;
 
 /**
- * Represents a New Relic term priority.  
+ * Represents the available New Relic channel types.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public enum Priority
+public enum ChannelType
 {
-    CRITICAL("critical"),
-    WARNING("warning");
+    USER("user"),
+    EMAIL("email"),
+    SLACK("slack"),
+    HIPCHAT("hipchat"),
+    OPSGENIE("opsgenie"),
+    PAGERDUTY("pagerduty"),
+    VICTOROPS("victorops"),
+    CAMPFIRE("campfire"),
+    WEBHOOK("webhook");
 
-    Priority(String value)
+    ChannelType(String value)
     {
         this.value = value;
     }
@@ -34,6 +41,22 @@ public enum Priority
     public String value()
     {
         return value;
+    }
+
+    /**
+     * Returns the type for the given value.
+     * @param value The type value
+     * @return The type for the given value
+     */
+    public static ChannelType fromValue(String value)
+    {
+        ChannelType[] types = values();
+        for(ChannelType type : types)
+        {
+            if(type.value().equals(value))
+                return type;
+        }
+        return null;
     }
 
     private String value;

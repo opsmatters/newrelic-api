@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.model.condition;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a New Relic alert condition term.  
  * 
@@ -27,7 +29,55 @@ public class Term
     private String operator;
     private String priority;
     private String threshold;
-    private String time_function;
+
+    @SerializedName("time_function")
+    private String timeFunction;
+
+    /**
+     * Represents a term priority.  
+     */
+    public enum Priority
+    {
+        CRITICAL("critical"),
+        WARNING("warning");
+
+        Priority(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents a term duration (in minutes).  
+     */
+    public enum Duration
+    {
+        MINUTES_5(5),
+        MINUTES_10(10),
+        MINUTES_15(15),
+        MINUTES_30(30),
+        MINUTES_60(60),
+        MINUTES_120(120);
+
+        Duration(int value)
+        {
+            this.value = value;
+        }
+
+        public int value()
+        {
+            return value;
+        }
+
+        private int value;
+    }
 
     /**
      * Default constructor.
@@ -51,7 +101,16 @@ public class Term
      */
     public void setDuration(int duration)
     {
-        this.duration = Integer.toString(duration);
+        setDuration(Integer.toString(duration));
+    }
+
+    /**
+     * Sets the duration of the term in minutes.
+     * @param duration The duration of the term
+     */
+    public void setDuration(Duration duration)
+    {
+        setDuration(duration.value());
     }
 
     /**
@@ -132,7 +191,16 @@ public class Term
      */
     public void setThreshold(int threshold)
     {
-        this.threshold = Integer.toString(threshold);
+        setThreshold(Integer.toString(threshold));
+    }
+
+    /**
+     * Sets the threshold of the term.
+     * @param threshold The threshold of the term
+     */
+    public void setThreshold(double threshold)
+    {
+        setThreshold(Double.toString(threshold));
     }
 
     /**
@@ -146,20 +214,20 @@ public class Term
 
     /**
      * Sets the time function of the term.
-     * @param time_function The time function of the term
+     * @param timeFunction The time function of the term
      */
-    public void setTimeFunction(String time_function)
+    public void setTimeFunction(String timeFunction)
     {
-        this.time_function = time_function;
+        this.timeFunction = timeFunction;
     }
 
     /**
      * Sets the time function of the term.
-     * @param time_function The time function of the term
+     * @param timeFunction The time function of the term
      */
-    public void setTimeFunction(TimeFunction time_function)
+    public void setTimeFunction(TimeFunction timeFunction)
     {
-        setTimeFunction(time_function.value());
+        setTimeFunction(timeFunction.value());
     }
 
     /**
@@ -168,7 +236,7 @@ public class Term
      */
     public String getTimeFunction()
     {
-        return time_function;
+        return timeFunction;
     }
     
     /**
@@ -181,7 +249,7 @@ public class Term
             +", operator="+operator
             +", priority="+priority
             +", threshold="+threshold
-            +", time_function="+time_function
+            +", timeFunction="+timeFunction
             +"]";
     }
 
@@ -218,6 +286,17 @@ public class Term
          * @return This object
          */
         public Builder duration(int duration)
+        {
+            term.setDuration(duration);
+            return this;
+        }
+
+        /**
+         * Sets the duration of the term in minutes.
+         * @param duration The duration of the term
+         * @return This object
+         */
+        public Builder duration(Duration duration)
         {
             term.setDuration(duration);
             return this;
@@ -318,13 +397,24 @@ public class Term
         }
 
         /**
-         * Sets the time function of the term.
-         * @param time_function The time function of the term
+         * Sets the threshold of the term.
+         * @param threshold The threshold of the term
          * @return This object
          */
-        public Builder timeFunction(String time_function)
+        public Builder threshold(double threshold)
         {
-            term.setTimeFunction(time_function);
+            term.setThreshold(threshold);
+            return this;
+        }
+
+        /**
+         * Sets the time function of the term.
+         * @param timeFunction The time function of the term
+         * @return This object
+         */
+        public Builder timeFunction(String timeFunction)
+        {
+            term.setTimeFunction(timeFunction);
             return this;
         }
 

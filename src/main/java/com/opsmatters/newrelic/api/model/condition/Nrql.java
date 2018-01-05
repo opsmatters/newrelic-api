@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.model.condition;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a New Relic nrql.  
  * 
@@ -24,22 +26,15 @@ package com.opsmatters.newrelic.api.model.condition;
 public class Nrql
 {
     private String query;
-    private String since_value;
+
+    @SerializedName("since_value")
+    private String sinceValue;
     
     /**
      * Default constructor.
      */
     public Nrql()
     {
-    }
-    
-    /**
-     * Constructor that takes a query.
-     * @param query The query of the nrql
-     */
-    public Nrql(String query)
-    {
-        this.query = query;
     }
     
     /**
@@ -62,20 +57,20 @@ public class Nrql
 
     /**
      * Sets the since value of the nrql in minutes.
-     * @param since_value The since value of the nrql
+     * @param sinceValue The since value of the nrql
      */
-    public void setSinceValue(String since_value)
+    public void setSinceValue(String sinceValue)
     {
-        this.since_value = since_value;
+        this.sinceValue = sinceValue;
     }
 
     /**
      * Sets the since value of the nrql in minutes.
-     * @param since_value The since value of the nrql
+     * @param sinceValue The since value of the nrql
      */
-    public void setSinceValue(int since_value)
+    public void setSinceValue(int sinceValue)
     {
-        this.since_value = Integer.toString(since_value);
+        setSinceValue(Integer.toString(sinceValue));
     }
 
     /**
@@ -84,7 +79,7 @@ public class Nrql
      */
     public String getSinceValue()
     {
-        return since_value;
+        return sinceValue;
     }
     
     /**
@@ -94,7 +89,7 @@ public class Nrql
     public String toString()
     {
         return "Nrql [query="+query
-            +", since_value="+since_value
+            +", sinceValue="+sinceValue
             +"]";
     }
 
@@ -127,23 +122,23 @@ public class Nrql
 
         /**
          * Sets the since value of the nrql in minutes.
-         * @param since_value The since value of the nrql
+         * @param sinceValue The since value of the nrql
          * @return This object
          */
-        public Builder sinceValue(String since_value)
+        public Builder sinceValue(String sinceValue)
         {
-            nrql.setSinceValue(since_value);
+            nrql.setSinceValue(sinceValue);
             return this;
         }
 
         /**
          * Sets the since value of the nrql in minutes.
-         * @param since_value The since value of the nrql
+         * @param sinceValue The since value of the nrql
          * @return This object
          */
-        public Builder sinceValue(int since_value)
+        public Builder sinceValue(int sinceValue)
         {
-            nrql.setSinceValue(since_value);
+            nrql.setSinceValue(sinceValue);
             return this;
         }
 

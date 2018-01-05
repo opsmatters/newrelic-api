@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.channel;
 
 import java.util.List;
-import com.opsmatters.newrelic.api.model.channel.ChannelConfiguration;
+import com.opsmatters.newrelic.api.model.NamedEntity;
 
 /**
  * Represents a New Relic alert channel.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertChannel extends NamedEntity
+public abstract class AlertChannel extends NamedEntity
 {
     private String type;
     private ChannelConfiguration configuration;
@@ -37,15 +37,6 @@ public class AlertChannel extends NamedEntity
     {
     }
    
-    /**
-     * Constructor that takes a name.
-     * @param name The name of the channel
-     */
-    public AlertChannel(String name)
-    {
-        setName(name);
-    }
-
     /**
      * Sets the type of the channel.
      * @param type The type of the channel
@@ -115,50 +106,39 @@ public class AlertChannel extends NamedEntity
     @Override
     public String toString()
     {
-        return "AlertChannel ["+super.toString()
+        return super.toString()
             +", type="+type
             +", configuration="+configuration
-            +", links="+links
-            +"]";
-    }
-
-    /**
-     * Returns a builder for the alert channel.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
+            +", links="+links;
     }
 
     /**
      * Builder to make alert channel construction easier.
      */
-    public static class Builder
+    protected abstract static class Builder<T extends AlertChannel, B extends Builder<T,B>>
     {
-        private AlertChannel channel = new AlertChannel();
+        protected AlertChannel channel;
+
+        /**
+         * Sets the alert channel.
+         * @param channel The alert channel
+         * @return This object
+         */
+        public B channel(AlertChannel channel)
+        {
+            this.channel = channel;
+            return self();
+        }
 
         /**
          * Sets the name of the alert channel.
          * @param name The name of the alert channel
          * @return This object
          */
-        public Builder name(String name)
+        public B name(String name)
         {
             channel.setName(name);
-            return this;
-        }
-
-        /**
-         * Sets the configuration of the alert channel.
-         * @param configuration The configuration of the alert channel
-         * @return This object
-         */
-        public Builder configuration(ChannelConfiguration configuration)
-        {
-            channel.setConfiguration(configuration);
-            channel.setType(configuration != null ? configuration.getType() : null);
-            return this;
+            return self();
         }
 
         /**
@@ -166,19 +146,22 @@ public class AlertChannel extends NamedEntity
          * @param policyIds The policyIds of the alert channel
          * @return This object
          */
-        public Builder policyIds(List<Integer> policyIds)
+        public B policyIds(List<Integer> policyIds)
         {
             channel.setPolicyIds(policyIds);
-            return this;
+            return self();
         }
+
+        /**
+         * Returns this object.
+         * @return This object
+         */
+        protected abstract B self();
 
         /**
          * Returns the configured alert channel instance
          * @return The alert channel instance
          */
-        public AlertChannel build()
-        {
-            return channel;
-        }
+        public abstract T build();
     }
 }

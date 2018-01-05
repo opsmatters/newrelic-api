@@ -22,10 +22,11 @@ import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ws.rs.core.GenericType;
 import com.opsmatters.newrelic.api.model.AlertPolicy;
-import com.opsmatters.newrelic.api.model.AlertChannel;
 import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
-import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
+import com.opsmatters.newrelic.api.model.channel.AlertChannel;
+import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -44,11 +45,14 @@ public class BaseFluent
 
     protected static final GenericType<AlertPolicyChannel> ALERT_POLICY_CHANNEL = new GenericType<AlertPolicyChannel>(){};
 
-    protected static final GenericType<InfraAlertCondition> INFRA_ALERT_CONDITION = new GenericType<InfraAlertCondition>(){};
-    protected static final GenericType<Collection<InfraAlertCondition>> INFRA_ALERT_CONDITIONS = new GenericType<Collection<InfraAlertCondition>>(){};
+    protected static final GenericType<AlertCondition> ALERT_CONDITION = new GenericType<AlertCondition>(){};
+    protected static final GenericType<Collection<AlertCondition>> ALERT_CONDITIONS = new GenericType<Collection<AlertCondition>>(){};
 
     protected static final GenericType<NrqlAlertCondition> NRQL_ALERT_CONDITION = new GenericType<NrqlAlertCondition>(){};
     protected static final GenericType<Collection<NrqlAlertCondition>> NRQL_ALERT_CONDITIONS = new GenericType<Collection<NrqlAlertCondition>>(){};
+
+    protected static final GenericType<InfraAlertCondition> INFRA_ALERT_CONDITION = new GenericType<InfraAlertCondition>(){};
+    protected static final GenericType<Collection<InfraAlertCondition>> INFRA_ALERT_CONDITIONS = new GenericType<Collection<InfraAlertCondition>>(){};
 
     protected HttpContext HTTP;
     private NewRelicApiService apiService;

@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.deserializers;
+package com.opsmatters.newrelic.httpclient.deserializers.condition;
 
 import java.lang.reflect.Type;
 import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.InfraMetricAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.InfraHostNotReportingAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.InfraProcessRunningAlertCondition;
 
 /**
  * Deserializer class for infrastructure alert conditions.
@@ -43,7 +46,21 @@ public class InfraAlertConditionDeserializer implements JsonDeserializer<InfraAl
         JsonObject obj = element.getAsJsonObject();
         JsonElement condition = obj.get("data");
         if(condition != null && condition.isJsonObject())
-            return gson.fromJson(condition, InfraAlertCondition.class);
-        return gson.fromJson(element, InfraAlertCondition.class);
+        {
+            JsonElement conditionType = condition.getAsJsonObject().get("type");
+            if(conditionType != null)
+            {
+                switch(InfraAlertCondition.ConditionType.fromValue(conditionType.getAsString()))
+                {
+                    case METRIC:
+                        return gson.fromJson(condition, InfraMetricAlertCondition.class);
+                    case HOST_NOT_REPORTING:
+                        return gson.fromJson(condition, InfraHostNotReportingAlertCondition.class);
+                    case PROCESS_RUNNING:
+                        return gson.fromJson(condition, InfraProcessRunningAlertCondition.class);
+                }
+            }
+        }
+        return null;
     }
 }

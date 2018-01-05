@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.model.channel;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents a New Relic Email channel configuration.  
  * 
@@ -23,43 +25,40 @@ package com.opsmatters.newrelic.api.model.channel;
  */
 public class EmailConfiguration extends ChannelConfiguration
 {
-    private String include_json_attachment;
+    /**
+     * The type of the channel configuration.
+     */
+    public static final ChannelType TYPE = ChannelType.EMAIL;
+
     private String recipients;
+
+    @SerializedName("include_json_attachment")
+    private String includeJsonAttachment;
 
     /**
      * Default constructor.
      */
     public EmailConfiguration()
     {
-        super("email");
+        super(TYPE.value());
     }
    
     /**
-     * Constructor that takes a list of recipients.
-     * @param recipients The list of recipients
+     * Set to <CODE>true</CODE> if the alerts should include the data in JSON format.
+     * @param includeJsonAttachment <CODE>true</CODE> if the alerts should include a JSON attachment
      */
-    public EmailConfiguration(String recipients)
+    public void setIncludeJsonAttachment(String includeJsonAttachment)
     {
-        this();
-        setRecipients(recipients);
+        this.includeJsonAttachment = includeJsonAttachment;
     }
 
     /**
      * Set to <CODE>true</CODE> if the alerts should include the data in JSON format.
-     * @param include_json_attachment <CODE>true</CODE> if the alerts should include a JSON attachment
+     * @param includeJsonAttachment <CODE>true</CODE> if the alerts should include a JSON attachment
      */
-    public void setIncludeJsonAttachment(String include_json_attachment)
+    public void setIncludeJsonAttachment(boolean includeJsonAttachment)
     {
-        this.include_json_attachment = include_json_attachment;
-    }
-
-    /**
-     * Set to <CODE>true</CODE> if the alerts should include the data in JSON format.
-     * @param include_json_attachment <CODE>true</CODE> if the alerts should include a JSON attachment
-     */
-    public void setIncludeJsonAttachment(boolean include_json_attachment)
-    {
-        this.include_json_attachment = Boolean.toString(include_json_attachment);
+        this.includeJsonAttachment = Boolean.toString(includeJsonAttachment);
     }
 
     /**
@@ -68,7 +67,7 @@ public class EmailConfiguration extends ChannelConfiguration
      */
     public String getIncludeJsonAttachment()
     {
-        return include_json_attachment;
+        return includeJsonAttachment;
     }
 
     /**
@@ -97,55 +96,7 @@ public class EmailConfiguration extends ChannelConfiguration
     {
         return "EmailConfiguration ["+super.toString()
             +", recipients="+recipients
-            +", include_json_attachment="+include_json_attachment
+            +", includeJsonAttachment="+includeJsonAttachment
             +"]";
-    }
-
-    /**
-     * Returns a builder for the Email configuration.
-     * @return The builder instance.
-     */
-    public static Builder builder()
-    {
-        return new Builder();
-    }
-
-    /**
-     * Builder to make Email configuration construction easier.
-     */
-    public static class Builder
-    {
-        private EmailConfiguration configuration = new EmailConfiguration();
-
-        /**
-         * Sets the recipients of the Email configuration.
-         * @param recipients The recipients of the alerts
-         * @return This object
-         */
-        public Builder recipients(String recipients)
-        {
-            configuration.setRecipients(recipients);
-            return this;
-        }
-
-        /**
-         * Set to <CODE>true</CODE> if the alerts should include the data in JSON format.
-         * @param include_json_attachment <CODE>true</CODE> if the alerts should include a JSON attachment
-         * @return This object
-         */
-        public Builder includeJsonAttachment(boolean include_json_attachment)
-        {
-            configuration.setIncludeJsonAttachment(include_json_attachment);
-            return this;
-        }
-
-        /**
-         * Returns the configured Email configuration instance
-         * @return The Email configuration instance
-         */
-        public EmailConfiguration build()
-        {
-            return configuration;
-        }
     }
 }
