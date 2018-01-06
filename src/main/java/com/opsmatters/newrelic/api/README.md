@@ -51,6 +51,7 @@ EmailChannel c = EmailChannel.builder()
     .recipients("alerts@test.com")
     .includeJsonAttachment(true)
     .build();
+
 AlertChannel channel = api.alertChannels().create(c).get();
 ```
 The alert channel returned includes all the additional fields that were populated by the server on creation eg, "id", "links".
@@ -78,6 +79,7 @@ AlertPolicy p = AlertPolicy.builder()
     .name("test-policy")
     .perPolicyIncidentPreference()
     .build();
+
 AlertPolicy policy = api.alertPolicies().create(p).get();
 ```
 The alert policy returned includes all the additional fields that were populated by the server on creation eg, "id", "created_at".
@@ -109,6 +111,7 @@ Term term = Term.builder()
     .allTimeFunction()
     .threshold(0.7)
     .build();
+
 AlertCondition c = ApmAppAlertCondition.builder()
     .name("apdex-application")
     .metric(ApmAppAlertCondition.Metric.APDEX)
@@ -117,6 +120,7 @@ AlertCondition c = ApmAppAlertCondition.builder()
     .addTerm(term)
     .enabled(true)
     .build();
+
 AlertCondition condition = api.alertConditions().create(policy.getId(), c).get();
 ```
 The APM alert condition returned includes all the additional fields that were populated by the server on creation eg, "id".
@@ -136,10 +140,12 @@ Term term = Term.builder()
     .allTimeFunction()
     .threshold(80)
     .build();
+
 Nrql nrql = Nrql.builder()
     .query("SELECT average(cpuPercent) from SystemSample WHERE hostname like 'ip-%'")
     .sinceValue(3)
     .build();
+
 NrqlAlertCondition c = NrqlAlertCondition.builder()
     .name("high-avg-cpu-used-error")
     .singleValueFunction()
@@ -147,6 +153,7 @@ NrqlAlertCondition c = NrqlAlertCondition.builder()
     .nrql(nrql)
     .enabled(true)
     .build();
+
 NrqlAlertCondition condition = api.nrqlAlertConditions().create(policy.getId(), c).get();
 ```
 The NRQL alert condition returned includes all the additional fields that were populated by the server on creation eg, "id".
@@ -166,6 +173,7 @@ InfraAlertCondition c = InfraHostNotReportingAlertCondition.builder()
     .criticalThreshold(new Threshold(10))
     .enabled(true)
     .build();
+
 InfraAlertCondition condition = infraApi.infraAlertConditions().create(c).get();
 ```
 The infrastructure alert condition returned includes all the additional fields that were populated by the server on creation eg, "id" and "created_at_epoch_millis".
