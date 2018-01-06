@@ -71,4 +71,47 @@ public abstract class TermsCondition extends BaseCondition
         return super.toString()
             +", terms="+terms;
     }
+
+    /**
+     * Builder to make terms condition construction easier.
+     */
+    protected abstract static class Builder<T extends TermsCondition, B extends Builder<T,B>>
+        extends BaseCondition.Builder<T,B>
+    {
+        private TermsCondition condition;
+
+        /**
+         * Sets the alert condition.
+         * @param condition The alert condition
+         * @return This object
+         */
+        public B condition(TermsCondition condition)
+        {
+            this.condition = condition;
+            super.condition(condition);
+            return self();
+        }
+
+        /**
+         * Sets the terms of the alert condition.
+         * @param terms The terms of the alert condition
+         * @return This object
+         */
+        public B terms(List<Term> terms)
+        {
+            condition.setTerms(terms);
+            return self();
+        }
+
+        /**
+         * Adds the term to the alert condition.
+         * @param term The term to be added
+         * @return This object
+         */
+        public B addTerm(Term term)
+        {
+            condition.addTerm(term);
+            return self();
+        }
+    }
 }

@@ -260,8 +260,9 @@ public abstract class AlertCondition extends MetricCondition
      * Builder to make alert condition construction easier.
      */
     protected abstract static class Builder<T extends AlertCondition, B extends Builder<T,B>>
+        extends MetricCondition.Builder<T,B>
     {
-        protected AlertCondition condition;
+        private AlertCondition condition;
 
         /**
          * Sets the alert condition.
@@ -271,39 +272,7 @@ public abstract class AlertCondition extends MetricCondition
         public B condition(AlertCondition condition)
         {
             this.condition = condition;
-            return self();
-        }
-
-        /**
-         * Sets the name of the alert condition.
-         * @param name The name of the alert condition
-         * @return This object
-         */
-        public B name(String name)
-        {
-            condition.setName(name);
-            return self();
-        }
-
-        /**
-         * Set to <CODE>true</CODE> if the alert condition is enabled.
-         * @param enabled <CODE>true</CODE> if the alert condition is enabled
-         * @return This object
-         */
-        public B enabled(boolean enabled)
-        {
-            condition.setEnabled(enabled);
-            return self();
-        }
-
-        /**
-         * Sets the metric of the alert condition.
-         * @param metric The metric of the alert condition
-         * @return This object
-         */
-        public B metric(String metric)
-        {
-            condition.setMetric(metric);
+            super.condition(condition);
             return self();
         }
 
@@ -370,61 +339,5 @@ public abstract class AlertCondition extends MetricCondition
             condition.setViolationCloseTimer(violationCloseTimer);
             return self();
         }
-
-        /**
-         * Sets the terms of the alert condition.
-         * @param terms The terms of the alert condition
-         * @return This object
-         */
-        public B terms(List<Term> terms)
-        {
-            condition.setTerms(terms);
-            return self();
-        }
-
-        /**
-         * Adds the term to the alert condition.
-         * @param term The term to be added
-         * @return This object
-         */
-        public B addTerm(Term term)
-        {
-            condition.addTerm(term);
-            return self();
-        }
-
-        /**
-         * Sets the entities of the alert condition.
-         * @param entities The entities of the alert condition
-         * @return This object
-         */
-        public B entities(List<Long> entities)
-        {
-            condition.setEntities(entities);
-            return self();
-        }
-
-        /**
-         * Adds the entity to the alert condition.
-         * @param entity The entity to be added
-         * @return This object
-         */
-        public B addEntity(long entity)
-        {
-            condition.addEntity(entity);
-            return self();
-        }
-
-        /**
-         * Returns this object.
-         * @return This object
-         */
-        protected abstract B self();
-
-        /**
-         * Returns the configured alert channel instance
-         * @return The alert channel instance
-         */
-        public abstract T build();
     }
 }

@@ -84,4 +84,57 @@ public abstract class BaseCondition extends NamedEntity
             +", enabled="+enabled
             +", runbookUrl="+runbookUrl;
     }
+
+    /**
+     * Builder to make condition construction easier.
+     */
+    protected abstract static class Builder<T extends BaseCondition, B extends Builder<T,B>>
+    {
+        private BaseCondition condition;
+
+        /**
+         * Sets the alert condition.
+         * @param condition The alert condition
+         * @return This object
+         */
+        public B condition(BaseCondition condition)
+        {
+            this.condition = condition;
+            return self();
+        }
+
+        /**
+         * Sets the name of the alert condition.
+         * @param name The name of the alert condition
+         * @return This object
+         */
+        public B name(String name)
+        {
+            condition.setName(name);
+            return self();
+        }
+
+        /**
+         * Set to <CODE>true</CODE> if the alert condition is enabled.
+         * @param enabled <CODE>true</CODE> if the alert condition is enabled
+         * @return This object
+         */
+        public B enabled(boolean enabled)
+        {
+            condition.setEnabled(enabled);
+            return self();
+        }
+
+        /**
+         * Returns this object.
+         * @return This object
+         */
+        protected abstract B self();
+
+        /**
+         * Returns the configured alert channel instance
+         * @return The alert channel instance
+         */
+        public abstract T build();
+    }
 }

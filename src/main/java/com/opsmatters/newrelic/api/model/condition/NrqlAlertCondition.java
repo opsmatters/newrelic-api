@@ -117,7 +117,7 @@ public class NrqlAlertCondition extends TermsCondition
     }
 
     /**
-     * Returns a builder for the alert condition.
+     * Returns a builder for the NRQL alert condition.
      * @return The builder instance.
      */
     public static Builder builder()
@@ -126,32 +126,18 @@ public class NrqlAlertCondition extends TermsCondition
     }
 
     /**
-     * Builder to make alert condition construction easier.
+     * Builder to make NRQL alert condition construction easier.
      */
-    public static class Builder
+    public static class Builder extends TermsCondition.Builder<NrqlAlertCondition, Builder>
     {
         private NrqlAlertCondition condition = new NrqlAlertCondition();
 
         /**
-         * Sets the name of the alert condition.
-         * @param name The name of the alert condition
-         * @return This object
+         * Default constructor.
          */
-        public Builder name(String name)
+        public Builder()
         {
-            condition.setName(name);
-            return this;
-        }
-
-        /**
-         * Set to <CODE>true</CODE> if the alert condition is enabled.
-         * @param enabled <CODE>true</CODE> if the alert condition is enabled
-         * @return This object
-         */
-        public Builder enabled(boolean enabled)
-        {
-            condition.setEnabled(enabled);
-            return this;
+            condition(condition);
         }
 
         /**
@@ -186,28 +172,6 @@ public class NrqlAlertCondition extends TermsCondition
         }
 
         /**
-         * Sets the terms of the alert condition.
-         * @param terms The terms of the alert condition
-         * @return This object
-         */
-        public Builder terms(List<Term> terms)
-        {
-            condition.setTerms(terms);
-            return this;
-        }
-
-        /**
-         * Adds the term to the alert condition.
-         * @param term The term to be added
-         * @return This object
-         */
-        public Builder addTerm(Term term)
-        {
-            condition.addTerm(term);
-            return this;
-        }
-
-        /**
          * Sets the nrql of the alert condition.
          * @param nrql The nrql of the alert condition
          * @return This object
@@ -219,9 +183,20 @@ public class NrqlAlertCondition extends TermsCondition
         }
 
         /**
+         * Returns this object.
+         * @return This object
+         */
+        @Override
+        protected Builder self()
+        {
+            return this;
+        }
+
+        /**
          * Returns the configured alert condition instance
          * @return The alert condition instance
          */
+        @Override
         public NrqlAlertCondition build()
         {
             return condition;

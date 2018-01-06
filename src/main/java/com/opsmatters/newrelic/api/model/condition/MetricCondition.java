@@ -103,4 +103,58 @@ public abstract class MetricCondition extends TermsCondition
             +", metric="+metric
             +", entities="+entities;
     }
+
+    /**
+     * Builder to make metric condition construction easier.
+     */
+    protected abstract static class Builder<T extends MetricCondition, B extends Builder<T,B>>
+        extends TermsCondition.Builder<T,B>
+    {
+        private MetricCondition condition;
+
+        /**
+         * Sets the alert condition.
+         * @param condition The alert condition
+         * @return This object
+         */
+        public B condition(MetricCondition condition)
+        {
+            this.condition = condition;
+            super.condition(condition);
+            return self();
+        }
+
+        /**
+         * Sets the metric of the alert condition.
+         * @param metric The metric of the alert condition
+         * @return This object
+         */
+        public B metric(String metric)
+        {
+            condition.setMetric(metric);
+            return self();
+        }
+
+        /**
+         * Sets the entities of the alert condition.
+         * @param entities The entities of the alert condition
+         * @return This object
+         */
+        public B entities(List<Long> entities)
+        {
+            condition.setEntities(entities);
+            return self();
+        }
+
+        /**
+         * Adds the entity to the alert condition.
+         * @param entity The entity to be added
+         * @return This object
+         */
+        public B addEntity(long entity)
+        {
+            condition.addEntity(entity);
+            return self();
+        }
+    }
 }

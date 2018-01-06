@@ -236,11 +236,12 @@ public abstract class InfraAlertCondition extends BaseCondition
     }
 
     /**
-     * Builder to make alert condition construction easier.
+     * Builder to make infra alert condition construction easier.
      */
     protected abstract static class Builder<T extends InfraAlertCondition, B extends Builder<T,B>>
+        extends BaseCondition.Builder<T,B>
     {
-        protected InfraAlertCondition condition;
+        private InfraAlertCondition condition;
 
         /**
          * Sets the alert condition.
@@ -250,39 +251,7 @@ public abstract class InfraAlertCondition extends BaseCondition
         public B condition(InfraAlertCondition condition)
         {
             this.condition = condition;
-            return self();
-        }
-
-        /**
-         * Sets the name of the alert condition.
-         * @param name The name of the alert condition
-         * @return This object
-         */
-        public B name(String name)
-        {
-            condition.setName(name);
-            return self();
-        }
-
-        /**
-         * Sets the type of the alert condition.
-         * @param type The type of the alert condition
-         * @return This object
-         */
-        public B type(String type)
-        {
-            condition.setType(type);
-            return self();
-        }
-
-        /**
-         * Set to <CODE>true</CODE> if the alert condition is enabled.
-         * @param enabled <CODE>true</CODE> if the alert condition is enabled
-         * @return This object
-         */
-        public B enabled(boolean enabled)
-        {
-            condition.setEnabled(enabled);
+            super.condition(condition);
             return self();
         }
 
@@ -340,17 +309,5 @@ public abstract class InfraAlertCondition extends BaseCondition
             condition.setWarningThreshold(warningThreshold);
             return self();
         }
-
-        /**
-         * Returns this object.
-         * @return This object
-         */
-        protected abstract B self();
-
-        /**
-         * Returns the configured alert channel instance
-         * @return The alert channel instance
-         */
-        public abstract T build();
     }
 }

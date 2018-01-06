@@ -117,7 +117,7 @@ public abstract class AlertChannel extends NamedEntity
      */
     protected abstract static class Builder<T extends AlertChannel, B extends Builder<T,B>>
     {
-        protected AlertChannel channel;
+        private AlertChannel channel;
 
         /**
          * Sets the alert channel.
