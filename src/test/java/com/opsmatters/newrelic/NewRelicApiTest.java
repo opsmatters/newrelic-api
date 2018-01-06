@@ -53,9 +53,9 @@ public class NewRelicApiTest
     private String nrqlConditionName = "test-nrql-condition";
     private String hostConditionName = "test-host-condition";
     private String whereClause = "env=prod";
-    private String email = "info@opsmatters.com";
+    private String email = "alerts@test.com";
     private String channel = "#enquiries";
-    private String webhookUrl = "https://hooks.slack.com/services/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";
+    private String webhookUrl = "https://hooks.slack.com/services/T8LVC2SGM/B8M02K7yy/k7SrSQGoluE2olG3LpmH4sxx";
 
     @Test
     public void testChannelsAndPolicy()
