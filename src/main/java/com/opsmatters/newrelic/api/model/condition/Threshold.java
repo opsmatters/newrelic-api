@@ -25,7 +25,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Threshold
 {
-    private String value;
+    private Integer value;
 
     @SerializedName("duration_minutes")
     private Integer durationMinutes;
@@ -53,34 +53,16 @@ public class Threshold
      * Sets the value of the threshold.
      * @param value The value of the threshold
      */
-    public void setValue(String value)
-    {
-        this.value = value;
-    }
-
-    /**
-     * Sets the value of the threshold.
-     * @param value The value of the threshold
-     */
     public void setValue(int value)
     {
-        setValue(Integer.toString(value));
-    }
-
-    /**
-     * Sets the value of the threshold.
-     * @param value The value of the threshold
-     */
-    public void setValue(double value)
-    {
-        setValue(Double.toString(value));
+        this.value = value;
     }
 
     /**
      * Returns the value of the threshold.
      * @return The value of the threshold
      */
-    public String getValue()
+    public int getValue()
     {
         return value;
     }
@@ -175,29 +157,7 @@ public class Threshold
          * @param value The value of the threshold
          * @return This object
          */
-        public Builder value(String value)
-        {
-            threshold.setValue(value);
-            return this;
-        }
-
-        /**
-         * Sets the value of the threshold.
-         * @param value The value of the threshold
-         * @return This object
-         */
         public Builder value(int value)
-        {
-            threshold.setValue(value);
-            return this;
-        }
-
-        /**
-         * Sets the value of the threshold.
-         * @param value The value of the threshold
-         * @return This object
-         */
-        public Builder value(double value)
         {
             threshold.setValue(value);
             return this;
