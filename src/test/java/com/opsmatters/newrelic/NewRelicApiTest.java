@@ -47,7 +47,7 @@ public class NewRelicApiTest
 {
     private static final Logger logger = Logger.getLogger(NewRelicApiTest.class.getName());
 
-    private String key = System.getProperty("newrelic.apiKey");
+    private String key = System.getProperty(NewRelicApiService.API_KEY_PROPERTY);
     private String policyName = "test-policy";
     private String apmConditionName = "test-apm-condition";
     private String nrqlConditionName = "test-nrql-condition";
@@ -58,9 +58,9 @@ public class NewRelicApiTest
     private String webhookUrl = "https://hooks.slack.com/services/T8LVC2SGM/B8M02K7yy/k7SrSQGoluE2olG3LpmH4sxx";
 
     @Test
-    public void testChannelsAndPolicy()
+    public void testChannelAndPolicyOperations()
     {
-        String testName = "ChannelsAndPolicy";
+        String testName = "ChannelAndPolicyOperations";
         logger.info("Starting test: "+testName);
 
         // Initialise the services

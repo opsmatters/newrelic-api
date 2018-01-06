@@ -34,6 +34,11 @@ public class NewRelicApiService
     private static final Logger logger = Logger.getLogger(NewRelicApiService.class.getName());
  
     /**
+     * The name of the standard property used for the API key.
+     */
+    public static final String API_KEY_PROPERTY = "newrelic.apiKey";
+
+    /**
      * The default hostname for New Relic.
      */
     public static final String DEFAULT_HOST = "api.newrelic.com";

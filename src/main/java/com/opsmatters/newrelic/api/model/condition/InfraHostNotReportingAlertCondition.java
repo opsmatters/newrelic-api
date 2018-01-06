@@ -16,8 +16,6 @@
 
 package com.opsmatters.newrelic.api.model.condition;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Represents a New Relic Infrastructure Host Not Reporting alert condition.  
  * 

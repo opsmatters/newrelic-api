@@ -31,6 +31,7 @@ public enum ChannelType
     PAGERDUTY("pagerduty"),
     VICTOROPS("victorops"),
     CAMPFIRE("campfire"),
+    XMATTERS("xmatters"),
     WEBHOOK("webhook");
 
     ChannelType(String value)

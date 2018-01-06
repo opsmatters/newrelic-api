@@ -70,6 +70,7 @@ The available channel types are:
 * OpsGenieChannel
 * PagerDutyChannel
 * VictorOpsChannel
+* xMatterChannel
 * WebhookChannel
 
 ### Alerts Policies

@@ -31,6 +31,7 @@ import com.opsmatters.newrelic.api.model.channel.OpsGenieChannel;
 import com.opsmatters.newrelic.api.model.channel.VictorOpsChannel;
 import com.opsmatters.newrelic.api.model.channel.PagerDutyChannel;
 import com.opsmatters.newrelic.api.model.channel.CampfireChannel;
+import com.opsmatters.newrelic.api.model.channel.xMattersChannel;
 import com.opsmatters.newrelic.api.model.channel.WebhookChannel;
 
 /**
@@ -89,6 +90,9 @@ public class AlertChannelsDeserializer implements JsonDeserializer<Collection<Al
                                 break;
                             case CAMPFIRE:
                                 values.add(gson.fromJson(channel, CampfireChannel.class));
+                                break;
+                            case XMATTERS:
+                                values.add(gson.fromJson(channel, xMattersChannel.class));
                                 break;
                             case WEBHOOK:
                                 values.add(gson.fromJson(channel, WebhookChannel.class));
