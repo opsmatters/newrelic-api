@@ -17,7 +17,6 @@
 package com.opsmatters.newrelic.api.model.condition;
 
 import java.util.List;
-import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -25,10 +24,9 @@ import com.google.gson.annotations.SerializedName;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class AlertCondition extends TermsCondition
+public abstract class AlertCondition extends MetricCondition
 {
     private String type;
-    private String metric;
 
     @SerializedName("gc_metric")
     private String gcMetric;
@@ -41,8 +39,6 @@ public abstract class AlertCondition extends TermsCondition
 
     @SerializedName("user_defined")
     private UserDefined userDefined;
-
-    private List<Long> entities = new ArrayList<Long>();
 
     /**
      * Represents the available types for this condition.  
@@ -157,24 +153,6 @@ public abstract class AlertCondition extends TermsCondition
     }
 
     /**
-     * Sets the metric of the alert condition.
-     * @param metric The metric of the alert condition
-     */
-    public void setMetric(String metric)
-    {
-        this.metric = metric;
-    }
-
-    /**
-     * Returns the metric of the alert condition.
-     * @return The metric of the alert condition
-     */
-    public String getMetric()
-    {
-        return metric;
-    }
-
-    /**
      * Sets the gc metric of the alert condition.
      * @param gcMetric The gc metric of the alert condition
      */
@@ -265,45 +243,6 @@ public abstract class AlertCondition extends TermsCondition
     }
 
     /**
-     * Sets the list of entities for the condition.
-     * @param entities The list of entities
-     */
-    public void setEntities(List<Long> entities)
-    {
-        this.entities = entities;
-    }
-
-    /**
-     * Adds an entity to the alert condition.
-     * @param entity The entity to be added
-     */
-    public void addEntity(long entity)
-    {
-        this.entities.add(entity);
-    }
-
-    /**
-     * Returns the list of entities for the condition.
-     * @return The list of entities
-     */
-    public List<Long> getEntities()
-    {
-        return entities;
-    }
-
-    /**
-     * Returns the array of entities for the condition.
-     * @return The array of entities
-     */
-    public long[] getEntitiesArray()
-    {
-        long[] ret = new long[entities.size()];
-        for(int i = 0; i < entities.size(); i++)
-            ret[i] = entities.get(i);
-        return ret;
-    }
-
-    /**
      * Returns a string representation of the object.
      */
     @Override
@@ -311,12 +250,10 @@ public abstract class AlertCondition extends TermsCondition
     {
         return super.toString()
             +", type="+type
-            +", metric="+metric
             +", gcMetric="+gcMetric
             +", conditionScope="+conditionScope
             +", violationCloseTimer="+violationCloseTimer
-            +", userDefined="+userDefined
-            +", entities="+entities;
+            +", userDefined="+userDefined;
     }
 
     /**
