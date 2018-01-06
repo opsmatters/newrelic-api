@@ -55,7 +55,7 @@ The following tests are included:
 
 ## Examples
 
-A detailed set of examples of the usage of the API can be found in [api](src/main/java/com/opsmatters/newrelic/api).
+A detailed set of examples of the usage of the API can be found [here](src/main/java/com/opsmatters/newrelic/api).
 
 ## Deployment
 
