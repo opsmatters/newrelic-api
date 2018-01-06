@@ -205,7 +205,7 @@ InfraAlertCondition c = InfraProcessRunningAlertCondition.builder()
     .build();
 
 InfraAlertCondition condition = infraApi.infraAlertConditions().create(c).get();
-
+```
 The infrastructure alert condition returned includes all the additional fields that were populated by the server on creation eg, "id" and "created_at_epoch_millis".
 
 Other operations have also been included for infrastructure alert conditions:
