@@ -70,7 +70,7 @@ The available channel types are:
 * OpsGenieChannel
 * PagerDutyChannel
 * VictorOpsChannel
-* xMatterChannel
+* xMattersChannel
 * WebhookChannel
 
 ### Alerts Policies
@@ -165,18 +165,47 @@ Other operations have also been included for NRQL alert conditions:
 * delete(id): deletes the NRQL alert condition with the given id.
 
 ### Alerts Infrastructure Conditions
-To add a critical infrastructure alert condition for a host becoming unavailable, instantiate a condition object and then pass it to the "create" operation:
+To add a critical infrastructure alert condition for disk utilisation > 80%, instantiate a condition object and then pass it to the "create" operation:
 ```
-InfraAlertCondition c = InfraHostNotReportingAlertCondition.builder()
+InfraAlertCondition c = InfraMetricAlertCondition.builder()
     .policyId(policy.getId())
-    .name("host-unavailable-error")
+    .name("disk-space-error")
+    .storageEventType()
+    .selectValue("diskUsedPercent")
+    .criticalThreshold(new Threshold().builder().durationMinutes(10).value(80).allTimeFunction().build())
+    .aboveComparison()
     .whereClause("env=prod")
-    .criticalThreshold(new Threshold(10))
     .enabled(true)
     .build();
 
 InfraAlertCondition condition = infraApi.infraAlertConditions().create(c).get();
 ```
+To add a critical infrastructure alert condition for a host becoming unavailable, instantiate a condition object and then pass it to the "create" operation:
+```
+InfraAlertCondition c = InfraHostNotReportingAlertCondition.builder()
+    .policyId(policy.getId())
+    .name("host-unavailable-error")
+    .criticalThreshold(new Threshold(10))
+    .whereClause("env=prod")
+    .enabled(true)
+    .build();
+
+InfraAlertCondition condition = infraApi.infraAlertConditions().create(c).get();
+```
+To add a critical infrastructure alert condition for a java process not running, instantiate a condition object and then pass it to the "create" operation:
+```
+InfraAlertCondition c = InfraProcessRunningAlertCondition.builder()
+    .policyId(policy.getId())
+    .name("process-not-running-error")
+    .criticalThreshold(new Threshold().builder().durationMinutes(10).value(0).build())
+    .equalComparison()
+    .processWhereClause("(commandName = 'java')")
+    .whereClause("env=prod")
+    .enabled(true)
+    .build();
+
+InfraAlertCondition condition = infraApi.infraAlertConditions().create(c).get();
+
 The infrastructure alert condition returned includes all the additional fields that were populated by the server on creation eg, "id" and "created_at_epoch_millis".
 
 Other operations have also been included for infrastructure alert conditions:
