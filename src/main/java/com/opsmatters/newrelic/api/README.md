@@ -9,8 +9,9 @@
 - [Alerts Policy Channels](#alerts-policy-channels)
 - [Alerts Conditions](#alerts-conditions)
 - [Alerts NRQL Conditions](#alerts-nrql-conditions)
-- [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
 - [Alerts External Service Conditions](#alerts-external-service-conditions)
+- [Alerts Plugins Conditions](#alerts-plugins-conditions)
+- [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
 
 ### Initialisation
 
@@ -164,6 +165,42 @@ Other operations have also been included for NRQL alert conditions:
 * list(policyId): returns all NRQL alert conditions for the given policy id.
 * get(policyId,id): returns the NRQL alert condition for the given policy id and condition id.
 * delete(id): deletes the NRQL alert condition with the given id.
+
+### Alerts Plugins Conditions
+To add a critical plugins alert condition for a metric, instantiate a condition object and then pass it to the "create" operation:
+```
+Term term = Term.builder()
+    .duration(10)
+    .criticalPriority()
+    .aboveOperator()
+    .allTimeFunction()
+    .threshold(5)
+    .build();
+
+Plugin plugin = Plugin.builder()
+    .id("12345")
+    .guid("12345-12345")
+    .build();
+
+PluginAlertCondition c = PluginAlertCondition.builder()
+    .name("test-metric-error")
+    .metric("test-metric")
+    .metricDescription("test-metric-description")
+    .averageValueFunction()
+    .addTerm(term)
+    .plugin(plugin)
+    .addEntity(54321)
+    .enabled(true)
+    .build();
+
+PluginAlertCondition condition = api.pluginAlertConditions().create(policy.getId(), c).get();
+```
+The plugin alert condition returned includes all the additional fields that were populated by the server on creation eg, "id".
+
+Other operations have also been included for plugin alert conditions:
+* list(policyId): returns all plugin alert conditions for the given policy id.
+* get(policyId,id): returns the plugin alert condition for the given policy id and condition id.
+* delete(id): deletes the plugin alert condition with the given id.
 
 ### Alerts Infrastructure Conditions
 To add a critical infrastructure alert condition for disk utilisation > 80%, instantiate a condition object and then pass it to the "create" operation:

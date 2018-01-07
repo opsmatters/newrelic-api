@@ -33,6 +33,8 @@ import com.opsmatters.newrelic.api.model.condition.Term;
 import com.opsmatters.newrelic.api.model.condition.Nrql;
 import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.ApmExternalServiceAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.Plugin;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraMetricAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraHostNotReportingAlertCondition;
@@ -59,6 +61,7 @@ public class NewRelicApiTest
     private String hostConditionName = "test-host-condition";
     private String processConditionName = "test-process-condition";
     private String externalServiceConditionName = "test-external-service-condition";
+    private String pluginsConditionName = "test-plugins-condition";
     private String whereClause = "env=prod";
     private String email = "alerts@test.com";
     private String channel = "#slack";
@@ -89,16 +92,15 @@ public class NewRelicApiTest
         // Create the policy
         AlertPolicy policy = createPolicy(api);
 
-        // Create the APM condition
-        AlertCondition apmCondition = createApmCondition(api, policy);
-
-        // Create the NRQL condition
-        NrqlAlertCondition nrqlCondition = createNrqlCondition(api, policy);
-
-        // Create the external service condition
-        ExternalServiceAlertCondition externalServiceCondition = createExternalServiceCondition(api, policy);
-
-        // Create the infrastructure conditions
+        // Create the conditions
+        AlertCondition apmCondition = createApmCondition(api, policy, 
+            getApmAppCondition(policy.getId(), apmConditionName));
+        NrqlAlertCondition nrqlCondition = createNrqlCondition(api, policy, 
+            getNrqlCondition(policy.getId(), nrqlConditionName));
+        ExternalServiceAlertCondition externalServiceCondition = createExternalServiceCondition(api, policy,
+            getExternalServiceCondition(policy.getId(), externalServiceConditionName));
+        PluginsAlertCondition pluginsCondition = createPluginsCondition(api, policy, 
+            getPluginsCondition(policy.getId(), pluginsConditionName));
         InfraAlertCondition infraMetricCondition = createInfraCondition(infraApi, policy,
             getMetricCondition(policy.getId(), metricConditionName, whereClause));
         InfraAlertCondition infraHostCondition = createInfraCondition(infraApi, policy,
@@ -110,23 +112,25 @@ public class NewRelicApiTest
         addPolicyChannel(api, policy, emailChannel);
         addPolicyChannel(api, policy, slackChannel);
 
+        // Get all the conditions
+        getAllApmConditions(api, policy);
+        getAllNrqlConditions(api, policy);
+        getAllExternalServiceConditions(api, policy);
+        getAllPluginsConditions(api, policy);
+        getAllInfraConditions(infraApi, policy);
+
         // Delete the channels from the policy
         deletePolicyChannel(api, policy, emailChannel);
         deletePolicyChannel(api, policy, slackChannel);
 
-        // Delete the APM condition
+        // Delete the conditions
         deleteApmCondition(api, policy, apmCondition);
-
-        // Delete the NRQL condition
         deleteNrqlCondition(api, policy, nrqlCondition);
-
-        // Delete the external service condition
         deleteExternalServiceCondition(api, policy, externalServiceCondition);
-
-        // Delete the infrastructure conditions
-        deleteInfraCondition(infraApi, infraMetricCondition);
-        deleteInfraCondition(infraApi, infraHostCondition);
-        deleteInfraCondition(infraApi, infraProcessCondition);
+        deletePluginsCondition(api, policy, pluginsCondition);
+        deleteInfraCondition(infraApi, policy, infraMetricCondition);
+        deleteInfraCondition(infraApi, policy, infraHostCondition);
+        deleteInfraCondition(infraApi, policy, infraProcessCondition);
 
         // Delete the policy
         deletePolicy(api, policy);
@@ -186,6 +190,255 @@ public class NewRelicApiTest
         Assert.assertFalse(ret.isPresent());
     }
 
+    public AlertCondition getApmAppCondition(long policyId, String name)
+    {
+        Term term = Term.builder()
+            .duration(Term.Duration.MINUTES_10)
+            .criticalPriority()
+            .aboveOperator()
+            .allTimeFunction()
+            .threshold(1)
+            .build();
+
+        return ApmAppAlertCondition.builder()
+            .name(name)
+            .metric(ApmAppAlertCondition.Metric.APDEX)
+            .applicationConditionScope()
+            .addTerm(term)
+            .enabled(true)
+            .build();
+    }
+
+    public AlertCondition createApmCondition(NewRelicApiService api, AlertPolicy policy, AlertCondition input)
+    {
+        logger.info("Create APM condition: "+apmConditionName);
+        AlertCondition condition = api.alertConditions().create(policy.getId(), input).get();
+        Assert.assertNotNull(condition);
+        Assert.assertTrue(getApmCondition(api, policy, condition).isPresent());
+        return condition;
+    }
+
+    public void deleteApmCondition(NewRelicApiService api, AlertPolicy policy, AlertCondition condition)
+    {
+        logger.info("Delete APM condition: "+condition.getId());
+        api.alertConditions().delete(condition.getId());
+        Assert.assertFalse(getApmCondition(api, policy, condition).isPresent());
+    }
+
+    public Optional<AlertCondition> getApmCondition(NewRelicApiService api, AlertPolicy policy, AlertCondition condition)
+    {
+        Optional<AlertCondition> ret = Optional.absent();
+
+        try
+        {
+            logger.info("Get APM condition: "+condition.getId());
+            ret = api.alertConditions().get(policy.getId(), condition.getId());
+        }
+        catch(RuntimeException e)
+        {
+        }
+
+        return ret;
+    }
+
+    public Collection<AlertCondition> getAllApmConditions(NewRelicApiService api, AlertPolicy policy)
+    {
+        logger.info("Get all APM conditions for policy: "+policy.getId());
+        Collection<AlertCondition> ret = api.alertConditions().list(policy.getId());
+        Assert.assertTrue(ret.size() > 0);
+        return ret;
+    }
+
+    public NrqlAlertCondition getNrqlCondition(long policyId, String name)
+    {
+        Term term = Term.builder()
+            .duration(Term.Duration.MINUTES_10)
+            .criticalPriority()
+            .aboveOperator()
+            .allTimeFunction()
+            .threshold(1)
+            .build();
+
+        Nrql nrql = Nrql.builder()
+            .query("SELECT average(cpuPercent) from ProcessSample WHERE hostname like 'ip-%'")
+            .sinceValue(3)
+            .build();
+
+        return NrqlAlertCondition.builder()
+            .name(name)
+            .singleValueFunction()
+            .addTerm(term)
+            .nrql(nrql)
+            .enabled(true)
+            .build();
+    }
+
+    public NrqlAlertCondition createNrqlCondition(NewRelicApiService api, AlertPolicy policy, NrqlAlertCondition input)
+    {
+        logger.info("Create NRQL condition: "+input.getName());
+        NrqlAlertCondition condition = api.nrqlAlertConditions().create(policy.getId(), input).get();
+        Assert.assertNotNull(condition);
+        Assert.assertTrue(getNrqlCondition(api, policy, condition).isPresent());
+        return condition;
+    }
+
+    public void deleteNrqlCondition(NewRelicApiService api, AlertPolicy policy, NrqlAlertCondition condition)
+    {
+        logger.info("Delete NRQL condition: "+condition.getId());
+        api.nrqlAlertConditions().delete(condition.getId());
+        Assert.assertFalse(getNrqlCondition(api, policy, condition).isPresent());
+    }
+
+    public Optional<NrqlAlertCondition> getNrqlCondition(NewRelicApiService api, AlertPolicy policy, NrqlAlertCondition condition)
+    {
+        Optional<NrqlAlertCondition> ret = Optional.absent();
+
+        try
+        {
+            logger.info("Get NRQL condition: "+condition.getId());
+            ret = api.nrqlAlertConditions().get(policy.getId(), condition.getId());
+        }
+        catch(RuntimeException e)
+        {
+        }
+
+        return ret;
+    }
+
+    public Collection<NrqlAlertCondition> getAllNrqlConditions(NewRelicApiService api, AlertPolicy policy)
+    {
+        logger.info("Get all NRQL conditions for policy: "+policy.getId());
+        Collection<NrqlAlertCondition> ret = api.nrqlAlertConditions().list(policy.getId());
+        Assert.assertTrue(ret.size() > 0);
+        return ret;
+    }
+
+    public ExternalServiceAlertCondition getExternalServiceCondition(long policyId, String name)
+    {
+        Term term = Term.builder()
+            .duration(Term.Duration.MINUTES_10)
+            .criticalPriority()
+            .aboveOperator()
+            .allTimeFunction()
+            .threshold(5)
+            .build();
+
+        return ApmExternalServiceAlertCondition.builder()
+            .name(name)
+            .metric(ApmExternalServiceAlertCondition.Metric.RESPONSE_TIME_AVERAGE)
+            .externalServiceUrl("example.com")
+            .addTerm(term)
+            .enabled(true)
+            .build();
+    }
+
+    public ExternalServiceAlertCondition createExternalServiceCondition(NewRelicApiService api, AlertPolicy policy, ExternalServiceAlertCondition input)
+    {
+        logger.info("Create external service condition: "+input.getName());
+        ExternalServiceAlertCondition condition = api.externalServiceAlertConditions().create(policy.getId(), input).get();
+        Assert.assertNotNull(condition);
+        Assert.assertTrue(getExternalServiceCondition(api, policy, condition).isPresent());
+        return condition;
+    }
+
+    public void deleteExternalServiceCondition(NewRelicApiService api, AlertPolicy policy, ExternalServiceAlertCondition condition)
+    {
+        logger.info("Delete external service condition: "+condition.getId());
+        api.externalServiceAlertConditions().delete(condition.getId());
+        Assert.assertFalse(getExternalServiceCondition(api, policy, condition).isPresent());
+    }
+
+    public Optional<ExternalServiceAlertCondition> getExternalServiceCondition(NewRelicApiService api, AlertPolicy policy, ExternalServiceAlertCondition condition)
+    {
+        Optional<ExternalServiceAlertCondition> ret = Optional.absent();
+
+        try
+        {
+            logger.info("Get external service condition: "+condition.getId());
+            ret = api.externalServiceAlertConditions().get(policy.getId(), condition.getId());
+        }
+        catch(RuntimeException e)
+        {
+        }
+
+        return ret;
+    }
+
+    public Collection<ExternalServiceAlertCondition> getAllExternalServiceConditions(NewRelicApiService api, AlertPolicy policy)
+    {
+        logger.info("Get all external service conditions for policy: "+policy.getId());
+        Collection<ExternalServiceAlertCondition> ret = api.externalServiceAlertConditions().list(policy.getId());
+        Assert.assertTrue(ret.size() > 0);
+        return ret;
+    }
+
+    public PluginsAlertCondition getPluginsCondition(long policyId, String name)
+    {
+        Term term = Term.builder()
+            .duration(Term.Duration.MINUTES_10)
+            .criticalPriority()
+            .aboveOperator()
+            .allTimeFunction()
+            .threshold(5)
+            .build();
+
+        Plugin plugin = Plugin.builder()
+            .id("12345")
+            .guid("12345-12345")
+            .build();
+
+        return PluginsAlertCondition.builder()
+            .name(name)
+            .metric("test-metric")
+            .metricDescription("test-metric-description")
+            .averageValueFunction()
+            .addTerm(term)
+            .plugin(plugin)
+            .addEntity(54321)
+            .enabled(true)
+            .build();
+    }
+
+    public PluginsAlertCondition createPluginsCondition(NewRelicApiService api, AlertPolicy policy, PluginsAlertCondition input)
+    {
+        logger.info("Create plugins condition: "+input.getName());
+        PluginsAlertCondition condition = api.pluginsAlertConditions().create(policy.getId(), input).get();
+        Assert.assertNotNull(condition);
+        Assert.assertTrue(getPluginsCondition(api, policy, condition).isPresent());
+        return condition;
+    }
+
+    public void deletePluginsCondition(NewRelicApiService api, AlertPolicy policy, PluginsAlertCondition condition)
+    {
+        logger.info("Delete plugins condition: "+condition.getId());
+        api.pluginsAlertConditions().delete(condition.getId());
+        Assert.assertFalse(getPluginsCondition(api, policy, condition).isPresent());
+    }
+
+    public Optional<PluginsAlertCondition> getPluginsCondition(NewRelicApiService api, AlertPolicy policy, PluginsAlertCondition condition)
+    {
+        Optional<PluginsAlertCondition> ret = Optional.absent();
+
+        try
+        {
+            logger.info("Get plugins condition: "+condition.getId());
+            ret = api.pluginsAlertConditions().get(policy.getId(), condition.getId());
+        }
+        catch(RuntimeException e)
+        {
+        }
+
+        return ret;
+    }
+
+    public Collection<PluginsAlertCondition> getAllPluginsConditions(NewRelicApiService api, AlertPolicy policy)
+    {
+        logger.info("Get all plugins conditions for policy: "+policy.getId());
+        Collection<PluginsAlertCondition> ret = api.pluginsAlertConditions().list(policy.getId());
+        Assert.assertTrue(ret.size() > 0);
+        return ret;
+    }
+
     public InfraAlertCondition getMetricCondition(long policyId, String name, String whereClause)
     {
         return InfraMetricAlertCondition.builder()
@@ -230,231 +483,39 @@ public class NewRelicApiTest
         logger.info("Create infra condition: "+input.getName());
         InfraAlertCondition condition = api.infraAlertConditions().create(input).get();
         Assert.assertNotNull(condition);
-
-        // Get the infra condition
-        {
-            logger.info("Get infra condition: "+condition.getId());
-            Optional<InfraAlertCondition> ret = api.infraAlertConditions().get(condition.getId());
-            Assert.assertTrue(ret.isPresent());
-        }
-
-        // Get all infra conditions for the policy
-        {
-            logger.info("Get all conditions for policy: "+policy.getId());
-            Collection<InfraAlertCondition> ret = api.infraAlertConditions().list(policy.getId());
-            Assert.assertTrue(ret.size() > 0);
-        }
-
+        Assert.assertTrue(getInfraCondition(api, policy, condition).isPresent());
         return condition;
     }
 
-    public void deleteInfraCondition(NewRelicInfraApiService api, InfraAlertCondition condition)
+    public void deleteInfraCondition(NewRelicInfraApiService api, AlertPolicy policy, InfraAlertCondition condition)
     {
         logger.info("Delete infra condition: "+condition.getId());
         api.infraAlertConditions().delete(condition.getId());
+        Assert.assertFalse(getInfraCondition(api, policy, condition).isPresent());
+    }
 
+    public Optional<InfraAlertCondition> getInfraCondition(NewRelicInfraApiService api, AlertPolicy policy, InfraAlertCondition condition)
+    {
         Optional<InfraAlertCondition> ret = Optional.absent();
 
         try
         {
+            logger.info("Get infra condition: "+condition.getId());
             ret = api.infraAlertConditions().get(condition.getId());
         }
         catch(RuntimeException e)
         {
         }
 
-        Assert.assertFalse(ret.isPresent());
+        return ret;
     }
 
-    public AlertCondition getApmAppCondition(long policyId, String name)
+    public Collection<InfraAlertCondition> getAllInfraConditions(NewRelicInfraApiService api, AlertPolicy policy)
     {
-        Term term = Term.builder()
-            .duration(Term.Duration.MINUTES_10)
-            .criticalPriority()
-            .aboveOperator()
-            .allTimeFunction()
-            .threshold(1)
-            .build();
-
-        return ApmAppAlertCondition.builder()
-            .name(name)
-            .metric(ApmAppAlertCondition.Metric.APDEX)
-            .applicationConditionScope()
-            .addTerm(term)
-            .enabled(true)
-            .build();
-    }
-
-    public AlertCondition createApmCondition(NewRelicApiService api, AlertPolicy policy)
-    {
-        // Create the APM condition
-        logger.info("Create APM condition: "+apmConditionName);
-        AlertCondition input = getApmAppCondition(policy.getId(), apmConditionName);
-        AlertCondition condition = api.alertConditions().create(policy.getId(), input).get();
-        Assert.assertNotNull(condition);
-
-        // Get the APM condition
-        {
-            logger.info("Get APM condition: "+condition.getId());
-            Optional<AlertCondition> ret = api.alertConditions().get(policy.getId(), condition.getId());
-            Assert.assertTrue(ret.isPresent());
-        }
-
-        // Get all APM conditions for the policy
-        {
-            logger.info("Get all conditions for policy: "+policy.getId());
-            Collection<AlertCondition> ret = api.alertConditions().list(policy.getId());
-            Assert.assertTrue(ret.size() > 0);
-        }
-
-        return condition;
-    }
-
-    public void deleteApmCondition(NewRelicApiService api, AlertPolicy policy, AlertCondition condition)
-    {
-        logger.info("Delete APM condition: "+condition.getId());
-        api.alertConditions().delete(condition.getId());
-
-        Optional<AlertCondition> ret = Optional.absent();
-
-        try
-        {
-            ret = api.alertConditions().get(policy.getId(), condition.getId());
-        }
-        catch(RuntimeException e)
-        {
-        }
-
-        Assert.assertFalse(ret.isPresent());
-    }
-
-    public NrqlAlertCondition getNrqlCondition(long policyId, String name)
-    {
-        Term term = Term.builder()
-            .duration(Term.Duration.MINUTES_10)
-            .criticalPriority()
-            .aboveOperator()
-            .allTimeFunction()
-            .threshold(1)
-            .build();
-
-        Nrql nrql = Nrql.builder()
-            .query("SELECT average(cpuPercent) from ProcessSample WHERE hostname like 'ip-%'")
-            .sinceValue(3)
-            .build();
-
-        return NrqlAlertCondition.builder()
-            .name(name)
-            .singleValueFunction()
-            .addTerm(term)
-            .nrql(nrql)
-            .enabled(true)
-            .build();
-    }
-
-    public NrqlAlertCondition createNrqlCondition(NewRelicApiService api, AlertPolicy policy)
-    {
-        // Create the nrql condition
-        logger.info("Create nrql condition: "+nrqlConditionName);
-        NrqlAlertCondition input = getNrqlCondition(policy.getId(), nrqlConditionName);
-        NrqlAlertCondition condition = api.nrqlAlertConditions().create(policy.getId(), input).get();
-        Assert.assertNotNull(condition);
-
-        // Get the nrql condition
-        {
-            logger.info("Get nrql condition: "+condition.getId());
-            Optional<NrqlAlertCondition> ret = api.nrqlAlertConditions().get(policy.getId(), condition.getId());
-            Assert.assertTrue(ret.isPresent());
-        }
-
-        // Get all nrql conditions for the policy
-        {
-            logger.info("Get all conditions for policy: "+policy.getId());
-            Collection<NrqlAlertCondition> ret = api.nrqlAlertConditions().list(policy.getId());
-            Assert.assertTrue(ret.size() > 0);
-        }
-
-        return condition;
-    }
-
-    public void deleteNrqlCondition(NewRelicApiService api, AlertPolicy policy, NrqlAlertCondition condition)
-    {
-        logger.info("Delete nrql condition: "+condition.getId());
-        api.nrqlAlertConditions().delete(condition.getId());
-
-        Optional<NrqlAlertCondition> ret = Optional.absent();
-
-        try
-        {
-            ret = api.nrqlAlertConditions().get(policy.getId(), condition.getId());
-        }
-        catch(RuntimeException e)
-        {
-        }
-
-        Assert.assertFalse(ret.isPresent());
-    }
-
-    public ExternalServiceAlertCondition getExternalServiceCondition(long policyId, String name)
-    {
-        Term term = Term.builder()
-            .duration(Term.Duration.MINUTES_10)
-            .criticalPriority()
-            .aboveOperator()
-            .allTimeFunction()
-            .threshold(5)
-            .build();
-
-        return ApmExternalServiceAlertCondition.builder()
-            .name(name)
-            .metric(ApmExternalServiceAlertCondition.Metric.RESPONSE_TIME_AVERAGE)
-            .externalServiceUrl("example.com")
-            .addTerm(term)
-            .enabled(true)
-            .build();
-    }
-
-    public ExternalServiceAlertCondition createExternalServiceCondition(NewRelicApiService api, AlertPolicy policy)
-    {
-        // Create the external service condition
-        logger.info("Create external service condition: "+externalServiceConditionName);
-        ExternalServiceAlertCondition input = getExternalServiceCondition(policy.getId(), externalServiceConditionName);
-        ExternalServiceAlertCondition condition = api.externalServiceAlertConditions().create(policy.getId(), input).get();
-        Assert.assertNotNull(condition);
-
-        // Get the external service condition
-        {
-            logger.info("Get external service condition: "+condition.getId());
-            Optional<ExternalServiceAlertCondition> ret = api.externalServiceAlertConditions().get(policy.getId(), condition.getId());
-            Assert.assertTrue(ret.isPresent());
-        }
-
-        // Get all external service conditions for the policy
-        {
-            logger.info("Get all conditions for policy: "+policy.getId());
-            Collection<ExternalServiceAlertCondition> ret = api.externalServiceAlertConditions().list(policy.getId());
-            Assert.assertTrue(ret.size() > 0);
-        }
-
-        return condition;
-    }
-
-    public void deleteExternalServiceCondition(NewRelicApiService api, AlertPolicy policy, ExternalServiceAlertCondition condition)
-    {
-        logger.info("Delete external service condition: "+condition.getId());
-        api.externalServiceAlertConditions().delete(condition.getId());
-
-        Optional<ExternalServiceAlertCondition> ret = Optional.absent();
-
-        try
-        {
-            ret = api.externalServiceAlertConditions().get(policy.getId(), condition.getId());
-        }
-        catch(RuntimeException e)
-        {
-        }
-
-        Assert.assertFalse(ret.isPresent());
+        logger.info("Get all infra conditions for policy: "+policy.getId());
+        Collection<InfraAlertCondition> ret = api.infraAlertConditions().list(policy.getId());
+        Assert.assertTrue(ret.size() > 0);
+        return ret;
     }
 
     public AlertChannel getEmailChannel(String email)

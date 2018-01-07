@@ -188,6 +188,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to plugins alert conditions.
+     * @return The plugins alert condition operations
+     */
+    public PluginsAlertConditionOperations pluginsAlertConditions()
+    {
+        checkInitialize();
+        return new PluginsAlertConditionOperations(httpContext, this);
+    }
+
+    /**
      * Returns the operations related to alert channels.
      * @return The alert channel operations
      */
