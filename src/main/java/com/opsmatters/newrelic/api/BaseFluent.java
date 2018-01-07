@@ -28,6 +28,7 @@ import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 
 /**
@@ -58,6 +59,9 @@ public class BaseFluent
 
     protected static final GenericType<PluginsAlertCondition> PLUGINS_ALERT_CONDITION = new GenericType<PluginsAlertCondition>(){};
     protected static final GenericType<Collection<PluginsAlertCondition>> PLUGINS_ALERT_CONDITIONS = new GenericType<Collection<PluginsAlertCondition>>(){};
+
+    protected static final GenericType<SyntheticsAlertCondition> SYNTHETICS_ALERT_CONDITION = new GenericType<SyntheticsAlertCondition>(){};
+    protected static final GenericType<Collection<SyntheticsAlertCondition>> SYNTHETICS_ALERT_CONDITIONS = new GenericType<Collection<SyntheticsAlertCondition>>(){};
 
     protected static final GenericType<InfraAlertCondition> INFRA_ALERT_CONDITION = new GenericType<InfraAlertCondition>(){};
     protected static final GenericType<Collection<InfraAlertCondition>> INFRA_ALERT_CONDITIONS = new GenericType<Collection<InfraAlertCondition>>(){};

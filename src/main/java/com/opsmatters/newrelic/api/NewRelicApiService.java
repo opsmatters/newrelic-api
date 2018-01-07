@@ -188,13 +188,23 @@ public class NewRelicApiService
     }
 
     /**
-     * Returns the operations related to plugins alert conditions.
-     * @return The plugins alert condition operations
+     * Returns the operations related to Plugins alert conditions.
+     * @return The Plugins alert condition operations
      */
     public PluginsAlertConditionOperations pluginsAlertConditions()
     {
         checkInitialize();
         return new PluginsAlertConditionOperations(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to Synthetics alert conditions.
+     * @return The Synthetics alert condition operations
+     */
+    public SyntheticsAlertConditionOperations syntheticsAlertConditions()
+    {
+        checkInitialize();
+        return new SyntheticsAlertConditionOperations(httpContext, this);
     }
 
     /**

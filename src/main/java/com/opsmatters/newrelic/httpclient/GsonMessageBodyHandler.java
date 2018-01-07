@@ -46,6 +46,7 @@ import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 import com.opsmatters.newrelic.httpclient.serializers.AlertPolicySerializer;
 import com.opsmatters.newrelic.httpclient.serializers.channel.AlertChannelSerializer;
@@ -53,6 +54,7 @@ import com.opsmatters.newrelic.httpclient.serializers.condition.AlertConditionSe
 import com.opsmatters.newrelic.httpclient.serializers.condition.NrqlAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.ExternalServiceAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.PluginsAlertConditionSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.condition.SyntheticsAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.InfraAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertPolicyDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertPoliciesDeserializer;
@@ -67,6 +69,8 @@ import com.opsmatters.newrelic.httpclient.deserializers.condition.ExternalServic
 import com.opsmatters.newrelic.httpclient.deserializers.condition.ExternalServiceAlertConditionsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.condition.PluginsAlertConditionDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.condition.PluginsAlertConditionsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.condition.SyntheticsAlertConditionDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.condition.SyntheticsAlertConditionsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.condition.InfraAlertConditionDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.condition.InfraAlertConditionsDeserializer;
 
@@ -88,6 +92,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Type NRQL_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<NrqlAlertCondition>>(){}.getType();
     private static final Type EXTERNAL_SERVICE_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<ExternalServiceAlertCondition>>(){}.getType();
     private static final Type PLUGINS_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<PluginsAlertCondition>>(){}.getType();
+    private static final Type SYNTHETICS_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<SyntheticsAlertCondition>>(){}.getType();
     private static final Type INFRA_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<InfraAlertCondition>>(){}.getType();
 
     private Gson gson;
@@ -120,6 +125,9 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeHierarchyAdapter(PluginsAlertCondition.class, new PluginsAlertConditionSerializer());
             builder.registerTypeAdapter(PluginsAlertCondition.class, new PluginsAlertConditionDeserializer());
             builder.registerTypeAdapter(PLUGINS_ALERT_CONDITIONS_TYPE, new PluginsAlertConditionsDeserializer());
+            builder.registerTypeHierarchyAdapter(SyntheticsAlertCondition.class, new SyntheticsAlertConditionSerializer());
+            builder.registerTypeAdapter(SyntheticsAlertCondition.class, new SyntheticsAlertConditionDeserializer());
+            builder.registerTypeAdapter(SYNTHETICS_ALERT_CONDITIONS_TYPE, new SyntheticsAlertConditionsDeserializer());
             builder.registerTypeHierarchyAdapter(InfraAlertCondition.class, new InfraAlertConditionSerializer());
             builder.registerTypeAdapter(InfraAlertCondition.class, new InfraAlertConditionDeserializer());
             builder.registerTypeAdapter(INFRA_ALERT_CONDITIONS_TYPE, new InfraAlertConditionsDeserializer());

@@ -35,6 +35,7 @@ import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition
 import com.opsmatters.newrelic.api.model.condition.ApmExternalServiceAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.Plugin;
+import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraMetricAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraHostNotReportingAlertCondition;
@@ -62,6 +63,7 @@ public class NewRelicApiTest
     private String processConditionName = "test-process-condition";
     private String externalServiceConditionName = "test-external-service-condition";
     private String pluginsConditionName = "test-plugins-condition";
+    private String syntheticsConditionName = "test-synthetics-condition";
     private String whereClause = "env=prod";
     private String email = "alerts@test.com";
     private String channel = "#slack";
@@ -101,6 +103,8 @@ public class NewRelicApiTest
             getExternalServiceCondition(policy.getId(), externalServiceConditionName));
         PluginsAlertCondition pluginsCondition = createPluginsCondition(api, policy, 
             getPluginsCondition(policy.getId(), pluginsConditionName));
+        SyntheticsAlertCondition syntheticsCondition = createSyntheticsCondition(api, policy, 
+            getSyntheticsCondition(policy.getId(), syntheticsConditionName));
         InfraAlertCondition infraMetricCondition = createInfraCondition(infraApi, policy,
             getMetricCondition(policy.getId(), metricConditionName, whereClause));
         InfraAlertCondition infraHostCondition = createInfraCondition(infraApi, policy,
@@ -117,6 +121,7 @@ public class NewRelicApiTest
         getAllNrqlConditions(api, policy);
         getAllExternalServiceConditions(api, policy);
         getAllPluginsConditions(api, policy);
+        getAllSyntheticsConditions(api, policy);
         getAllInfraConditions(infraApi, policy);
 
         // Delete the channels from the policy
@@ -128,6 +133,7 @@ public class NewRelicApiTest
         deleteNrqlCondition(api, policy, nrqlCondition);
         deleteExternalServiceCondition(api, policy, externalServiceCondition);
         deletePluginsCondition(api, policy, pluginsCondition);
+        deleteSyntheticsCondition(api, policy, syntheticsCondition);
         deleteInfraCondition(infraApi, policy, infraMetricCondition);
         deleteInfraCondition(infraApi, policy, infraHostCondition);
         deleteInfraCondition(infraApi, policy, infraProcessCondition);
@@ -401,7 +407,7 @@ public class NewRelicApiTest
 
     public PluginsAlertCondition createPluginsCondition(NewRelicApiService api, AlertPolicy policy, PluginsAlertCondition input)
     {
-        logger.info("Create plugins condition: "+input.getName());
+        logger.info("Create Plugins condition: "+input.getName());
         PluginsAlertCondition condition = api.pluginsAlertConditions().create(policy.getId(), input).get();
         Assert.assertNotNull(condition);
         Assert.assertTrue(getPluginsCondition(api, policy, condition).isPresent());
@@ -410,7 +416,7 @@ public class NewRelicApiTest
 
     public void deletePluginsCondition(NewRelicApiService api, AlertPolicy policy, PluginsAlertCondition condition)
     {
-        logger.info("Delete plugins condition: "+condition.getId());
+        logger.info("Delete Plugins condition: "+condition.getId());
         api.pluginsAlertConditions().delete(condition.getId());
         Assert.assertFalse(getPluginsCondition(api, policy, condition).isPresent());
     }
@@ -421,7 +427,7 @@ public class NewRelicApiTest
 
         try
         {
-            logger.info("Get plugins condition: "+condition.getId());
+            logger.info("Get Plugins condition: "+condition.getId());
             ret = api.pluginsAlertConditions().get(policy.getId(), condition.getId());
         }
         catch(RuntimeException e)
@@ -433,8 +439,57 @@ public class NewRelicApiTest
 
     public Collection<PluginsAlertCondition> getAllPluginsConditions(NewRelicApiService api, AlertPolicy policy)
     {
-        logger.info("Get all plugins conditions for policy: "+policy.getId());
+        logger.info("Get all Plugins conditions for policy: "+policy.getId());
         Collection<PluginsAlertCondition> ret = api.pluginsAlertConditions().list(policy.getId());
+        Assert.assertTrue(ret.size() > 0);
+        return ret;
+    }
+
+    public SyntheticsAlertCondition getSyntheticsCondition(long policyId, String name)
+    {
+        return SyntheticsAlertCondition.builder()
+            .name(name)
+            .monitorId("b308d1cb-9cbc-4d21-a93f-d8652392f1c6")
+            .enabled(true)
+            .build();
+    }
+
+    public SyntheticsAlertCondition createSyntheticsCondition(NewRelicApiService api, AlertPolicy policy, SyntheticsAlertCondition input)
+    {
+        logger.info("Create Synthetics condition: "+input.getName());
+        SyntheticsAlertCondition condition = api.syntheticsAlertConditions().create(policy.getId(), input).get();
+        Assert.assertNotNull(condition);
+        Assert.assertTrue(getSyntheticsCondition(api, policy, condition).isPresent());
+        return condition;
+    }
+
+    public void deleteSyntheticsCondition(NewRelicApiService api, AlertPolicy policy, SyntheticsAlertCondition condition)
+    {
+        logger.info("Delete Synthetics condition: "+condition.getId());
+        api.syntheticsAlertConditions().delete(condition.getId());
+        Assert.assertFalse(getSyntheticsCondition(api, policy, condition).isPresent());
+    }
+
+    public Optional<SyntheticsAlertCondition> getSyntheticsCondition(NewRelicApiService api, AlertPolicy policy, SyntheticsAlertCondition condition)
+    {
+        Optional<SyntheticsAlertCondition> ret = Optional.absent();
+
+        try
+        {
+            logger.info("Get Synthetics condition: "+condition.getId());
+            ret = api.syntheticsAlertConditions().get(policy.getId(), condition.getId());
+        }
+        catch(RuntimeException e)
+        {
+        }
+
+        return ret;
+    }
+
+    public Collection<SyntheticsAlertCondition> getAllSyntheticsConditions(NewRelicApiService api, AlertPolicy policy)
+    {
+        logger.info("Get all Synthetics conditions for policy: "+policy.getId());
+        Collection<SyntheticsAlertCondition> ret = api.syntheticsAlertConditions().list(policy.getId());
         Assert.assertTrue(ret.size() > 0);
         return ret;
     }

@@ -20,6 +20,7 @@ The following New Relic APIs are currently supported:
 * Alerts NRQL Conditions (List, Create, Update, Delete)
 * Alerts External Service Conditions (List, Create, Update, Delete)
 * Alerts Plugins Conditions (List, Create, Update, Delete)
+* Alerts Synthetics Conditions (List, Create, Update, Delete)
 * Alerts Infrastructure Conditions (List, Create, Update, Delete)
 
 Other APIs can be included on request.

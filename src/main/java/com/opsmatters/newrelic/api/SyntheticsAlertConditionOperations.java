@@ -20,21 +20,21 @@ import java.util.Collection;
 import java.util.Map;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
 
 /**
- * The set of operations used for Plugins alert conditions.
+ * The set of operations used for Synthetics alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class PluginsAlertConditionOperations extends BaseFluent
+public class SyntheticsAlertConditionOperations extends BaseFluent
 {
     /**
      * Constructor that takes a http context and API service.
      * @param httpContext The set of HTTP operations
      * @param apiService The set of API operations
      */
-    public PluginsAlertConditionOperations(HttpContext httpContext, NewRelicApiService apiService)
+    public SyntheticsAlertConditionOperations(HttpContext httpContext, NewRelicApiService apiService)
     {
         super(httpContext, apiService);
     }
@@ -44,26 +44,26 @@ public class PluginsAlertConditionOperations extends BaseFluent
      * @param policyId The id of the alert policy to return the conditions for
      * @return The set of alert conditions
      */
-    public Collection<PluginsAlertCondition> list(long policyId)
+    public Collection<SyntheticsAlertCondition> list(long policyId)
     {
         Map<String,Object> queryParams = Maps.newHashMap();
         queryParams.put("policy_id", new Long(policyId));
-        return HTTP.GET("/alerts_plugins_conditions.json", null, queryParams, PLUGINS_ALERT_CONDITIONS).get();
+        return HTTP.GET("/alerts_synthetics_conditions.json", null, queryParams, SYNTHETICS_ALERT_CONDITIONS).get();
     }
 
     /**
-     * Returns the Plugins alert condition with the given id.
+     * Returns the Synthetics alert condition with the given id.
      * <P>
      * This is needed because the API does not contain an operation to get a condition using the id directly.
      * @param policyId The id of the policy the condition belongs to
-     * @param id The id of the Plugins alert condition to return
+     * @param id The id of the Synthetics alert condition to return
      * @return The alert condition
      */
-    public Optional<PluginsAlertCondition> get(long policyId, long id)
+    public Optional<SyntheticsAlertCondition> get(long policyId, long id)
     {
-        Optional<PluginsAlertCondition> ret = Optional.absent();
-        Collection<PluginsAlertCondition> conditions = list(policyId);
-        for(PluginsAlertCondition condition : conditions)
+        Optional<SyntheticsAlertCondition> ret = Optional.absent();
+        Collection<SyntheticsAlertCondition> conditions = list(policyId);
+        for(SyntheticsAlertCondition condition : conditions)
         {
             if(condition.getId() == id)
                 ret = Optional.of(condition);
@@ -72,34 +72,34 @@ public class PluginsAlertConditionOperations extends BaseFluent
     }
    
     /**
-     * Creates the given Plugins alert condition.
+     * Creates the given Synthetics alert condition.
      * @param policyId The id of the policy to add the alert condition to
      * @param condition The alert condition to create
      * @return The alert condition that was created
      */
-    public Optional<PluginsAlertCondition> create(long policyId, PluginsAlertCondition condition)
+    public Optional<SyntheticsAlertCondition> create(long policyId, SyntheticsAlertCondition condition)
     {
-        return HTTP.POST(String.format("/alerts_plugins_conditions/policies/%d.json", policyId), condition, PLUGINS_ALERT_CONDITION);
+        return HTTP.POST(String.format("/alerts_synthetics_conditions/policies/%d.json", policyId), condition, SYNTHETICS_ALERT_CONDITION);
     }
 
     /**
-     * Updates the given Plugins alert condition.
+     * Updates the given Synthetics alert condition.
      * @param condition The alert condition to update
      * @return The alert condition that was updated
      */
-    public Optional<PluginsAlertCondition> update(PluginsAlertCondition condition)
+    public Optional<SyntheticsAlertCondition> update(SyntheticsAlertCondition condition)
     {
-        return HTTP.PUT(String.format("/alerts_plugins_conditions/%d.json", condition.getId()), condition, PLUGINS_ALERT_CONDITION);
+        return HTTP.PUT(String.format("/alerts_synthetics_conditions/%d.json", condition.getId()), condition, SYNTHETICS_ALERT_CONDITION);
     }
 
     /**
-     * Deletes the Plugins alert condition with the given id.
+     * Deletes the Synthetics alert condition with the given id.
      * @param id The id of the alert condition to delete
      * @return This object
      */
-    public PluginsAlertConditionOperations delete(long id)
+    public SyntheticsAlertConditionOperations delete(long id)
     {
-        HTTP.DELETE(String.format("/alerts_plugins_conditions/%d.json", id));       
+        HTTP.DELETE(String.format("/alerts_synthetics_conditions/%d.json", id));       
         return this;
     }
 }
