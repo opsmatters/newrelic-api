@@ -20,21 +20,21 @@ import java.util.Collection;
 import java.util.Map;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition;
 
 /**
- * The set of operations used for NRQL alert conditions.
+ * The set of operations used for external service alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class NrqlAlertConditionOperations extends BaseFluent
+public class ExternalServiceAlertConditionOperations extends BaseFluent
 {
     /**
      * Constructor that takes a http context and API service.
      * @param httpContext The set of HTTP operations
      * @param apiService The set of API operations
      */
-    public NrqlAlertConditionOperations(HttpContext httpContext, NewRelicApiService apiService)
+    public ExternalServiceAlertConditionOperations(HttpContext httpContext, NewRelicApiService apiService)
     {
         super(httpContext, apiService);
     }
@@ -44,26 +44,26 @@ public class NrqlAlertConditionOperations extends BaseFluent
      * @param policyId The id of the alert policy to return the conditions for
      * @return The set of alert conditions
      */
-    public Collection<NrqlAlertCondition> list(long policyId)
+    public Collection<ExternalServiceAlertCondition> list(long policyId)
     {
         Map<String,Object> queryParams = Maps.newHashMap();
         queryParams.put("policy_id", new Long(policyId));
-        return HTTP.GET("/alerts_nrql_conditions.json", null, queryParams, NRQL_ALERT_CONDITIONS).get();
+        return HTTP.GET("/alerts_external_service_conditions.json", null, queryParams, EXTERNAL_SERVICE_ALERT_CONDITIONS).get();
     }
 
     /**
-     * Returns the NRQL alert condition with the given id.
+     * Returns the external service alert condition with the given id.
      * <P>
      * This is needed because the API does not contain an operation to get a condition using the id directly.
      * @param policyId The id of the policy the condition belongs to
-     * @param id The id of the alert condition to return
+     * @param id The id of the external service alert condition to return
      * @return The alert condition
      */
-    public Optional<NrqlAlertCondition> get(long policyId, long id)
+    public Optional<ExternalServiceAlertCondition> get(long policyId, long id)
     {
-        Optional<NrqlAlertCondition> ret = Optional.absent();
-        Collection<NrqlAlertCondition> conditions = list(policyId);
-        for(NrqlAlertCondition condition : conditions)
+        Optional<ExternalServiceAlertCondition> ret = Optional.absent();
+        Collection<ExternalServiceAlertCondition> conditions = list(policyId);
+        for(ExternalServiceAlertCondition condition : conditions)
         {
             if(condition.getId() == id)
                 ret = Optional.of(condition);
@@ -72,34 +72,34 @@ public class NrqlAlertConditionOperations extends BaseFluent
     }
    
     /**
-     * Creates the given NRQL alert condition.
+     * Creates the given external service alert condition.
      * @param policyId The id of the policy to add the alert condition to
      * @param condition The alert condition to create
      * @return The alert condition that was created
      */
-    public Optional<NrqlAlertCondition> create(long policyId, NrqlAlertCondition condition)
+    public Optional<ExternalServiceAlertCondition> create(long policyId, ExternalServiceAlertCondition condition)
     {
-        return HTTP.POST(String.format("/alerts_nrql_conditions/policies/%d.json", policyId), condition, NRQL_ALERT_CONDITION);
+        return HTTP.POST(String.format("/alerts_external_service_conditions/policies/%d.json", policyId), condition, EXTERNAL_SERVICE_ALERT_CONDITION);
     }
 
     /**
-     * Updates the given NRQL alert condition.
+     * Updates the given external service alert condition.
      * @param condition The alert condition to update
      * @return The alert condition that was updated
      */
-    public Optional<NrqlAlertCondition> update(NrqlAlertCondition condition)
+    public Optional<ExternalServiceAlertCondition> update(ExternalServiceAlertCondition condition)
     {
-        return HTTP.PUT(String.format("/alerts_nrql_conditions/%d.json", condition.getId()), condition, NRQL_ALERT_CONDITION);
+        return HTTP.PUT(String.format("/alerts_external_service_conditions/%d.json", condition.getId()), condition, EXTERNAL_SERVICE_ALERT_CONDITION);
     }
 
     /**
-     * Deletes the NRQL alert condition with the given id.
+     * Deletes the external service alert condition with the given id.
      * @param id The id of the alert condition to delete
      * @return This object
      */
-    public NrqlAlertConditionOperations delete(long id)
+    public ExternalServiceAlertConditionOperations delete(long id)
     {
-        HTTP.DELETE(String.format("/alerts_nrql_conditions/%d.json", id));       
+        HTTP.DELETE(String.format("/alerts_external_service_conditions/%d.json", id));       
         return this;
     }
 }

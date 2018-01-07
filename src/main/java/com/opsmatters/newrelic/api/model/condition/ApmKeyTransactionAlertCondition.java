@@ -16,8 +16,6 @@
 
 package com.opsmatters.newrelic.api.model.condition;
 
-import java.util.List;
-
 /**
  * Represents a New Relic APM Key Transaction alert condition.  
  * 

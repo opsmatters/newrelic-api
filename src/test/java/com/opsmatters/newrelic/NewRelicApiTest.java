@@ -31,6 +31,8 @@ import com.opsmatters.newrelic.api.model.condition.ApmAppAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.Term;
 import com.opsmatters.newrelic.api.model.condition.Nrql;
+import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.ApmExternalServiceAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraMetricAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraHostNotReportingAlertCondition;
@@ -56,6 +58,7 @@ public class NewRelicApiTest
     private String metricConditionName = "test-metric-condition";
     private String hostConditionName = "test-host-condition";
     private String processConditionName = "test-process-condition";
+    private String externalServiceConditionName = "test-external-service-condition";
     private String whereClause = "env=prod";
     private String email = "alerts@test.com";
     private String channel = "#slack";
@@ -92,6 +95,9 @@ public class NewRelicApiTest
         // Create the NRQL condition
         NrqlAlertCondition nrqlCondition = createNrqlCondition(api, policy);
 
+        // Create the external service condition
+        ExternalServiceAlertCondition externalServiceCondition = createExternalServiceCondition(api, policy);
+
         // Create the infrastructure conditions
         InfraAlertCondition infraMetricCondition = createInfraCondition(infraApi, policy,
             getMetricCondition(policy.getId(), metricConditionName, whereClause));
@@ -113,6 +119,9 @@ public class NewRelicApiTest
 
         // Delete the NRQL condition
         deleteNrqlCondition(api, policy, nrqlCondition);
+
+        // Delete the external service condition
+        deleteExternalServiceCondition(api, policy, externalServiceCondition);
 
         // Delete the infrastructure conditions
         deleteInfraCondition(infraApi, infraMetricCondition);
@@ -378,6 +387,68 @@ public class NewRelicApiTest
         try
         {
             ret = api.nrqlAlertConditions().get(policy.getId(), condition.getId());
+        }
+        catch(RuntimeException e)
+        {
+        }
+
+        Assert.assertFalse(ret.isPresent());
+    }
+
+    public ExternalServiceAlertCondition getExternalServiceCondition(long policyId, String name)
+    {
+        Term term = Term.builder()
+            .duration(Term.Duration.MINUTES_10)
+            .criticalPriority()
+            .aboveOperator()
+            .allTimeFunction()
+            .threshold(5)
+            .build();
+
+        return ApmExternalServiceAlertCondition.builder()
+            .name(name)
+            .metric(ApmExternalServiceAlertCondition.Metric.RESPONSE_TIME_AVERAGE)
+            .externalServiceUrl("example.com")
+            .addTerm(term)
+            .enabled(true)
+            .build();
+    }
+
+    public ExternalServiceAlertCondition createExternalServiceCondition(NewRelicApiService api, AlertPolicy policy)
+    {
+        // Create the external service condition
+        logger.info("Create external service condition: "+externalServiceConditionName);
+        ExternalServiceAlertCondition input = getExternalServiceCondition(policy.getId(), externalServiceConditionName);
+        ExternalServiceAlertCondition condition = api.externalServiceAlertConditions().create(policy.getId(), input).get();
+        Assert.assertNotNull(condition);
+
+        // Get the external service condition
+        {
+            logger.info("Get external service condition: "+condition.getId());
+            Optional<ExternalServiceAlertCondition> ret = api.externalServiceAlertConditions().get(policy.getId(), condition.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        // Get all external service conditions for the policy
+        {
+            logger.info("Get all conditions for policy: "+policy.getId());
+            Collection<ExternalServiceAlertCondition> ret = api.externalServiceAlertConditions().list(policy.getId());
+            Assert.assertTrue(ret.size() > 0);
+        }
+
+        return condition;
+    }
+
+    public void deleteExternalServiceCondition(NewRelicApiService api, AlertPolicy policy, ExternalServiceAlertCondition condition)
+    {
+        logger.info("Delete external service condition: "+condition.getId());
+        api.externalServiceAlertConditions().delete(condition.getId());
+
+        Optional<ExternalServiceAlertCondition> ret = Optional.absent();
+
+        try
+        {
+            ret = api.externalServiceAlertConditions().get(policy.getId(), condition.getId());
         }
         catch(RuntimeException e)
         {

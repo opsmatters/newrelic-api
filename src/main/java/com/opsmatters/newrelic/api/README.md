@@ -10,6 +10,7 @@
 - [Alerts Conditions](#alerts-conditions)
 - [Alerts NRQL Conditions](#alerts-nrql-conditions)
 - [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
+- [Alerts External Service Conditions](#alerts-external-service-conditions)
 
 ### Initialisation
 
@@ -103,7 +104,7 @@ Other operations have also been included for alert policy channels:
 * delete(policyId, id): deletes the alert channel with the given id from the policy.
 
 ### Alerts Conditions
-To add a critical APM alert condition for application Apdex above 0.7, instantiate a term object and then pass it to the "create" operation:
+To add a critical APM alert condition for application Apdex above 0.7, instantiate a condition object and then pass it to the "create" operation:
 ```
 Term term = Term.builder()
     .duration(Term.Duration.MINUTES_10)
@@ -132,7 +133,7 @@ Other operations have also been included for APM alert conditions:
 * delete(id): deletes the APM alert condition with the given id.
 
 ### Alerts NRQL Conditions
-To add a critical NRQL alert condition for average CPU percentage above 80%, instantiate a term and nrql object and then pass them to the "create" operation:
+To add a critical NRQL alert condition for average CPU percentage above 80%, instantiate a condition object and then pass them to the "create" operation:
 ```
 Term term = Term.builder()
     .duration(10)
@@ -212,5 +213,33 @@ Other operations have also been included for infrastructure alert conditions:
 * list(policyId): returns all infrastructure alert conditions for the given policy id.
 * get(id): returns the infrastructure alert condition for the given condition id.
 * delete(id): deletes the infrastructure alert condition with the given id.
+
+### Alerts External Service Conditions
+To add a critical external service alert condition for average response time above 5s, instantiate a condition object and then pass it to the "create" operation:
+```
+Term term = Term.builder()
+    .duration(10)
+    .criticalPriority()
+    .aboveOperator()
+    .allTimeFunction()
+    .threshold(5)
+    .build();
+
+ExternalServiceAlertCondition c = ApmExternalServiceAlertCondition.builder()
+    .name("high-response-time-error")
+    .metric(ApmExternalServiceAlertCondition.Metric.RESPONSE_TIME_AVERAGE)
+    .externalServiceUrl("example.com")
+    .addTerm(term)
+    .enabled(true)
+    .build();
+
+ExternalServiceAlertCondition condition = api.externalServiceAlertConditions().create(policy.getId(), c).get();
+```
+The external service alert condition returned includes all the additional fields that were populated by the server on creation eg, "id".
+
+Other operations have also been included for external service alert conditions:
+* list(policyId): returns all external service alert conditions for the given policy id.
+* get(policyId,id): returns the external service alert condition for the given policy id and condition id.
+* delete(id): deletes the external service alert condition with the given id.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

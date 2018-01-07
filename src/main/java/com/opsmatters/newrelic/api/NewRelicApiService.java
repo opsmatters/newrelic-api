@@ -178,6 +178,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to external service alert conditions.
+     * @return The external service alert condition operations
+     */
+    public ExternalServiceAlertConditionOperations externalServiceAlertConditions()
+    {
+        checkInitialize();
+        return new ExternalServiceAlertConditionOperations(httpContext, this);
+    }
+
+    /**
      * Returns the operations related to alert channels.
      * @return The alert channel operations
      */

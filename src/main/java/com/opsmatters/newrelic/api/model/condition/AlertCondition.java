@@ -16,7 +16,6 @@
 
 package com.opsmatters.newrelic.api.model.condition;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 /**

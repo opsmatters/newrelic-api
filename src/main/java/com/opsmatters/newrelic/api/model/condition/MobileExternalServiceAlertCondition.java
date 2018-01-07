@@ -17,28 +17,28 @@
 package com.opsmatters.newrelic.api.model.condition;
 
 /**
- * Represents a New Relic Servers alert condition.  
+ * Represents a New Relic Mobile external service alert condition.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class ServersAlertCondition extends AlertCondition
+public class MobileExternalServiceAlertCondition extends ExternalServiceAlertCondition
 {
     /**
      * The type of the alert condition.
      */
-    public static final ConditionType TYPE = ConditionType.SERVERS;
+    public static final ConditionType TYPE = ConditionType.MOBILE;
 
     /**
      * Represents the metric types for this condition type.  
      */
     public enum Metric
     {
-        CPU_PERCENTAGE("cpu_percentage"),
-        DISK_IO_PERCENTAGE("disk_io_percentage"),
-        MEMORY_PERCENTAGE("memory_percentage"),
-        FULLEST_DISK_PERCENTAGE("fullest_disk_percentage"),
-        LOAD_AVERAGE_ONE_MINUTE("load_average_one_minute"),
-        USER_DEFINED("user_defined");
+        RESPONSE_TIME_AVERAGE("response_time_average"),
+        RESPONSE_TIME_MINIMUM("response_time_minimum"),
+        RESPONSE_TIME_MAXIMUM("response_time_maximum"),
+        THROUGHPUT("throughput"),
+        NETWORK_FAILURE_PERCENTAGE("network_failure_percentage"),
+        HTTP_STATUS_ERROR_PERCENTAGE("http_status_error_percentage");
 
         Metric(String value)
         {
@@ -56,7 +56,7 @@ public class ServersAlertCondition extends AlertCondition
     /**
      * Default constructor.
      */
-    public ServersAlertCondition()
+    public MobileExternalServiceAlertCondition()
     {
         setType(TYPE.value());
     }
@@ -76,7 +76,7 @@ public class ServersAlertCondition extends AlertCondition
     @Override
     public String toString()
     {
-        return "ServersAlertCondition ["+super.toString()+"]";
+        return "MobileExternalServiceAlertCondition ["+super.toString()+"]";
     }
 
     /**
@@ -91,9 +91,9 @@ public class ServersAlertCondition extends AlertCondition
     /**
      * Builder to make alert condition construction easier.
      */
-    public static class Builder extends AlertCondition.Builder<ServersAlertCondition, Builder>
+    public static class Builder extends ExternalServiceAlertCondition.Builder<MobileExternalServiceAlertCondition, Builder>
     {
-        private ServersAlertCondition condition = new ServersAlertCondition();
+        private MobileExternalServiceAlertCondition condition = new MobileExternalServiceAlertCondition();
 
         /**
          * Default constructor.
@@ -115,17 +115,6 @@ public class ServersAlertCondition extends AlertCondition
         }
 
         /**
-         * Sets the user defined of the alert condition.
-         * @param userDefined The user defined of the alert condition
-         * @return This object
-         */
-        public Builder userDefined(UserDefined userDefined)
-        {
-            condition.setUserDefined(userDefined);
-            return this;
-        }
-
-        /**
          * Returns this object.
          * @return This object
          */
@@ -140,7 +129,7 @@ public class ServersAlertCondition extends AlertCondition
          * @return The alert condition instance
          */
         @Override
-        public ServersAlertCondition build()
+        public MobileExternalServiceAlertCondition build()
         {
             return condition;
         }

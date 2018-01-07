@@ -23,7 +23,7 @@ import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 
 /**
- * The set of operations used for APM alert conditions.
+ * The set of operations used for alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */
@@ -40,7 +40,7 @@ public class AlertConditionOperations extends BaseFluent
     }
 
     /**
-     * Returns the set of APM alert conditions for the given policy id.
+     * Returns the set of alert conditions for the given policy id.
      * @param policyId The id of the alert policy to return the conditions for
      * @return The set of alert conditions
      */
@@ -52,7 +52,7 @@ public class AlertConditionOperations extends BaseFluent
     }
 
     /**
-     * Returns the APM alert condition with the given id.
+     * Returns the alert condition with the given id.
      * <P>
      * This is needed because the API does not contain an operation to get a condition using the id directly.
      * @param policyId The id of the policy the condition belongs to
@@ -72,18 +72,18 @@ public class AlertConditionOperations extends BaseFluent
     }
    
     /**
-     * Creates the given APM alert condition.
+     * Creates the given alert condition.
      * @param policyId The id of the policy to add the alert condition to
      * @param condition The alert condition to create
      * @return The alert condition that was created
      */
     public Optional<AlertCondition> create(long policyId, AlertCondition condition)
     {
-        return HTTP.POST(String.format("/alerts_conditions/policies/%d", policyId), condition, ALERT_CONDITION);
+        return HTTP.POST(String.format("/alerts_conditions/policies/%d.json", policyId), condition, ALERT_CONDITION);
     }
 
     /**
-     * Updates the given APM alert condition.
+     * Updates the given alert condition.
      * @param condition The alert condition to update
      * @return The alert condition that was updated
      */
@@ -93,7 +93,7 @@ public class AlertConditionOperations extends BaseFluent
     }
 
     /**
-     * Deletes the APM alert condition with the given id.
+     * Deletes the alert condition with the given id.
      * @param id The id of the alert condition to delete
      * @return This object
      */
