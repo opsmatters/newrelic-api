@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.condition;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.NamedEntity;
+import com.opsmatters.newrelic.api.model.NamedResource;
 
 /**
- * Represents a New Relic alert condition.  
+ * Represents the base class for all New Relic alert conditions.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class BaseCondition extends NamedEntity
+public abstract class BaseCondition extends NamedResource
 {
     private Boolean enabled;
 
@@ -132,8 +132,8 @@ public abstract class BaseCondition extends NamedEntity
         protected abstract B self();
 
         /**
-         * Returns the configured alert channel instance
-         * @return The alert channel instance
+         * Returns the configured alert condition instance
+         * @return The alert condition instance
          */
         public abstract T build();
     }

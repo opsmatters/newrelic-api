@@ -30,6 +30,7 @@ import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition
 import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
+import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -65,6 +66,9 @@ public class BaseFluent
 
     protected static final GenericType<InfraAlertCondition> INFRA_ALERT_CONDITION = new GenericType<InfraAlertCondition>(){};
     protected static final GenericType<Collection<InfraAlertCondition>> INFRA_ALERT_CONDITIONS = new GenericType<Collection<InfraAlertCondition>>(){};
+
+    protected static final GenericType<BrowserApplication> BROWSER_APPLICATION = new GenericType<BrowserApplication>(){};
+    protected static final GenericType<Collection<BrowserApplication>> BROWSER_APPLICATIONS = new GenericType<Collection<BrowserApplication>>(){};
 
     protected HttpContext HTTP;
     private NewRelicApiService apiService;

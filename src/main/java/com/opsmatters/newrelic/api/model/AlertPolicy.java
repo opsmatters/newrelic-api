@@ -23,7 +23,7 @@ import com.google.gson.annotations.SerializedName;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicy extends NamedEntity
+public class AlertPolicy extends NamedResource
 {
     @SerializedName("incident_preference")
     private String incidentPreference;

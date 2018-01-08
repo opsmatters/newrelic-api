@@ -25,7 +25,7 @@ import com.google.gson.annotations.SerializedName;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicyChannel extends NamedEntity
+public class AlertPolicyChannel extends NamedResource
 {
     @SerializedName("channel_ids")
     private List<Long> channelIds = new ArrayList<Long>();

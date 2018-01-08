@@ -48,6 +48,7 @@ import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition
 import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
+import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
 import com.opsmatters.newrelic.httpclient.serializers.AlertPolicySerializer;
 import com.opsmatters.newrelic.httpclient.serializers.channel.AlertChannelSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.AlertConditionSerializer;
@@ -56,6 +57,7 @@ import com.opsmatters.newrelic.httpclient.serializers.condition.ExternalServiceA
 import com.opsmatters.newrelic.httpclient.serializers.condition.PluginsAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.SyntheticsAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.InfraAlertConditionSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.entity.BrowserApplicationSerializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertPolicyDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertPoliciesDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertPolicyChannelDeserializer;
@@ -73,6 +75,8 @@ import com.opsmatters.newrelic.httpclient.deserializers.condition.SyntheticsAler
 import com.opsmatters.newrelic.httpclient.deserializers.condition.SyntheticsAlertConditionsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.condition.InfraAlertConditionDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.condition.InfraAlertConditionsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entity.BrowserApplicationDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entity.BrowserApplicationsDeserializer;
 
 /**
  * Provides GSON support for serializing and deserializing objects.
@@ -94,6 +98,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Type PLUGINS_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<PluginsAlertCondition>>(){}.getType();
     private static final Type SYNTHETICS_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<SyntheticsAlertCondition>>(){}.getType();
     private static final Type INFRA_ALERT_CONDITIONS_TYPE = new TypeToken<Collection<InfraAlertCondition>>(){}.getType();
+    private static final Type BROWSER_APPLICATIONS_TYPE = new TypeToken<Collection<BrowserApplication>>(){}.getType();
 
     private Gson gson;
 
@@ -131,6 +136,9 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeHierarchyAdapter(InfraAlertCondition.class, new InfraAlertConditionSerializer());
             builder.registerTypeAdapter(InfraAlertCondition.class, new InfraAlertConditionDeserializer());
             builder.registerTypeAdapter(INFRA_ALERT_CONDITIONS_TYPE, new InfraAlertConditionsDeserializer());
+            builder.registerTypeAdapter(BrowserApplication.class, new BrowserApplicationSerializer());
+            builder.registerTypeAdapter(BrowserApplication.class, new BrowserApplicationDeserializer());
+            builder.registerTypeAdapter(BROWSER_APPLICATIONS_TYPE, new BrowserApplicationsDeserializer());
             builder.registerTypeAdapter(ResponseError.class, new ResponseErrorDeserializer());
             gson = builder.create();
         }

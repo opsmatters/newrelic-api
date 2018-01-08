@@ -4,15 +4,21 @@
 ### Table of contents
 
 - [Initialisation](#initialisation)
+
+#### Alerts API
 - [Alerts Channels](#alerts-channels)
 - [Alerts Policies](#alerts-policies)
 - [Alerts Policy Channels](#alerts-policy-channels)
 - [Alerts Conditions](#alerts-conditions)
+- [Alerts Entity Conditions](#alerts-entity-conditions)
 - [Alerts NRQL Conditions](#alerts-nrql-conditions)
 - [Alerts External Service Conditions](#alerts-external-service-conditions)
 - [Alerts Plugins Conditions](#alerts-plugins-conditions)
 - [Alerts Synthetics Conditions](#alerts-synthetics-conditions)
 - [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
+
+#### APM API
+- [Browser Applications](#browser-applications)
 
 ### Initialisation
 
@@ -133,6 +139,17 @@ Other operations have also been included for APM alert conditions:
 * list(policyId): returns all APM alert conditions for the given policy id.
 * get(policyId,id): returns the APM alert condition for the given policy id and condition id.
 * delete(id): deletes the APM alert condition with the given id.
+
+### Alerts Entity Conditions
+To add an entity to an APM alert condition, call the "add" operation:
+```
+AlertCondition condition = api.alertEntityConditions().add(condition.getId(), entityId, entityType).get();
+```
+The APM alert condition returned includes all the additional fields that were updated by the server on creation eg, "entities".
+
+Other operations have also been included for alert entity conditions:
+* get(entityId,entityType): returns the APM alert condition for the given entity id.
+* remove(conditionId,entityId,entityType): removes the given entity id from the APM alert condition with the given id.
 
 ### Alerts NRQL Conditions
 To add a critical NRQL alert condition for average CPU percentage above 80%, instantiate a condition object and then pass them to the "create" operation:
@@ -297,5 +314,20 @@ Other operations have also been included for infrastructure alert conditions:
 * list(policyId): returns all infrastructure alert conditions for the given policy id.
 * get(id): returns the infrastructure alert condition for the given condition id.
 * delete(id): deletes the infrastructure alert condition with the given id.
+
+### Browser Applications
+To add a browser application, instantiate an application object and then pass it to the "create" operation:
+```
+BrowserApplication a = BrowserApplication.builder()
+    .name("test-browser-app")
+    .build();
+
+BrowserApplication application = api.browserApplications().create(a).get();
+```
+The Browser application returned includes all the additional fields that were populated by the server on creation eg, "id", "browser_monitoring_key".
+
+Other operations have also been included for Browser applications:
+* list(): returns all Browser applications.
+* get(id): returns the Browser application for the given id.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

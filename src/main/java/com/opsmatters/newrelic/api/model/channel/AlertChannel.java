@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.channel;
 
 import java.util.List;
-import com.opsmatters.newrelic.api.model.NamedEntity;
+import com.opsmatters.newrelic.api.model.NamedResource;
 
 /**
  * Represents a New Relic alert channel.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class AlertChannel extends NamedEntity
+public abstract class AlertChannel extends NamedResource
 {
     private String type;
     private ChannelConfiguration configuration;

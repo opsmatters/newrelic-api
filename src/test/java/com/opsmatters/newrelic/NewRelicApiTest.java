@@ -28,6 +28,7 @@ import com.opsmatters.newrelic.api.model.AlertPolicy;
 import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
 import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 import com.opsmatters.newrelic.api.model.condition.ApmAppAlertCondition;
+import com.opsmatters.newrelic.api.model.condition.BrowserAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.Term;
 import com.opsmatters.newrelic.api.model.condition.Nrql;
@@ -44,6 +45,8 @@ import com.opsmatters.newrelic.api.model.condition.Threshold;
 import com.opsmatters.newrelic.api.model.channel.AlertChannel;
 import com.opsmatters.newrelic.api.model.channel.EmailChannel;
 import com.opsmatters.newrelic.api.model.channel.SlackChannel;
+import com.opsmatters.newrelic.api.model.entity.Entity;
+import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -57,6 +60,7 @@ public class NewRelicApiTest
     private String key = System.getProperty(NewRelicApiService.API_KEY_PROPERTY);
     private String policyName = "test-policy";
     private String apmConditionName = "test-apm-condition";
+    private String browserConditionName = "test-browser-condition";
     private String nrqlConditionName = "test-nrql-condition";
     private String metricConditionName = "test-metric-condition";
     private String hostConditionName = "test-host-condition";
@@ -64,6 +68,7 @@ public class NewRelicApiTest
     private String externalServiceConditionName = "test-external-service-condition";
     private String pluginsConditionName = "test-plugins-condition";
     private String syntheticsConditionName = "test-synthetics-condition";
+    private String browserApplicationName = "test-browser-application-"+System.currentTimeMillis();
     private String whereClause = "env=prod";
     private String email = "alerts@test.com";
     private String channel = "#slack";
@@ -81,6 +86,10 @@ public class NewRelicApiTest
         NewRelicApiService api = getService();
         Assert.assertNotNull(api);
 
+        // Create the browser application
+        BrowserApplication browserApplication = createBrowserApplication(api, 
+            getBrowserApplication(browserApplicationName));
+
         NewRelicInfraApiService infraApi = getInfraService();
         Assert.assertNotNull(infraApi);
 
@@ -97,6 +106,8 @@ public class NewRelicApiTest
         // Create the conditions
         AlertCondition apmCondition = createApmCondition(api, policy, 
             getApmAppCondition(policy.getId(), apmConditionName));
+        AlertCondition browserCondition = createApmCondition(api, policy, 
+            getBrowserCondition(policy.getId(), browserConditionName));
         NrqlAlertCondition nrqlCondition = createNrqlCondition(api, policy, 
             getNrqlCondition(policy.getId(), nrqlConditionName));
         ExternalServiceAlertCondition externalServiceCondition = createExternalServiceCondition(api, policy,
@@ -116,6 +127,9 @@ public class NewRelicApiTest
         addPolicyChannel(api, policy, emailChannel);
         addPolicyChannel(api, policy, slackChannel);
 
+        // Add the entity to the condition
+        addEntityCondition(api, browserApplication, browserCondition);
+
         // Get all the conditions
         getAllApmConditions(api, policy);
         getAllNrqlConditions(api, policy);
@@ -124,12 +138,22 @@ public class NewRelicApiTest
         getAllSyntheticsConditions(api, policy);
         getAllInfraConditions(infraApi, policy);
 
+        // Get all the applications
+        getBrowserApplications(api);
+
+        // Get all the entity conditions
+        getEntityConditions(api, browserApplication);
+
         // Delete the channels from the policy
         deletePolicyChannel(api, policy, emailChannel);
         deletePolicyChannel(api, policy, slackChannel);
 
+        // Remove the entity from the condition
+        removeEntityCondition(api, browserApplication, browserCondition);
+
         // Delete the conditions
         deleteApmCondition(api, policy, apmCondition);
+        deleteApmCondition(api, policy, browserCondition);
         deleteNrqlCondition(api, policy, nrqlCondition);
         deleteExternalServiceCondition(api, policy, externalServiceCondition);
         deletePluginsCondition(api, policy, pluginsCondition);
@@ -209,6 +233,25 @@ public class NewRelicApiTest
         return ApmAppAlertCondition.builder()
             .name(name)
             .metric(ApmAppAlertCondition.Metric.APDEX)
+            .applicationConditionScope()
+            .addTerm(term)
+            .enabled(true)
+            .build();
+    }
+
+    public AlertCondition getBrowserCondition(long policyId, String name)
+    {
+        Term term = Term.builder()
+            .duration(Term.Duration.MINUTES_10)
+            .criticalPriority()
+            .aboveOperator()
+            .allTimeFunction()
+            .threshold(1)
+            .build();
+
+        return BrowserAlertCondition.builder()
+            .name(name)
+            .metric(BrowserAlertCondition.Metric.END_USER_APDEX)
             .applicationConditionScope()
             .addTerm(term)
             .enabled(true)
@@ -633,5 +676,56 @@ public class NewRelicApiTest
     {
         logger.info("Deleting alert channel: "+channel.getId()+" from policy: "+policy.getId());
         api.alertPolicyChannels().delete(policy.getId(), channel.getId());
+    }
+
+    public void addEntityCondition(NewRelicApiService api, Entity entity, AlertCondition condition)
+    {
+        logger.info("Adding entity condition: "+condition.getId()+" to entity: "+entity.getId());
+        Optional<AlertCondition> ret = api.alertEntityConditions().add(entity, condition.getId());
+        Assert.assertTrue(ret.isPresent() && ArrayUtils.contains(ret.get().getEntitiesArray(), entity.getId()));
+    }
+
+    public Collection<AlertCondition> getEntityConditions(NewRelicApiService api, Entity entity)
+    {
+        logger.info("Get conditions for entity: "+entity.getId());
+        Collection<AlertCondition> ret = api.alertEntityConditions().list(entity);
+        Assert.assertTrue(ret.size() > 0);
+        return ret;
+    }
+
+    public void removeEntityCondition(NewRelicApiService api, Entity entity, AlertCondition condition)
+    {
+        logger.info("Removing entity condition: "+condition.getId()+" from entity: "+entity.getId());
+        api.alertEntityConditions().remove(entity, condition.getId());
+    }
+
+    public BrowserApplication getBrowserApplication(String name)
+    {
+        return BrowserApplication.builder()
+            .name(name)
+            .build();
+    }
+
+    public BrowserApplication createBrowserApplication(NewRelicApiService api, BrowserApplication input)
+    {
+        logger.info("Create browser application: "+input.getName());
+        BrowserApplication application = api.browserApplications().create(input).get();
+
+        // Get the browser application
+        {
+            logger.info("Get browser applications: "+application.getId());
+            Optional<BrowserApplication> ret = api.browserApplications().get(application.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        return application;
+    }
+
+    public Collection<BrowserApplication> getBrowserApplications(NewRelicApiService api)
+    {
+        logger.info("Get all browser applications: ");
+        Collection<BrowserApplication> ret = api.browserApplications().list();
+        Assert.assertTrue(ret.size() > 0);
+        return ret;
     }
 }

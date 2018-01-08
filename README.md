@@ -9,19 +9,21 @@ A Java library for the New Relic REST APIs built using Jersey and Gson.
 
 The following New Relic APIs are currently supported:
 
-### APM API
-* Applications (List, Show, Update, Delete, Metric Names, Metric Data)
-
 ### Alerts API
 * Alerts Channels (List, Create, Delete)
 * Alerts Policies (List, Create, Update, Delete)
 * Alerts Policy Channels (Update, Delete)
 * Alerts Conditions (List, Create, Update, Delete)
+* Alerts Entity Conditions (List, Add, Remove)
 * Alerts NRQL Conditions (List, Create, Update, Delete)
 * Alerts External Service Conditions (List, Create, Update, Delete)
 * Alerts Plugins Conditions (List, Create, Update, Delete)
 * Alerts Synthetics Conditions (List, Create, Update, Delete)
 * Alerts Infrastructure Conditions (List, Create, Update, Delete)
+
+### APM API
+* Applications (List, Show, Update, Delete, Metric Names, Metric Data)
+* Browser Applications (List, Create, Delete)
 
 Other APIs can be included on request.
 

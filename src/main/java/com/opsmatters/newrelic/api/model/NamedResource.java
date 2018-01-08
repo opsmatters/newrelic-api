@@ -17,11 +17,11 @@
 package com.opsmatters.newrelic.api.model;
 
 /**
- * Represents the base class for all named entities.
+ * Represents the base class for all entities with a name and id.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class NamedEntity
+public abstract class NamedResource
 {
     private Long id;
     private String name;
@@ -29,13 +29,13 @@ public abstract class NamedEntity
     /**
      * Default constructor.
      */
-    public NamedEntity()
+    public NamedResource()
     {
     }
    
     /**
-     * Returns the id of the entity.
-     * @return The id of the entity
+     * Returns the id of the resource.
+     * @return The id of the resource
      */
     public long getId()
     {
@@ -43,8 +43,8 @@ public abstract class NamedEntity
     }
 
     /**
-     * Sets the name of the entity.
-     * @param name The name of the entity
+     * Sets the name of the resource.
+     * @param name The name of the resource
      */
     public void setName(String name)
     {
@@ -52,8 +52,8 @@ public abstract class NamedEntity
     }
 
     /**
-     * Returns the name of the entity.
-     * @return The name of the entity
+     * Returns the name of the resource.
+     * @return The name of the resource
      */
     public String getName()
     {
@@ -61,7 +61,7 @@ public abstract class NamedEntity
     }
     
     /**
-     * Returns a string representation of the entity.
+     * Returns a string representation of the resource.
      */
     @Override
     public String toString()

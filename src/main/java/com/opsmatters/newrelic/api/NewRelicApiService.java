@@ -168,6 +168,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to APM alert entity conditions.
+     * @return The APM alert entity condition operations
+     */
+    public AlertEntityConditionOperations alertEntityConditions()
+    {
+        checkInitialize();
+        return new AlertEntityConditionOperations(httpContext, this);
+    }
+
+    /**
      * Returns the operations related to NRQL alert conditions.
      * @return The NRQL alert condition operations
      */
@@ -224,6 +234,16 @@ public class NewRelicApiService
     {
         checkInitialize();
         return new AlertPolicyChannelOperations(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to Browser applications.
+     * @return The Browser application operations
+     */
+    public BrowserApplicationOperations browserApplications()
+    {
+        checkInitialize();
+        return new BrowserApplicationOperations(httpContext, this);
     }
 
     /**
