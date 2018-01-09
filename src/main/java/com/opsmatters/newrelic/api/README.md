@@ -5,7 +5,7 @@
 
 - [Initialisation](#initialisation)
 
-#### Alerts API
+#### Alerts v2 API
 - [Alerts Channels](#alerts-channels)
 - [Alerts Policies](#alerts-policies)
 - [Alerts Policy Channels](#alerts-policy-channels)
@@ -335,7 +335,7 @@ Collection<AlertEvent> events = api.alertEvents().list(filters);
 ```
 
 ### Alerts Violations
-To list violations, call the "list" operation with a date range and flag to return only open violations:
+To list all violations, call the "list" operation with a date range and a flag to indicate if only open violations are required:
 ```
 Calendar c = Calendar.getInstance();
 c.add(Calendar.DATE, -7); // select violations for the last week
@@ -346,7 +346,7 @@ Collection<AlertViolation> violations = api.alertViolations().list(startDate, en
 ```
 
 ### Alerts Incidents
-To list all incidents, call the "list" operation with a flag to return only open violations:
+To list all incidents, call the "list" operation with a flag to indicate if only open violations are required:
 ```
 boolean onlyOpen = true;
 Collection<AlertIncident> incidents = api.alertIncidents().list(onlyOpen);

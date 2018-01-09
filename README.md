@@ -9,7 +9,7 @@ A Java client library for the New Relic Monitoring and Alerting REST APIs built 
 
 The following New Relic APIs are currently supported:
 
-### Alerts API
+### Alerts v2 API
 * Alerts Channels (List, Create, Delete)
 * Alerts Policies (List, Create, Update, Delete)
 * Alerts Policy Channels (Update, Delete)
