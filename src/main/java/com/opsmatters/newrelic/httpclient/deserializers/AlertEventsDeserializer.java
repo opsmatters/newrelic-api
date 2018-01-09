@@ -16,16 +16,19 @@
 
 package com.opsmatters.newrelic.httpclient.deserializers;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
+import com.opsmatters.newrelic.api.model.AlertEvent;
 
 /**
- * Deserializer class for alert policy channels.
+ * Deserializer class for alert events.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicyChannelDeserializer implements JsonDeserializer<AlertPolicyChannel>
+public class AlertEventsDeserializer implements JsonDeserializer<Collection<AlertEvent>>
 {
     private static Gson gson = new Gson();
 
@@ -34,16 +37,20 @@ public class AlertPolicyChannelDeserializer implements JsonDeserializer<AlertPol
      * @param element The Json data being deserialized
      * @param type The type of the Object to deserialize to 
      * @param context The JSON deserialization context
-     * @return The alert policy channel 
+     * @return The alert events 
      */
     @Override
-    public AlertPolicyChannel deserialize(JsonElement element, Type type, JsonDeserializationContext context)
+    public Collection<AlertEvent> deserialize(JsonElement element, Type type, JsonDeserializationContext context)
         throws JsonParseException
     {
         JsonObject obj = element.getAsJsonObject();
-        JsonElement policy = obj.get("policy");
-        if(policy != null && policy.isJsonObject())
-            return gson.fromJson(policy, AlertPolicyChannel.class);
-        return gson.fromJson(element, AlertPolicyChannel.class);
+        JsonArray events = obj.getAsJsonArray("recent_events");
+        List<AlertEvent> values = new ArrayList<AlertEvent>();
+        if(events != null && events.isJsonArray())
+        {
+            for(JsonElement event : events)
+                values.add(gson.fromJson(event, AlertEvent.class));
+        }
+        return values;
     }
 }

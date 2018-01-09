@@ -16,6 +16,9 @@
 - [Alerts Plugins Conditions](#alerts-plugins-conditions)
 - [Alerts Synthetics Conditions](#alerts-synthetics-conditions)
 - [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
+- [Alerts Events](#alerts-events)
+- [Alerts Violations](#alerts-violations)
+- [Alerts Incidents](#alerts-incidents)
 
 #### APM API
 - [Browser Applications](#browser-applications)
@@ -314,6 +317,40 @@ Other operations have also been included for infrastructure alert conditions:
 * list(policyId): returns all infrastructure alert conditions for the given policy id.
 * get(id): returns the infrastructure alert condition for the given condition id.
 * delete(id): deletes the infrastructure alert condition with the given id.
+
+### Alerts Events
+To list all events, call the "list" operation with no parameters:
+```
+Collection<AlertEvent> events = api.alertEvents().list();
+```
+
+To list all events matching one or more filters, build the set of filters and pass it to the "list" operation:
+```
+Map<String,Object> filters = AlertEventOperations.filters()
+    .product(Product.APM)
+    .entityType(EntityType.APPLICATION)
+    .eventType(AlertEvent.EventType.VIOLATION_OPEN)
+    .build();
+Collection<AlertEvent> events = api.alertEvents().list(filters);
+```
+
+### Alerts Violations
+To list violations, call the "list" operation with a date range and flag to return only open violations:
+```
+Calendar c = Calendar.getInstance();
+c.add(Calendar.DATE, -7); // select violations for the last week
+long startDate = c.getTimeInMillis();
+long endDate = System.currentTimeMillis();
+boolean onlyOpen = true;
+Collection<AlertViolation> violations = api.alertViolations().list(startDate, endDate, onlyOpen);
+```
+
+### Alerts Incidents
+To list all incidents, call the "list" operation with a flag to return only open violations:
+```
+boolean onlyOpen = true;
+Collection<AlertIncident> incidents = api.alertIncidents().list(onlyOpen);
+```
 
 ### Browser Applications
 To add a browser application, instantiate an application object and then pass it to the "create" operation:

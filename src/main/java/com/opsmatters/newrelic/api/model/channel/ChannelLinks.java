@@ -43,8 +43,8 @@ public class ChannelLinks
      */
     public void setPolicyIds(List<Integer> policyIds)
     {
-        policyIds.clear();
-        policyIds.addAll(policyIds);
+        this.policyIds.clear();
+        this.policyIds.addAll(policyIds);
     }
 
     /**

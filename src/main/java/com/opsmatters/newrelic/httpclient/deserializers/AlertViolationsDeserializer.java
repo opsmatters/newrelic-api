@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.AlertPolicy;
+import com.opsmatters.newrelic.api.model.AlertViolation;
 
 /**
- * Deserializer class for alert policies.
+ * Deserializer class for alert violations.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPoliciesDeserializer implements JsonDeserializer<Collection<AlertPolicy>>
+public class AlertViolationsDeserializer implements JsonDeserializer<Collection<AlertViolation>>
 {
     private static Gson gson = new Gson();
 
@@ -37,19 +37,19 @@ public class AlertPoliciesDeserializer implements JsonDeserializer<Collection<Al
      * @param element The Json data being deserialized
      * @param type The type of the Object to deserialize to 
      * @param context The JSON deserialization context
-     * @return The alert policies 
+     * @return The alert violations 
      */
     @Override
-    public Collection<AlertPolicy> deserialize(JsonElement element, Type type, JsonDeserializationContext context)
+    public Collection<AlertViolation> deserialize(JsonElement element, Type type, JsonDeserializationContext context)
         throws JsonParseException
     {
         JsonObject obj = element.getAsJsonObject();
-        JsonArray policies = obj.getAsJsonArray("policies");
-        List<AlertPolicy> values = new ArrayList<AlertPolicy>();
-        if(policies != null && policies.isJsonArray())
+        JsonArray violations = obj.getAsJsonArray("violations");
+        List<AlertViolation> values = new ArrayList<AlertViolation>();
+        if(violations != null && violations.isJsonArray())
         {
-            for(JsonElement policy : policies)
-                values.add(gson.fromJson(policy, AlertPolicy.class));
+            for(JsonElement violation : violations)
+                values.add(gson.fromJson(violation, AlertViolation.class));
         }
         return values;
     }

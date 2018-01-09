@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.deserializers;
+package com.opsmatters.newrelic.httpclient.deserializers.policy;
 
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.AlertPolicy;
+import com.opsmatters.newrelic.api.model.policy.AlertPolicyChannel;
 
 /**
- * Deserializer class for alert policies.
+ * Deserializer class for alert policy channels.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicyDeserializer implements JsonDeserializer<AlertPolicy>
+public class AlertPolicyChannelDeserializer implements JsonDeserializer<AlertPolicyChannel>
 {
     private static Gson gson = new Gson();
 
@@ -34,16 +34,16 @@ public class AlertPolicyDeserializer implements JsonDeserializer<AlertPolicy>
      * @param element The Json data being deserialized
      * @param type The type of the Object to deserialize to 
      * @param context The JSON deserialization context
-     * @return The alert policy 
+     * @return The alert policy channel 
      */
     @Override
-    public AlertPolicy deserialize(JsonElement element, Type type, JsonDeserializationContext context)
+    public AlertPolicyChannel deserialize(JsonElement element, Type type, JsonDeserializationContext context)
         throws JsonParseException
     {
         JsonObject obj = element.getAsJsonObject();
         JsonElement policy = obj.get("policy");
         if(policy != null && policy.isJsonObject())
-            return gson.fromJson(policy, AlertPolicy.class);
-        return gson.fromJson(element, AlertPolicy.class);
+            return gson.fromJson(policy, AlertPolicyChannel.class);
+        return gson.fromJson(element, AlertPolicyChannel.class);
     }
 }

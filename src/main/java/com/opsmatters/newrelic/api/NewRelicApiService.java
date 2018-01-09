@@ -226,6 +226,7 @@ public class NewRelicApiService
         checkInitialize();
         return new AlertChannelOperations(httpContext, this);
     }
+
     /**
      * Returns the operations related to alert policy channels.
      * @return The alert policy channel operations
@@ -234,6 +235,36 @@ public class NewRelicApiService
     {
         checkInitialize();
         return new AlertPolicyChannelOperations(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to alert incidents.
+     * @return The alert incident operations
+     */
+    public AlertIncidentOperations alertIncidents()
+    {
+        checkInitialize();
+        return new AlertIncidentOperations(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to alert violations.
+     * @return The alert violation operations
+     */
+    public AlertViolationOperations alertViolations()
+    {
+        checkInitialize();
+        return new AlertViolationOperations(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to alert events.
+     * @return The alert event operations
+     */
+    public AlertEventOperations alertEvents()
+    {
+        checkInitialize();
+        return new AlertEventOperations(httpContext, this);
     }
 
     /**

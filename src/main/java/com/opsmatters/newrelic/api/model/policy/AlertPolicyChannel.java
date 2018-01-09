@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.policy;
 
 import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
+import com.opsmatters.newrelic.api.model.NamedResource;
 
 /**
  * Represents a New Relic alert policy channel.  

@@ -2,10 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.1.1-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>newrelic-api</name>
-  <description>Java library for the New Relic REST APIs built using Jersey and Gson</description>
+  <description>
+    Java client library for the New Relic REST APIs built using Jersey and Gson.
+    The library can be used by applications to automate the configuration of New Relic Monitoring and Alerting, as well as for extracting alert and metric data.
+  </description>
   <url>https://github.com/opsmatters/newrelic-api</url>
 
   <issueManagement>
@@ -25,7 +28,7 @@
     <url>https://github.com/opsmatters/newrelic-api</url>
     <connection>scm:git:https://github.com/opsmatters/newrelic-api.git</connection>
     <developerConnection>scm:git:https://github.com/opsmatters/newrelic-api.git</developerConnection>
-    <tag>newrelic-api-0.1.0</tag>
+    <tag>newrelic-api-0.2.0</tag>
   </scm>
 
   <developers>
@@ -289,13 +292,31 @@ built.on=${TODAY}
 <dependency>
   <groupId>com.google.code.gson</groupId>
   <artifactId>gson</artifactId>
-  <version>2.8.1</version>
+  <version>2.8.2</version>
 </dependency>
 
 <dependency>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>20.0</version>
+  <version>23.0</version>
+    <exclusions>
+      <exclusion>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+      </exclusion>
+      <exclusion>
+        <groupId>com.google.errorprone</groupId>
+        <artifactId>error_prone_annotations</artifactId>
+      </exclusion>
+      <exclusion>
+        <groupId>com.google.j2objc</groupId>
+        <artifactId>j2objc-annotations</artifactId>
+      </exclusion>
+      <exclusion>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-annotations</artifactId>
+      </exclusion>
+    </exclusions>
 </dependency>
 
 <dependency> 

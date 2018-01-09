@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.serializers;
+package com.opsmatters.newrelic.httpclient.serializers.policy;
 
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.AlertPolicy;
+import com.opsmatters.newrelic.api.model.policy.AlertPolicy;
 
 /**
  * Deserializer class for alert policies.

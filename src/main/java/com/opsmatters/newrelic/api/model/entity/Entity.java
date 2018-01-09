@@ -61,7 +61,7 @@ public abstract class Entity extends NamedResource
     public String toString()
     {
         return super.toString()
-            +"type="+type;
+            +", type="+getType();
     }
 
     /**

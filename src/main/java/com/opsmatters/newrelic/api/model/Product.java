@@ -14,33 +14,21 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model.entity;
+package com.opsmatters.newrelic.api.model;
 
 /**
- * Represents the available New Relic entity types.
+ * Represents a New Relic product.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public enum EntityType
+public enum Product
 {
-    APPLICATION("Application"),
-    BROWSER_APPLICATION("BrowserApplication"),
-    MOBILE_APPLICATION("MobileApplication"),
-    SERVER("Server"),
-    KEY_TRANSACTION("KeyTransaction"),
-    PLUGIN("Plugin"),
-    MONITOR("Monitor"),
-    HOST("Host");
-
-    EntityType(String value)
-    {
-        this.value = value;
-    }
-
-    public String value()
-    {
-        return value;
-    }
-
-    private String value;
+    APM, 
+    BROWSER, 
+    MOBILE, 
+    SERVERS, 
+    PLUGINS, 
+    SYNTHETICS,
+    ALERTS,
+    INFRASTRUCTURE;
 }

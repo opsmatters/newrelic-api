@@ -17,6 +17,8 @@
 package com.opsmatters.newrelic;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Calendar;
 import java.util.logging.Logger;
 import org.junit.Test;
 import junit.framework.Assert;
@@ -24,8 +26,13 @@ import com.google.common.base.Optional;
 import org.apache.commons.lang3.ArrayUtils;
 import com.opsmatters.newrelic.api.NewRelicApiService;
 import com.opsmatters.newrelic.api.NewRelicInfraApiService;
-import com.opsmatters.newrelic.api.model.AlertPolicy;
-import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
+import com.opsmatters.newrelic.api.AlertEventOperations;
+import com.opsmatters.newrelic.api.model.AlertEvent;
+import com.opsmatters.newrelic.api.model.AlertViolation;
+import com.opsmatters.newrelic.api.model.AlertIncident;
+import com.opsmatters.newrelic.api.model.Product;
+import com.opsmatters.newrelic.api.model.policy.AlertPolicy;
+import com.opsmatters.newrelic.api.model.policy.AlertPolicyChannel;
 import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 import com.opsmatters.newrelic.api.model.condition.ApmAppAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.BrowserAlertCondition;
@@ -46,6 +53,7 @@ import com.opsmatters.newrelic.api.model.channel.AlertChannel;
 import com.opsmatters.newrelic.api.model.channel.EmailChannel;
 import com.opsmatters.newrelic.api.model.channel.SlackChannel;
 import com.opsmatters.newrelic.api.model.entity.Entity;
+import com.opsmatters.newrelic.api.model.entity.EntityType;
 import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
 
 /**
@@ -75,9 +83,9 @@ public class NewRelicApiTest
     private String webhookUrl = "https://hooks.slack.com/services/T8LVC2SGM/B8M02K7yy/k7SrSQGoluE2olG3LpmH4sxx";
 
     @Test
-    public void testChannelAndPolicyOperations()
+    public void testAlertOperations()
     {
-        String testName = "ChannelAndPolicyOperations";
+        String testName = "AlertOperations";
         logger.info("Starting test: "+testName);
 
         // Initialise the services
@@ -143,6 +151,12 @@ public class NewRelicApiTest
 
         // Get all the entity conditions
         getEntityConditions(api, browserApplication);
+
+        // Get all the alert data
+        getAlertEvents(api);
+        getAlertEventsWithFilters(api);
+        getAlertViolations(api);
+        getAlertIncidents(api);
 
         // Delete the channels from the policy
         deletePolicyChannel(api, policy, emailChannel);
@@ -726,6 +740,96 @@ public class NewRelicApiTest
         logger.info("Get all browser applications: ");
         Collection<BrowserApplication> ret = api.browserApplications().list();
         Assert.assertTrue(ret.size() > 0);
+        return ret;
+    }
+
+    public Collection<AlertEvent> getAlertEvents(NewRelicApiService api)
+    {
+
+        Collection<AlertEvent> ret = null;
+
+        try
+        {
+            logger.info("Get alert events: ");
+            ret = api.alertEvents().list();
+        }
+        catch(RuntimeException e)
+        {
+            // Throws 404 error if no events found
+            logger.warning("Error in get alert events: "+e.getMessage());
+        }
+        catch(Exception e)
+        {
+            Assert.fail("Error in get alert events: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Collection<AlertEvent> getAlertEventsWithFilters(NewRelicApiService api)
+    {
+
+        Collection<AlertEvent> ret = null;
+
+        try
+        {
+            Map<String,Object> filters = AlertEventOperations.filters()
+                //.product(Product.INFRASTRUCTURE)
+                .entityType(EntityType.HOST)
+                //.eventType(AlertEvent.EventType.NOTIFICATION)
+                .eventType(AlertEvent.EventType.VIOLATION_OPEN)
+                .build();
+            logger.info("Get alert events with filters: "+filters);
+            ret = api.alertEvents().list(filters);
+        }
+        catch(RuntimeException e)
+        {
+            // Throws 404 error if no events found
+            logger.warning("Error in alert events: "+e.getMessage());
+        }
+        catch(Exception e)
+        {
+            Assert.fail("Error in get alert events with filters: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Collection<AlertViolation> getAlertViolations(NewRelicApiService api)
+    {
+        Collection<AlertViolation> ret = null;
+
+        try
+        {
+            logger.info("Get alert violations: ");
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DATE, -7); // violations for the last week
+            long startDate = c.getTimeInMillis();
+            long endDate = System.currentTimeMillis();
+            ret = api.alertViolations().list(startDate, endDate, false);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get alert violations: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Collection<AlertIncident> getAlertIncidents(NewRelicApiService api)
+    {
+        Collection<AlertIncident> ret = null;
+
+        try
+        {
+            logger.info("Get alert incidents: ");
+            ret = api.alertIncidents().list(false);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get alert incidents: "+e.getMessage());
+        }
+
         return ret;
     }
 }

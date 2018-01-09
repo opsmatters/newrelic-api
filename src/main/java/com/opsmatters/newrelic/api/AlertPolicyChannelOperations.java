@@ -19,7 +19,7 @@ package com.opsmatters.newrelic.api;
 import java.util.Map;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
+import com.opsmatters.newrelic.api.model.policy.AlertPolicyChannel;
 
 /**
  * The set of operations used for alert policy channels.

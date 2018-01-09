@@ -21,8 +21,11 @@ import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ws.rs.core.GenericType;
-import com.opsmatters.newrelic.api.model.AlertPolicy;
-import com.opsmatters.newrelic.api.model.AlertPolicyChannel;
+import com.opsmatters.newrelic.api.model.AlertIncident;
+import com.opsmatters.newrelic.api.model.AlertViolation;
+import com.opsmatters.newrelic.api.model.AlertEvent;
+import com.opsmatters.newrelic.api.model.policy.AlertPolicy;
+import com.opsmatters.newrelic.api.model.policy.AlertPolicyChannel;
 import com.opsmatters.newrelic.api.model.channel.AlertChannel;
 import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
@@ -66,6 +69,15 @@ public class BaseFluent
 
     protected static final GenericType<InfraAlertCondition> INFRA_ALERT_CONDITION = new GenericType<InfraAlertCondition>(){};
     protected static final GenericType<Collection<InfraAlertCondition>> INFRA_ALERT_CONDITIONS = new GenericType<Collection<InfraAlertCondition>>(){};
+
+    protected static final GenericType<AlertIncident> ALERT_INCIDENT = new GenericType<AlertIncident>(){};
+    protected static final GenericType<Collection<AlertIncident>> ALERT_INCIDENTS = new GenericType<Collection<AlertIncident>>(){};
+
+    protected static final GenericType<AlertViolation> ALERT_VIOLATION = new GenericType<AlertViolation>(){};
+    protected static final GenericType<Collection<AlertViolation>> ALERT_VIOLATIONS = new GenericType<Collection<AlertViolation>>(){};
+
+    protected static final GenericType<AlertEvent> ALERT_EVENT = new GenericType<AlertEvent>(){};
+    protected static final GenericType<Collection<AlertEvent>> ALERT_EVENTS = new GenericType<Collection<AlertEvent>>(){};
 
     protected static final GenericType<BrowserApplication> BROWSER_APPLICATION = new GenericType<BrowserApplication>(){};
     protected static final GenericType<Collection<BrowserApplication>> BROWSER_APPLICATIONS = new GenericType<Collection<BrowserApplication>>(){};

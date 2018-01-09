@@ -5,7 +5,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.opsmatters/newrelic-api/badge.svg?style=blue)](https://maven-badges.herokuapp.com/maven-central/com.opsmatters/newrelic-api)
 [![Javadocs](http://www.javadoc.io/badge/com.opsmatters/newrelic-api.svg)](http://www.javadoc.io/doc/com.opsmatters/newrelic-api)
 
-A Java library for the New Relic REST APIs built using Jersey and Gson.
+A Java client library for the New Relic Monitoring and Alerting REST APIs built using Jersey and Gson.
 
 The following New Relic APIs are currently supported:
 
@@ -20,10 +20,13 @@ The following New Relic APIs are currently supported:
 * Alerts Plugins Conditions (List, Create, Update, Delete)
 * Alerts Synthetics Conditions (List, Create, Update, Delete)
 * Alerts Infrastructure Conditions (List, Create, Update, Delete)
+* Alerts Events (List)
+* Alerts Violations (List)
+* Alerts Incidents (List)
 
 ### APM API
 * Applications (List, Show, Update, Delete, Metric Names, Metric Data)
-* Browser Applications (List, Create, Delete)
+* Browser Applications (List, Create)
 
 Other APIs can be included on request.
 
@@ -56,7 +59,7 @@ mvn clean test -Dnewrelic.apiKey="<YOUR_API_KEY>"
 
 The following tests are included:
 
-* ChannelAndPolicyOperations: Creates several alert channels, an alert policy with several conditions and then deletes them.
+* AlertOperations: Creates several alert channels, an alert policy with several conditions and then deletes them.
 
 ## Examples
 
@@ -71,7 +74,7 @@ Add the following dependency to include the artefact within your project:
 <dependency>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 

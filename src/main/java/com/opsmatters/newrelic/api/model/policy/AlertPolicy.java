@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.policy;
 
 import com.google.gson.annotations.SerializedName;
-
+import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.IncidentPreference;
 /**
  * Represents a New Relic alert policy.  
  * 
@@ -33,16 +34,6 @@ public class AlertPolicy extends NamedResource
 
     @SerializedName("updated_at")
     private Long updatedAt;
-
-    /**
-     * Represents an incident preference.  
-     */
-    public enum IncidentPreference
-    {
-        PER_POLICY,
-        PER_CONDITION,
-        PER_CONDITION_AND_TARGET;
-    }
 
     /**
      * Default constructor.

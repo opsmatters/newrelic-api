@@ -17,6 +17,7 @@
 package com.opsmatters.newrelic.api.model.condition;
 
 import com.google.gson.annotations.SerializedName;
+import com.opsmatters.newrelic.api.model.Priority;
 
 /**
  * Represents a New Relic alert condition term.  
@@ -32,27 +33,6 @@ public class Term
 
     @SerializedName("time_function")
     private String timeFunction;
-
-    /**
-     * Represents a term priority.  
-     */
-    public enum Priority
-    {
-        CRITICAL("critical"),
-        WARNING("warning");
-
-        Priority(String value)
-        {
-            this.value = value;
-        }
-
-        public String value()
-        {
-            return value;
-        }
-
-        private String value;
-    }
 
     /**
      * Represents a term duration (in minutes).  
