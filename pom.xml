@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.2.1-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>newrelic-api</name>
+  <name>New Relic API</name>
   <description>
     Java client library for the New Relic REST APIs built using Jersey and Gson.
     The library can be used by applications to automate the configuration of New Relic Monitoring and Alerting, as well as for extracting alert and metric data.

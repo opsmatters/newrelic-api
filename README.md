@@ -3,7 +3,7 @@
 # New Relic API 
 [![Build Status](https://travis-ci.org/opsmatters/newrelic-api.svg?branch=master)](https://travis-ci.org/opsmatters/newrelic-api)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.opsmatters/newrelic-api/badge.svg?style=blue)](https://maven-badges.herokuapp.com/maven-central/com.opsmatters/newrelic-api)
-[![Javadocs](http://www.javadoc.io/badge/com.opsmatters/newrelic-api.svg)](http://www.javadoc.io/doc/com.opsmatters/newrelic-api)
+[![Javadocs](http://javadoc.io/badge/com.opsmatters/newrelic-api.svg)](http://javadoc.io/doc/com.opsmatters/newrelic-api)
 
 A Java client library for the New Relic Monitoring and Alerting REST APIs built using Jersey and Gson.
 
