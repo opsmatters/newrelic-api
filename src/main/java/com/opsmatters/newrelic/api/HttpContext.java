@@ -19,6 +19,7 @@ package com.opsmatters.newrelic.api;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.ws.rs.client.Client;
@@ -119,7 +120,7 @@ public class HttpContext
      * @return The return type
      */
     public <T> Optional<T> GET(String partialUrl, Map<String, Object> headers, 
-        Map<String, Object> queryParams, GenericType<T> returnType)
+        List<String> queryParams, GenericType<T> returnType)
     {
         URI uri = buildUri(partialUrl);
         return executeGetRequest(uri, headers, queryParams, returnType);
@@ -144,7 +145,7 @@ public class HttpContext
      * @param queryParams A set of query parameters to add to the request
      */
     public void PUT(String partialUrl, Object payload, Map<String, Object> headers, 
-        Map<String, Object> queryParams)
+        List<String> queryParams)
     {
         URI uri = buildUri(partialUrl);
         executePutRequest(uri, payload, headers, queryParams);
@@ -175,7 +176,7 @@ public class HttpContext
      * @return The return type
      */
     public <T> Optional<T> PUT(String partialUrl, Object payload, 
-        Map<String, Object> headers, Map<String, Object> queryParams, GenericType<T> returnType)
+        Map<String, Object> headers, List<String> queryParams, GenericType<T> returnType)
     {
         URI uri = buildUri(partialUrl);
         return executePutRequest(uri, payload, headers, queryParams, returnType);
@@ -250,7 +251,8 @@ public class HttpContext
      * @param headers A set of headers to add to the request
      * @param queryParams A set of query parameters to add to the request
      */
-    public void DELETE(String partialUrl, Map<String, Object> headers, Map<String, Object> queryParams)
+    public void DELETE(String partialUrl, Map<String, Object> headers, 
+        List<String> queryParams)
     {
         URI uri = buildUri(partialUrl);
         executeDeleteRequest(uri, headers, queryParams);
@@ -278,7 +280,7 @@ public class HttpContext
      * @return The return type
      */
     protected <T> Optional<T> executeGetRequest(URI uri, Map<String, Object> headers, 
-        Map<String, Object> queryParams, GenericType<T> returnType)
+        List<String> queryParams, GenericType<T> returnType)
     {
         WebTarget target = this.client.target(uri);
         target = applyQueryParams(target, queryParams);
@@ -308,7 +310,7 @@ public class HttpContext
      * @param queryParams A set of query parameters to add to the request
      */
     protected void executePutRequest(URI uri, Object obj, Map<String, Object> headers, 
-        Map<String, Object> queryParams)
+        List<String> queryParams)
     {
         WebTarget target = this.client.target(uri);
         target = applyQueryParams(target, queryParams);
@@ -332,7 +334,7 @@ public class HttpContext
      * @return The return type
      */
     protected <T> Optional<T> executePutRequest(URI uri, Object obj, Map<String, Object> headers, 
-        Map<String, Object> queryParams, GenericType<T> returnType)
+        List<String> queryParams, GenericType<T> returnType)
     {
         WebTarget target = this.client.target(uri);
         target = applyQueryParams(target, queryParams);
@@ -418,7 +420,8 @@ public class HttpContext
      * @param headers A set of headers to add to the request
      * @param queryParams A set of query parameters to add to the request
      */
-    protected void executeDeleteRequest(URI uri, Map<String, Object> headers, Map<String, Object> queryParams)
+    protected void executeDeleteRequest(URI uri, Map<String, Object> headers, 
+        List<String> queryParams)
     {
         WebTarget target = this.client.target(uri);
         target = applyQueryParams(target, queryParams);
@@ -465,13 +468,13 @@ public class HttpContext
      * @param queryParams The query parameters to add
      * @return The updated target
      */
-    private WebTarget applyQueryParams(WebTarget target, Map<String, Object> queryParams)
+    private WebTarget applyQueryParams(WebTarget target, List<String> queryParams)
     {
         if(queryParams != null)
         {
-            for (Map.Entry<String, Object> e : queryParams.entrySet())
+            for(int i = 0; i < queryParams.size(); i += 2)
             {
-                target = target.queryParam(e.getKey(), e.getValue());
+                target = target.queryParam(queryParams.get(i), queryParams.get(i+1));
             }
         }
 

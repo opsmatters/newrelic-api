@@ -17,10 +17,9 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
-import java.util.Map;
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.policy.AlertPolicy;
+import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for alert policies.
@@ -55,8 +54,8 @@ public class AlertPolicyOperations extends BaseFluent
      */
     public Collection<AlertPolicy> list(String name)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("filter[name]", name);
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("filter[name]", name);
         return HTTP.GET("/alerts_policies.json", null, queryParams, ALERT_POLICIES).get();
     }
 

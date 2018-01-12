@@ -25,7 +25,7 @@ The following New Relic APIs are currently supported:
 * Alerts Violations (List)
 * Alerts Incidents (List)
 
-### APM API
+### APM v2 API
 * Applications (List, Show, Update, Delete, Metric Names, Metric Data)
 * Browser Applications (List, Create)
 

@@ -117,6 +117,17 @@ public class AlertPolicy extends NamedResource
         private AlertPolicy policy = new AlertPolicy();
 
         /**
+         * Sets the id of the alert policy.
+         * @param id The id of the alert policy
+         * @return This object
+         */
+        public Builder id(long id)
+        {
+            policy.setId(id);
+            return this;
+        }
+
+        /**
          * Sets the name of the alert policy.
          * @param name The name of the alert policy
          * @return This object

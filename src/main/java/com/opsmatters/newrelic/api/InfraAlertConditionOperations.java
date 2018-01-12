@@ -17,10 +17,9 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
-import java.util.Map;
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
+import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for infrastructure alert conditions.
@@ -46,8 +45,8 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public Collection<InfraAlertCondition> list(long policyId)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("policy_id", policyId);
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("policy_id", policyId);
         return HTTP.GET("/alerts/conditions", null, queryParams, INFRA_ALERT_CONDITIONS).get();
     }
 

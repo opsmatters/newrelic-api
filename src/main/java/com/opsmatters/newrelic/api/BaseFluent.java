@@ -33,7 +33,10 @@ import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition
 import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
+import com.opsmatters.newrelic.api.model.entity.Application;
 import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
+import com.opsmatters.newrelic.api.model.entity.Metric;
+import com.opsmatters.newrelic.api.model.entity.MetricData;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -79,8 +82,14 @@ public class BaseFluent
     protected static final GenericType<AlertEvent> ALERT_EVENT = new GenericType<AlertEvent>(){};
     protected static final GenericType<Collection<AlertEvent>> ALERT_EVENTS = new GenericType<Collection<AlertEvent>>(){};
 
+    protected static final GenericType<Application> APPLICATION = new GenericType<Application>(){};
+    protected static final GenericType<Collection<Application>> APPLICATIONS = new GenericType<Collection<Application>>(){};
+
     protected static final GenericType<BrowserApplication> BROWSER_APPLICATION = new GenericType<BrowserApplication>(){};
     protected static final GenericType<Collection<BrowserApplication>> BROWSER_APPLICATIONS = new GenericType<Collection<BrowserApplication>>(){};
+
+    protected static final GenericType<Collection<Metric>> METRICS = new GenericType<Collection<Metric>>(){};
+    protected static final GenericType<MetricData> METRIC_DATA = new GenericType<MetricData>(){};
 
     protected HttpContext HTTP;
     private NewRelicApiService apiService;

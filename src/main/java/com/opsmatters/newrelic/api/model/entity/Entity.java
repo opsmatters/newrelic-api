@@ -83,6 +83,17 @@ public abstract class Entity extends NamedResource
         }
 
         /**
+         * Sets the id of the entity.
+         * @param id The id of the entity
+         * @return This object
+         */
+        public B id(long id)
+        {
+            entity.setId(id);
+            return self();
+        }
+
+        /**
          * Sets the name of the entity.
          * @param name The name of the entity
          * @return This object

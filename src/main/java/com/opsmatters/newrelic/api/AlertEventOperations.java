@@ -17,11 +17,11 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
-import java.util.Map;
-import com.google.common.collect.Maps;
+import java.util.List;
 import com.opsmatters.newrelic.api.model.AlertEvent;
 import com.opsmatters.newrelic.api.model.Product;
 import com.opsmatters.newrelic.api.model.entity.EntityType;
+import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for alert events.
@@ -45,7 +45,7 @@ public class AlertEventOperations extends BaseFluent
      * @param queryParams The query parameters
      * @return The set of alert events
      */
-    public Collection<AlertEvent> list(Map<String,Object> queryParams)
+    public Collection<AlertEvent> list(List<String> queryParams)
     {
         return HTTP.GET("/alerts_events.json", null, queryParams, ALERT_EVENTS).get();
     }
@@ -73,7 +73,7 @@ public class AlertEventOperations extends BaseFluent
      */
     public static class FilterBuilder
     {
-        private Map<String,Object> filters = Maps.newHashMap();
+        private QueryParameterList filters = new QueryParameterList();
 
         /**
          * Adds the product filter to the filters.
@@ -82,7 +82,7 @@ public class AlertEventOperations extends BaseFluent
          */
         public FilterBuilder product(String product)
         {
-            filters.put("filter[product]", product);
+            filters.add("filter[product]", product);
             return this;
         }
 
@@ -103,7 +103,7 @@ public class AlertEventOperations extends BaseFluent
          */
         public FilterBuilder entityType(String entityType)
         {
-            filters.put("filter[entity_type]", entityType);
+            filters.add("filter[entity_type]", entityType);
             return this;
         }
 
@@ -124,7 +124,7 @@ public class AlertEventOperations extends BaseFluent
          */
         public FilterBuilder entityId(long entityId)
         {
-            filters.put("filter[entity_id]", entityId);
+            filters.add("filter[entity_id]", entityId);
             return this;
         }
 
@@ -135,7 +135,7 @@ public class AlertEventOperations extends BaseFluent
          */
         public FilterBuilder entityGroupId(long entityGroupId)
         {
-            filters.put("filter[entity_group_id]", entityGroupId);
+            filters.add("filter[entity_group_id]", entityGroupId);
             return this;
         }
 
@@ -146,7 +146,7 @@ public class AlertEventOperations extends BaseFluent
          */
         public FilterBuilder eventType(String eventType)
         {
-            filters.put("filter[event_type]", eventType);
+            filters.add("filter[event_type]", eventType);
             return this;
         }
 
@@ -167,7 +167,7 @@ public class AlertEventOperations extends BaseFluent
          */
         public FilterBuilder incidentId(long incidentId)
         {
-            filters.put("filter[incident_id]", incidentId);
+            filters.add("filter[incident_id]", incidentId);
             return this;
         }
 
@@ -175,7 +175,7 @@ public class AlertEventOperations extends BaseFluent
          * Returns the configured filters
          * @return The filters
          */
-        public Map<String,Object> build()
+        public List<String> build()
         {
             return filters;
         }

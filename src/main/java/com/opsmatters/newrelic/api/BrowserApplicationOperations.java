@@ -17,10 +17,9 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
-import java.util.Map;
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
+import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for Browser applications.
@@ -40,7 +39,7 @@ public class BrowserApplicationOperations extends BaseFluent
     }
 
     /**
-     * Returns the set of Browser applications for the given application id.
+     * Returns the set of Browser applications.
      * @return The set of applications
      */
     public Collection<BrowserApplication> list()
@@ -50,13 +49,13 @@ public class BrowserApplicationOperations extends BaseFluent
 
     /**
      * Returns the Browser application for the given application id.
-     * @param applicationId The id for the application to return
+     * @param id The id for the application to return
      * @return The application
      */
-    public Optional<BrowserApplication> get(long applicationId)
+    public Optional<BrowserApplication> get(long id)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("filter[ids]", new Long(applicationId));
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("filter[ids]", new Long(id));
         return Optional.of(HTTP.GET("/browser_applications.json", null, queryParams, BROWSER_APPLICATIONS).get().iterator().next());
     }
 

@@ -30,7 +30,7 @@ public class IncidentLinks
     @SerializedName("policy_id")
     private Long policyId;
 
-    private List<Integer> violations = new ArrayList<Integer>();
+    private List<Long> violations = new ArrayList<Long>();
     
     /**
      * Default constructor.
@@ -61,7 +61,7 @@ public class IncidentLinks
      * Sets the list of violations.
      * @param violations The list of violations
      */
-    public void setViolations(List<Integer> violations)
+    public void setViolations(List<Long> violations)
     {
         this.violations.clear();
         this.violations.addAll(violations);
@@ -71,7 +71,7 @@ public class IncidentLinks
      * Returns the list of violations.
      * @return The list of violations
      */
-    public List<Integer> getViolations()
+    public List<Long> getViolations()
     {
         return violations;
     }

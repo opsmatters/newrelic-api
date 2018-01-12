@@ -104,6 +104,17 @@ public abstract class BaseCondition extends NamedResource
         }
 
         /**
+         * Sets the id of the alert condition.
+         * @param id The id of the alert condition
+         * @return This object
+         */
+        public B id(long id)
+        {
+            condition.setId(id);
+            return self();
+        }
+
+        /**
          * Sets the name of the alert condition.
          * @param name The name of the alert condition
          * @return This object

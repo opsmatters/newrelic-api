@@ -17,12 +17,12 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Date;
 import java.util.TimeZone;
 import java.text.SimpleDateFormat;
-import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.AlertViolation;
+import com.opsmatters.newrelic.util.QueryParameterList;
+import com.opsmatters.newrelic.util.Utils;
 
 /**
  * The set of operations used for alert violations.
@@ -31,11 +31,6 @@ import com.opsmatters.newrelic.api.model.AlertViolation;
  */
 public class AlertViolationOperations extends BaseFluent
 {
-    /**
-     * The date format used by ISO8601.
-     */
-    public static final String ISO8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-
     /**
      * Constructor that takes a http context and API service.
      * @param httpContext The set of HTTP operations
@@ -55,24 +50,12 @@ public class AlertViolationOperations extends BaseFluent
      */
     public Collection<AlertViolation> list(long startDate, long endDate, boolean onlyOpen)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
+        QueryParameterList queryParams = new QueryParameterList();
         if(startDate > 0L)
-            queryParams.put("start_date", getUtcDateTime(startDate));
+            queryParams.add("start_date", Utils.getUtcDateTime(startDate));
         if(endDate > 0L)
-            queryParams.put("end_date", getUtcDateTime(endDate));
-        queryParams.put("only_open", onlyOpen);
+            queryParams.add("end_date", Utils.getUtcDateTime(endDate));
+        queryParams.add("only_open", onlyOpen);
         return HTTP.GET("/alerts_violations.json", null, queryParams, ALERT_VIOLATIONS).get();
-    }
-
-    /**
-     * Returns the given date time formatted using the ISO 8601 format.
-     * @param dt The date to format (in milliseconds)
-     * @return The date in ISO 8601 format
-     */
-    static public String getUtcDateTime(long dt)
-    {
-        SimpleDateFormat df = new SimpleDateFormat(ISO8601_FORMAT);
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return df.format(new Date(dt));
     }
 }

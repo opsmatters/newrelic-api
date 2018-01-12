@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
+  <version>0.2.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>New Relic API</name>
   <description>
@@ -322,7 +322,7 @@ built.on=${TODAY}
 <dependency> 
   <groupId>org.apache.commons</groupId> 
   <artifactId>commons-lang3</artifactId> 
-  <version>3.5</version> 
+  <version>3.7</version> 
 </dependency> 
 
 <dependency>

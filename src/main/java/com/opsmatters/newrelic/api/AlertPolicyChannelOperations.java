@@ -16,10 +16,9 @@
 
 package com.opsmatters.newrelic.api;
 
-import java.util.Map;
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.policy.AlertPolicyChannel;
+import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for alert policy channels.
@@ -46,9 +45,9 @@ public class AlertPolicyChannelOperations extends BaseFluent
      */
     public Optional<AlertPolicyChannel> update(long policyId, long id)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("policy_id", policyId);
-        queryParams.put("channel_ids", id);
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("policy_id", policyId);
+        queryParams.add("channel_ids", id);
         return HTTP.PUT("/alerts_policy_channels.json", null, null, queryParams, ALERT_POLICY_CHANNEL);
     }
 
@@ -60,9 +59,9 @@ public class AlertPolicyChannelOperations extends BaseFluent
      */
     public AlertPolicyChannelOperations delete(long policyId, long id)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("policy_id", policyId);
-        queryParams.put("channel_id", id);
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("policy_id", policyId);
+        queryParams.add("channel_id", id);
         HTTP.DELETE("/alerts_policy_channels.json", null, queryParams);       
         return this;
     }

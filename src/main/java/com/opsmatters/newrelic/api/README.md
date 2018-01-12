@@ -20,7 +20,8 @@
 - [Alerts Violations](#alerts-violations)
 - [Alerts Incidents](#alerts-incidents)
 
-#### APM API
+#### APM v2 API
+- [Applications](#applications)
 - [Browser Applications](#browser-applications)
 
 ### Initialisation
@@ -351,6 +352,52 @@ To list all incidents, call the "list" operation with a flag to indicate if only
 boolean onlyOpen = true;
 Collection<AlertIncident> incidents = api.alertIncidents().list(onlyOpen);
 ```
+
+### Applications
+To update an application's name and settings, instantiate an application object and then pass it to the "update" operation:
+```
+Application a = Application.builder()
+    .id(12345)
+    .name("new-application-name")
+    .appApdexThreshold(0.5f)
+    .endUserApdexThreshold(7.0f)
+    .enableRealUserMonitoring(true)
+    .build();
+
+Application application = api.applications().update(a).get();
+```
+The "id" field needs to be provided as it is used to locate the existing application to update.
+
+To list the applications matching one or more filters, build the filters and then pass it to the "list" operation:
+```
+Map<String,Object> filters = ApplicationOperations.filters()
+    .language("java") // all Java applications
+    .build();
+
+Collection<Application> applications = api.applications().list(filters);
+```
+ To list the application metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+```
+List<String> parameters = ApplicationOperations.metrics()
+    .names("EndUser")
+    .names("EndUser/Apdex")
+    .values("call_count")
+    .values("average_response_time")
+    .values("score")
+    .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
+    .from(System.currentTimeMillis())
+    .summarize(true)
+    .build();
+
+MetricData metrics = api.applications().metricData(parameters).get();
+```
+
+Other operations have also been included for applications:
+* list(): returns all applications.
+* show(id): returns the application for the given id.
+* delete(id): deletes the application with the given id.
+* metricNames(id): returns the metrics and their value names for the given application.
+* metricNames(id, name): returns the metrics and their value names for the given application, where the value names match the given name.
 
 ### Browser Applications
 To add a browser application, instantiate an application object and then pass it to the "create" operation:

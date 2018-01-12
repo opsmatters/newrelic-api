@@ -17,9 +17,8 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
-import java.util.Map;
-import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.AlertIncident;
+import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for alert incidents.
@@ -45,8 +44,8 @@ public class AlertIncidentOperations extends BaseFluent
      */
     public Collection<AlertIncident> list(boolean onlyOpen)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("only_open", onlyOpen);
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("only_open", onlyOpen);
         return HTTP.GET("/alerts_incidents.json", null, queryParams, ALERT_INCIDENTS).get();
     }
 }

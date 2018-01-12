@@ -77,7 +77,7 @@ public abstract class AlertChannel extends NamedResource
      * Sets the policy ids of the channel.
      * @param policyIds The policy ids of the channel
      */
-    public void setPolicyIds(List<Integer> policyIds)
+    public void setPolicyIds(List<Long> policyIds)
     {
         links.setPolicyIds(policyIds);
     }
@@ -86,7 +86,7 @@ public abstract class AlertChannel extends NamedResource
      * Returns the policy ids of the channel.
      * @return The policy ids of the channel
      */
-    public List<Integer> getPolicyIds()
+    public List<Long> getPolicyIds()
     {
         return links.getPolicyIds();
     }
@@ -146,7 +146,7 @@ public abstract class AlertChannel extends NamedResource
          * @param policyIds The policyIds of the alert channel
          * @return This object
          */
-        public B policyIds(List<Integer> policyIds)
+        public B policyIds(List<Long> policyIds)
         {
             channel.setPolicyIds(policyIds);
             return self();

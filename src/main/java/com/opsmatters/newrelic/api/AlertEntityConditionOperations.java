@@ -16,12 +16,11 @@
 
 package com.opsmatters.newrelic.api;
 
-import java.util.Map;
 import java.util.Collection;
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.condition.AlertCondition;
 import com.opsmatters.newrelic.api.model.entity.Entity;
+import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for alert entity conditions.
@@ -48,8 +47,8 @@ public class AlertEntityConditionOperations extends BaseFluent
      */
     public Collection<AlertCondition> list(long entityId, String entityType)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("entity_type", entityType);
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("entity_type", entityType);
         return HTTP.GET(String.format("/alerts_entity_conditions/%d.json", entityId), null, queryParams, ALERT_CONDITIONS).get();
     }
 
@@ -72,9 +71,9 @@ public class AlertEntityConditionOperations extends BaseFluent
      */
     public Optional<AlertCondition> add(long entityId, String entityType, long conditionId)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("entity_type", entityType);
-        queryParams.put("condition_id", conditionId);
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("entity_type", entityType);
+        queryParams.add("condition_id", conditionId);
         return HTTP.PUT(String.format("/alerts_entity_conditions/%d.json", entityId), null, null, queryParams, ALERT_CONDITION);
     }
 
@@ -98,9 +97,9 @@ public class AlertEntityConditionOperations extends BaseFluent
      */
     public AlertEntityConditionOperations remove(long entityId, String entityType, long conditionId)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("entity_type", entityType);
-        queryParams.put("condition_id", conditionId);
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("entity_type", entityType);
+        queryParams.add("condition_id", conditionId);
         HTTP.DELETE(String.format("/alerts_entity_conditions/%d.json", entityId), null, queryParams);       
         return this;
     }

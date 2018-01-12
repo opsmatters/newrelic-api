@@ -268,6 +268,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to applications.
+     * @return The application operations
+     */
+    public ApplicationOperations applications()
+    {
+        checkInitialize();
+        return new ApplicationOperations(httpContext, this);
+    }
+
+    /**
      * Returns the operations related to Browser applications.
      * @return The Browser application operations
      */

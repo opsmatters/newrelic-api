@@ -51,7 +51,10 @@ import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition
 import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
+import com.opsmatters.newrelic.api.model.entity.Application;
 import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
+import com.opsmatters.newrelic.api.model.entity.Metric;
+import com.opsmatters.newrelic.api.model.entity.MetricData;
 import com.opsmatters.newrelic.httpclient.serializers.policy.AlertPolicySerializer;
 import com.opsmatters.newrelic.httpclient.serializers.channel.AlertChannelSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.AlertConditionSerializer;
@@ -60,6 +63,7 @@ import com.opsmatters.newrelic.httpclient.serializers.condition.ExternalServiceA
 import com.opsmatters.newrelic.httpclient.serializers.condition.PluginsAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.SyntheticsAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.condition.InfraAlertConditionSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.entity.ApplicationSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.entity.BrowserApplicationSerializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertIncidentsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.AlertViolationsDeserializer;
@@ -81,8 +85,12 @@ import com.opsmatters.newrelic.httpclient.deserializers.condition.SyntheticsAler
 import com.opsmatters.newrelic.httpclient.deserializers.condition.SyntheticsAlertConditionsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.condition.InfraAlertConditionDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.condition.InfraAlertConditionsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entity.ApplicationDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entity.ApplicationsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entity.BrowserApplicationDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entity.BrowserApplicationsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entity.MetricsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entity.MetricDataDeserializer;
 
 /**
  * Provides GSON support for serializing and deserializing objects.
@@ -107,7 +115,9 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Type ALERT_INCIDENTS_TYPE = new TypeToken<Collection<AlertIncident>>(){}.getType();
     private static final Type ALERT_VIOLATIONS_TYPE = new TypeToken<Collection<AlertViolation>>(){}.getType();
     private static final Type ALERT_EVENTS_TYPE = new TypeToken<Collection<AlertEvent>>(){}.getType();
+    private static final Type APPLICATIONS_TYPE = new TypeToken<Collection<Application>>(){}.getType();
     private static final Type BROWSER_APPLICATIONS_TYPE = new TypeToken<Collection<BrowserApplication>>(){}.getType();
+    private static final Type METRICS_TYPE = new TypeToken<Collection<Metric>>(){}.getType();
 
     private Gson gson;
 
@@ -151,6 +161,11 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(BrowserApplication.class, new BrowserApplicationSerializer());
             builder.registerTypeAdapter(BrowserApplication.class, new BrowserApplicationDeserializer());
             builder.registerTypeAdapter(BROWSER_APPLICATIONS_TYPE, new BrowserApplicationsDeserializer());
+            builder.registerTypeAdapter(Application.class, new ApplicationSerializer());
+            builder.registerTypeAdapter(Application.class, new ApplicationDeserializer());
+            builder.registerTypeAdapter(APPLICATIONS_TYPE, new ApplicationsDeserializer());
+            builder.registerTypeAdapter(METRICS_TYPE, new MetricsDeserializer());
+            builder.registerTypeAdapter(MetricData.class, new MetricDataDeserializer());
             builder.registerTypeAdapter(ResponseError.class, new ResponseErrorDeserializer());
             gson = builder.create();
         }

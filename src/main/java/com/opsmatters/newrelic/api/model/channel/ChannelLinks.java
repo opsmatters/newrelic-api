@@ -28,7 +28,7 @@ import com.google.gson.annotations.SerializedName;
 public class ChannelLinks
 {
     @SerializedName("policy_ids")
-    private List<Integer> policyIds = new ArrayList<Integer>();
+    private List<Long> policyIds = new ArrayList<Long>();
     
     /**
      * Default constructor.
@@ -41,7 +41,7 @@ public class ChannelLinks
      * Sets the list of policy ids.
      * @param policyIds The list of policy ids
      */
-    public void setPolicyIds(List<Integer> policyIds)
+    public void setPolicyIds(List<Long> policyIds)
     {
         this.policyIds.clear();
         this.policyIds.addAll(policyIds);
@@ -51,7 +51,7 @@ public class ChannelLinks
      * Returns the list of policy ids.
      * @return The list of policy ids
      */
-    public List<Integer> getPolicyIds()
+    public List<Long> getPolicyIds()
     {
         return policyIds;
     }

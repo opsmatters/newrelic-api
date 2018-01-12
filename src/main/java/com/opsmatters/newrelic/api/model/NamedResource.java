@@ -32,6 +32,15 @@ public abstract class NamedResource
     public NamedResource()
     {
     }
+
+    /**
+     * Sets the id of the resource.
+     * @param id The id of the resource
+     */
+    public void setId(long id)
+    {
+        this.id = id;
+    }
    
     /**
      * Returns the id of the resource.

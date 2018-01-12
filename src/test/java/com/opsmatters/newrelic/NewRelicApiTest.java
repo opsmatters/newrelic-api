@@ -17,8 +17,10 @@
 package com.opsmatters.newrelic;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.logging.Logger;
 import org.junit.Test;
 import junit.framework.Assert;
@@ -27,6 +29,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.opsmatters.newrelic.api.NewRelicApiService;
 import com.opsmatters.newrelic.api.NewRelicInfraApiService;
 import com.opsmatters.newrelic.api.AlertEventOperations;
+import com.opsmatters.newrelic.api.ApplicationOperations;
 import com.opsmatters.newrelic.api.model.AlertEvent;
 import com.opsmatters.newrelic.api.model.AlertViolation;
 import com.opsmatters.newrelic.api.model.AlertIncident;
@@ -54,6 +57,9 @@ import com.opsmatters.newrelic.api.model.channel.EmailChannel;
 import com.opsmatters.newrelic.api.model.channel.SlackChannel;
 import com.opsmatters.newrelic.api.model.entity.Entity;
 import com.opsmatters.newrelic.api.model.entity.EntityType;
+import com.opsmatters.newrelic.api.model.entity.Application;
+import com.opsmatters.newrelic.api.model.entity.Metric;
+import com.opsmatters.newrelic.api.model.entity.MetricData;
 import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
 
 /**
@@ -76,6 +82,7 @@ public class NewRelicApiTest
     private String externalServiceConditionName = "test-external-service-condition";
     private String pluginsConditionName = "test-plugins-condition";
     private String syntheticsConditionName = "test-synthetics-condition";
+    private String applicationName = "test-application-";
     private String browserApplicationName = "test-browser-application-"+System.currentTimeMillis();
     private String whereClause = "env=prod";
     private String email = "alerts@test.com";
@@ -97,6 +104,17 @@ public class NewRelicApiTest
         // Create the browser application
         BrowserApplication browserApplication = createBrowserApplication(api, 
             getBrowserApplication(browserApplicationName));
+
+        Collection<Application>  applications = getApplications(api);
+        if(applications.size() > 0)
+        {
+            Iterator<Application> it = applications.iterator();
+            Application application = it.next();
+            getApplication(api, application.getId());
+            updateApplication(api, getApplication(application.getId(), application.getName()));
+            getMetricNames(api, application.getId());
+            getMetricData(api, application.getId());
+        }
 
         NewRelicInfraApiService infraApi = getInfraService();
         Assert.assertNotNull(infraApi);
@@ -713,36 +731,6 @@ public class NewRelicApiTest
         api.alertEntityConditions().remove(entity, condition.getId());
     }
 
-    public BrowserApplication getBrowserApplication(String name)
-    {
-        return BrowserApplication.builder()
-            .name(name)
-            .build();
-    }
-
-    public BrowserApplication createBrowserApplication(NewRelicApiService api, BrowserApplication input)
-    {
-        logger.info("Create browser application: "+input.getName());
-        BrowserApplication application = api.browserApplications().create(input).get();
-
-        // Get the browser application
-        {
-            logger.info("Get browser applications: "+application.getId());
-            Optional<BrowserApplication> ret = api.browserApplications().get(application.getId());
-            Assert.assertTrue(ret.isPresent());
-        }
-
-        return application;
-    }
-
-    public Collection<BrowserApplication> getBrowserApplications(NewRelicApiService api)
-    {
-        logger.info("Get all browser applications: ");
-        Collection<BrowserApplication> ret = api.browserApplications().list();
-        Assert.assertTrue(ret.size() > 0);
-        return ret;
-    }
-
     public Collection<AlertEvent> getAlertEvents(NewRelicApiService api)
     {
 
@@ -773,7 +761,7 @@ public class NewRelicApiTest
 
         try
         {
-            Map<String,Object> filters = AlertEventOperations.filters()
+            List<String> filters = AlertEventOperations.filters()
                 //.product(Product.INFRASTRUCTURE)
                 .entityType(EntityType.HOST)
                 //.eventType(AlertEvent.EventType.NOTIFICATION)
@@ -830,6 +818,111 @@ public class NewRelicApiTest
             Assert.fail("Error in get alert incidents: "+e.getMessage());
         }
 
+        return ret;
+    }
+
+    public Application getApplication(long id, String name)
+    {
+        return Application.builder()
+            .id(id)
+            .name(name)
+            .appApdexThreshold(0.5f)
+            .endUserApdexThreshold(7.0f)
+            .enableRealUserMonitoring(true)
+            .build();
+    }
+
+    public Application updateApplication(NewRelicApiService api, Application input)
+    {
+        logger.info("Update application: "+input.getName());
+        Application application = api.applications().update(input).get();
+        Assert.assertNotNull(application);
+        return application;
+    }
+
+    public Collection<Application> getApplications(NewRelicApiService api)
+    {
+        Collection<Application> ret = null;
+
+        try
+        {
+            logger.info("Get applications: ");
+            Map<String,Object> filters = ApplicationOperations.filters()
+                .language("java")
+                .build();
+            ret = api.applications().list(filters);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get applications: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Application getApplication(NewRelicApiService api, long id)
+    {
+        logger.info("Get application: "+id);
+        Application ret = api.applications().show(id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<Metric> getMetricNames(NewRelicApiService api, long id)
+    {
+        logger.info("Get metric names: "+id);
+        Collection<Metric> metrics = api.applications().metricNames(id, "Threads/SummaryState/");
+        Assert.assertTrue(metrics.size() > 0);
+        return metrics;
+    }
+
+    public MetricData getMetricData(NewRelicApiService api, long id)
+    {
+        logger.info("Get metric data: "+id);
+        List<String> parameters = ApplicationOperations.metrics()
+            //.names("EndUser")
+            //.names("EndUser/Apdex")
+            .names("Threads/SummaryState/RUNNABLE/Count")
+            .names("Threads/SummaryState/BLOCKED/Count")
+            .values("average_response_time")
+            .values("calls_per_minute")
+            .from(System.currentTimeMillis()-(3600*1000L)) // last 1 hour
+            .to(System.currentTimeMillis())
+            .summarize(true)
+            .build();
+
+        MetricData metrics = api.applications().metricData(id, parameters).get();
+        Assert.assertTrue(metrics.getMetrics().size() > 0);
+        return metrics;
+    }
+
+    public BrowserApplication getBrowserApplication(String name)
+    {
+        return BrowserApplication.builder()
+            .name(name)
+            .build();
+    }
+
+    public BrowserApplication createBrowserApplication(NewRelicApiService api, BrowserApplication input)
+    {
+        logger.info("Create browser application: "+input.getName());
+        BrowserApplication application = api.browserApplications().create(input).get();
+
+        // Get the browser application
+        {
+            logger.info("Get browser applications: "+application.getId());
+            Optional<BrowserApplication> ret = api.browserApplications().get(application.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        return application;
+    }
+
+    public Collection<BrowserApplication> getBrowserApplications(NewRelicApiService api)
+    {
+        logger.info("Get all browser applications: ");
+        Collection<BrowserApplication> ret = api.browserApplications().list();
+        Assert.assertTrue(ret.size() > 0);
         return ret;
     }
 }

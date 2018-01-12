@@ -17,10 +17,9 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
-import java.util.Map;
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
+import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for NRQL alert conditions.
@@ -46,8 +45,8 @@ public class NrqlAlertConditionOperations extends BaseFluent
      */
     public Collection<NrqlAlertCondition> list(long policyId)
     {
-        Map<String,Object> queryParams = Maps.newHashMap();
-        queryParams.put("policy_id", new Long(policyId));
+        QueryParameterList queryParams = new QueryParameterList();
+        queryParams.add("policy_id", new Long(policyId));
         return HTTP.GET("/alerts_nrql_conditions.json", null, queryParams, NRQL_ALERT_CONDITIONS).get();
     }
 
