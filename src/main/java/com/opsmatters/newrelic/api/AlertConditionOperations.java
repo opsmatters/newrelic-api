@@ -58,7 +58,7 @@ public class AlertConditionOperations extends BaseFluent
      * @param id The id of the alert condition to return
      * @return The alert condition
      */
-    public Optional<AlertCondition> get(long policyId, long id)
+    public Optional<AlertCondition> show(long policyId, long id)
     {
         Optional<AlertCondition> ret = Optional.absent();
         Collection<AlertCondition> conditions = list(policyId);

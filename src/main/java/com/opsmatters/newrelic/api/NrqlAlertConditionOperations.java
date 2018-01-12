@@ -58,7 +58,7 @@ public class NrqlAlertConditionOperations extends BaseFluent
      * @param id The id of the alert condition to return
      * @return The alert condition
      */
-    public Optional<NrqlAlertCondition> get(long policyId, long id)
+    public Optional<NrqlAlertCondition> show(long policyId, long id)
     {
         Optional<NrqlAlertCondition> ret = Optional.absent();
         Collection<NrqlAlertCondition> conditions = list(policyId);

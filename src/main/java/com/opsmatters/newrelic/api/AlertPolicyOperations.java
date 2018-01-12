@@ -67,7 +67,7 @@ public class AlertPolicyOperations extends BaseFluent
      * @param id The id of the alert policy to return
      * @return The alert policy
      */
-    public Optional<AlertPolicy> get(String name, long id)
+    public Optional<AlertPolicy> show(String name, long id)
     {
         Optional<AlertPolicy> ret = Optional.absent();
         Collection<AlertPolicy> policies = list(name);

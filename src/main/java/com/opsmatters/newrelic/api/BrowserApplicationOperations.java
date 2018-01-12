@@ -52,7 +52,7 @@ public class BrowserApplicationOperations extends BaseFluent
      * @param id The id for the application to return
      * @return The application
      */
-    public Optional<BrowserApplication> get(long id)
+    public Optional<BrowserApplication> show(long id)
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("filter[ids]", new Long(id));

@@ -58,7 +58,7 @@ public class SyntheticsAlertConditionOperations extends BaseFluent
      * @param id The id of the Synthetics alert condition to return
      * @return The alert condition
      */
-    public Optional<SyntheticsAlertCondition> get(long policyId, long id)
+    public Optional<SyntheticsAlertCondition> show(long policyId, long id)
     {
         Optional<SyntheticsAlertCondition> ret = Optional.absent();
         Collection<SyntheticsAlertCondition> conditions = list(policyId);

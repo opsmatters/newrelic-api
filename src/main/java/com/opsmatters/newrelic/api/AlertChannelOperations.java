@@ -55,7 +55,7 @@ public class AlertChannelOperations extends BaseFluent
      * @param id The id of the alert channel to return
      * @return The set of alert channels
      */
-    public Optional<AlertChannel> get(long id)
+    public Optional<AlertChannel> show(long id)
     {
         Optional<AlertChannel> ret = Optional.absent();
         Collection<AlertChannel> channels = list();

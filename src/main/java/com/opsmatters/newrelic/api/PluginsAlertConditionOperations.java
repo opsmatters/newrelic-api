@@ -58,7 +58,7 @@ public class PluginsAlertConditionOperations extends BaseFluent
      * @param id The id of the Plugins alert condition to return
      * @return The alert condition
      */
-    public Optional<PluginsAlertCondition> get(long policyId, long id)
+    public Optional<PluginsAlertCondition> show(long policyId, long id)
     {
         Optional<PluginsAlertCondition> ret = Optional.absent();
         Collection<PluginsAlertCondition> conditions = list(policyId);

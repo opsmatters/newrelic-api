@@ -55,7 +55,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      * @param id The id of the alert condition to return
      * @return The alert condition
      */
-    public Optional<InfraAlertCondition> get(long id)
+    public Optional<InfraAlertCondition> show(long id)
     {
         return HTTP.GET(String.format("/alerts/conditions/%d", id), null, null, INFRA_ALERT_CONDITION);
     }

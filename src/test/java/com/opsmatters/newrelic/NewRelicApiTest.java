@@ -237,7 +237,7 @@ public class NewRelicApiTest
         // Get the policy
         {
             logger.info("Get policy: "+policy.getId()+"-"+policy.getName());
-            Optional<AlertPolicy> ret = api.alertPolicies().get(policy.getName(), policy.getId());
+            Optional<AlertPolicy> ret = api.alertPolicies().show(policy.getName(), policy.getId());
             Assert.assertTrue(ret.isPresent());
         }
 
@@ -248,7 +248,7 @@ public class NewRelicApiTest
     {
         logger.info("Delete policy: "+policy.getId());
         api.alertPolicies().delete(policy.getId());
-        Optional<AlertPolicy> ret = api.alertPolicies().get(policy.getName(), policy.getId());
+        Optional<AlertPolicy> ret = api.alertPolicies().show(policy.getName(), policy.getId());
         Assert.assertFalse(ret.isPresent());
     }
 
@@ -313,7 +313,7 @@ public class NewRelicApiTest
         try
         {
             logger.info("Get APM condition: "+condition.getId());
-            ret = api.alertConditions().get(policy.getId(), condition.getId());
+            ret = api.alertConditions().show(policy.getId(), condition.getId());
         }
         catch(RuntimeException e)
         {
@@ -377,7 +377,7 @@ public class NewRelicApiTest
         try
         {
             logger.info("Get NRQL condition: "+condition.getId());
-            ret = api.nrqlAlertConditions().get(policy.getId(), condition.getId());
+            ret = api.nrqlAlertConditions().show(policy.getId(), condition.getId());
         }
         catch(RuntimeException e)
         {
@@ -436,7 +436,7 @@ public class NewRelicApiTest
         try
         {
             logger.info("Get external service condition: "+condition.getId());
-            ret = api.externalServiceAlertConditions().get(policy.getId(), condition.getId());
+            ret = api.externalServiceAlertConditions().show(policy.getId(), condition.getId());
         }
         catch(RuntimeException e)
         {
@@ -503,7 +503,7 @@ public class NewRelicApiTest
         try
         {
             logger.info("Get Plugins condition: "+condition.getId());
-            ret = api.pluginsAlertConditions().get(policy.getId(), condition.getId());
+            ret = api.pluginsAlertConditions().show(policy.getId(), condition.getId());
         }
         catch(RuntimeException e)
         {
@@ -552,7 +552,7 @@ public class NewRelicApiTest
         try
         {
             logger.info("Get Synthetics condition: "+condition.getId());
-            ret = api.syntheticsAlertConditions().get(policy.getId(), condition.getId());
+            ret = api.syntheticsAlertConditions().show(policy.getId(), condition.getId());
         }
         catch(RuntimeException e)
         {
@@ -631,7 +631,7 @@ public class NewRelicApiTest
         try
         {
             logger.info("Get infra condition: "+condition.getId());
-            ret = api.infraAlertConditions().get(condition.getId());
+            ret = api.infraAlertConditions().show(condition.getId());
         }
         catch(RuntimeException e)
         {
@@ -674,7 +674,7 @@ public class NewRelicApiTest
         // Get the alert channel
         {
             logger.info("Get alert channel: "+channel.getId());
-            Optional<AlertChannel> ret = api.alertChannels().get(channel.getId());
+            Optional<AlertChannel> ret = api.alertChannels().show(channel.getId());
             Assert.assertTrue(ret.isPresent());
         }
 
@@ -693,7 +693,7 @@ public class NewRelicApiTest
     {
         logger.info("Delete alert channel: "+channel.getId());
         api.alertChannels().delete(channel.getId());
-        Optional<AlertChannel> ret = api.alertChannels().get(channel.getId());
+        Optional<AlertChannel> ret = api.alertChannels().show(channel.getId());
         Assert.assertTrue(!ret.isPresent());
     }
 
@@ -911,7 +911,7 @@ public class NewRelicApiTest
         // Get the browser application
         {
             logger.info("Get browser applications: "+application.getId());
-            Optional<BrowserApplication> ret = api.browserApplications().get(application.getId());
+            Optional<BrowserApplication> ret = api.browserApplications().show(application.getId());
             Assert.assertTrue(ret.isPresent());
         }
 

@@ -58,7 +58,7 @@ public class ExternalServiceAlertConditionOperations extends BaseFluent
      * @param id The id of the external service alert condition to return
      * @return The alert condition
      */
-    public Optional<ExternalServiceAlertCondition> get(long policyId, long id)
+    public Optional<ExternalServiceAlertCondition> show(long policyId, long id)
     {
         Optional<ExternalServiceAlertCondition> ret = Optional.absent();
         Collection<ExternalServiceAlertCondition> conditions = list(policyId);
