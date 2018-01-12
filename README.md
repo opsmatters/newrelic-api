@@ -60,7 +60,8 @@ mvn clean test -Dnewrelic.apiKey="<YOUR_API_KEY>"
 
 The following tests are included:
 
-* AlertOperations: Creates several alert channels, an alert policy with several conditions and then deletes them.
+* AlertOperationsTest: Creates several alert channels, an alert policy with several conditions and then deletes them.
+* ApplicationOperationsTest: Creates or gets several types of applications, and then carries out various operations on them.
 
 ## Examples
 

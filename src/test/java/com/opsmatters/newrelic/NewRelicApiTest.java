@@ -92,7 +92,7 @@ public class NewRelicApiTest
     @Test
     public void testAlertOperations()
     {
-        String testName = "AlertOperations";
+        String testName = "AlertOperationsTest";
         logger.info("Starting test: "+testName);
 
         // Initialise the services
@@ -104,17 +104,6 @@ public class NewRelicApiTest
         // Create the browser application
         BrowserApplication browserApplication = createBrowserApplication(api, 
             getBrowserApplication(browserApplicationName));
-
-        Collection<Application>  applications = getApplications(api);
-        if(applications.size() > 0)
-        {
-            Iterator<Application> it = applications.iterator();
-            Application application = it.next();
-            getApplication(api, application.getId());
-            updateApplication(api, getApplication(application.getId(), application.getName()));
-            getMetricNames(api, application.getId());
-            getMetricData(api, application.getId());
-        }
 
         NewRelicInfraApiService infraApi = getInfraService();
         Assert.assertNotNull(infraApi);
@@ -164,9 +153,6 @@ public class NewRelicApiTest
         getAllSyntheticsConditions(api, policy);
         getAllInfraConditions(infraApi, policy);
 
-        // Get all the applications
-        getBrowserApplications(api);
-
         // Get all the entity conditions
         getEntityConditions(api, browserApplication);
 
@@ -200,6 +186,40 @@ public class NewRelicApiTest
         // Delete the alert channels
         deleteChannel(api, emailChannel);
         deleteChannel(api, slackChannel);
+
+        logger.info("Completed test: "+testName);
+    }
+
+    @Test
+    public void testApplicationOperations()
+    {
+        String testName = "ApplicationOperationsTest";
+        logger.info("Starting test: "+testName);
+
+        // Initialise the services
+        logger.info("Initialise the service");
+
+        NewRelicApiService api = getService();
+        Assert.assertNotNull(api);
+
+        // Create the browser application
+        BrowserApplication browserApplication = createBrowserApplication(api, 
+            getBrowserApplication(browserApplicationName));
+
+        // Get all the applications
+        Collection<Application> applications = getApplications(api);
+        Collection<BrowserApplication> browserApplications = getBrowserApplications(api);
+
+        // Get the application metrics
+        if(applications.size() > 0)
+        {
+            Iterator<Application> it = applications.iterator();
+            Application application = it.next();
+            getApplication(api, application.getId());
+            updateApplication(api, getApplication(application.getId(), application.getName()));
+            getMetricNames(api, application.getId());
+            getMetricData(api, application.getId());
+        }
 
         logger.info("Completed test: "+testName);
     }
