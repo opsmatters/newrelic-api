@@ -17,7 +17,7 @@
 package com.opsmatters.newrelic.api.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.entity.AlertEntity;
+import com.opsmatters.newrelic.api.model.entities.AlertEntity;
 
 /**
  * Represents a New Relic alert violation.  

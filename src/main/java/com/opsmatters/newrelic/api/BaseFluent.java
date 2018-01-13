@@ -24,20 +24,20 @@ import javax.ws.rs.core.GenericType;
 import com.opsmatters.newrelic.api.model.AlertIncident;
 import com.opsmatters.newrelic.api.model.AlertViolation;
 import com.opsmatters.newrelic.api.model.AlertEvent;
-import com.opsmatters.newrelic.api.model.policy.AlertPolicy;
-import com.opsmatters.newrelic.api.model.policy.AlertPolicyChannel;
-import com.opsmatters.newrelic.api.model.channel.AlertChannel;
-import com.opsmatters.newrelic.api.model.condition.AlertCondition;
-import com.opsmatters.newrelic.api.model.condition.NrqlAlertCondition;
-import com.opsmatters.newrelic.api.model.condition.ExternalServiceAlertCondition;
-import com.opsmatters.newrelic.api.model.condition.PluginsAlertCondition;
-import com.opsmatters.newrelic.api.model.condition.SyntheticsAlertCondition;
-import com.opsmatters.newrelic.api.model.condition.InfraAlertCondition;
-import com.opsmatters.newrelic.api.model.entity.Application;
-import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
-import com.opsmatters.newrelic.api.model.entity.Metric;
-import com.opsmatters.newrelic.api.model.entity.MetricData;
-import com.opsmatters.newrelic.api.model.entity.MobileApplication;
+import com.opsmatters.newrelic.api.model.policies.AlertPolicy;
+import com.opsmatters.newrelic.api.model.policies.AlertPolicyChannel;
+import com.opsmatters.newrelic.api.model.channels.AlertChannel;
+import com.opsmatters.newrelic.api.model.conditions.AlertCondition;
+import com.opsmatters.newrelic.api.model.conditions.NrqlAlertCondition;
+import com.opsmatters.newrelic.api.model.conditions.ExternalServiceAlertCondition;
+import com.opsmatters.newrelic.api.model.conditions.PluginsAlertCondition;
+import com.opsmatters.newrelic.api.model.conditions.SyntheticsAlertCondition;
+import com.opsmatters.newrelic.api.model.conditions.InfraAlertCondition;
+import com.opsmatters.newrelic.api.model.entities.Application;
+import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
+import com.opsmatters.newrelic.api.model.entities.Metric;
+import com.opsmatters.newrelic.api.model.entities.MetricData;
+import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  

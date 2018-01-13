@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-import com.opsmatters.newrelic.api.model.channel.AlertChannel;
+import com.opsmatters.newrelic.api.model.channels.AlertChannel;
 
 /**
  * The set of operations used for alert channels.

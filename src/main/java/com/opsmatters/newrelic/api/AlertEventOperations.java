@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import com.opsmatters.newrelic.api.model.AlertEvent;
 import com.opsmatters.newrelic.api.model.Product;
-import com.opsmatters.newrelic.api.model.entity.EntityType;
+import com.opsmatters.newrelic.api.model.entities.EntityType;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**

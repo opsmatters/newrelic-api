@@ -18,8 +18,8 @@ package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
 import com.google.common.base.Optional;
-import com.opsmatters.newrelic.api.model.condition.AlertCondition;
-import com.opsmatters.newrelic.api.model.entity.Entity;
+import com.opsmatters.newrelic.api.model.conditions.AlertCondition;
+import com.opsmatters.newrelic.api.model.entities.Entity;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**

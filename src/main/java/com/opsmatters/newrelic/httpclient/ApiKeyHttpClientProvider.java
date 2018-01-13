@@ -23,7 +23,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Configuration;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.logging.LoggingFeature;
-import com.opsmatters.newrelic.httpclient.filter.ApiKeyFilter;
+import com.opsmatters.newrelic.httpclient.filters.ApiKeyFilter;
 
 /**
  * HTTP client provider to attach an API key used for authentication.
