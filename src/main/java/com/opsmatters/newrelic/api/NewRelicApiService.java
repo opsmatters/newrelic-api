@@ -288,6 +288,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to Mobile applications.
+     * @return The Mobile application operations
+     */
+    public MobileApplicationOperations mobileApplications()
+    {
+        checkInitialize();
+        return new MobileApplicationOperations(httpContext, this);
+    }
+
+    /**
      * Initialise the HTTP client provider and context.
      */
     protected void checkInitialize()

@@ -30,6 +30,8 @@ import com.opsmatters.newrelic.api.NewRelicApiService;
 import com.opsmatters.newrelic.api.NewRelicInfraApiService;
 import com.opsmatters.newrelic.api.AlertEventOperations;
 import com.opsmatters.newrelic.api.ApplicationOperations;
+import com.opsmatters.newrelic.api.MobileApplicationOperations;
+import com.opsmatters.newrelic.api.MetricParameterBuilder;
 import com.opsmatters.newrelic.api.model.AlertEvent;
 import com.opsmatters.newrelic.api.model.AlertViolation;
 import com.opsmatters.newrelic.api.model.AlertIncident;
@@ -61,6 +63,7 @@ import com.opsmatters.newrelic.api.model.entity.Application;
 import com.opsmatters.newrelic.api.model.entity.Metric;
 import com.opsmatters.newrelic.api.model.entity.MetricData;
 import com.opsmatters.newrelic.api.model.entity.BrowserApplication;
+import com.opsmatters.newrelic.api.model.entity.MobileApplication;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -209,6 +212,7 @@ public class NewRelicApiTest
         // Get all the applications
         Collection<Application> applications = getApplications(api);
         Collection<BrowserApplication> browserApplications = getBrowserApplications(api);
+        Collection<MobileApplication> mobileApplications = getMobileApplications(api);
 
         // Get the application metrics
         if(applications.size() > 0)
@@ -217,8 +221,18 @@ public class NewRelicApiTest
             Application application = it.next();
             getApplication(api, application.getId());
             updateApplication(api, getApplication(application.getId(), application.getName()));
-            getMetricNames(api, application.getId());
-            getMetricData(api, application.getId());
+            getApplicationMetricNames(api, application.getId());
+            getApplicationMetricData(api, application.getId());
+        }
+
+        // Get the mobile application metrics
+        if(mobileApplications.size() > 0)
+        {
+            Iterator<MobileApplication> it = mobileApplications.iterator();
+            MobileApplication mobileApplication = it.next();
+            getMobileApplication(api, mobileApplication.getId());
+            getMobileApplicationMetricNames(api, mobileApplication.getId());
+            getMobileApplicationMetricData(api, mobileApplication.getId());
         }
 
         logger.info("Completed test: "+testName);
@@ -867,7 +881,7 @@ public class NewRelicApiTest
         try
         {
             logger.info("Get applications: ");
-            Map<String,Object> filters = ApplicationOperations.filters()
+            List<String> filters = ApplicationOperations.filters()
                 .language("java")
                 .build();
             ret = api.applications().list(filters);
@@ -888,20 +902,18 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Metric> getMetricNames(NewRelicApiService api, long id)
+    public Collection<Metric> getApplicationMetricNames(NewRelicApiService api, long id)
     {
-        logger.info("Get metric names: "+id);
+        logger.info("Get application metric names: "+id);
         Collection<Metric> metrics = api.applications().metricNames(id, "Threads/SummaryState/");
         Assert.assertTrue(metrics.size() > 0);
         return metrics;
     }
 
-    public MetricData getMetricData(NewRelicApiService api, long id)
+    public MetricData getApplicationMetricData(NewRelicApiService api, long id)
     {
-        logger.info("Get metric data: "+id);
-        List<String> parameters = ApplicationOperations.metrics()
-            //.names("EndUser")
-            //.names("EndUser/Apdex")
+        logger.info("Get application metric data: "+id);
+        List<String> parameters = MetricParameterBuilder.builder()
             .names("Threads/SummaryState/RUNNABLE/Count")
             .names("Threads/SummaryState/BLOCKED/Count")
             .values("average_response_time")
@@ -944,5 +956,55 @@ public class NewRelicApiTest
         Collection<BrowserApplication> ret = api.browserApplications().list();
         Assert.assertTrue(ret.size() > 0);
         return ret;
+    }
+
+    public MobileApplication getMobileApplication(NewRelicApiService api, long id)
+    {
+        logger.info("Get mobile application: "+id);
+        MobileApplication ret = api.mobileApplications().show(id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<MobileApplication> getMobileApplications(NewRelicApiService api)
+    {
+        Collection<MobileApplication> ret = null;
+
+        try
+        {
+            logger.info("Get mobile applications: ");
+            ret = api.mobileApplications().list();
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get mobile applications: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Collection<Metric> getMobileApplicationMetricNames(NewRelicApiService api, long id)
+    {
+        logger.info("Get mobile application metric names: "+id);
+        Collection<Metric> metrics = api.mobileApplications().metricNames(id, "Threads/SummaryState/");
+        Assert.assertTrue(metrics.size() > 0);
+        return metrics;
+    }
+
+    public MetricData getMobileApplicationMetricData(NewRelicApiService api, long id)
+    {
+        logger.info("Get mobile application metric data: "+id);
+        List<String> parameters = MetricParameterBuilder.builder()
+            .names("Mobile/Crash/All")
+            .names("Session/Start")
+            .values("call_count")
+            .from(System.currentTimeMillis()-(3600*1000L)) // last 1 hour
+            .to(System.currentTimeMillis())
+            .summarize(true)
+            .build();
+
+        MetricData metrics = api.mobileApplications().metricData(id, parameters).get();
+        Assert.assertTrue(metrics.getMetrics().size() > 0);
+        return metrics;
     }
 }

@@ -19,13 +19,11 @@ package com.opsmatters.newrelic.api;
 import java.util.Collection;
 import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.model.entity.Application;
 import com.opsmatters.newrelic.api.model.entity.Metric;
 import com.opsmatters.newrelic.api.model.entity.MetricData;
-import com.opsmatters.newrelic.util.Utils;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
@@ -50,9 +48,9 @@ public class ApplicationOperations extends BaseFluent
      * @param queryParams The query parameters
      * @return The set of applications
      */
-    public Collection<Application> list(Map<String,Object> queryParams)
+    public Collection<Application> list(List<String> queryParams)
     {
-        return HTTP.GET("/applications.json", APPLICATIONS).get();
+        return HTTP.GET("/applications.json", null, queryParams, APPLICATIONS).get();
     }
 
     /**
@@ -144,7 +142,7 @@ public class ApplicationOperations extends BaseFluent
      */
     public static class ApplicationFilterBuilder
     {
-        private Map<String,Object> filters = Maps.newHashMap();
+        private QueryParameterList filters = new QueryParameterList();
 
         /**
          * Adds the name filter to the filters.
@@ -153,7 +151,7 @@ public class ApplicationOperations extends BaseFluent
          */
         public ApplicationFilterBuilder name(String name)
         {
-            filters.put("filter[name]", name);
+            filters.add("filter[name]", name);
             return this;
         }
 
@@ -164,7 +162,7 @@ public class ApplicationOperations extends BaseFluent
          */
         public ApplicationFilterBuilder host(String host)
         {
-            filters.put("filter[host]", host);
+            filters.add("filter[host]", host);
             return this;
         }
 
@@ -175,7 +173,7 @@ public class ApplicationOperations extends BaseFluent
          */
         public ApplicationFilterBuilder ids(String ids)
         {
-            filters.put("filter[ids]", ids);
+            filters.add("filter[ids]", ids);
             return this;
         }
 
@@ -186,7 +184,7 @@ public class ApplicationOperations extends BaseFluent
          */
         public ApplicationFilterBuilder language(String language)
         {
-            filters.put("filter[language]", language);
+            filters.add("filter[language]", language);
             return this;
         }
 
@@ -197,7 +195,7 @@ public class ApplicationOperations extends BaseFluent
          */
         public ApplicationFilterBuilder sortByHealthStatus(boolean sort)
         {
-            filters.put("sort[health_status]", sort);
+            filters.add("sort[health_status]", sort);
             return this;
         }
 
@@ -208,7 +206,7 @@ public class ApplicationOperations extends BaseFluent
          */
         public ApplicationFilterBuilder sortToken(String token)
         {
-            filters.put("sort[token]", token);
+            filters.add("sort[token]", token);
             return this;
         }
 
@@ -216,7 +214,7 @@ public class ApplicationOperations extends BaseFluent
          * Returns the configured filters
          * @return The filters
          */
-        public Map<String,Object> build()
+        public List<String> build()
         {
             return filters;
         }
@@ -229,101 +227,5 @@ public class ApplicationOperations extends BaseFluent
     public static MetricParameterBuilder metrics()
     {
         return new MetricParameterBuilder();
-    }
-
-    /**
-     * Builder to make metric parameter construction easier.
-     */
-    public static class MetricParameterBuilder
-    {
-        private QueryParameterList parameters = new QueryParameterList();
-
-        /**
-         * Adds a names parameter to the parameters.
-         * @param name The metric name to add
-         * @return This object
-         */
-        public MetricParameterBuilder names(String name)
-        {
-            parameters.add("names[]", name);
-            return this;
-        }
-
-        /**
-         * Adds a values parameter to the parameters.
-         * @param value The metric value to add
-         * @return This object
-         */
-        public MetricParameterBuilder values(String value)
-        {
-            parameters.add("values[]", value);
-            return this;
-        }
-
-        /**
-         * Adds the from parameter to the parameters.
-         * @param from The from date parameter to add
-         * @return This object
-         */
-        public MetricParameterBuilder from(long from)
-        {
-            parameters.add("from", Utils.getUtcDateTime(from));
-            return this;
-        }
-
-        /**
-         * Adds the to parameter to the parameters.
-         * @param to The to date parameter to add
-         * @return This object
-         */
-        public MetricParameterBuilder to(long to)
-        {
-            parameters.add("to", Utils.getUtcDateTime(to));
-            return this;
-        }
-
-        /**
-         * Adds the period parameter to the parameters.
-         * @param period The period of timeslices in seconds
-         * @return This object
-         */
-        public MetricParameterBuilder period(int period)
-        {
-            parameters.add("period", Integer.toString(period));
-            return this;
-        }
-
-        /**
-         * Adds the summarize parameter to the parameters.
-         * @param summarize <CODE>true</CODE> if the metric data should be summarized
-         * @return This object
-         */
-        public MetricParameterBuilder summarize(boolean summarize)
-        {
-            parameters.add("summarize", Boolean.toString(summarize));
-            return this;
-        }
-
-        /**
-         * Adds the raw parameter to the parameters.
-         * @param raw <CODE>true</CODE> if the metric data should be returned unformatted
-         * @return This object
-         */
-        public MetricParameterBuilder raw(boolean raw)
-        {
-            parameters.add("raw", Boolean.toString(raw));
-            return this;
-        }
-
-        /**
-         * Returns the configured parameters
-         * @return The parameters
-         */
-        public List<String> build()
-        {
-            if(!parameters.contains("names[]"))
-                throw new IllegalArgumentException("parameter list must contain at least one names[] parameter");
-            return parameters;
-        }
     }
 }

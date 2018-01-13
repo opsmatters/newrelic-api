@@ -23,6 +23,7 @@
 #### APM v2 API
 - [Applications](#applications)
 - [Browser Applications](#browser-applications)
+- [Mobile Applications](#mobile-applications)
 
 ### Initialisation
 
@@ -378,14 +379,14 @@ Collection<Application> applications = api.applications().list(filters);
 ```
  To list the application metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
 ```
-List<String> parameters = ApplicationOperations.metrics()
+List<String> parameters = MetricParameterBuilder.builder()
     .names("EndUser")
     .names("EndUser/Apdex")
     .values("call_count")
     .values("average_response_time")
     .values("score")
     .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
-    .from(System.currentTimeMillis())
+    .to(System.currentTimeMillis())
     .summarize(true)
     .build();
 
@@ -413,5 +414,29 @@ The Browser application returned includes all the additional fields that were po
 Other operations have also been included for Browser applications:
 * list(): returns all Browser applications.
 * show(id): returns the Browser application for the given id.
+
+### Mobile Applications
+To list the mobile applications call the "list" operation:
+```
+Collection<MobileApplication> applications = api.mobileApplications().list();
+```
+ To list the mobile application metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+```
+List<String> parameters = MetricParameterBuilder.builder()
+    .names("Mobile/Crash/All")
+    .names("Session/Start")
+    .values("call_count")
+    .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
+    .to(System.currentTimeMillis())
+    .summarize(true)
+    .build();
+
+MetricData metrics = api.mobileApplications().metricData(parameters).get();
+```
+
+Other operations have also been included for mobile applications:
+* show(id): returns the mobile application for the given id.
+* metricNames(id): returns the metrics and their value names for the given mobile application.
+* metricNames(id, name): returns the metrics and their value names for the given mobile application, where the value names match the given name.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

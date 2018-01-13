@@ -28,6 +28,7 @@ The following New Relic APIs are currently supported:
 ### APM v2 API
 * Applications (List, Show, Update, Delete, Metric Names, Metric Data)
 * Browser Applications (List, Create)
+* Mobile Applications (List, Show, Metric Names, Metric Data)
 
 Other APIs can be included on request.
 
