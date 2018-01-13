@@ -24,6 +24,7 @@
 - [Applications](#applications)
 - [Browser Applications](#browser-applications)
 - [Mobile Applications](#mobile-applications)
+- [Key Transactions](#key-transactions)
 
 ### Initialisation
 
@@ -438,5 +439,18 @@ Other operations have also been included for mobile applications:
 * show(id): returns the mobile application for the given id.
 * metricNames(id): returns the metrics and their value names for the given mobile application.
 * metricNames(id, name): returns the metrics and their value names for the given mobile application, where the value names match the given name.
+
+### Key Transactions
+To list the key transactions call the "list" operation:
+```
+List<String> filters = KeyTransactionOperations.filters()
+    .name("Transaction")
+    .build();
+
+Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
+```
+
+Other operations have also been included for key transactions:
+* show(id): returns the key transaction for the given id.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

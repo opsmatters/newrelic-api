@@ -54,6 +54,7 @@ import com.opsmatters.newrelic.api.model.conditions.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.entities.Application;
 import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
 import com.opsmatters.newrelic.api.model.entities.MobileApplication;
+import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.httpclient.serializers.policies.AlertPolicySerializer;
@@ -92,6 +93,8 @@ import com.opsmatters.newrelic.httpclient.deserializers.entities.BrowserApplicat
 import com.opsmatters.newrelic.httpclient.deserializers.entities.BrowserApplicationsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MobileApplicationDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MobileApplicationsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entities.KeyTransactionDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entities.KeyTransactionsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricDataDeserializer;
 
@@ -121,6 +124,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Type APPLICATIONS_TYPE = new TypeToken<Collection<Application>>(){}.getType();
     private static final Type BROWSER_APPLICATIONS_TYPE = new TypeToken<Collection<BrowserApplication>>(){}.getType();
     private static final Type MOBILE_APPLICATIONS_TYPE = new TypeToken<Collection<MobileApplication>>(){}.getType();
+    private static final Type KEY_TRANSACTIONS_TYPE = new TypeToken<Collection<KeyTransaction>>(){}.getType();
     private static final Type METRICS_TYPE = new TypeToken<Collection<Metric>>(){}.getType();
 
     private Gson gson;
@@ -170,6 +174,8 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(BROWSER_APPLICATIONS_TYPE, new BrowserApplicationsDeserializer());
             builder.registerTypeAdapter(MobileApplication.class, new MobileApplicationDeserializer());
             builder.registerTypeAdapter(MOBILE_APPLICATIONS_TYPE, new MobileApplicationsDeserializer());
+            builder.registerTypeAdapter(KeyTransaction.class, new KeyTransactionDeserializer());
+            builder.registerTypeAdapter(KEY_TRANSACTIONS_TYPE, new KeyTransactionsDeserializer());
             builder.registerTypeAdapter(METRICS_TYPE, new MetricsDeserializer());
             builder.registerTypeAdapter(MetricData.class, new MetricDataDeserializer());
             builder.registerTypeAdapter(ResponseError.class, new ResponseErrorDeserializer());

@@ -132,15 +132,15 @@ public class ApplicationOperations extends BaseFluent
      * Returns a builder for the application filters.
      * @return The builder instance.
      */
-    public static ApplicationFilterBuilder filters()
+    public static FilterBuilder filters()
     {
-        return new ApplicationFilterBuilder();
+        return new FilterBuilder();
     }
 
     /**
      * Builder to make application filter construction easier.
      */
-    public static class ApplicationFilterBuilder
+    public static class FilterBuilder
     {
         private QueryParameterList filters = new QueryParameterList();
 
@@ -149,7 +149,7 @@ public class ApplicationOperations extends BaseFluent
          * @param name The name to filter on
          * @return This object
          */
-        public ApplicationFilterBuilder name(String name)
+        public FilterBuilder name(String name)
         {
             filters.add("filter[name]", name);
             return this;
@@ -160,7 +160,7 @@ public class ApplicationOperations extends BaseFluent
          * @param host The host to filter on
          * @return This object
          */
-        public ApplicationFilterBuilder host(String host)
+        public FilterBuilder host(String host)
         {
             filters.add("filter[host]", host);
             return this;
@@ -171,7 +171,7 @@ public class ApplicationOperations extends BaseFluent
          * @param ids The comma-separated list of ids to filter on
          * @return This object
          */
-        public ApplicationFilterBuilder ids(String ids)
+        public FilterBuilder ids(String ids)
         {
             filters.add("filter[ids]", ids);
             return this;
@@ -182,7 +182,7 @@ public class ApplicationOperations extends BaseFluent
          * @param language The language to filter on
          * @return This object
          */
-        public ApplicationFilterBuilder language(String language)
+        public FilterBuilder language(String language)
         {
             filters.add("filter[language]", language);
             return this;
@@ -193,7 +193,7 @@ public class ApplicationOperations extends BaseFluent
          * @param sort <CODE>true</CODE> if the applications should be sorted by health status
          * @return This object
          */
-        public ApplicationFilterBuilder sortByHealthStatus(boolean sort)
+        public FilterBuilder sortByHealthStatus(boolean sort)
         {
             filters.add("sort[health_status]", sort);
             return this;
@@ -204,7 +204,7 @@ public class ApplicationOperations extends BaseFluent
          * @param token The sort token to ensure correct sorted pagination
          * @return This object
          */
-        public ApplicationFilterBuilder sortToken(String token)
+        public FilterBuilder sortToken(String token)
         {
             filters.add("sort[token]", token);
             return this;

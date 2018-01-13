@@ -35,9 +35,10 @@ import com.opsmatters.newrelic.api.model.conditions.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.conditions.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.entities.Application;
 import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
+import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
+import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
-import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -91,6 +92,9 @@ public class BaseFluent
 
     protected static final GenericType<MobileApplication> MOBILE_APPLICATION = new GenericType<MobileApplication>(){};
     protected static final GenericType<Collection<MobileApplication>> MOBILE_APPLICATIONS = new GenericType<Collection<MobileApplication>>(){};
+
+    protected static final GenericType<KeyTransaction> KEY_TRANSACTION = new GenericType<KeyTransaction>(){};
+    protected static final GenericType<Collection<KeyTransaction>> KEY_TRANSACTIONS = new GenericType<Collection<KeyTransaction>>(){};
 
     protected static final GenericType<Collection<Metric>> METRICS = new GenericType<Collection<Metric>>(){};
     protected static final GenericType<MetricData> METRIC_DATA = new GenericType<MetricData>(){};

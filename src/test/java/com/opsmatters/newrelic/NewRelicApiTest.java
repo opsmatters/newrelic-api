@@ -31,6 +31,7 @@ import com.opsmatters.newrelic.api.NewRelicInfraApiService;
 import com.opsmatters.newrelic.api.AlertEventOperations;
 import com.opsmatters.newrelic.api.ApplicationOperations;
 import com.opsmatters.newrelic.api.MobileApplicationOperations;
+import com.opsmatters.newrelic.api.KeyTransactionOperations;
 import com.opsmatters.newrelic.api.MetricParameterBuilder;
 import com.opsmatters.newrelic.api.model.AlertEvent;
 import com.opsmatters.newrelic.api.model.AlertViolation;
@@ -60,10 +61,11 @@ import com.opsmatters.newrelic.api.model.conditions.Threshold;
 import com.opsmatters.newrelic.api.model.entities.Entity;
 import com.opsmatters.newrelic.api.model.entities.EntityType;
 import com.opsmatters.newrelic.api.model.entities.Application;
-import com.opsmatters.newrelic.api.model.entities.Metric;
-import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
 import com.opsmatters.newrelic.api.model.entities.MobileApplication;
+import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
+import com.opsmatters.newrelic.api.model.entities.Metric;
+import com.opsmatters.newrelic.api.model.entities.MetricData;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -213,6 +215,7 @@ public class NewRelicApiTest
         Collection<Application> applications = getApplications(api);
         Collection<BrowserApplication> browserApplications = getBrowserApplications(api);
         Collection<MobileApplication> mobileApplications = getMobileApplications(api);
+        Collection<KeyTransaction> keyTransactions = getKeyTransactions(api);
 
         // Get the application metrics
         if(applications.size() > 0)
@@ -233,6 +236,14 @@ public class NewRelicApiTest
             getMobileApplication(api, mobileApplication.getId());
             getMobileApplicationMetricNames(api, mobileApplication.getId());
             getMobileApplicationMetricData(api, mobileApplication.getId());
+        }
+
+        // Get the key transactions
+        if(keyTransactions != null && keyTransactions.size() > 0)
+        {
+            Iterator<KeyTransaction> it = keyTransactions.iterator();
+            KeyTransaction keyTransaction = it.next();
+            getKeyTransaction(api, keyTransaction.getId());
         }
 
         logger.info("Completed test: "+testName);
@@ -1006,5 +1017,34 @@ public class NewRelicApiTest
         MetricData metrics = api.mobileApplications().metricData(id, parameters).get();
         Assert.assertTrue(metrics.getMetrics().size() > 0);
         return metrics;
+    }
+
+    public KeyTransaction getKeyTransaction(NewRelicApiService api, long id)
+    {
+        logger.info("Get key transaction: "+id);
+        KeyTransaction ret = api.keyTransactions().show(id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<KeyTransaction> getKeyTransactions(NewRelicApiService api)
+    {
+        Collection<KeyTransaction> ret = null;
+
+        try
+        {
+            logger.info("Get key transactions: ");
+            List<String> filters = KeyTransactionOperations.filters()
+                .name("Transaction")
+                .build();
+            ret = api.keyTransactions().list(filters);
+        }
+        catch(RuntimeException e)
+        {
+            if(e.getMessage().indexOf("403 Forbidden") == -1) // requires full access
+                Assert.fail("Error in get key transactions: "+e.getMessage());
+        }
+
+        return ret;
     }
 }

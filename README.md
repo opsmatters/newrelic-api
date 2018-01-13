@@ -29,6 +29,7 @@ The following New Relic APIs are currently supported:
 * Applications (List, Show, Update, Delete, Metric Names, Metric Data)
 * Browser Applications (List, Create)
 * Mobile Applications (List, Show, Metric Names, Metric Data)
+* Key Transactions (List, Show)
 
 Other APIs can be included on request.
 

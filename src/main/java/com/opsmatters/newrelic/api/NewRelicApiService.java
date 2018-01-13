@@ -298,6 +298,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to key transactions.
+     * @return The key transaction operations
+     */
+    public KeyTransactionOperations keyTransactions()
+    {
+        checkInitialize();
+        return new KeyTransactionOperations(httpContext, this);
+    }
+
+    /**
      * Initialise the HTTP client provider and context.
      */
     protected void checkInitialize()
