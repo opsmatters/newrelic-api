@@ -17,7 +17,7 @@
 package com.opsmatters.newrelic.api.model.entities;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.Product;
+import com.opsmatters.newrelic.api.model.alerts.Product;
 
 /**
  * Represents a New Relic alert entity.  

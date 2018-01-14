@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.deserializers;
+package com.opsmatters.newrelic.httpclient.deserializers.alerts;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.AlertViolation;
+import com.opsmatters.newrelic.api.model.alerts.AlertViolation;
 
 /**
  * Deserializer class for alert violations.

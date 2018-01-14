@@ -17,7 +17,7 @@
 package com.opsmatters.newrelic.api.model.conditions;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.Priority;
+import com.opsmatters.newrelic.api.model.alerts.Priority;
 
 /**
  * Represents a New Relic alert condition term.  

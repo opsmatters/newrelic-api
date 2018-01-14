@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.alerts;
 
 /**
  * Represents a New Relic alert priority.  

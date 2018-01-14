@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.TimeZone;
 import java.text.SimpleDateFormat;
-import com.opsmatters.newrelic.api.model.AlertViolation;
+import com.opsmatters.newrelic.api.model.alerts.AlertViolation;
 import com.opsmatters.newrelic.util.QueryParameterList;
 import com.opsmatters.newrelic.util.Utils;
 

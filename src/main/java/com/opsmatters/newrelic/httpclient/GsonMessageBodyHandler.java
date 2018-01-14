@@ -38,10 +38,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.opsmatters.newrelic.api.model.AlertIncident;
-import com.opsmatters.newrelic.api.model.AlertViolation;
-import com.opsmatters.newrelic.api.model.AlertEvent;
 import com.opsmatters.newrelic.api.model.ResponseError;
+import com.opsmatters.newrelic.api.model.alerts.AlertIncident;
+import com.opsmatters.newrelic.api.model.alerts.AlertViolation;
+import com.opsmatters.newrelic.api.model.alerts.AlertEvent;
 import com.opsmatters.newrelic.api.model.policies.AlertPolicy;
 import com.opsmatters.newrelic.api.model.policies.AlertPolicyChannel;
 import com.opsmatters.newrelic.api.model.channels.AlertChannel;
@@ -71,10 +71,10 @@ import com.opsmatters.newrelic.httpclient.serializers.conditions.SyntheticsAlert
 import com.opsmatters.newrelic.httpclient.serializers.conditions.InfraAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.entities.ApplicationSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.entities.BrowserApplicationSerializer;
-import com.opsmatters.newrelic.httpclient.deserializers.AlertIncidentsDeserializer;
-import com.opsmatters.newrelic.httpclient.deserializers.AlertViolationsDeserializer;
-import com.opsmatters.newrelic.httpclient.deserializers.AlertEventsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.ResponseErrorDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertIncidentsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertViolationsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertEventsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.policies.AlertPolicyDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.policies.AlertPoliciesDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.policies.AlertPolicyChannelDeserializer;
@@ -155,6 +155,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
         {
             GsonBuilder builder = new GsonBuilder();
 
+            builder.registerTypeAdapter(ResponseError.class, new ResponseErrorDeserializer());
             builder.registerTypeAdapter(AlertPolicy.class, new AlertPolicySerializer());
             builder.registerTypeAdapter(AlertPolicy.class, new AlertPolicyDeserializer());
             builder.registerTypeAdapter(ALERT_POLICIES_TYPE, new AlertPoliciesDeserializer());
@@ -202,7 +203,6 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(PLUGIN_COMPONENTS_TYPE, new PluginComponentsDeserializer());
             builder.registerTypeAdapter(METRICS_TYPE, new MetricsDeserializer());
             builder.registerTypeAdapter(MetricData.class, new MetricDataDeserializer());
-            builder.registerTypeAdapter(ResponseError.class, new ResponseErrorDeserializer());
             gson = builder.create();
         }
 

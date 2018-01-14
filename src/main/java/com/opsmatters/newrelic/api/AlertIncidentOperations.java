@@ -17,7 +17,7 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
-import com.opsmatters.newrelic.api.model.AlertIncident;
+import com.opsmatters.newrelic.api.model.alerts.AlertIncident;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**

@@ -14,33 +14,34 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.alerts;
 
+import java.util.List;
+import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Represents a set of New Relic violation links.  
+ * Represents a set of New Relic incident links.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class ViolationLinks
+public class IncidentLinks
 {
     @SerializedName("policy_id")
     private Long policyId;
 
-    @SerializedName("condition_id")
-    private Long conditionId;
+    private List<Long> violations = new ArrayList<Long>();
     
     /**
      * Default constructor.
      */
-    public ViolationLinks()
+    public IncidentLinks()
     {
     }
 
     /**
-     * Sets the policy id of the violation.
-     * @param policyId The policy id of the violation
+     * Sets the policy id of the incident.
+     * @param policyId The policy id of the incident
      */
     public void setPolicyId(long policyId)
     {
@@ -48,8 +49,8 @@ public class ViolationLinks
     }
 
     /**
-     * Returns the policy id of the violation.
-     * @return The policy id of the violation
+     * Returns the policy id of the incident.
+     * @return The policy id of the incident
      */
     public long getPolicyId()
     {
@@ -57,21 +58,22 @@ public class ViolationLinks
     }
 
     /**
-     * Sets the condition id of the violation.
-     * @param conditionId The condition id of the violation
+     * Sets the list of violations.
+     * @param violations The list of violations
      */
-    public void setConditionId(long conditionId)
+    public void setViolations(List<Long> violations)
     {
-        this.conditionId = conditionId;
+        this.violations.clear();
+        this.violations.addAll(violations);
     }
 
     /**
-     * Returns the condition id of the violation.
-     * @return The condition id of the violation
+     * Returns the list of violations.
+     * @return The list of violations
      */
-    public long getConditionId()
+    public List<Long> getViolations()
     {
-        return conditionId;
+        return violations;
     }
 
     /**
@@ -80,8 +82,8 @@ public class ViolationLinks
     @Override
     public String toString()
     {
-        return "ViolationLinks [policyId="+policyId
-            +", conditionId="+conditionId
+        return "IncidentLinks [policyId="+policyId
+            +", violations="+violations
             +"]";
     }
 }

@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.alerts;
 
 /**
- * Represents a New Relic product.  
+ * Represents a New Relic incident preference.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public enum Product
+public enum IncidentPreference
 {
-    APM, 
-    BROWSER, 
-    MOBILE, 
-    SERVERS, 
-    PLUGINS, 
-    SYNTHETICS,
-    ALERTS,
-    INFRASTRUCTURE;
+    PER_POLICY,
+    PER_CONDITION,
+    PER_CONDITION_AND_TARGET;
 }

@@ -18,7 +18,7 @@ package com.opsmatters.newrelic.api.model.policies;
 
 import com.google.gson.annotations.SerializedName;
 import com.opsmatters.newrelic.api.model.NamedResource;
-import com.opsmatters.newrelic.api.model.IncidentPreference;
+import com.opsmatters.newrelic.api.model.alerts.IncidentPreference;
 /**
  * Represents a New Relic alert policy.  
  * 

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.alerts;
 
 import com.google.gson.annotations.SerializedName;
+import com.opsmatters.newrelic.api.model.NamedResource;
 import com.opsmatters.newrelic.api.model.entities.AlertEntity;
 
 /**
