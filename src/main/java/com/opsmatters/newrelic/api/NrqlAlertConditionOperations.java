@@ -55,16 +55,16 @@ public class NrqlAlertConditionOperations extends BaseFluent
      * <P>
      * This is needed because the API does not contain an operation to get a condition using the id directly.
      * @param policyId The id of the policy the condition belongs to
-     * @param id The id of the alert condition to return
+     * @param conditionId The id of the alert condition to return
      * @return The alert condition
      */
-    public Optional<NrqlAlertCondition> show(long policyId, long id)
+    public Optional<NrqlAlertCondition> show(long policyId, long conditionId)
     {
         Optional<NrqlAlertCondition> ret = Optional.absent();
         Collection<NrqlAlertCondition> conditions = list(policyId);
         for(NrqlAlertCondition condition : conditions)
         {
-            if(condition.getId() == id)
+            if(condition.getId() == conditionId)
                 ret = Optional.of(condition);
         }
         return ret;
@@ -93,12 +93,12 @@ public class NrqlAlertConditionOperations extends BaseFluent
 
     /**
      * Deletes the NRQL alert condition with the given id.
-     * @param id The id of the alert condition to delete
+     * @param conditionId The id of the alert condition to delete
      * @return This object
      */
-    public NrqlAlertConditionOperations delete(long id)
+    public NrqlAlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts_nrql_conditions/%d.json", id));       
+        HTTP.DELETE(String.format("/alerts_nrql_conditions/%d.json", conditionId));       
         return this;
     }
 }

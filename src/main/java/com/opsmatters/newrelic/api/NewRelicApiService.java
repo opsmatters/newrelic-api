@@ -278,6 +278,26 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to application hosts.
+     * @return The application host operations
+     */
+    public ApplicationHostOperations applicationHosts()
+    {
+        checkInitialize();
+        return new ApplicationHostOperations(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to application instances.
+     * @return The application instance operations
+     */
+    public ApplicationInstanceOperations applicationInstances()
+    {
+        checkInitialize();
+        return new ApplicationInstanceOperations(httpContext, this);
+    }
+
+    /**
      * Returns the operations related to Browser applications.
      * @return The Browser application operations
      */

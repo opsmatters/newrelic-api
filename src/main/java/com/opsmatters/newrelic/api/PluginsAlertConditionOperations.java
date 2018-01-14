@@ -55,16 +55,16 @@ public class PluginsAlertConditionOperations extends BaseFluent
      * <P>
      * This is needed because the API does not contain an operation to get a condition using the id directly.
      * @param policyId The id of the policy the condition belongs to
-     * @param id The id of the Plugins alert condition to return
+     * @param conditionId The id of the Plugins alert condition to return
      * @return The alert condition
      */
-    public Optional<PluginsAlertCondition> show(long policyId, long id)
+    public Optional<PluginsAlertCondition> show(long policyId, long conditionId)
     {
         Optional<PluginsAlertCondition> ret = Optional.absent();
         Collection<PluginsAlertCondition> conditions = list(policyId);
         for(PluginsAlertCondition condition : conditions)
         {
-            if(condition.getId() == id)
+            if(condition.getId() == conditionId)
                 ret = Optional.of(condition);
         }
         return ret;
@@ -93,12 +93,12 @@ public class PluginsAlertConditionOperations extends BaseFluent
 
     /**
      * Deletes the Plugins alert condition with the given id.
-     * @param id The id of the alert condition to delete
+     * @param conditionId The id of the alert condition to delete
      * @return This object
      */
-    public PluginsAlertConditionOperations delete(long id)
+    public PluginsAlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts_plugins_conditions/%d.json", id));       
+        HTTP.DELETE(String.format("/alerts_plugins_conditions/%d.json", conditionId));       
         return this;
     }
 }

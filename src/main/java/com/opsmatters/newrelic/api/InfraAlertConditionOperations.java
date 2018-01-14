@@ -52,12 +52,12 @@ public class InfraAlertConditionOperations extends BaseFluent
 
     /**
      * Returns the infrastructure alert condition with the given id.
-     * @param id The id of the alert condition to return
+     * @param conditionId The id of the alert condition to return
      * @return The alert condition
      */
-    public Optional<InfraAlertCondition> show(long id)
+    public Optional<InfraAlertCondition> show(long conditionId)
     {
-        return HTTP.GET(String.format("/alerts/conditions/%d", id), null, null, INFRA_ALERT_CONDITION);
+        return HTTP.GET(String.format("/alerts/conditions/%d", conditionId), null, null, INFRA_ALERT_CONDITION);
     }
    
     /**
@@ -82,12 +82,12 @@ public class InfraAlertConditionOperations extends BaseFluent
 
     /**
      * Deletes the infrastructure alert condition with the given id.
-     * @param id The id of the alert condition to delete
+     * @param conditionId The id of the alert condition to delete
      * @return This object
      */
-    public InfraAlertConditionOperations delete(long id)
+    public InfraAlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts/conditions/%d", id));       
+        HTTP.DELETE(String.format("/alerts/conditions/%d", conditionId));       
         return this;
     }
 }

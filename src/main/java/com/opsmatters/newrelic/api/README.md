@@ -22,6 +22,8 @@
 
 #### APM v2 API
 - [Applications](#applications)
+- [Application Hosts](#application-hosts)
+- [Application Instances](#application-instances)
 - [Browser Applications](#browser-applications)
 - [Mobile Applications](#mobile-applications)
 - [Key Transactions](#key-transactions)
@@ -441,7 +443,7 @@ Other operations have also been included for mobile applications:
 * metricNames(id, name): returns the metrics and their value names for the given mobile application, where the value names match the given name.
 
 ### Key Transactions
-To list the key transactions call the "list" operation:
+To list the key transactions call the "list" operation with a set of filters:
 ```
 List<String> filters = KeyTransactionOperations.filters()
     .name("Transaction")
@@ -452,5 +454,59 @@ Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
 
 Other operations have also been included for key transactions:
 * show(id): returns the key transaction for the given id.
+
+### Application Hosts
+To list the hosts for an application call the "list" operation with a set of filters:
+```
+List<String> filters = ApplicationHostOperations.filters()
+    .hostname("host")
+    .build();
+
+Collection<ApplicationHost> applicationHosts = api.applicationHosts().list(applicationId, filters);
+```
+ To list the application host metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+```
+List<String> parameters = MetricParameterBuilder.builder()
+    .names("Threads/SummaryState/RUNNABLE/Count")
+    .values("call_count")
+    .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
+    .to(System.currentTimeMillis())
+    .summarize(true)
+    .build();
+
+MetricData metrics = api.applicationHosts().metricData(applicationId, hostId, parameters).get();
+```
+
+Other operations have also been included for application hosts:
+* show(applicationId, hostId): returns the application host for the given id.
+* metricNames(applicationId, hostId): returns the metrics and their value names for the given application host.
+* metricNames(applicationId, hostId, name): returns the metrics and their value names for the given application host, where the value names match the given name.
+
+### Application Instances
+To list the instances for an application call the "list" operation with a set of filters:
+```
+List<String> filters = ApplicationInstanceOperations.filters()
+    .hostname("host")
+    .build();
+
+Collection<ApplicationInstance> applicationInstances = api.applicationInstances().list(applicationId, filters);
+```
+ To list the application instance metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+```
+List<String> parameters = MetricParameterBuilder.builder()
+    .names("Threads/SummaryState/RUNNABLE/Count")
+    .values("call_count")
+    .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
+    .to(System.currentTimeMillis())
+    .summarize(true)
+    .build();
+
+MetricData metrics = api.applicationInstances().metricData(applicationId, instanceId, parameters).get();
+```
+
+Other operations have also been included for application instances:
+* show(applicationId, instanceId): returns the application instance for the given id.
+* metricNames(applicationId, instanceId): returns the metrics and their value names for the given application instance.
+* metricNames(applicationId, instanceId, name): returns the metrics and their value names for the given application instance, where the value names match the given name.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

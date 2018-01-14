@@ -30,7 +30,8 @@ public enum EntityType
     KEY_TRANSACTION("KeyTransaction"),
     PLUGIN("Plugin"),
     MONITOR("Monitor"),
-    HOST("Host");
+    HOST("Host"),
+    INSTANCE("Host");
 
     EntityType(String value)
     {

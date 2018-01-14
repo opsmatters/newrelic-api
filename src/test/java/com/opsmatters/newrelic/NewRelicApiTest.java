@@ -30,6 +30,8 @@ import com.opsmatters.newrelic.api.NewRelicApiService;
 import com.opsmatters.newrelic.api.NewRelicInfraApiService;
 import com.opsmatters.newrelic.api.AlertEventOperations;
 import com.opsmatters.newrelic.api.ApplicationOperations;
+import com.opsmatters.newrelic.api.ApplicationHostOperations;
+import com.opsmatters.newrelic.api.ApplicationInstanceOperations;
 import com.opsmatters.newrelic.api.MobileApplicationOperations;
 import com.opsmatters.newrelic.api.KeyTransactionOperations;
 import com.opsmatters.newrelic.api.MetricParameterBuilder;
@@ -61,6 +63,8 @@ import com.opsmatters.newrelic.api.model.conditions.Threshold;
 import com.opsmatters.newrelic.api.model.entities.Entity;
 import com.opsmatters.newrelic.api.model.entities.EntityType;
 import com.opsmatters.newrelic.api.model.entities.Application;
+import com.opsmatters.newrelic.api.model.entities.ApplicationHost;
+import com.opsmatters.newrelic.api.model.entities.ApplicationInstance;
 import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
 import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
@@ -218,14 +222,25 @@ public class NewRelicApiTest
         Collection<KeyTransaction> keyTransactions = getKeyTransactions(api);
 
         // Get the application metrics
+        Application application = null;
         if(applications.size() > 0)
         {
             Iterator<Application> it = applications.iterator();
-            Application application = it.next();
+            //application = it.next();
+            //application = it.next();
+            application = it.next();
             getApplication(api, application.getId());
             updateApplication(api, getApplication(application.getId(), application.getName()));
             getApplicationMetricNames(api, application.getId());
             getApplicationMetricData(api, application.getId());
+        }
+
+        Collection<ApplicationHost> applicationHosts = null;
+        Collection<ApplicationInstance> applicationInstances = null;
+        if(application != null)
+        {
+            applicationHosts = getApplicationHosts(api, application.getId());
+            applicationInstances = getApplicationInstances(api, application.getId());
         }
 
         // Get the mobile application metrics
@@ -244,6 +259,26 @@ public class NewRelicApiTest
             Iterator<KeyTransaction> it = keyTransactions.iterator();
             KeyTransaction keyTransaction = it.next();
             getKeyTransaction(api, keyTransaction.getId());
+        }
+
+        // Get the application host metrics
+        if(application != null && applicationHosts != null && applicationHosts.size() > 0)
+        {
+            Iterator<ApplicationHost> it = applicationHosts.iterator();
+            ApplicationHost applicationHost = it.next();
+            getApplicationHost(api, application.getId(), applicationHost.getId());
+            getApplicationHostMetricNames(api, application.getId(), applicationHost.getId());
+            getApplicationHostMetricData(api, application.getId(), applicationHost.getId());
+        }
+
+        // Get the application instance metrics
+        if(application != null && applicationInstances != null && applicationInstances.size() > 0)
+        {
+            Iterator<ApplicationInstance> it = applicationInstances.iterator();
+            ApplicationInstance applicationInstance = it.next();
+            getApplicationInstance(api, application.getId(), applicationInstance.getId());
+            getApplicationInstanceMetricNames(api, application.getId(), applicationInstance.getId());
+            getApplicationInstanceMetricData(api, application.getId(), applicationInstance.getId());
         }
 
         logger.info("Completed test: "+testName);
@@ -885,6 +920,14 @@ public class NewRelicApiTest
         return application;
     }
 
+    public Application getApplication(NewRelicApiService api, long id)
+    {
+        logger.info("Get application: "+id);
+        Application ret = api.applications().show(id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
     public Collection<Application> getApplications(NewRelicApiService api)
     {
         Collection<Application> ret = null;
@@ -902,14 +945,6 @@ public class NewRelicApiTest
             Assert.fail("Error in get applications: "+e.getMessage());
         }
 
-        return ret;
-    }
-
-    public Application getApplication(NewRelicApiService api, long id)
-    {
-        logger.info("Get application: "+id);
-        Application ret = api.applications().show(id).get();
-        Assert.assertNotNull(ret);
         return ret;
     }
 
@@ -1046,5 +1081,109 @@ public class NewRelicApiTest
         }
 
         return ret;
+    }
+
+    public ApplicationHost getApplicationHost(NewRelicApiService api, long applicationId, long id)
+    {
+        logger.info("Get application host: "+id+" for application: "+applicationId);
+        ApplicationHost ret = api.applicationHosts().show(applicationId, id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<ApplicationHost> getApplicationHosts(NewRelicApiService api, long applicationId)
+    {
+        Collection<ApplicationHost> ret = null;
+
+        try
+        {
+            logger.info("Get application hosts: ");
+            List<String> filters = ApplicationHostOperations.filters()
+                .hostname("host")
+                .build();
+            ret = api.applicationHosts().list(applicationId, filters);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get application hosts: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Collection<Metric> getApplicationHostMetricNames(NewRelicApiService api, long applicationId, long id)
+    {
+        logger.info("Get application host metric names: "+id);
+        Collection<Metric> metrics = api.applicationHosts().metricNames(applicationId, id, "Threads/SummaryState/");
+        Assert.assertTrue(metrics.size() > 0);
+        return metrics;
+    }
+
+    public MetricData getApplicationHostMetricData(NewRelicApiService api, long applicationId, long id)
+    {
+        logger.info("Get application host metric data: "+id);
+        List<String> parameters = MetricParameterBuilder.builder()
+            .names("Threads/SummaryState/RUNNABLE/Count")
+            .values("call_count")
+            .from(System.currentTimeMillis()-(3600*1000L)) // last 1 hour
+            .to(System.currentTimeMillis())
+            .summarize(true)
+            .build();
+
+        MetricData metrics = api.applicationHosts().metricData(applicationId, id, parameters).get();
+        Assert.assertTrue(metrics.getMetrics().size() > 0);
+        return metrics;
+    }
+
+    public ApplicationInstance getApplicationInstance(NewRelicApiService api, long applicationId, long id)
+    {
+        logger.info("Get application instance: "+id+" for application: "+applicationId);
+        ApplicationInstance ret = api.applicationInstances().show(applicationId, id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<ApplicationInstance> getApplicationInstances(NewRelicApiService api, long applicationId)
+    {
+        Collection<ApplicationInstance> ret = null;
+
+        try
+        {
+            logger.info("Get application instances: ");
+            List<String> filters = ApplicationInstanceOperations.filters()
+                .hostname("host")
+                .build();
+            ret = api.applicationInstances().list(applicationId, filters);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get application instances: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Collection<Metric> getApplicationInstanceMetricNames(NewRelicApiService api, long applicationId, long id)
+    {
+        logger.info("Get application instance metric names: "+id);
+        Collection<Metric> metrics = api.applicationInstances().metricNames(applicationId, id, "Threads/SummaryState/");
+        Assert.assertTrue(metrics.size() > 0);
+        return metrics;
+    }
+
+    public MetricData getApplicationInstanceMetricData(NewRelicApiService api, long applicationId, long id)
+    {
+        logger.info("Get application instance metric data: "+id);
+        List<String> parameters = MetricParameterBuilder.builder()
+            .names("Threads/SummaryState/RUNNABLE/Count")
+            .values("call_count")
+            .from(System.currentTimeMillis()-(3600*1000L)) // last 1 hour
+            .to(System.currentTimeMillis())
+            .summarize(true)
+            .build();
+
+        MetricData metrics = api.applicationInstances().metricData(applicationId, id, parameters).get();
+        Assert.assertTrue(metrics.getMetrics().size() > 0);
+        return metrics;
     }
 }

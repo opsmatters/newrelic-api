@@ -55,16 +55,16 @@ public class AlertConditionOperations extends BaseFluent
      * <P>
      * This is needed because the API does not contain an operation to get a condition using the id directly.
      * @param policyId The id of the policy the condition belongs to
-     * @param id The id of the alert condition to return
+     * @param conditionId The id of the alert condition to return
      * @return The alert condition
      */
-    public Optional<AlertCondition> show(long policyId, long id)
+    public Optional<AlertCondition> show(long policyId, long conditionId)
     {
         Optional<AlertCondition> ret = Optional.absent();
         Collection<AlertCondition> conditions = list(policyId);
         for(AlertCondition condition : conditions)
         {
-            if(condition.getId() == id)
+            if(condition.getId() == conditionId)
                 ret = Optional.of(condition);
         }
         return ret;
@@ -93,12 +93,12 @@ public class AlertConditionOperations extends BaseFluent
 
     /**
      * Deletes the alert condition with the given id.
-     * @param id The id of the alert condition to delete
+     * @param conditionId The id of the alert condition to delete
      * @return This object
      */
-    public AlertConditionOperations delete(long id)
+    public AlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts_conditions/%d.json", id));       
+        HTTP.DELETE(String.format("/alerts_conditions/%d.json", conditionId));       
         return this;
     }
 }

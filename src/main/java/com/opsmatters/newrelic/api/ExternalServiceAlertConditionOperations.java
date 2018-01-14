@@ -55,16 +55,16 @@ public class ExternalServiceAlertConditionOperations extends BaseFluent
      * <P>
      * This is needed because the API does not contain an operation to get a condition using the id directly.
      * @param policyId The id of the policy the condition belongs to
-     * @param id The id of the external service alert condition to return
+     * @param conditionId The id of the external service alert condition to return
      * @return The alert condition
      */
-    public Optional<ExternalServiceAlertCondition> show(long policyId, long id)
+    public Optional<ExternalServiceAlertCondition> show(long policyId, long conditionId)
     {
         Optional<ExternalServiceAlertCondition> ret = Optional.absent();
         Collection<ExternalServiceAlertCondition> conditions = list(policyId);
         for(ExternalServiceAlertCondition condition : conditions)
         {
-            if(condition.getId() == id)
+            if(condition.getId() == conditionId)
                 ret = Optional.of(condition);
         }
         return ret;
@@ -93,12 +93,12 @@ public class ExternalServiceAlertConditionOperations extends BaseFluent
 
     /**
      * Deletes the external service alert condition with the given id.
-     * @param id The id of the alert condition to delete
+     * @param conditionId The id of the alert condition to delete
      * @return This object
      */
-    public ExternalServiceAlertConditionOperations delete(long id)
+    public ExternalServiceAlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts_external_service_conditions/%d.json", id));       
+        HTTP.DELETE(String.format("/alerts_external_service_conditions/%d.json", conditionId));       
         return this;
     }
 }

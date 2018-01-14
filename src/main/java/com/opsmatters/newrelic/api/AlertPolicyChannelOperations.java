@@ -40,28 +40,28 @@ public class AlertPolicyChannelOperations extends BaseFluent
     /**
      * Adds the given alert channel to the alert policy with the given id.
      * @param policyId The id of the alert policy to add the channel to
-     * @param id The id of the alert channel to add
+     * @param channelId The id of the alert channel to add
      * @return The alert policy channel that was updated
      */
-    public Optional<AlertPolicyChannel> update(long policyId, long id)
+    public Optional<AlertPolicyChannel> update(long policyId, long channelId)
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", policyId);
-        queryParams.add("channel_ids", id);
+        queryParams.add("channel_ids", channelId);
         return HTTP.PUT("/alerts_policy_channels.json", null, null, queryParams, ALERT_POLICY_CHANNEL);
     }
 
     /**
      * Deletes the given alert channel from the alert policy with the given id.
      * @param policyId The id of the alert policy from which to delete the channel
-     * @param id The id of the alert channel to delete
+     * @param channelId The id of the alert channel to delete
      * @return This object
      */
-    public AlertPolicyChannelOperations delete(long policyId, long id)
+    public AlertPolicyChannelOperations delete(long policyId, long channelId)
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", policyId);
-        queryParams.add("channel_id", id);
+        queryParams.add("channel_id", channelId);
         HTTP.DELETE("/alerts_policy_channels.json", null, queryParams);       
         return this;
     }

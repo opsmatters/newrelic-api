@@ -34,9 +34,11 @@ import com.opsmatters.newrelic.api.model.conditions.PluginsAlertCondition;
 import com.opsmatters.newrelic.api.model.conditions.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.conditions.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.entities.Application;
+import com.opsmatters.newrelic.api.model.entities.ApplicationHost;
+import com.opsmatters.newrelic.api.model.entities.ApplicationInstance;
 import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
-import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
 import com.opsmatters.newrelic.api.model.entities.MobileApplication;
+import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 
@@ -86,6 +88,12 @@ public class BaseFluent
 
     protected static final GenericType<Application> APPLICATION = new GenericType<Application>(){};
     protected static final GenericType<Collection<Application>> APPLICATIONS = new GenericType<Collection<Application>>(){};
+
+    protected static final GenericType<ApplicationHost> APPLICATION_HOST = new GenericType<ApplicationHost>(){};
+    protected static final GenericType<Collection<ApplicationHost>> APPLICATION_HOSTS = new GenericType<Collection<ApplicationHost>>(){};
+
+    protected static final GenericType<ApplicationInstance> APPLICATION_INSTANCE = new GenericType<ApplicationInstance>(){};
+    protected static final GenericType<Collection<ApplicationInstance>> APPLICATION_INSTANCES = new GenericType<Collection<ApplicationInstance>>(){};
 
     protected static final GenericType<BrowserApplication> BROWSER_APPLICATION = new GenericType<BrowserApplication>(){};
     protected static final GenericType<Collection<BrowserApplication>> BROWSER_APPLICATIONS = new GenericType<Collection<BrowserApplication>>(){};
