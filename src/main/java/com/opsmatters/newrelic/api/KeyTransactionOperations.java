@@ -60,12 +60,12 @@ public class KeyTransactionOperations extends BaseFluent
 
     /**
      * Returns the key transaction for the given transaction id.
-     * @param id The id for the key transaction to return
+     * @param transactionId The id for the key transaction to return
      * @return The key transaction
      */
-    public Optional<KeyTransaction> show(long id)
+    public Optional<KeyTransaction> show(long transactionId)
     {
-        return HTTP.GET(String.format("/key_transactions/%d.json", id), KEY_TRANSACTION);
+        return HTTP.GET(String.format("/key_transactions/%d.json", transactionId), KEY_TRANSACTION);
     }
 
     /**

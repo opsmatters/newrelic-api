@@ -63,15 +63,15 @@ public class PluginOperations extends BaseFluent
 
     /**
      * Returns the plugin for the given plugin id.
-     * @param id The id for the plugin to return
+     * @param pluginId The id for the plugin to return
      * @param detailed <CODE>true</CODE> if the details of the plugin should be included
      * @return The plugin
      */
-    public Optional<Plugin> show(long id, boolean detailed)
+    public Optional<Plugin> show(long pluginId, boolean detailed)
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("detailed", Boolean.toString(detailed));
-        return HTTP.GET(String.format("/plugins/%d.json", id), null, queryParams, PLUGIN);
+        return HTTP.GET(String.format("/plugins/%d.json", pluginId), null, queryParams, PLUGIN);
     }
 
     /**

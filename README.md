@@ -33,6 +33,7 @@ The following New Relic APIs are currently supported:
 * Mobile Applications (List, Show, Metric Names, Metric Data)
 * Key Transactions (List, Show)
 * Plugins (List, Show)
+* Plugin Components (List, Show, Metric Names, Metric Data)
 
 Other APIs can be included on request.
 

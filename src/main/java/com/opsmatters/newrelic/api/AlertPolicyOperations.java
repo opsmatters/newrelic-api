@@ -64,16 +64,16 @@ public class AlertPolicyOperations extends BaseFluent
      * <P>
      * This is needed because the API does not contain an operation to get a policy using the id directly, only filtering using the name.
      * @param name The name of the alert policy to return
-     * @param id The id of the alert policy to return
+     * @param policyId The id of the alert policy to return
      * @return The alert policy
      */
-    public Optional<AlertPolicy> show(String name, long id)
+    public Optional<AlertPolicy> show(String name, long policyId)
     {
         Optional<AlertPolicy> ret = Optional.absent();
         Collection<AlertPolicy> policies = list(name);
         for(AlertPolicy policy : policies)
         {
-            if(policy.getId() == id)
+            if(policy.getId() == policyId)
                 ret = Optional.of(policy);
         }
         return ret;
@@ -101,12 +101,12 @@ public class AlertPolicyOperations extends BaseFluent
 
     /**
      * Deletes the alert policy with the given id.
-     * @param id The id of the alert policy to delete
+     * @param policyId The id of the alert policy to delete
      * @return This object
      */
-    public AlertPolicyOperations delete(long id)
+    public AlertPolicyOperations delete(long policyId)
     {
-        HTTP.DELETE(String.format("/alerts_policies/%d.json", id));       
+        HTTP.DELETE(String.format("/alerts_policies/%d.json", policyId));       
         return this;
     }
 }

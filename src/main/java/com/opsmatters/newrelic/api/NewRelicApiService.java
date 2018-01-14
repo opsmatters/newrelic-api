@@ -338,6 +338,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to plugin components.
+     * @return The plugin component operations
+     */
+    public PluginComponentOperations pluginComponents()
+    {
+        checkInitialize();
+        return new PluginComponentOperations(httpContext, this);
+    }
+
+    /**
      * Initialise the HTTP client provider and context.
      */
     protected void checkInitialize()

@@ -35,6 +35,7 @@ import com.opsmatters.newrelic.api.ApplicationInstanceOperations;
 import com.opsmatters.newrelic.api.MobileApplicationOperations;
 import com.opsmatters.newrelic.api.KeyTransactionOperations;
 import com.opsmatters.newrelic.api.PluginOperations;
+import com.opsmatters.newrelic.api.PluginComponentOperations;
 import com.opsmatters.newrelic.api.MetricParameterBuilder;
 import com.opsmatters.newrelic.api.model.AlertEvent;
 import com.opsmatters.newrelic.api.model.AlertViolation;
@@ -70,6 +71,7 @@ import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
 import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
 import com.opsmatters.newrelic.api.model.entities.Plugin;
+import com.opsmatters.newrelic.api.model.entities.PluginComponent;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 
@@ -223,6 +225,7 @@ public class NewRelicApiTest
         Collection<MobileApplication> mobileApplications = getMobileApplications(api);
         Collection<KeyTransaction> keyTransactions = getKeyTransactions(api);
         Collection<Plugin> plugins = getPlugins(api);
+        Collection<PluginComponent> pluginComponents = getPluginComponents(api);
 
         // Get the application metrics
         Application application = null;
@@ -290,6 +293,16 @@ public class NewRelicApiTest
             Iterator<Plugin> it = plugins.iterator();
             Plugin plugin = it.next();
             getPlugin(api, plugin.getId());
+        }
+
+        // Get the plugin components
+        if(pluginComponents != null && pluginComponents.size() > 0)
+        {
+            Iterator<PluginComponent> it = pluginComponents.iterator();
+            PluginComponent pluginComponent = it.next();
+            getPluginComponent(api, pluginComponent.getId());
+            getPluginComponentMetricNames(api, pluginComponent.getId());
+            getPluginComponentMetricData(api, pluginComponent.getId());
         }
 
         logger.info("Completed test: "+testName);
@@ -1225,5 +1238,58 @@ public class NewRelicApiTest
         }
 
         return ret;
+    }
+
+    public PluginComponent getPluginComponent(NewRelicApiService api, long componentId)
+    {
+        logger.info("Get plugin component: "+componentId);
+        PluginComponent ret = api.pluginComponents().show(componentId).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<PluginComponent> getPluginComponents(NewRelicApiService api)
+    {
+        Collection<PluginComponent> ret = null;
+
+        try
+        {
+            logger.info("Get plugin components: ");
+            List<String> filters = PluginComponentOperations.filters()
+                //.pluginId("12345")
+                .healthStatus(true)
+                .build();
+            ret = api.pluginComponents().list(filters);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get plugin components: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Collection<Metric> getPluginComponentMetricNames(NewRelicApiService api, long id)
+    {
+        logger.info("Get plugin component metric names: "+id);
+        Collection<Metric> metrics = api.pluginComponents().metricNames(id, "Threads/SummaryState/");
+        Assert.assertTrue(metrics.size() > 0);
+        return metrics;
+    }
+
+    public MetricData getPluginComponentMetricData(NewRelicApiService api, long id)
+    {
+        logger.info("Get plugin component metric data: "+id);
+        List<String> parameters = MetricParameterBuilder.builder()
+            .names("Threads/SummaryState/RUNNABLE/Count")
+            .values("call_count")
+            .from(System.currentTimeMillis()-(3600*1000L)) // last 1 hour
+            .to(System.currentTimeMillis())
+            .summarize(true)
+            .build();
+
+        MetricData metrics = api.pluginComponents().metricData(id, parameters).get();
+        Assert.assertTrue(metrics.getMetrics().size() > 0);
+        return metrics;
     }
 }

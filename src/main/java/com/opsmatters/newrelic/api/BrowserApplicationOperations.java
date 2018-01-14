@@ -49,13 +49,13 @@ public class BrowserApplicationOperations extends BaseFluent
 
     /**
      * Returns the Browser application for the given application id.
-     * @param id The id for the application to return
+     * @param applicationId The id for the application to return
      * @return The application
      */
-    public Optional<BrowserApplication> show(long id)
+    public Optional<BrowserApplication> show(long applicationId)
     {
         QueryParameterList queryParams = new QueryParameterList();
-        queryParams.add("filter[ids]", new Long(id));
+        queryParams.add("filter[ids]", new Long(applicationId));
         return Optional.of(HTTP.GET("/browser_applications.json", null, queryParams, BROWSER_APPLICATIONS).get().iterator().next());
     }
 

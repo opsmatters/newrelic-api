@@ -64,12 +64,12 @@ public class ApplicationOperations extends BaseFluent
 
     /**
      * Returns the application for the given application id.
-     * @param id The id for the application to return
+     * @param applicationId The id for the application to return
      * @return The application
      */
-    public Optional<Application> show(long id)
+    public Optional<Application> show(long applicationId)
     {
-        return HTTP.GET(String.format("/applications/%d.json", id), APPLICATION);
+        return HTTP.GET(String.format("/applications/%d.json", applicationId), APPLICATION);
     }
 
     /**
@@ -84,48 +84,48 @@ public class ApplicationOperations extends BaseFluent
 
     /**
      * Deletes the given application.
-     * @param id The id of the application to delete
+     * @param applicationId The id of the application to delete
      * @return This object
      */
-    public ApplicationOperations delete(long id)
+    public ApplicationOperations delete(long applicationId)
     {
-        HTTP.DELETE(String.format("/applications/%d.json", id));       
+        HTTP.DELETE(String.format("/applications/%d.json", applicationId));       
         return this;
     }
 
     /**
      * Returns the set of metrics for the given application.
-     * @param id The id of the application to return metrics for
+     * @param applicationId The id of the application to return metrics for
      * @param name Filter metrics by name (or part of name)
      * @return The set of metrics
      */
-    public Collection<Metric> metricNames(long id, String name)
+    public Collection<Metric> metricNames(long applicationId, String name)
     {
         QueryParameterList queryParams = new QueryParameterList();
         if(name != null && name.length() > 0)
             queryParams.add("name", name);
-        return HTTP.GET(String.format("/applications/%d/metrics.json", id), null, queryParams, METRICS).get();
+        return HTTP.GET(String.format("/applications/%d/metrics.json", applicationId), null, queryParams, METRICS).get();
     }
 
     /**
      * Returns the set of metrics for the given application.
-     * @param id The id of the application to return metrics for
+     * @param applicationId The id of the application to return metrics for
      * @return The set of metrics
      */
-    public Collection<Metric> metricNames(long id)
+    public Collection<Metric> metricNames(long applicationId)
     {
-        return metricNames(id, null);
+        return metricNames(applicationId, null);
     }
 
     /**
      * Returns the set of metric data for the given application.
-     * @param id The id of the application to return metric data for
+     * @param applicationId The id of the application to return metric data for
      * @param queryParams The query parameters
      * @return The set of metric data
      */
-    public Optional<MetricData> metricData(long id, List<String> queryParams)
+    public Optional<MetricData> metricData(long applicationId, List<String> queryParams)
     {
-        return HTTP.GET(String.format("/applications/%d/metrics/data.json", id), null, queryParams, METRIC_DATA);
+        return HTTP.GET(String.format("/applications/%d/metrics/data.json", applicationId), null, queryParams, METRIC_DATA);
     }
 
     /**

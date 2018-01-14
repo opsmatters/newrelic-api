@@ -28,6 +28,7 @@
 - [Mobile Applications](#mobile-applications)
 - [Key Transactions](#key-transactions)
 - [Plugins](#plugins)
+- [Plugin Components](#plugin-components)
 
 ### Initialisation
 
@@ -76,8 +77,8 @@ The alert channel returned includes all the additional fields that were populate
 
 Other operations have also been included for alert channels:
 * list(): returns all alert channels for the account.
-* show(id): returns the alert channel with the given id.
-* delete(id): deletes the alert channel with the given id.
+* show(channelId): returns the alert channel with the given id.
+* delete(channelId): deletes the alert channel with the given id.
 
 The available channel types are:
 * UserChannel
@@ -106,9 +107,9 @@ The alert policy returned includes all the additional fields that were populated
 Other operations have also been included for alert policies:
 * list(): returns all alert policies for the account.
 * list(name): returns all alert policies with the given name.
-* show(name,id): returns the alert policy with the given name and id.
+* show(name,policyId): returns the alert policy with the given name and id.
 * update(policy): updates the alert policy with the given policy details.
-* delete(id): deletes the alert policy with the given id.
+* delete(policyId): deletes the alert policy with the given id.
 
 ### Alerts Policy Channels
 To add an alert channel to an existing policy, pass the policy id and channel id to the "update" operation:
@@ -146,8 +147,8 @@ The APM alert condition returned includes all the additional fields that were po
 
 Other operations have also been included for APM alert conditions:
 * list(policyId): returns all APM alert conditions for the given policy id.
-* show(policyId,id): returns the APM alert condition for the given policy id and condition id.
-* delete(id): deletes the APM alert condition with the given id.
+* show(policyId,conditionId): returns the APM alert condition for the given policy id and condition id.
+* delete(conditionId): deletes the APM alert condition with the given id.
 
 ### Alerts Entity Conditions
 To add an entity to an APM alert condition, call the "add" operation:
@@ -190,8 +191,8 @@ The NRQL alert condition returned includes all the additional fields that were p
 
 Other operations have also been included for NRQL alert conditions:
 * list(policyId): returns all NRQL alert conditions for the given policy id.
-* show(policyId,id): returns the NRQL alert condition for the given policy id and condition id.
-* delete(id): deletes the NRQL alert condition with the given id.
+* show(policyId,conditionId): returns the NRQL alert condition for the given policy id and condition id.
+* delete(conditionId): deletes the NRQL alert condition with the given id.
 
 ### Alerts External Service Conditions
 To add a critical external service alert condition for average response time above 5s, instantiate a condition object and then pass it to the "create" operation:
@@ -218,8 +219,8 @@ The external service alert condition returned includes all the additional fields
 
 Other operations have also been included for external service alert conditions:
 * list(policyId): returns all external service alert conditions for the given policy id.
-* show(policyId,id): returns the external service alert condition for the given policy id and condition id.
-* delete(id): deletes the external service alert condition with the given id.
+* show(policyId,conditionId): returns the external service alert condition for the given policy id and condition id.
+* delete(conditionId): deletes the external service alert condition with the given id.
 
 ### Alerts Plugins Conditions
 To add a critical Plugins alert condition for a metric, instantiate a condition object and then pass it to the "create" operation:
@@ -254,8 +255,8 @@ The Plugins alert condition returned includes all the additional fields that wer
 
 Other operations have also been included for Plugins alert conditions:
 * list(policyId): returns all Plugins alert conditions for the given policy id.
-* show(policyId,id): returns the Plugins alert condition for the given policy id and condition id.
-* delete(id): deletes the Plugins alert condition with the given id.
+* show(policyId,conditionId): returns the Plugins alert condition for the given policy id and condition id.
+* delete(conditionId): deletes the Plugins alert condition with the given id.
 
 ### Alerts Synthetics Conditions
 To add a critical Synthetics alert condition for a monitor, instantiate a condition object and then pass it to the "create" operation:
@@ -272,8 +273,8 @@ The Synthetics alert condition returned includes all the additional fields that 
 
 Other operations have also been included for Synthetics alert conditions:
 * list(policyId): returns all Synthetics alert conditions for the given policy id.
-* show(policyId,id): returns the Synthetics alert condition for the given policy id and condition id.
-* delete(id): deletes the Synthetics alert condition with the given id.
+* show(policyId,conditionId): returns the Synthetics alert condition for the given policy id and condition id.
+* delete(conditionId): deletes the Synthetics alert condition with the given id.
 
 ### Alerts Infrastructure Conditions
 To add a critical infrastructure alert condition for disk utilisation > 80%, instantiate a condition object and then pass it to the "create" operation:
@@ -321,8 +322,8 @@ The infrastructure alert condition returned includes all the additional fields t
 
 Other operations have also been included for infrastructure alert conditions:
 * list(policyId): returns all infrastructure alert conditions for the given policy id.
-* show(id): returns the infrastructure alert condition for the given condition id.
-* delete(id): deletes the infrastructure alert condition with the given id.
+* show(conditionId): returns the infrastructure alert condition for the given condition id.
+* delete(conditionId): deletes the infrastructure alert condition with the given id.
 
 ### Alerts Events
 To list all events, call the "list" operation with no parameters:
@@ -381,7 +382,7 @@ Map<String,Object> filters = ApplicationOperations.filters()
 
 Collection<Application> applications = api.applications().list(filters);
 ```
- To list the application metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+To list the application metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
 ```
 List<String> parameters = MetricParameterBuilder.builder()
     .names("EndUser")
@@ -399,10 +400,10 @@ MetricData metrics = api.applications().metricData(parameters).get();
 
 Other operations have also been included for applications:
 * list(): returns all applications.
-* show(id): returns the application for the given id.
-* delete(id): deletes the application with the given id.
-* metricNames(id): returns the metrics and their value names for the given application.
-* metricNames(id, name): returns the metrics and their value names for the given application, where the value names match the given name.
+* show(applicationId): returns the application for the given id.
+* delete(applicationId): deletes the application with the given id.
+* metricNames(applicationId): returns the metrics and their value names for the given application.
+* metricNames(applicationId, name): returns the metrics and their value names for the given application, where the value names match the given name.
 
 ### Application Hosts
 To list the hosts for an application call the "list" operation with a set of filters:
@@ -413,7 +414,7 @@ List<String> filters = ApplicationHostOperations.filters()
 
 Collection<ApplicationHost> applicationHosts = api.applicationHosts().list(applicationId, filters);
 ```
- To list the application host metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+To list the application host metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
 ```
 List<String> parameters = MetricParameterBuilder.builder()
     .names("Threads/SummaryState/RUNNABLE/Count")
@@ -440,7 +441,7 @@ List<String> filters = ApplicationInstanceOperations.filters()
 
 Collection<ApplicationInstance> applicationInstances = api.applicationInstances().list(applicationId, filters);
 ```
- To list the application instance metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+To list the application instance metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
 ```
 List<String> parameters = MetricParameterBuilder.builder()
     .names("Threads/SummaryState/RUNNABLE/Count")
@@ -471,7 +472,7 @@ The Browser application returned includes all the additional fields that were po
 
 Other operations have also been included for Browser applications:
 * list(): returns all Browser applications.
-* show(id): returns the Browser application for the given id.
+* show(applicationId): returns the Browser application for the given id.
 
 ### Mobile Applications
 To list the mobile applications call the "list" operation:
@@ -493,9 +494,9 @@ MetricData metrics = api.mobileApplications().metricData(parameters).get();
 ```
 
 Other operations have also been included for mobile applications:
-* show(id): returns the mobile application for the given id.
-* metricNames(id): returns the metrics and their value names for the given mobile application.
-* metricNames(id, name): returns the metrics and their value names for the given mobile application, where the value names match the given name.
+* show(applicationId): returns the mobile application for the given id.
+* metricNames(applicationId): returns the metrics and their value names for the given mobile application.
+* metricNames(applicationId, name): returns the metrics and their value names for the given mobile application, where the value names match the given name.
 
 ### Key Transactions
 To list the key transactions call the "list" operation with a set of filters:
@@ -508,7 +509,7 @@ Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
 ```
 
 Other operations have also been included for key transactions:
-* show(id): returns the key transaction for the given id.
+* show(transactionId): returns the key transaction for the given id.
 
 ### Plugins
 To list the installed plugins call the "list" operation with a set of filters:
@@ -521,6 +522,33 @@ Collection<Plugin> plugins = api.plugins().list(filters);
 ```
 
 Other operations have also been included for plugins:
-* show(id): returns the plugin for the given id.
+* show(pluginId): returns the plugin for the given id.
+
+### Plugin Components
+To list the components for a plugin call the "list" operation with a set of filters:
+```
+List<String> filters = PluginComponentOperations.filters()
+    .name("plugin-name")
+    .build();
+
+Collection<PluginComponent> components = api.pluginComponents().list(filters);
+```
+To list the plugin component metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+```
+List<String> parameters = MetricParameterBuilder.builder()
+    .names("Threads/SummaryState/RUNNABLE/Count")
+    .values("call_count")
+    .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
+    .to(System.currentTimeMillis())
+    .summarize(true)
+    .build();
+
+MetricData metrics = api.pluginComponents().metricData(componentId, parameters).get();
+```
+
+Other operations have also been included for plugin components:
+* show(componentId): returns the plugin component for the given id.
+* metricNames(componentId): returns the metrics and their value names for the given plugin component.
+* metricNames(componentId, name): returns the metrics and their value names for the given plugin component, where the value names match the given name.
 
 <sub>Copyright (c) 2018 opsmatters</sub>
