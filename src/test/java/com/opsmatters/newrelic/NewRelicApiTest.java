@@ -34,6 +34,7 @@ import com.opsmatters.newrelic.api.ApplicationHostOperations;
 import com.opsmatters.newrelic.api.ApplicationInstanceOperations;
 import com.opsmatters.newrelic.api.MobileApplicationOperations;
 import com.opsmatters.newrelic.api.KeyTransactionOperations;
+import com.opsmatters.newrelic.api.PluginOperations;
 import com.opsmatters.newrelic.api.MetricParameterBuilder;
 import com.opsmatters.newrelic.api.model.AlertEvent;
 import com.opsmatters.newrelic.api.model.AlertViolation;
@@ -53,7 +54,7 @@ import com.opsmatters.newrelic.api.model.conditions.Nrql;
 import com.opsmatters.newrelic.api.model.conditions.ExternalServiceAlertCondition;
 import com.opsmatters.newrelic.api.model.conditions.ApmExternalServiceAlertCondition;
 import com.opsmatters.newrelic.api.model.conditions.PluginsAlertCondition;
-import com.opsmatters.newrelic.api.model.conditions.Plugin;
+import com.opsmatters.newrelic.api.model.conditions.PluginId;
 import com.opsmatters.newrelic.api.model.conditions.SyntheticsAlertCondition;
 import com.opsmatters.newrelic.api.model.conditions.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.conditions.InfraMetricAlertCondition;
@@ -68,6 +69,7 @@ import com.opsmatters.newrelic.api.model.entities.ApplicationInstance;
 import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
 import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
+import com.opsmatters.newrelic.api.model.entities.Plugin;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 
@@ -220,6 +222,7 @@ public class NewRelicApiTest
         Collection<BrowserApplication> browserApplications = getBrowserApplications(api);
         Collection<MobileApplication> mobileApplications = getMobileApplications(api);
         Collection<KeyTransaction> keyTransactions = getKeyTransactions(api);
+        Collection<Plugin> plugins = getPlugins(api);
 
         // Get the application metrics
         Application application = null;
@@ -279,6 +282,14 @@ public class NewRelicApiTest
             getApplicationInstance(api, application.getId(), applicationInstance.getId());
             getApplicationInstanceMetricNames(api, application.getId(), applicationInstance.getId());
             getApplicationInstanceMetricData(api, application.getId(), applicationInstance.getId());
+        }
+
+        // Get the plugins
+        if(plugins != null && plugins.size() > 0)
+        {
+            Iterator<Plugin> it = plugins.iterator();
+            Plugin plugin = it.next();
+            getPlugin(api, plugin.getId());
         }
 
         logger.info("Completed test: "+testName);
@@ -543,7 +554,7 @@ public class NewRelicApiTest
             .threshold(5)
             .build();
 
-        Plugin plugin = Plugin.builder()
+        PluginId plugin = PluginId.builder()
             .id("12345")
             .guid("12345-12345")
             .build();
@@ -1185,5 +1196,34 @@ public class NewRelicApiTest
         MetricData metrics = api.applicationInstances().metricData(applicationId, id, parameters).get();
         Assert.assertTrue(metrics.getMetrics().size() > 0);
         return metrics;
+    }
+
+    public Plugin getPlugin(NewRelicApiService api, long id)
+    {
+        logger.info("Get plugin: "+id);
+        Plugin ret = api.plugins().show(id, true).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<Plugin> getPlugins(NewRelicApiService api)
+    {
+        Collection<Plugin> ret = null;
+
+        try
+        {
+            logger.info("Get plugins: ");
+            List<String> filters = PluginOperations.filters()
+                //.guid("guid")
+                .detailed(true)
+                .build();
+            ret = api.plugins().list(filters);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get plugins: "+e.getMessage());
+        }
+
+        return ret;
     }
 }

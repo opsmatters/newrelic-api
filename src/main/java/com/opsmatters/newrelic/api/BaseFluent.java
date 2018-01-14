@@ -39,6 +39,7 @@ import com.opsmatters.newrelic.api.model.entities.ApplicationInstance;
 import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
 import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
+import com.opsmatters.newrelic.api.model.entities.Plugin;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 
@@ -103,6 +104,9 @@ public class BaseFluent
 
     protected static final GenericType<KeyTransaction> KEY_TRANSACTION = new GenericType<KeyTransaction>(){};
     protected static final GenericType<Collection<KeyTransaction>> KEY_TRANSACTIONS = new GenericType<Collection<KeyTransaction>>(){};
+
+    protected static final GenericType<Plugin> PLUGIN = new GenericType<Plugin>(){};
+    protected static final GenericType<Collection<Plugin>> PLUGINS = new GenericType<Collection<Plugin>>(){};
 
     protected static final GenericType<Collection<Metric>> METRICS = new GenericType<Collection<Metric>>(){};
     protected static final GenericType<MetricData> METRIC_DATA = new GenericType<MetricData>(){};

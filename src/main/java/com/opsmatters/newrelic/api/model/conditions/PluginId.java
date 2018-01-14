@@ -21,7 +21,7 @@ package com.opsmatters.newrelic.api.model.conditions;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class Plugin
+public class PluginId
 {
     private String id;
     private String guid;
@@ -29,7 +29,7 @@ public class Plugin
     /**
      * Default constructor.
      */
-    public Plugin()
+    public PluginId()
     {
     }
     
@@ -75,7 +75,7 @@ public class Plugin
     @Override
     public String toString()
     {
-        return "Plugin [id="+id
+        return "PluginId [id="+id
             +", guid="+guid
             +"]";
     }
@@ -94,7 +94,7 @@ public class Plugin
      */
     public static class Builder
     {
-        private Plugin plugin = new Plugin();
+        private PluginId plugin = new PluginId();
 
         /**
          * Sets the id of the plugin.
@@ -122,7 +122,7 @@ public class Plugin
          * Returns the configured plugin instance
          * @return The plugin instance
          */
-        public Plugin build()
+        public PluginId build()
         {
             return plugin;
         }

@@ -27,6 +27,7 @@
 - [Browser Applications](#browser-applications)
 - [Mobile Applications](#mobile-applications)
 - [Key Transactions](#key-transactions)
+- [Plugins](#plugins)
 
 ### Initialisation
 
@@ -231,7 +232,7 @@ Term term = Term.builder()
     .threshold(5)
     .build();
 
-Plugin plugin = Plugin.builder()
+PluginId plugin = PluginId.builder()
     .id("12345")
     .guid("12345-12345")
     .build();
@@ -407,7 +408,7 @@ Other operations have also been included for applications:
 To list the hosts for an application call the "list" operation with a set of filters:
 ```
 List<String> filters = ApplicationHostOperations.filters()
-    .hostname("host")
+    .hostname("test-host")
     .build();
 
 Collection<ApplicationHost> applicationHosts = api.applicationHosts().list(applicationId, filters);
@@ -434,7 +435,7 @@ Other operations have also been included for application hosts:
 To list the instances for an application call the "list" operation with a set of filters:
 ```
 List<String> filters = ApplicationInstanceOperations.filters()
-    .hostname("host")
+    .hostname("test-host")
     .build();
 
 Collection<ApplicationInstance> applicationInstances = api.applicationInstances().list(applicationId, filters);
@@ -500,7 +501,7 @@ Other operations have also been included for mobile applications:
 To list the key transactions call the "list" operation with a set of filters:
 ```
 List<String> filters = KeyTransactionOperations.filters()
-    .name("Transaction")
+    .name("test-transaction")
     .build();
 
 Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
@@ -508,5 +509,18 @@ Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
 
 Other operations have also been included for key transactions:
 * show(id): returns the key transaction for the given id.
+
+### Plugins
+To list the installed plugins call the "list" operation with a set of filters:
+```
+List<String> filters = PluginOperations.filters()
+    .guid("test-guid")
+    .build();
+
+Collection<Plugin> plugins = api.plugins().list(filters);
+```
+
+Other operations have also been included for plugins:
+* show(id): returns the plugin for the given id.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

@@ -31,7 +31,7 @@ public class PluginsAlertCondition extends MetricCondition
     @SerializedName("value_function")
     private String valueFunction;
 
-    private Plugin plugin;
+    private PluginId plugin;
 
     /**
      * Represents a Plugin value function.  
@@ -114,7 +114,7 @@ public class PluginsAlertCondition extends MetricCondition
      * Sets the plugin of the alert condition.
      * @param plugin The plugin of the alert condition
      */
-    public void setPlugin(Plugin plugin)
+    public void setPlugin(PluginId plugin)
     {
         this.plugin = plugin;
     }
@@ -123,7 +123,7 @@ public class PluginsAlertCondition extends MetricCondition
      * Returns the plugin of the alert condition.
      * @return The plugin of the alert condition
      */
-    public Plugin getPlugin()
+    public PluginId getPlugin()
     {
         return plugin;
     }
@@ -252,7 +252,7 @@ public class PluginsAlertCondition extends MetricCondition
          * @param plugin The plugin of the alert condition
          * @return This object
          */
-        public Builder plugin(Plugin plugin)
+        public Builder plugin(PluginId plugin)
         {
             condition.setPlugin(plugin);
             return this;

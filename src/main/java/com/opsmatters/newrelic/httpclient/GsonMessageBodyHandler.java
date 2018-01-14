@@ -57,6 +57,7 @@ import com.opsmatters.newrelic.api.model.entities.ApplicationInstance;
 import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
 import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
+import com.opsmatters.newrelic.api.model.entities.Plugin;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.httpclient.serializers.policies.AlertPolicySerializer;
@@ -101,6 +102,8 @@ import com.opsmatters.newrelic.httpclient.deserializers.entities.MobileApplicati
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MobileApplicationsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.KeyTransactionDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.KeyTransactionsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entities.PluginDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entities.PluginsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricDataDeserializer;
 
@@ -133,6 +136,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Type BROWSER_APPLICATIONS_TYPE = new TypeToken<Collection<BrowserApplication>>(){}.getType();
     private static final Type MOBILE_APPLICATIONS_TYPE = new TypeToken<Collection<MobileApplication>>(){}.getType();
     private static final Type KEY_TRANSACTIONS_TYPE = new TypeToken<Collection<KeyTransaction>>(){}.getType();
+    private static final Type PLUGINS_TYPE = new TypeToken<Collection<Plugin>>(){}.getType();
     private static final Type METRICS_TYPE = new TypeToken<Collection<Metric>>(){}.getType();
 
     private Gson gson;
@@ -188,6 +192,8 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(MOBILE_APPLICATIONS_TYPE, new MobileApplicationsDeserializer());
             builder.registerTypeAdapter(KeyTransaction.class, new KeyTransactionDeserializer());
             builder.registerTypeAdapter(KEY_TRANSACTIONS_TYPE, new KeyTransactionsDeserializer());
+            builder.registerTypeAdapter(Plugin.class, new PluginDeserializer());
+            builder.registerTypeAdapter(PLUGINS_TYPE, new PluginsDeserializer());
             builder.registerTypeAdapter(METRICS_TYPE, new MetricsDeserializer());
             builder.registerTypeAdapter(MetricData.class, new MetricDataDeserializer());
             builder.registerTypeAdapter(ResponseError.class, new ResponseErrorDeserializer());
