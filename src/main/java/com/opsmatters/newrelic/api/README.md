@@ -403,58 +403,6 @@ Other operations have also been included for applications:
 * metricNames(id): returns the metrics and their value names for the given application.
 * metricNames(id, name): returns the metrics and their value names for the given application, where the value names match the given name.
 
-### Browser Applications
-To add a browser application, instantiate an application object and then pass it to the "create" operation:
-```
-BrowserApplication a = BrowserApplication.builder()
-    .name("test-browser-app")
-    .build();
-
-BrowserApplication application = api.browserApplications().create(a).get();
-```
-The Browser application returned includes all the additional fields that were populated by the server on creation eg, "id", "browser_monitoring_key".
-
-Other operations have also been included for Browser applications:
-* list(): returns all Browser applications.
-* show(id): returns the Browser application for the given id.
-
-### Mobile Applications
-To list the mobile applications call the "list" operation:
-```
-Collection<MobileApplication> applications = api.mobileApplications().list();
-```
- To list the mobile application metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
-```
-List<String> parameters = MetricParameterBuilder.builder()
-    .names("Mobile/Crash/All")
-    .names("Session/Start")
-    .values("call_count")
-    .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
-    .to(System.currentTimeMillis())
-    .summarize(true)
-    .build();
-
-MetricData metrics = api.mobileApplications().metricData(parameters).get();
-```
-
-Other operations have also been included for mobile applications:
-* show(id): returns the mobile application for the given id.
-* metricNames(id): returns the metrics and their value names for the given mobile application.
-* metricNames(id, name): returns the metrics and their value names for the given mobile application, where the value names match the given name.
-
-### Key Transactions
-To list the key transactions call the "list" operation with a set of filters:
-```
-List<String> filters = KeyTransactionOperations.filters()
-    .name("Transaction")
-    .build();
-
-Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
-```
-
-Other operations have also been included for key transactions:
-* show(id): returns the key transaction for the given id.
-
 ### Application Hosts
 To list the hosts for an application call the "list" operation with a set of filters:
 ```
@@ -508,5 +456,57 @@ Other operations have also been included for application instances:
 * show(applicationId, instanceId): returns the application instance for the given id.
 * metricNames(applicationId, instanceId): returns the metrics and their value names for the given application instance.
 * metricNames(applicationId, instanceId, name): returns the metrics and their value names for the given application instance, where the value names match the given name.
+
+### Browser Applications
+To add a browser application, instantiate an application object and then pass it to the "create" operation:
+```
+BrowserApplication a = BrowserApplication.builder()
+    .name("test-browser-app")
+    .build();
+
+BrowserApplication application = api.browserApplications().create(a).get();
+```
+The Browser application returned includes all the additional fields that were populated by the server on creation eg, "id", "browser_monitoring_key".
+
+Other operations have also been included for Browser applications:
+* list(): returns all Browser applications.
+* show(id): returns the Browser application for the given id.
+
+### Mobile Applications
+To list the mobile applications call the "list" operation:
+```
+Collection<MobileApplication> applications = api.mobileApplications().list();
+```
+ To list the mobile application metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+```
+List<String> parameters = MetricParameterBuilder.builder()
+    .names("Mobile/Crash/All")
+    .names("Session/Start")
+    .values("call_count")
+    .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
+    .to(System.currentTimeMillis())
+    .summarize(true)
+    .build();
+
+MetricData metrics = api.mobileApplications().metricData(parameters).get();
+```
+
+Other operations have also been included for mobile applications:
+* show(id): returns the mobile application for the given id.
+* metricNames(id): returns the metrics and their value names for the given mobile application.
+* metricNames(id, name): returns the metrics and their value names for the given mobile application, where the value names match the given name.
+
+### Key Transactions
+To list the key transactions call the "list" operation with a set of filters:
+```
+List<String> filters = KeyTransactionOperations.filters()
+    .name("Transaction")
+    .build();
+
+Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
+```
+
+Other operations have also been included for key transactions:
+* show(id): returns the key transaction for the given id.
 
 <sub>Copyright (c) 2018 opsmatters</sub>
