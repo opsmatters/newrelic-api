@@ -348,6 +348,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to servers.
+     * @return The server operations
+     */
+    public ServerOperations servers()
+    {
+        checkInitialize();
+        return new ServerOperations(httpContext, this);
+    }
+
+    /**
      * Returns the operations related to deployments.
      * @return The deployment component operations
      */

@@ -29,6 +29,7 @@
 - [Key Transactions](#key-transactions)
 - [Plugins](#plugins)
 - [Plugin Components](#plugin-components)
+- [Servers](#servers)
 - [Deployments](#deployments)
 
 ### Initialisation
@@ -551,6 +552,46 @@ Other operations have also been included for plugin components:
 * show(componentId): returns the plugin component for the given id.
 * metricNames(componentId): returns the metrics and their value names for the given plugin component.
 * metricNames(componentId, name): returns the metrics and their value names for the given plugin component, where the value names match the given name.
+
+### Servers
+To update a server's name, instantiate a server object and then pass it to the "update" operation:
+```
+Server s = Server.builder()
+    .id(12345)
+    .name("new-server-name")
+    .build();
+
+Server server = api.servers().update(s).get();
+```
+The "id" field needs to be provided as it is used to locate the existing server to update.
+
+To list the servers matching one or more filters, build the filters and then pass it to the "list" operation:
+```
+Map<String,Object> filters = ServerOperations.filters()
+    .reported(true) // all servers that have reported in the last 10 hours
+    .build();
+
+Collection<Server> servers = api.servers().list(filters);
+```
+To list the server metrics using one or more parameters, build the parameter list and then pass it to the "metricData" operation:
+```
+List<String> parameters = MetricParameterBuilder.builder()
+    .names("System/Memory/Used/bytes")
+    .values("average_response_time")
+    .from(System.currentTimeMillis()-(3600*1000L)) // last 60 minutes
+    .to(System.currentTimeMillis())
+    .summarize(true)
+    .build();
+
+MetricData metrics = api.servers().metricData(parameters).get();
+```
+
+Other operations have also been included for servers:
+* list(): returns all servers.
+* show(serverId): returns the server for the given id.
+* delete(serverId): deletes the server with the given id.
+* metricNames(serverId): returns the metrics and their value names for the given server.
+* metricNames(serverId, name): returns the metrics and their value names for the given server, where the value names match the given name.
 
 ### Deployments
 To create an deployment for an application, first instantiate the deployment and then pass it to the "create" operation:

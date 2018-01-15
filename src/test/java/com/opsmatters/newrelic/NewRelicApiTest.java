@@ -36,6 +36,7 @@ import com.opsmatters.newrelic.api.MobileApplicationOperations;
 import com.opsmatters.newrelic.api.KeyTransactionOperations;
 import com.opsmatters.newrelic.api.PluginOperations;
 import com.opsmatters.newrelic.api.PluginComponentOperations;
+import com.opsmatters.newrelic.api.ServerOperations;
 import com.opsmatters.newrelic.api.MetricParameterBuilder;
 import com.opsmatters.newrelic.api.model.alerts.AlertEvent;
 import com.opsmatters.newrelic.api.model.alerts.AlertViolation;
@@ -72,6 +73,7 @@ import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
 import com.opsmatters.newrelic.api.model.entities.Plugin;
 import com.opsmatters.newrelic.api.model.entities.PluginComponent;
+import com.opsmatters.newrelic.api.model.entities.Server;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
@@ -228,6 +230,7 @@ public class NewRelicApiTest
         Collection<KeyTransaction> keyTransactions = getKeyTransactions(api);
         Collection<Plugin> plugins = getPlugins(api);
         Collection<PluginComponent> pluginComponents = getPluginComponents(api);
+        Collection<Server> servers = getServers(api);
 
         // Get the application metrics
         Application application = null;
@@ -311,6 +314,17 @@ public class NewRelicApiTest
             getPluginComponent(api, pluginComponent.getId());
             getPluginComponentMetricNames(api, pluginComponent.getId());
             getPluginComponentMetricData(api, pluginComponent.getId());
+        }
+
+        // Get the server metrics
+        if(servers.size() > 0)
+        {
+            Iterator<Server> it = servers.iterator();
+            Server server = it.next();
+            getServer(api, server.getId());
+            updateServer(api, getServer(server.getId(), server.getName()));
+            getServerMetricNames(api, server.getId());
+            getServerMetricData(api, server.getId());
         }
 
         logger.info("Completed test: "+testName);
@@ -1349,5 +1363,73 @@ public class NewRelicApiTest
         api.deployments().delete(applicationId, deploymentId);
         Optional<Deployment> ret = api.deployments().show(applicationId, deploymentId);
         Assert.assertFalse(ret.isPresent());
+    }
+
+    public Server getServer(long id, String name)
+    {
+        return Server.builder()
+            .id(id)
+            .name(name)
+            .build();
+    }
+
+    public Server getServer(NewRelicApiService api, long id)
+    {
+        logger.info("Get server: "+id);
+        Server ret = api.servers().show(id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<Server> getServers(NewRelicApiService api)
+    {
+        Collection<Server> ret = null;
+
+        try
+        {
+            logger.info("Get servers: ");
+            List<String> filters = ServerOperations.filters()
+                .reported(true)
+                .build();
+            ret = api.servers().list(filters);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get servers: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Server updateServer(NewRelicApiService api, Server input)
+    {
+        logger.info("Update server: "+input.getName());
+        Server server = api.servers().update(input).get();
+        Assert.assertNotNull(server);
+        return server;
+    }
+
+    public Collection<Metric> getServerMetricNames(NewRelicApiService api, long id)
+    {
+        logger.info("Get server metric names: "+id);
+        Collection<Metric> metrics = api.servers().metricNames(id, "System/Memory/");
+        Assert.assertTrue(metrics.size() > 0);
+        return metrics;
+    }
+
+    public MetricData getServerMetricData(NewRelicApiService api, long id)
+    {
+        logger.info("Get server metric data: "+id);
+        List<String> parameters = MetricParameterBuilder.builder()
+            .names("System/Memory/Used/bytes")
+            .values("average_response_time")
+            .from(System.currentTimeMillis()-(3600*1000L)) // last 1 hour
+            .to(System.currentTimeMillis())
+            .summarize(true)
+            .build();
+
+        MetricData metrics = api.servers().metricData(id, parameters).get();
+        Assert.assertTrue(metrics.getMetrics().size() > 0);
+        return metrics;
     }
 }

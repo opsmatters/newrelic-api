@@ -59,6 +59,7 @@ import com.opsmatters.newrelic.api.model.entities.MobileApplication;
 import com.opsmatters.newrelic.api.model.entities.KeyTransaction;
 import com.opsmatters.newrelic.api.model.entities.Plugin;
 import com.opsmatters.newrelic.api.model.entities.PluginComponent;
+import com.opsmatters.newrelic.api.model.entities.Server;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
@@ -72,6 +73,7 @@ import com.opsmatters.newrelic.httpclient.serializers.conditions.SyntheticsAlert
 import com.opsmatters.newrelic.httpclient.serializers.conditions.InfraAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.entities.ApplicationSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.entities.BrowserApplicationSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.entities.ServerSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.deployments.DeploymentSerializer;
 import com.opsmatters.newrelic.httpclient.deserializers.ResponseErrorDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertIncidentsDeserializer;
@@ -109,6 +111,8 @@ import com.opsmatters.newrelic.httpclient.deserializers.entities.PluginDeseriali
 import com.opsmatters.newrelic.httpclient.deserializers.entities.PluginsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.PluginComponentDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.PluginComponentsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entities.ServerDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.entities.ServersDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricDataDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.deployments.DeploymentDeserializer;
