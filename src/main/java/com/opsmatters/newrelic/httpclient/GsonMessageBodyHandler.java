@@ -61,6 +61,7 @@ import com.opsmatters.newrelic.api.model.entities.Plugin;
 import com.opsmatters.newrelic.api.model.entities.PluginComponent;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
+import com.opsmatters.newrelic.api.model.deployments.Deployment;
 import com.opsmatters.newrelic.httpclient.serializers.policies.AlertPolicySerializer;
 import com.opsmatters.newrelic.httpclient.serializers.channels.AlertChannelSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.conditions.AlertConditionSerializer;
@@ -71,6 +72,7 @@ import com.opsmatters.newrelic.httpclient.serializers.conditions.SyntheticsAlert
 import com.opsmatters.newrelic.httpclient.serializers.conditions.InfraAlertConditionSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.entities.ApplicationSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.entities.BrowserApplicationSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.deployments.DeploymentSerializer;
 import com.opsmatters.newrelic.httpclient.deserializers.ResponseErrorDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertIncidentsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertViolationsDeserializer;
@@ -109,6 +111,8 @@ import com.opsmatters.newrelic.httpclient.deserializers.entities.PluginComponent
 import com.opsmatters.newrelic.httpclient.deserializers.entities.PluginComponentsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricDataDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.deployments.DeploymentDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.deployments.DeploymentsDeserializer;
 
 /**
  * Provides GSON support for serializing and deserializing objects.

@@ -21,7 +21,7 @@ import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.entities.Application;
 
 /**
- * Deserializer class for applications.
+ * Serializer class for applications.
  * 
  * @author Gerald Curley (opsmatters)
  */

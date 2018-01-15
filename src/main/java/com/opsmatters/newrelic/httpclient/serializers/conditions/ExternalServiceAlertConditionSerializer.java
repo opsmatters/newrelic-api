@@ -21,7 +21,7 @@ import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.conditions.ExternalServiceAlertCondition;
 
 /**
- * Deserializer class for external service alert conditions.
+ * Serializer class for external service alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */

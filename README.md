@@ -34,6 +34,7 @@ The following New Relic APIs are currently supported:
 * Key Transactions (List, Show)
 * Plugins (List, Show)
 * Plugin Components (List, Show, Metric Names, Metric Data)
+* Deployments (List, Create, Delete)
 
 Other APIs can be included on request.
 

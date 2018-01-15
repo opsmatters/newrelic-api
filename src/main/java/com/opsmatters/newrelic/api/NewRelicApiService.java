@@ -348,6 +348,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to deployments.
+     * @return The deployment component operations
+     */
+    public DeploymentOperations deployments()
+    {
+        checkInitialize();
+        return new DeploymentOperations(httpContext, this);
+    }
+
+    /**
      * Initialise the HTTP client provider and context.
      */
     protected void checkInitialize()

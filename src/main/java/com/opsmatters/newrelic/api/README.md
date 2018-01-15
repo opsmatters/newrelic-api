@@ -29,6 +29,7 @@
 - [Key Transactions](#key-transactions)
 - [Plugins](#plugins)
 - [Plugin Components](#plugin-components)
+- [Deployments](#deployments)
 
 ### Initialisation
 
@@ -550,5 +551,24 @@ Other operations have also been included for plugin components:
 * show(componentId): returns the plugin component for the given id.
 * metricNames(componentId): returns the metrics and their value names for the given plugin component.
 * metricNames(componentId, name): returns the metrics and their value names for the given plugin component, where the value names match the given name.
+
+### Deployments
+To create an deployment for an application, first instantiate the deployment and then pass it to the "create" operation:
+```
+Deployment d = Deployment.builder()
+    .description("deployment-name")
+    .revision("1.0")
+    .changelog("some changes")
+    .user("me")
+    .build();
+
+Deployment deployment = api.deployments().create(applicationId, d).get();
+```
+The deployment returned includes all the additional fields that were populated by the server on creation eg, "id", "timestamp".
+
+Other operations have also been included for deployments:
+* list(applicationId): returns all deployments for the application.
+* show(applicationId, deploymentId): returns the deployment with the given id.
+* delete(applicationId, deploymentId): deletes the deployment with the given id.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

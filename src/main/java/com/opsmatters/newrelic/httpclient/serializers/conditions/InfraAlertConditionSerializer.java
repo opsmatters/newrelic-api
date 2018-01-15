@@ -21,7 +21,7 @@ import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.conditions.InfraAlertCondition;
 
 /**
- * Deserializer class for infrastructure alert conditions.
+ * Serializer class for infrastructure alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */

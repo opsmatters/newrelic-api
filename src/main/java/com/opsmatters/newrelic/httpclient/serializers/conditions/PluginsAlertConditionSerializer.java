@@ -21,7 +21,7 @@ import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.conditions.PluginsAlertCondition;
 
 /**
- * Deserializer class for Plugins alert conditions.
+ * Serializer class for Plugins alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */

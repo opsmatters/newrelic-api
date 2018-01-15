@@ -21,7 +21,7 @@ import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.conditions.NrqlAlertCondition;
 
 /**
- * Deserializer class for NRQL alert conditions.
+ * Serializer class for NRQL alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */

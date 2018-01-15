@@ -74,6 +74,7 @@ import com.opsmatters.newrelic.api.model.entities.Plugin;
 import com.opsmatters.newrelic.api.model.entities.PluginComponent;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
+import com.opsmatters.newrelic.api.model.deployments.Deployment;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -97,6 +98,7 @@ public class NewRelicApiTest
     private String syntheticsConditionName = "test-synthetics-condition";
     private String applicationName = "test-application-";
     private String browserApplicationName = "test-browser-application-"+System.currentTimeMillis();
+    private String deploymentDescription = "deployment-"+System.currentTimeMillis();
     private String whereClause = "env=prod";
     private String email = "alerts@test.com";
     private String channel = "#slack";
@@ -239,6 +241,12 @@ public class NewRelicApiTest
             updateApplication(api, getApplication(application.getId(), application.getName()));
             getApplicationMetricNames(api, application.getId());
             getApplicationMetricData(api, application.getId());
+
+            // Create a deployment and then delete it
+            Deployment deployment = createDeployment(api, application.getId(),
+                getDeployment(deploymentDescription));
+            getDeployments(api, application.getId());
+            deleteDeployment(api, application.getId(), deployment.getId());
         }
 
         Collection<ApplicationHost> applicationHosts = null;
@@ -1291,5 +1299,55 @@ public class NewRelicApiTest
         MetricData metrics = api.pluginComponents().metricData(id, parameters).get();
         Assert.assertTrue(metrics.getMetrics().size() > 0);
         return metrics;
+    }
+
+    public Deployment getDeployment(String desc)
+    {
+        return Deployment.builder()
+            .description(desc)
+            .revision("1.0")
+            .changelog("some changes")
+            .user("me")
+            .build();
+    }
+
+    public Deployment createDeployment(NewRelicApiService api, long applicationId, Deployment input)
+    {
+        logger.info("Create deployment: "+input.getDescription());
+        Deployment deployment = api.deployments().create(applicationId, input).get();
+
+        // Get the deployment
+        {
+            logger.info("Get deployment: "+deployment.getId());
+            Optional<Deployment> ret = api.deployments().show(applicationId, deployment.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        return deployment;
+    }
+
+    public Collection<Deployment> getDeployments(NewRelicApiService api, long applicationId)
+    {
+        Collection<Deployment> ret = null;
+
+        try
+        {
+            logger.info("Get deployments: ");
+            ret = api.deployments().list(applicationId);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get deployments: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public void deleteDeployment(NewRelicApiService api, long applicationId, long deploymentId)
+    {
+        logger.info("Delete deployment: "+deploymentId);
+        api.deployments().delete(applicationId, deploymentId);
+        Optional<Deployment> ret = api.deployments().show(applicationId, deploymentId);
+        Assert.assertFalse(ret.isPresent());
     }
 }

@@ -21,7 +21,7 @@ import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.conditions.SyntheticsAlertCondition;
 
 /**
- * Deserializer class for Synthetics alert conditions.
+ * Serializer class for Synthetics alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */

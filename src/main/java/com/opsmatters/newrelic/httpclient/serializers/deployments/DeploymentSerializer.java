@@ -14,34 +14,34 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.httpclient.serializers.entities;
+package com.opsmatters.newrelic.httpclient.serializers.deployments;
 
 import java.lang.reflect.Type;
 import com.google.gson.*;
-import com.opsmatters.newrelic.api.model.entities.BrowserApplication;
+import com.opsmatters.newrelic.api.model.deployments.Deployment;
 
 /**
- * Serializer class for Browser applications.
+ * Serializer class for deployments.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class BrowserApplicationSerializer implements JsonSerializer<BrowserApplication>
+public class DeploymentSerializer implements JsonSerializer<Deployment>
 {
     private static Gson gson = new Gson();
 
     /**
      * Gson invokes this call-back method during serialization when it encounters a field of the specified type.
-     * @param application The application being serialized
+     * @param deployment The deployment being serialized
      * @param type The type of the Object to deserialize to 
      * @param context The JSON serialization context
      * @return The JSON data that was serialized
      */
     @Override
-    public JsonElement serialize(BrowserApplication application, Type type, JsonSerializationContext context)
+    public JsonElement serialize(Deployment deployment, Type type, JsonSerializationContext context)
     {
-        JsonElement element = gson.toJsonTree(application, type);
+        JsonElement element = gson.toJsonTree(deployment, type);
         JsonObject obj = new JsonObject();
-        obj.add("browser_application", element);
+        obj.add("deployment", element);
         return obj;
     }
 }

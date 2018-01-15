@@ -21,7 +21,7 @@ import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.conditions.AlertCondition;
 
 /**
- * Deserializer class for APM alert conditions.
+ * Serializer class for APM alert conditions.
  * 
  * @author Gerald Curley (opsmatters)
  */

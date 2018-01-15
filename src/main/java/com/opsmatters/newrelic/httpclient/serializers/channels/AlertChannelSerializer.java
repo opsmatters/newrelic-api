@@ -21,7 +21,7 @@ import com.google.gson.*;
 import com.opsmatters.newrelic.api.model.channels.AlertChannel;
 
 /**
- * Deserializer class for alert policies.
+ * Serializer class for alert policies.
  * 
  * @author Gerald Curley (opsmatters)
  */
