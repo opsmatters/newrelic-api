@@ -77,6 +77,8 @@ import com.opsmatters.newrelic.api.model.entities.Server;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
+import com.opsmatters.newrelic.api.model.labels.Label;
+import com.opsmatters.newrelic.api.model.users.User;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -101,6 +103,8 @@ public class NewRelicApiTest
     private String applicationName = "test-application-";
     private String browserApplicationName = "test-browser-application-"+System.currentTimeMillis();
     private String deploymentDescription = "deployment-"+System.currentTimeMillis();
+    private String labelCategory = "production";
+    private String labelName = "label-"+System.currentTimeMillis();
     private String whereClause = "env=prod";
     private String email = "alerts@test.com";
     private String channel = "#slack";
@@ -220,12 +224,12 @@ public class NewRelicApiTest
         Assert.assertNotNull(api);
 
         // Create the browser application
-        BrowserApplication browserApplication = createBrowserApplication(api, 
-            getBrowserApplication(browserApplicationName));
+        //BrowserApplication browserApplication = createBrowserApplication(api, 
+        //    getBrowserApplication(browserApplicationName));
+        //Collection<BrowserApplication> browserApplications = getBrowserApplications(api);
 
         // Get all the applications
         Collection<Application> applications = getApplications(api);
-        Collection<BrowserApplication> browserApplications = getBrowserApplications(api);
         Collection<MobileApplication> mobileApplications = getMobileApplications(api);
         Collection<KeyTransaction> keyTransactions = getKeyTransactions(api);
         Collection<Plugin> plugins = getPlugins(api);
@@ -325,6 +329,44 @@ public class NewRelicApiTest
             updateServer(api, getServer(server.getId(), server.getName()));
             getServerMetricNames(api, server.getId());
             getServerMetricData(api, server.getId());
+        }
+
+        // Create the label
+        //Label label = createLabel(api, getLabel(labelCategory, labelName)); // gives 500 Internal Server Error
+        Collection<Label> labels = getLabels(api);
+        if(labels.size() > 0)
+        {
+            Iterator<Label> it = labels.iterator();
+            Label label = it.next();
+            label = getLabel(api, label.getKey());
+            deleteLabel(api, label.getKey());
+        }
+
+        logger.info("Completed test: "+testName);
+    }
+
+    @Test
+    public void testUserOperations()
+    {
+        String testName = "UserOperationsTest";
+        logger.info("Starting test: "+testName);
+
+        // Initialise the services
+        logger.info("Initialise the service");
+
+        NewRelicApiService api = getService();
+        Assert.assertNotNull(api);
+
+        // Get all the users
+        Collection<User> users = getUsers(api);
+
+        // Get the first user
+        if(users.size() > 0)
+        {
+            Iterator<User> it = users.iterator();
+            User user = it.next();
+            getUser(api, user.getId());
+            //resetUser(api, user.getId());
         }
 
         logger.info("Completed test: "+testName);
@@ -1116,7 +1158,7 @@ public class NewRelicApiTest
         {
             logger.info("Get key transactions: ");
             List<String> filters = KeyTransactionOperations.filters()
-                .name("Transaction")
+                .name("/agent")
                 .build();
             ret = api.keyTransactions().list(filters);
         }
@@ -1431,5 +1473,99 @@ public class NewRelicApiTest
         MetricData metrics = api.servers().metricData(id, parameters).get();
         Assert.assertTrue(metrics.getMetrics().size() > 0);
         return metrics;
+    }
+
+    public Label getLabel(String category, String name)
+    {
+        return Label.builder()
+            .category(category)
+            .name(name)
+            .build();
+    }
+
+    public Label createLabel(NewRelicApiService api, Label input)
+    {
+        logger.info("Create label: "+input.getName());
+        Label label = api.labels().create(input).get();
+
+        // Get the label
+        {
+            logger.info("Get label: "+label.getKey());
+            Optional<Label> ret = api.labels().show(label.getKey());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        return label;
+    }
+
+    public Label getLabel(NewRelicApiService api, String key)
+    {
+        logger.info("Get label: "+key);
+        Label ret = api.labels().show(key).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<Label> getLabels(NewRelicApiService api)
+    {
+        Collection<Label> ret = null;
+
+        try
+        {
+            logger.info("Get labels: ");
+            ret = api.labels().list();
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get labels: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public void deleteLabel(NewRelicApiService api, String key)
+    {
+        logger.info("Delete label: "+key);
+        api.labels().delete(key);
+        Optional<Label> ret = api.labels().show(key);
+        Assert.assertFalse(ret.isPresent());
+    }
+
+    public User getUser(NewRelicApiService api, long id)
+    {
+        logger.info("Get user: "+id);
+        User ret = api.users().show(id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Collection<User> getUsers(NewRelicApiService api)
+    {
+        Collection<User> ret = null;
+
+        try
+        {
+            logger.info("Get users: ");
+            ret = api.users().list();
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get users: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public void resetUser(NewRelicApiService api, long id)
+    {
+        try
+        {
+            logger.info("Reset user: "+id);
+            api.users().resetPassword(id);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in reset user: "+e.getMessage());
+        }
     }
 }

@@ -25,7 +25,7 @@ The following New Relic APIs are currently supported:
 * Alerts Violations (List)
 * Alerts Incidents (List)
 
-### APM v2 API
+### Applications v2 API
 * Applications (List, Show, Update, Delete, Metric Names, Metric Data)
 * Application Hosts (List, Show, Metric Names, Metric Data)
 * Application Instances (List, Show, Metric Names, Metric Data)
@@ -36,6 +36,10 @@ The following New Relic APIs are currently supported:
 * Plugin Components (List, Show, Metric Names, Metric Data)
 * Servers (List, Show, Update, Delete, Metric Names, Metric Data)
 * Deployments (List, Create, Delete)
+* Labels (List, Create, Delete)
+
+### Other v2 APIs
+* Users (List, Show, Reset Password)
 
 Other APIs can be included on request.
 
@@ -70,6 +74,7 @@ The following tests are included:
 
 * AlertOperationsTest: Creates several alert channels, an alert policy with several conditions and then deletes them.
 * ApplicationOperationsTest: Creates or gets several types of applications, and then carries out various operations on them.
+* UserOperationsTest: Gets the users for an account.
 
 ## Examples
 
@@ -84,7 +89,7 @@ Add the following dependency to include the artefact within your project:
 <dependency>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 

@@ -63,6 +63,8 @@ import com.opsmatters.newrelic.api.model.entities.Server;
 import com.opsmatters.newrelic.api.model.entities.Metric;
 import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
+import com.opsmatters.newrelic.api.model.labels.Label;
+import com.opsmatters.newrelic.api.model.users.User;
 import com.opsmatters.newrelic.httpclient.serializers.policies.AlertPolicySerializer;
 import com.opsmatters.newrelic.httpclient.serializers.channels.AlertChannelSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.conditions.AlertConditionSerializer;
@@ -75,6 +77,7 @@ import com.opsmatters.newrelic.httpclient.serializers.entities.ApplicationSerial
 import com.opsmatters.newrelic.httpclient.serializers.entities.BrowserApplicationSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.entities.ServerSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.deployments.DeploymentSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.labels.LabelSerializer;
 import com.opsmatters.newrelic.httpclient.deserializers.ResponseErrorDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertIncidentsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertViolationsDeserializer;
@@ -117,6 +120,10 @@ import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricsDeserial
 import com.opsmatters.newrelic.httpclient.deserializers.entities.MetricDataDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.deployments.DeploymentDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.deployments.DeploymentsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.labels.LabelDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.labels.LabelsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.users.UserDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.users.UsersDeserializer;
 
 /**
  * Provides GSON support for serializing and deserializing objects.
@@ -149,7 +156,11 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Type KEY_TRANSACTIONS_TYPE = new TypeToken<Collection<KeyTransaction>>(){}.getType();
     private static final Type PLUGINS_TYPE = new TypeToken<Collection<Plugin>>(){}.getType();
     private static final Type PLUGIN_COMPONENTS_TYPE = new TypeToken<Collection<PluginComponent>>(){}.getType();
+    private static final Type SERVERS_TYPE = new TypeToken<Collection<Server>>(){}.getType();
     private static final Type METRICS_TYPE = new TypeToken<Collection<Metric>>(){}.getType();
+    private static final Type DEPLOYMENTS_TYPE = new TypeToken<Collection<Deployment>>(){}.getType();
+    private static final Type LABELS_TYPE = new TypeToken<Collection<Label>>(){}.getType();
+    private static final Type USERS_TYPE = new TypeToken<Collection<User>>(){}.getType();
 
     private Gson gson;
 
@@ -209,8 +220,19 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(PLUGINS_TYPE, new PluginsDeserializer());
             builder.registerTypeAdapter(PluginComponent.class, new PluginComponentDeserializer());
             builder.registerTypeAdapter(PLUGIN_COMPONENTS_TYPE, new PluginComponentsDeserializer());
+            builder.registerTypeAdapter(Server.class, new ServerSerializer());
+            builder.registerTypeAdapter(Server.class, new ServerDeserializer());
+            builder.registerTypeAdapter(SERVERS_TYPE, new ServersDeserializer());
             builder.registerTypeAdapter(METRICS_TYPE, new MetricsDeserializer());
             builder.registerTypeAdapter(MetricData.class, new MetricDataDeserializer());
+            builder.registerTypeAdapter(Deployment.class, new DeploymentSerializer());
+            builder.registerTypeAdapter(Deployment.class, new DeploymentDeserializer());
+            builder.registerTypeAdapter(DEPLOYMENTS_TYPE, new DeploymentsDeserializer());
+            builder.registerTypeAdapter(Label.class, new LabelSerializer());
+            builder.registerTypeAdapter(Label.class, new LabelDeserializer());
+            builder.registerTypeAdapter(LABELS_TYPE, new LabelsDeserializer());
+            builder.registerTypeAdapter(User.class, new UserDeserializer());
+            builder.registerTypeAdapter(USERS_TYPE, new UsersDeserializer());
             gson = builder.create();
         }
 

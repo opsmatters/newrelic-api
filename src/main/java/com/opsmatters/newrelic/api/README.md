@@ -20,7 +20,7 @@
 - [Alerts Violations](#alerts-violations)
 - [Alerts Incidents](#alerts-incidents)
 
-#### APM v2 API
+#### Applications v2 API
 - [Applications](#applications)
 - [Application Hosts](#application-hosts)
 - [Application Instances](#application-instances)
@@ -31,6 +31,10 @@
 - [Plugin Components](#plugin-components)
 - [Servers](#servers)
 - [Deployments](#deployments)
+- [Labels](#labels)
+
+#### Other v2 APIs
+- [Users](#users)
 
 ### Initialisation
 
@@ -611,5 +615,36 @@ Other operations have also been included for deployments:
 * list(applicationId): returns all deployments for the application.
 * show(applicationId, deploymentId): returns the deployment with the given id.
 * delete(applicationId, deploymentId): deletes the deployment with the given id.
+
+### Labels
+To create a label for an application or server, first instantiate the label and then pass it to the "create" operation:
+```
+Label l = Label.builder()
+    .category("Production")
+    .name("Main")
+    .build();
+
+Label label = api.labels().create(l).get();
+```
+The label returned includes all the additional fields that were populated by the server on creation eg, "key".
+
+Other operations have also been included for labels:
+* list(): returns all labels.
+* show(key): returns the label with the given key.
+* delete(key): deletes the label with the given key.
+
+### Users
+To list the users call the "list" operation with a set of filters:
+```
+List<String> filters = UserOperations.filters()
+    .email("me@test.com")
+    .build();
+
+Collection<User> users = api.users().list(filters);
+```
+
+Other operations have also been included for users:
+* show(userId): returns the user for the given id.
+* resetPassword(userId): resets the password for the user with the given id.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

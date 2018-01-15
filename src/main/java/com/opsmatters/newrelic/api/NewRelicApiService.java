@@ -368,6 +368,26 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to labels.
+     * @return The label operations
+     */
+    public LabelOperations labels()
+    {
+        checkInitialize();
+        return new LabelOperations(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to users.
+     * @return The user operations
+     */
+    public UserOperations users()
+    {
+        checkInitialize();
+        return new UserOperations(httpContext, this);
+    }
+
+    /**
      * Initialise the HTTP client provider and context.
      */
     protected void checkInitialize()
