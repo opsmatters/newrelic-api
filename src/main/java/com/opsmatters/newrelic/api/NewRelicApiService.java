@@ -16,51 +16,37 @@
 
 package com.opsmatters.newrelic.api;
 
-import java.util.List;
-import java.util.Map;
+//GERALD: check
+//import java.util.List;
+//import java.util.Map;
 import java.util.logging.Logger;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.GenericType;
+//import javax.ws.rs.client.Client;
+//import javax.ws.rs.core.GenericType;
 import com.opsmatters.newrelic.httpclient.ApiKeyHttpClientProvider;
 import com.opsmatters.newrelic.httpclient.HttpClientProvider;
 
 /**
- * The set of Java bindings for the New Relic API Service.
+ * The set of Java bindings for the New Relic REST API Service.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class NewRelicApiService
+public class NewRelicApiService extends NewRelicService
 {
     private static final Logger logger = Logger.getLogger(NewRelicApiService.class.getName());
  
     /**
-     * The name of the standard property used for the API key.
-     */
-    public static final String API_KEY_PROPERTY = "newrelic.apiKey";
-
-    /**
-     * The default hostname for New Relic.
+     * The default hostname for New Relic RPM.
      */
     public static final String DEFAULT_HOST = "api.newrelic.com";
 
-    /**
-     * The default port for New Relic.
-     */
-    public static final int DEFAULT_PORT = 443;
-
-    private String hostname = DEFAULT_HOST;
-    private int port = DEFAULT_PORT;
-    protected HttpContext httpContext;
-    protected HttpClientProvider provider;
-    private boolean handleErrors = true;
-    
     /**
      * Default constructor.
      */
     public NewRelicApiService()
     {
+        setHostname(DEFAULT_HOST);
     }
-    
+   
     /**
      * Constructor that takes a hostname, port and provider.
      * @param hostname The hostname of the server
@@ -69,33 +55,7 @@ public class NewRelicApiService
      */
     public NewRelicApiService(String hostname, int port, HttpClientProvider provider)
     {    
-        this.hostname = hostname;
-        this.port = port;
-        this.provider = provider;
-    }
-    
-    /**
-     * Called after setting configuration properties.
-     * @return This object
-     */
-    public NewRelicApiService initialize()
-    {    
-        Client client = provider.getClient();
-        String protocol = provider.useSsl() ? "https" : "http";
-        httpContext = new HttpContext(client, protocol, hostname, port);
-        httpContext.setThrowExceptions(handleErrors);
-        String className = getClass().getName();
-        logger.info(className.substring(className.lastIndexOf(".")+1)+" initialized");
-        return this;
-    }
-    
-    /**
-     * Sets the HTTP client provider.
-     * @param provider The interface for the underlying Jersey client provider
-     */
-    public void setHttpClientProvider(HttpClientProvider provider)
-    {
-        this.provider = provider;
+        super(hostname, port, provider);
     }
 
     /**
@@ -106,47 +66,9 @@ public class NewRelicApiService
      */
     public void setHostname(String hostname)
     {
-        this.hostname = hostname;
+        super.setHostname(hostname);
     }
 
-    /**
-     * Sets the port of the host to connect to.
-     * <P>
-     * The default port is 443.
-     * @param port The port of the host
-     */
-    public void setPort(int port)
-    {
-        this.port = port;
-    }
-    
-    /**
-     * Returns the context used to make calls and deserialize payloads.
-     * @return The HTTP context
-     */
-    public HttpContext getHttpContext()
-    {    
-        return this.httpContext;
-    }
-
-    /**
-     * Set to <CODE>true</CODE> if errors should be handled rather than ignored.
-     * @param b <CODE>true</CODE> if errors should be handled
-     */
-    public void setHandleErrors(boolean b)
-    {
-        handleErrors = b;
-    }
-
-    /**
-     * Returns <CODE>true</CODE> if errors should be handled rather than ignored.
-     * @return <CODE>true</CODE> if errors should be handled
-     */
-    public boolean handleErrors()
-    {
-        return handleErrors;
-    }
-  
     /**
      * Returns the operations related to alert policies.
      * @return The alert policy operations
@@ -398,31 +320,30 @@ public class NewRelicApiService
     }
 
     /**
-     * Initialise the HTTP client provider and context.
-     */
-    protected void checkInitialize()
-    {
-        if(httpContext == null)
-            initialize();
-    }
-
-    /**
      * Returns a builder for the NewRelicApiService.
      * @return The builder instance.
      */
-    public static ServiceBuilder<?,?> builder()
+    public static Builder builder()
     {
         return new Builder();
     }
 
     /**
-     * Abstract Builder from which the other service Builders derive.
+     * Builder to make NewRelicApiService construction easier.
      */
-    public abstract static class ServiceBuilder<T extends NewRelicApiService, B extends ServiceBuilder<T,B>>
+    public static class Builder
     {
-        protected String hostname = DEFAULT_HOST;
-        protected int port = DEFAULT_PORT;
-        protected HttpClientProvider provider = new ApiKeyHttpClientProvider("");
+        private String hostname = DEFAULT_HOST;
+        private int port = DEFAULT_PORT;
+        private HttpClientProvider provider = new ApiKeyHttpClientProvider("");
+
+        /**
+         * Default constructor.
+         */
+        public Builder()
+        {
+            hostname(DEFAULT_HOST);
+        }
 
         /**
          * Sets the name of the host to connect to.
@@ -431,10 +352,10 @@ public class NewRelicApiService
          * @param hostname The name of the host
          * @return This object
          */
-        public B hostname(String hostname)
+        public Builder hostname(String hostname)
         {
             this.hostname = hostname;
-            return self();
+            return this;
         }
 
         /**
@@ -444,10 +365,10 @@ public class NewRelicApiService
          * @param port The port of the host
          * @return This object
          */
-        public B port(int port)
+        public Builder port(int port)
         {
             this.port = port;
-            return self();
+            return this;
         }
 
         /**
@@ -455,37 +376,9 @@ public class NewRelicApiService
          * @param key The API key
          * @return This object
          */
-        public B apiKey(String key)
+        public Builder apiKey(String key)
         {
             this.provider = new ApiKeyHttpClientProvider(key);
-            return self();
-        }
-
-        /**
-         * Returns this object.
-         * @return This object
-         */
-        protected abstract B self();
-
-        /**
-         * Returns the configured API service instance
-         * @return The API service instance
-         */
-        public abstract T build();
-    }
-
-    /**
-     * Builder to make NewRelicApiService construction easier.
-     */
-    public static class Builder extends ServiceBuilder<NewRelicApiService, Builder>
-    {
-        /**
-         * Returns this object.
-         * @return This object
-         */
-        @Override
-        protected Builder self()
-        {
             return this;
         }
 
@@ -493,7 +386,6 @@ public class NewRelicApiService
          * Returns the configured API service instance
          * @return The API service instance
          */
-        @Override
         public NewRelicApiService build()
         {
             return new NewRelicApiService(hostname, port, provider);

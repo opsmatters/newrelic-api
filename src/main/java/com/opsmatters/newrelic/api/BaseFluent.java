@@ -135,26 +135,26 @@ public class BaseFluent
     protected static final GenericType<UsageData> USAGE_DATA = new GenericType<UsageData>(){};
 
     protected HttpContext HTTP;
-    private NewRelicApiService apiService;
+    private NewRelicService service;
 
     /**
      * Constructor that takes a http context and API service.
      * @param httpContext The set of HTTP operations
-     * @param apiService The set of API operations
+     * @param service The set of API operations
      */
-    public BaseFluent(HttpContext httpContext, NewRelicApiService apiService)
+    public BaseFluent(HttpContext httpContext, NewRelicService service)
     {    
         this.HTTP = httpContext;
-        this.apiService = apiService;
+        this.service = service;
     }
     
     /**
      * Returns the API service.
      * @return The API service
      */
-    public NewRelicApiService getService()
+    public NewRelicService getService()
     {    
-        return this.apiService;
+        return this.service;
     }
 
     /**

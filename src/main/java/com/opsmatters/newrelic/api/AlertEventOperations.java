@@ -33,11 +33,11 @@ public class AlertEventOperations extends BaseFluent
     /**
      * Constructor that takes a http context and API service.
      * @param httpContext The set of HTTP operations
-     * @param apiService The set of API operations
+     * @param service The set of API operations
      */
-    public AlertEventOperations(HttpContext httpContext, NewRelicApiService apiService)
+    public AlertEventOperations(HttpContext httpContext, NewRelicService service)
     {
-        super(httpContext, apiService);
+        super(httpContext, service);
     }
 
     /**

@@ -19,7 +19,6 @@ package com.opsmatters.newrelic.api;
 import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
-//import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
  * The set of operations used for deployments.
@@ -31,11 +30,11 @@ public class DeploymentOperations extends BaseFluent
     /**
      * Constructor that takes a http context and API service.
      * @param httpContext The set of HTTP operations
-     * @param apiService The set of API operations
+     * @param service The set of API operations
      */
-    public DeploymentOperations(HttpContext httpContext, NewRelicApiService apiService)
+    public DeploymentOperations(HttpContext httpContext, NewRelicService service)
     {
-        super(httpContext, apiService);
+        super(httpContext, service);
     }
 
     /**

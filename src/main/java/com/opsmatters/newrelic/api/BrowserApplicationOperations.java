@@ -31,11 +31,11 @@ public class BrowserApplicationOperations extends BaseFluent
     /**
      * Constructor that takes a http context and API service.
      * @param httpContext The set of HTTP operations
-     * @param apiService The set of API operations
+     * @param service The set of API operations
      */
-    public BrowserApplicationOperations(HttpContext httpContext, NewRelicApiService apiService)
+    public BrowserApplicationOperations(HttpContext httpContext, NewRelicService service)
     {
-        super(httpContext, apiService);
+        super(httpContext, service);
     }
 
     /**
