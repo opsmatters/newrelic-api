@@ -76,6 +76,7 @@ The following tests are included:
 * AlertOperationsTest: Creates several alert channels, an alert policy with several conditions and then deletes them.
 * ApplicationOperationsTest: Creates or gets several types of applications, and then carries out various operations on them.
 * UserOperationsTest: Gets the users for an account.
+* UsageOperationsTest: Gets the usages for a product.
 
 ## Examples
 
