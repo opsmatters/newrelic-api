@@ -47,6 +47,7 @@ import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
 import com.opsmatters.newrelic.api.model.labels.Label;
 import com.opsmatters.newrelic.api.model.users.User;
+import com.opsmatters.newrelic.api.model.products.UsageData;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -130,6 +131,8 @@ public class BaseFluent
 
     protected static final GenericType<User> USER = new GenericType<User>(){};
     protected static final GenericType<Collection<User>> USERS = new GenericType<Collection<User>>(){};
+
+    protected static final GenericType<UsageData> USAGE_DATA = new GenericType<UsageData>(){};
 
     protected HttpContext HTTP;
     private NewRelicApiService apiService;

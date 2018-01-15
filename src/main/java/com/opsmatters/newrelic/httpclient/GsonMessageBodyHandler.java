@@ -65,6 +65,7 @@ import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
 import com.opsmatters.newrelic.api.model.labels.Label;
 import com.opsmatters.newrelic.api.model.users.User;
+import com.opsmatters.newrelic.api.model.products.UsageData;
 import com.opsmatters.newrelic.httpclient.serializers.policies.AlertPolicySerializer;
 import com.opsmatters.newrelic.httpclient.serializers.channels.AlertChannelSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.conditions.AlertConditionSerializer;
@@ -124,6 +125,7 @@ import com.opsmatters.newrelic.httpclient.deserializers.labels.LabelDeserializer
 import com.opsmatters.newrelic.httpclient.deserializers.labels.LabelsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.users.UserDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.users.UsersDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.products.UsageDataDeserializer;
 
 /**
  * Provides GSON support for serializing and deserializing objects.
@@ -233,6 +235,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(LABELS_TYPE, new LabelsDeserializer());
             builder.registerTypeAdapter(User.class, new UserDeserializer());
             builder.registerTypeAdapter(USERS_TYPE, new UsersDeserializer());
+            builder.registerTypeAdapter(UsageData.class, new UsageDataDeserializer());
             gson = builder.create();
         }
 

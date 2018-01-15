@@ -43,8 +43,8 @@ public class AlertViolationOperations extends BaseFluent
 
     /**
      * Returns the set of alert violations.
-     * @param startDate Retrieves violations created after this date
-     * @param endDate Retrieves violations created before this date
+     * @param startDate Retrieves violations created after this date (in milliseconds)
+     * @param endDate Retrieves violations created before this date (in milliseconds)
      * @param onlyOpen Filter by open violations
      * @return The set of alert violations
      */

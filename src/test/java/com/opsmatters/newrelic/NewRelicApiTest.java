@@ -38,10 +38,10 @@ import com.opsmatters.newrelic.api.PluginOperations;
 import com.opsmatters.newrelic.api.PluginComponentOperations;
 import com.opsmatters.newrelic.api.ServerOperations;
 import com.opsmatters.newrelic.api.MetricParameterBuilder;
+import com.opsmatters.newrelic.api.model.products.Product;
 import com.opsmatters.newrelic.api.model.alerts.AlertEvent;
 import com.opsmatters.newrelic.api.model.alerts.AlertViolation;
 import com.opsmatters.newrelic.api.model.alerts.AlertIncident;
-import com.opsmatters.newrelic.api.model.alerts.Product;
 import com.opsmatters.newrelic.api.model.policies.AlertPolicy;
 import com.opsmatters.newrelic.api.model.policies.AlertPolicyChannel;
 import com.opsmatters.newrelic.api.model.channels.AlertChannel;
@@ -79,6 +79,7 @@ import com.opsmatters.newrelic.api.model.entities.MetricData;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
 import com.opsmatters.newrelic.api.model.labels.Label;
 import com.opsmatters.newrelic.api.model.users.User;
+import com.opsmatters.newrelic.api.model.products.UsageData;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -368,6 +369,24 @@ public class NewRelicApiTest
             getUser(api, user.getId());
             //resetUser(api, user.getId());
         }
+
+        logger.info("Completed test: "+testName);
+    }
+
+    @Test
+    public void testUsageOperations()
+    {
+        String testName = "UsageOperationsTest";
+        logger.info("Starting test: "+testName);
+
+        // Initialise the services
+        logger.info("Initialise the service");
+
+        NewRelicApiService api = getService();
+        Assert.assertNotNull(api);
+
+        // Get all the users
+        UsageData usage = getUsage(api, "apm");
 
         logger.info("Completed test: "+testName);
     }
@@ -1567,5 +1586,17 @@ public class NewRelicApiTest
         {
             Assert.fail("Error in reset user: "+e.getMessage());
         }
+    }
+
+    public UsageData getUsage(NewRelicApiService api, String product)
+    {
+        logger.info("Get usage: "+product);
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -1); // usages from yesterday to today
+        long startDate = c.getTimeInMillis();
+        long endDate = System.currentTimeMillis();
+        UsageData ret = api.usages().list(product, startDate, endDate, true).get();
+        Assert.assertNotNull(ret);
+        return ret;
     }
 }

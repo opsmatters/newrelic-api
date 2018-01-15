@@ -33,6 +33,11 @@ public class Utils
     public static final String ISO8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     /**
+     * The date format without time.
+     */
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+
+    /**
      * Private constructor.
      */
     private Utils()
@@ -73,5 +78,26 @@ public class Utils
     static public String getUtcDateTime(long dt)
     {
         return getFormattedDateTime(dt, TimeZone.getTimeZone("GMT"), ISO8601_FORMAT);
+    }
+
+    /**
+     * Returns the given date time formatted using the given format.
+     * @param dt The date to format (in milliseconds)
+     * @param format The format to use for the date
+     * @return The formatted date
+     */
+    static public String getFormattedDate(long dt, String format)
+    {
+        return getFormattedDateTime(dt, null, format);
+    }
+
+    /**
+     * Returns the given date time formatted using the YYYY-MM-DD format.
+     * @param dt The date to format (in milliseconds)
+     * @return The date in YYYY-MM-DD format
+     */
+    static public String getFormattedDate(long dt)
+    {
+        return getFormattedDate(dt, DATE_FORMAT);
     }
 }

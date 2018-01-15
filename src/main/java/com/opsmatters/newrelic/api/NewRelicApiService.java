@@ -388,6 +388,16 @@ public class NewRelicApiService
     }
 
     /**
+     * Returns the operations related to usages.
+     * @return The usage operations
+     */
+    public UsageOperations usages()
+    {
+        checkInitialize();
+        return new UsageOperations(httpContext, this);
+    }
+
+    /**
      * Initialise the HTTP client provider and context.
      */
     protected void checkInitialize()

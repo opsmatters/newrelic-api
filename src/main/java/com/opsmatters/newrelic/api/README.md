@@ -35,6 +35,7 @@
 
 #### Other v2 APIs
 - [Users](#users)
+- [Usages](#usages)
 
 ### Initialisation
 
@@ -646,5 +647,15 @@ Collection<User> users = api.users().list(filters);
 Other operations have also been included for users:
 * show(userId): returns the user for the given id.
 * resetPassword(userId): resets the password for the user with the given id.
+
+### Usages
+To list the usages for a product call the "list" operation with a set of parameters:
+```
+Calendar c = Calendar.getInstance();
+c.add(Calendar.DATE, -1); // usages from yesterday to today
+long startDate = c.getTimeInMillis();
+long endDate = System.currentTimeMillis();
+UsageData usage = api.usages().list(product, startDate, endDate, true).get();
+```
 
 <sub>Copyright (c) 2018 opsmatters</sub>

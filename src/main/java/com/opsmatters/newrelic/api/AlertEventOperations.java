@@ -18,8 +18,8 @@ package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
 import java.util.List;
+import com.opsmatters.newrelic.api.model.products.Product;
 import com.opsmatters.newrelic.api.model.alerts.AlertEvent;
-import com.opsmatters.newrelic.api.model.alerts.Product;
 import com.opsmatters.newrelic.api.model.entities.EntityType;
 import com.opsmatters.newrelic.util.QueryParameterList;
 

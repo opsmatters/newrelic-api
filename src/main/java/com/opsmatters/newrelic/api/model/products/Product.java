@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model.alerts;
+package com.opsmatters.newrelic.api.model.products;
 
 /**
  * Represents a New Relic product.  

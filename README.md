@@ -40,6 +40,7 @@ The following New Relic APIs are currently supported:
 
 ### Other v2 APIs
 * Users (List, Show, Reset Password)
+* Usages (List)
 
 Other APIs can be included on request.
 
