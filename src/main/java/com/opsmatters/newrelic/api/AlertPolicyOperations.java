@@ -44,7 +44,7 @@ public class AlertPolicyOperations extends BaseFluent
      */
     public Collection<AlertPolicy> list()
     {
-        return HTTP.GET("/alerts_policies.json", null, null, ALERT_POLICIES).get();
+        return HTTP.GET("/v2/alerts_policies.json", null, null, ALERT_POLICIES).get();
     }
 
     /**
@@ -56,7 +56,7 @@ public class AlertPolicyOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("filter[name]", name);
-        return HTTP.GET("/alerts_policies.json", null, queryParams, ALERT_POLICIES).get();
+        return HTTP.GET("/v2/alerts_policies.json", null, queryParams, ALERT_POLICIES).get();
     }
 
     /**
@@ -86,7 +86,7 @@ public class AlertPolicyOperations extends BaseFluent
      */
     public Optional<AlertPolicy> create(AlertPolicy policy)
     {
-        return HTTP.POST("/alerts_policies.json", policy, ALERT_POLICY);
+        return HTTP.POST("/v2/alerts_policies.json", policy, ALERT_POLICY);
     }
 
     /**
@@ -96,7 +96,7 @@ public class AlertPolicyOperations extends BaseFluent
      */
     public Optional<AlertPolicy> update(AlertPolicy policy)
     {
-        return HTTP.PUT(String.format("/alerts_policies/%d.json", policy.getId()), policy, ALERT_POLICY);
+        return HTTP.PUT(String.format("/v2/alerts_policies/%d.json", policy.getId()), policy, ALERT_POLICY);
     }
 
     /**
@@ -106,7 +106,7 @@ public class AlertPolicyOperations extends BaseFluent
      */
     public AlertPolicyOperations delete(long policyId)
     {
-        HTTP.DELETE(String.format("/alerts_policies/%d.json", policyId));       
+        HTTP.DELETE(String.format("/v2/alerts_policies/%d.json", policyId));       
         return this;
     }
 }

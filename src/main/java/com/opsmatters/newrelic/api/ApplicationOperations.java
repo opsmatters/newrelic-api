@@ -50,7 +50,7 @@ public class ApplicationOperations extends BaseFluent
      */
     public Collection<Application> list(List<String> queryParams)
     {
-        return HTTP.GET("/applications.json", null, queryParams, APPLICATIONS).get();
+        return HTTP.GET("/v2/applications.json", null, queryParams, APPLICATIONS).get();
     }
 
     /**
@@ -69,7 +69,7 @@ public class ApplicationOperations extends BaseFluent
      */
     public Optional<Application> show(long applicationId)
     {
-        return HTTP.GET(String.format("/applications/%d.json", applicationId), APPLICATION);
+        return HTTP.GET(String.format("/v2/applications/%d.json", applicationId), APPLICATION);
     }
 
     /**
@@ -79,7 +79,7 @@ public class ApplicationOperations extends BaseFluent
      */
     public Optional<Application> update(Application application)
     {
-        return HTTP.PUT(String.format("/applications/%d.json", application.getId()), application, APPLICATION);
+        return HTTP.PUT(String.format("/v2/applications/%d.json", application.getId()), application, APPLICATION);
     }
 
     /**
@@ -89,7 +89,7 @@ public class ApplicationOperations extends BaseFluent
      */
     public ApplicationOperations delete(long applicationId)
     {
-        HTTP.DELETE(String.format("/applications/%d.json", applicationId));       
+        HTTP.DELETE(String.format("/v2/applications/%d.json", applicationId));       
         return this;
     }
 
@@ -104,7 +104,7 @@ public class ApplicationOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         if(name != null && name.length() > 0)
             queryParams.add("name", name);
-        return HTTP.GET(String.format("/applications/%d/metrics.json", applicationId), null, queryParams, METRICS).get();
+        return HTTP.GET(String.format("/v2/applications/%d/metrics.json", applicationId), null, queryParams, METRICS).get();
     }
 
     /**
@@ -125,7 +125,7 @@ public class ApplicationOperations extends BaseFluent
      */
     public Optional<MetricData> metricData(long applicationId, List<String> queryParams)
     {
-        return HTTP.GET(String.format("/applications/%d/metrics/data.json", applicationId), null, queryParams, METRIC_DATA);
+        return HTTP.GET(String.format("/v2/applications/%d/metrics/data.json", applicationId), null, queryParams, METRIC_DATA);
     }
 
     /**

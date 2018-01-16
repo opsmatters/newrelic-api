@@ -47,7 +47,7 @@ public class ExternalServiceAlertConditionOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", new Long(policyId));
-        return HTTP.GET("/alerts_external_service_conditions.json", null, queryParams, EXTERNAL_SERVICE_ALERT_CONDITIONS).get();
+        return HTTP.GET("/v2/alerts_external_service_conditions.json", null, queryParams, EXTERNAL_SERVICE_ALERT_CONDITIONS).get();
     }
 
     /**
@@ -78,7 +78,7 @@ public class ExternalServiceAlertConditionOperations extends BaseFluent
      */
     public Optional<ExternalServiceAlertCondition> create(long policyId, ExternalServiceAlertCondition condition)
     {
-        return HTTP.POST(String.format("/alerts_external_service_conditions/policies/%d.json", policyId), condition, EXTERNAL_SERVICE_ALERT_CONDITION);
+        return HTTP.POST(String.format("/v2/alerts_external_service_conditions/policies/%d.json", policyId), condition, EXTERNAL_SERVICE_ALERT_CONDITION);
     }
 
     /**
@@ -88,7 +88,7 @@ public class ExternalServiceAlertConditionOperations extends BaseFluent
      */
     public Optional<ExternalServiceAlertCondition> update(ExternalServiceAlertCondition condition)
     {
-        return HTTP.PUT(String.format("/alerts_external_service_conditions/%d.json", condition.getId()), condition, EXTERNAL_SERVICE_ALERT_CONDITION);
+        return HTTP.PUT(String.format("/v2/alerts_external_service_conditions/%d.json", condition.getId()), condition, EXTERNAL_SERVICE_ALERT_CONDITION);
     }
 
     /**
@@ -98,7 +98,7 @@ public class ExternalServiceAlertConditionOperations extends BaseFluent
      */
     public ExternalServiceAlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts_external_service_conditions/%d.json", conditionId));       
+        HTTP.DELETE(String.format("/v2/alerts_external_service_conditions/%d.json", conditionId));       
         return this;
     }
 }

@@ -47,7 +47,7 @@ public class SyntheticsAlertConditionOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", new Long(policyId));
-        return HTTP.GET("/alerts_synthetics_conditions.json", null, queryParams, SYNTHETICS_ALERT_CONDITIONS).get();
+        return HTTP.GET("/v2/alerts_synthetics_conditions.json", null, queryParams, SYNTHETICS_ALERT_CONDITIONS).get();
     }
 
     /**
@@ -78,7 +78,7 @@ public class SyntheticsAlertConditionOperations extends BaseFluent
      */
     public Optional<SyntheticsAlertCondition> create(long policyId, SyntheticsAlertCondition condition)
     {
-        return HTTP.POST(String.format("/alerts_synthetics_conditions/policies/%d.json", policyId), condition, SYNTHETICS_ALERT_CONDITION);
+        return HTTP.POST(String.format("/v2/alerts_synthetics_conditions/policies/%d.json", policyId), condition, SYNTHETICS_ALERT_CONDITION);
     }
 
     /**
@@ -88,7 +88,7 @@ public class SyntheticsAlertConditionOperations extends BaseFluent
      */
     public Optional<SyntheticsAlertCondition> update(SyntheticsAlertCondition condition)
     {
-        return HTTP.PUT(String.format("/alerts_synthetics_conditions/%d.json", condition.getId()), condition, SYNTHETICS_ALERT_CONDITION);
+        return HTTP.PUT(String.format("/v2/alerts_synthetics_conditions/%d.json", condition.getId()), condition, SYNTHETICS_ALERT_CONDITION);
     }
 
     /**
@@ -98,7 +98,7 @@ public class SyntheticsAlertConditionOperations extends BaseFluent
      */
     public SyntheticsAlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts_synthetics_conditions/%d.json", conditionId));       
+        HTTP.DELETE(String.format("/v2/alerts_synthetics_conditions/%d.json", conditionId));       
         return this;
     }
 }

@@ -48,7 +48,7 @@ public class AlertPolicyChannelOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", policyId);
         queryParams.add("channel_ids", channelId);
-        return HTTP.PUT("/alerts_policy_channels.json", null, null, queryParams, ALERT_POLICY_CHANNEL);
+        return HTTP.PUT("/v2/alerts_policy_channels.json", null, null, queryParams, ALERT_POLICY_CHANNEL);
     }
 
     /**
@@ -62,7 +62,7 @@ public class AlertPolicyChannelOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", policyId);
         queryParams.add("channel_id", channelId);
-        HTTP.DELETE("/alerts_policy_channels.json", null, queryParams);       
+        HTTP.DELETE("/v2/alerts_policy_channels.json", null, queryParams);       
         return this;
     }
 }

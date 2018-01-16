@@ -48,7 +48,7 @@ public class PluginComponentOperations extends BaseFluent
      */
     public Collection<PluginComponent> list(List<String> queryParams)
     {
-        return HTTP.GET("/components.json", null, queryParams, PLUGIN_COMPONENTS).get();
+        return HTTP.GET("/v2/components.json", null, queryParams, PLUGIN_COMPONENTS).get();
     }
 
     /**
@@ -67,7 +67,7 @@ public class PluginComponentOperations extends BaseFluent
      */
     public Optional<PluginComponent> show(long componentId)
     {
-        return HTTP.GET(String.format("/components/%d.json", componentId), PLUGIN_COMPONENT);
+        return HTTP.GET(String.format("/v2/components/%d.json", componentId), PLUGIN_COMPONENT);
     }
 
     /**
@@ -81,7 +81,7 @@ public class PluginComponentOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         if(name != null && name.length() > 0)
             queryParams.add("name", name);
-        return HTTP.GET(String.format("/components/%d/metrics.json", componentId), null, queryParams, METRICS).get();
+        return HTTP.GET(String.format("/v2/components/%d/metrics.json", componentId), null, queryParams, METRICS).get();
     }
 
     /**
@@ -102,7 +102,7 @@ public class PluginComponentOperations extends BaseFluent
      */
     public Optional<MetricData> metricData(long componentId, List<String> queryParams)
     {
-        return HTTP.GET(String.format("/components/%d/metrics/data.json", componentId), null, queryParams, METRIC_DATA);
+        return HTTP.GET(String.format("/v2/components/%d/metrics/data.json", componentId), null, queryParams, METRIC_DATA);
     }
 
     /**

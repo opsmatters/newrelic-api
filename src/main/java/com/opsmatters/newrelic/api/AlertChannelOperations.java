@@ -45,7 +45,7 @@ public class AlertChannelOperations extends BaseFluent
      */
     public Collection<AlertChannel> list()
     {
-        return HTTP.GET("/alerts_channels.json", null, null, ALERT_CHANNELS).get();
+        return HTTP.GET("/v2/alerts_channels.json", null, null, ALERT_CHANNELS).get();
     }
 
     /**
@@ -74,7 +74,7 @@ public class AlertChannelOperations extends BaseFluent
      */
     public Optional<AlertChannel> create(AlertChannel channel)
     {
-        return Optional.of(HTTP.POST("/alerts_channels.json", channel, ALERT_CHANNELS).get().iterator().next());
+        return Optional.of(HTTP.POST("/v2/alerts_channels.json", channel, ALERT_CHANNELS).get().iterator().next());
     }
 
     /**
@@ -84,7 +84,7 @@ public class AlertChannelOperations extends BaseFluent
      */
     public AlertChannelOperations delete(long channelId)
     {
-        HTTP.DELETE(String.format("/alerts_channels/%d.json", channelId));
+        HTTP.DELETE(String.format("/v2/alerts_channels/%d.json", channelId));
         return this;
     }
 }

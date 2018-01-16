@@ -49,7 +49,7 @@ public class ApplicationInstanceOperations extends BaseFluent
      */
     public Collection<ApplicationInstance> list(long applicationId, List<String> queryParams)
     {
-        return HTTP.GET(String.format("/applications/%d/instances.json", applicationId), null, queryParams, APPLICATION_INSTANCES).get();
+        return HTTP.GET(String.format("/v2/applications/%d/instances.json", applicationId), null, queryParams, APPLICATION_INSTANCES).get();
     }
 
     /**
@@ -70,7 +70,7 @@ public class ApplicationInstanceOperations extends BaseFluent
      */
     public Optional<ApplicationInstance> show(long applicationId, long instanceId)
     {
-        return HTTP.GET(String.format("/applications/%d/instances/%d.json", applicationId, instanceId), APPLICATION_INSTANCE);
+        return HTTP.GET(String.format("/v2/applications/%d/instances/%d.json", applicationId, instanceId), APPLICATION_INSTANCE);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ApplicationInstanceOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         if(name != null && name.length() > 0)
             queryParams.add("name", name);
-        return HTTP.GET(String.format("/applications/%d/instances/%d/metrics.json", applicationId, instanceId), null, queryParams, METRICS).get();
+        return HTTP.GET(String.format("/v2/applications/%d/instances/%d/metrics.json", applicationId, instanceId), null, queryParams, METRICS).get();
     }
 
     /**
@@ -108,7 +108,7 @@ public class ApplicationInstanceOperations extends BaseFluent
      */
     public Optional<MetricData> metricData(long applicationId, long instanceId, List<String> queryParams)
     {
-        return HTTP.GET(String.format("/applications/%d/instances/%d/metrics/data.json", applicationId, instanceId), null, queryParams, METRIC_DATA);
+        return HTTP.GET(String.format("/v2/applications/%d/instances/%d/metrics/data.json", applicationId, instanceId), null, queryParams, METRIC_DATA);
     }
 
     /**

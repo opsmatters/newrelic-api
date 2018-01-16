@@ -47,7 +47,7 @@ public class AlertEventOperations extends BaseFluent
      */
     public Collection<AlertEvent> list(List<String> queryParams)
     {
-        return HTTP.GET("/alerts_events.json", null, queryParams, ALERT_EVENTS).get();
+        return HTTP.GET("/v2/alerts_events.json", null, queryParams, ALERT_EVENTS).get();
     }
 
     /**

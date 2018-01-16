@@ -44,7 +44,7 @@ public class DeploymentOperations extends BaseFluent
      */
     public Collection<Deployment> list(long applicationId)
     {
-        return HTTP.GET(String.format("/applications/%d/deployments.json", applicationId), null, null, DEPLOYMENTS).get();
+        return HTTP.GET(String.format("/v2/applications/%d/deployments.json", applicationId), null, null, DEPLOYMENTS).get();
     }
 
     /**
@@ -75,7 +75,7 @@ public class DeploymentOperations extends BaseFluent
      */
     public Optional<Deployment> create(long applicationId, Deployment deployment)
     {
-        return HTTP.POST(String.format("/applications/%d/deployments.json", applicationId), deployment, DEPLOYMENT);
+        return HTTP.POST(String.format("/v2/applications/%d/deployments.json", applicationId), deployment, DEPLOYMENT);
     }
 
     /**
@@ -86,7 +86,7 @@ public class DeploymentOperations extends BaseFluent
      */
     public DeploymentOperations delete(long applicationId, long deploymentId)
     {
-        HTTP.DELETE(String.format("/applications/%d/deployments/%d.json", applicationId, deploymentId));       
+        HTTP.DELETE(String.format("/v2/applications/%d/deployments/%d.json", applicationId, deploymentId));       
         return this;
     }
 }

@@ -46,7 +46,7 @@ public class PluginOperations extends BaseFluent
      */
     public Collection<Plugin> list(List<String> queryParams)
     {
-        return HTTP.GET("/plugins.json", null, queryParams, PLUGINS).get();
+        return HTTP.GET("/v2/plugins.json", null, queryParams, PLUGINS).get();
     }
 
     /**
@@ -71,7 +71,7 @@ public class PluginOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("detailed", Boolean.toString(detailed));
-        return HTTP.GET(String.format("/plugins/%d.json", pluginId), null, queryParams, PLUGIN);
+        return HTTP.GET(String.format("/v2/plugins/%d.json", pluginId), null, queryParams, PLUGIN);
     }
 
     /**

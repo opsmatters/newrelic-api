@@ -46,7 +46,7 @@ public class KeyTransactionOperations extends BaseFluent
      */
     public Collection<KeyTransaction> list(List<String> queryParams)
     {
-        return HTTP.GET("/key_transactions.json", null, queryParams, KEY_TRANSACTIONS).get();
+        return HTTP.GET("/v2/key_transactions.json", null, queryParams, KEY_TRANSACTIONS).get();
     }
 
     /**
@@ -65,7 +65,7 @@ public class KeyTransactionOperations extends BaseFluent
      */
     public Optional<KeyTransaction> show(long transactionId)
     {
-        return HTTP.GET(String.format("/key_transactions/%d.json", transactionId), KEY_TRANSACTION);
+        return HTTP.GET(String.format("/v2/key_transactions/%d.json", transactionId), KEY_TRANSACTION);
     }
 
     /**

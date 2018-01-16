@@ -44,7 +44,7 @@ public class BrowserApplicationOperations extends BaseFluent
      */
     public Collection<BrowserApplication> list()
     {
-        return HTTP.GET("/browser_applications.json", BROWSER_APPLICATIONS).get();
+        return HTTP.GET("/v2/browser_applications.json", BROWSER_APPLICATIONS).get();
     }
 
     /**
@@ -56,7 +56,7 @@ public class BrowserApplicationOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("filter[ids]", new Long(applicationId));
-        return Optional.of(HTTP.GET("/browser_applications.json", null, queryParams, BROWSER_APPLICATIONS).get().iterator().next());
+        return Optional.of(HTTP.GET("/v2/browser_applications.json", null, queryParams, BROWSER_APPLICATIONS).get().iterator().next());
     }
 
     /**
@@ -66,6 +66,6 @@ public class BrowserApplicationOperations extends BaseFluent
      */
     public Optional<BrowserApplication> create(BrowserApplication application)
     {
-        return HTTP.POST("/browser_applications.json", application, BROWSER_APPLICATION);
+        return HTTP.POST("/v2/browser_applications.json", application, BROWSER_APPLICATION);
     }
 }

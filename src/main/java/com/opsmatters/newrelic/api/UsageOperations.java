@@ -72,6 +72,6 @@ public class UsageOperations extends BaseFluent
         if(endDate != null)
             queryParams.add("end_date", endDate);
         queryParams.add("include_subaccounts", includeSubaccounts);
-        return HTTP.GET(String.format("/usages/%s.json", product), null, queryParams, USAGE_DATA);
+        return HTTP.GET(String.format("/v2/usages/%s.json", product), null, queryParams, USAGE_DATA);
     }
 }

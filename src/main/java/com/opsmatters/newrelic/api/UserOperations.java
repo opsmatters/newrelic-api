@@ -46,7 +46,7 @@ public class UserOperations extends BaseFluent
      */
     public Collection<User> list(List<String> queryParams)
     {
-        return HTTP.GET("/users.json", null, queryParams, USERS).get();
+        return HTTP.GET("/v2/users.json", null, queryParams, USERS).get();
     }
 
     /**
@@ -65,7 +65,7 @@ public class UserOperations extends BaseFluent
      */
     public Optional<User> show(long userId)
     {
-        return HTTP.GET(String.format("/users/%d.json", userId), USER);
+        return HTTP.GET(String.format("/v2/users/%d.json", userId), USER);
     }
     
     /**
@@ -75,7 +75,7 @@ public class UserOperations extends BaseFluent
      */
     public Optional<User> resetPassword(long userId)
     {
-        return HTTP.POST(String.format("/users/%d/reset_password.json", userId), null, USER);
+        return HTTP.POST(String.format("/v2/users/%d/reset_password.json", userId), null, USER);
     }
 
     /**

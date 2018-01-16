@@ -47,7 +47,7 @@ public class PluginsAlertConditionOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", new Long(policyId));
-        return HTTP.GET("/alerts_plugins_conditions.json", null, queryParams, PLUGINS_ALERT_CONDITIONS).get();
+        return HTTP.GET("/v2/alerts_plugins_conditions.json", null, queryParams, PLUGINS_ALERT_CONDITIONS).get();
     }
 
     /**
@@ -78,7 +78,7 @@ public class PluginsAlertConditionOperations extends BaseFluent
      */
     public Optional<PluginsAlertCondition> create(long policyId, PluginsAlertCondition condition)
     {
-        return HTTP.POST(String.format("/alerts_plugins_conditions/policies/%d.json", policyId), condition, PLUGINS_ALERT_CONDITION);
+        return HTTP.POST(String.format("/v2/alerts_plugins_conditions/policies/%d.json", policyId), condition, PLUGINS_ALERT_CONDITION);
     }
 
     /**
@@ -88,7 +88,7 @@ public class PluginsAlertConditionOperations extends BaseFluent
      */
     public Optional<PluginsAlertCondition> update(PluginsAlertCondition condition)
     {
-        return HTTP.PUT(String.format("/alerts_plugins_conditions/%d.json", condition.getId()), condition, PLUGINS_ALERT_CONDITION);
+        return HTTP.PUT(String.format("/v2/alerts_plugins_conditions/%d.json", condition.getId()), condition, PLUGINS_ALERT_CONDITION);
     }
 
     /**
@@ -98,7 +98,7 @@ public class PluginsAlertConditionOperations extends BaseFluent
      */
     public PluginsAlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts_plugins_conditions/%d.json", conditionId));       
+        HTTP.DELETE(String.format("/v2/alerts_plugins_conditions/%d.json", conditionId));       
         return this;
     }
 }

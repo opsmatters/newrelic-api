@@ -47,7 +47,7 @@ public class MobileApplicationOperations extends BaseFluent
      */
     public Collection<MobileApplication> list()
     {
-        return HTTP.GET("/mobile_applications.json", MOBILE_APPLICATIONS).get();
+        return HTTP.GET("/v2/mobile_applications.json", MOBILE_APPLICATIONS).get();
     }
 
     /**
@@ -57,7 +57,7 @@ public class MobileApplicationOperations extends BaseFluent
      */
     public Optional<MobileApplication> show(long applicationId)
     {
-        return HTTP.GET(String.format("/mobile_applications/%d.json", applicationId), MOBILE_APPLICATION);
+        return HTTP.GET(String.format("/v2/mobile_applications/%d.json", applicationId), MOBILE_APPLICATION);
     }
 
     /**
@@ -71,7 +71,7 @@ public class MobileApplicationOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         if(name != null && name.length() > 0)
             queryParams.add("name", name);
-        return HTTP.GET(String.format("/mobile_applications/%d/metrics.json", applicationId), null, queryParams, METRICS).get();
+        return HTTP.GET(String.format("/v2/mobile_applications/%d/metrics.json", applicationId), null, queryParams, METRICS).get();
     }
 
     /**
@@ -92,7 +92,7 @@ public class MobileApplicationOperations extends BaseFluent
      */
     public Optional<MetricData> metricData(long applicationId, List<String> queryParams)
     {
-        return HTTP.GET(String.format("/mobile_applications/%d/metrics/data.json", applicationId), null, queryParams, METRIC_DATA);
+        return HTTP.GET(String.format("/v2/mobile_applications/%d/metrics/data.json", applicationId), null, queryParams, METRIC_DATA);
     }
 
     /**

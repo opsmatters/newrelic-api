@@ -73,7 +73,7 @@ public class HttpContext
      */
     String buildUrl(String relativePath)
     {    
-        return String.format("%s://%s:%s/v2%s", this.protocol, this.hostname, this.port, relativePath);
+        return String.format("%s://%s:%s/%s", this.protocol, this.hostname, this.port, relativePath);
     }
     
     /**

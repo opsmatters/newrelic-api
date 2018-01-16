@@ -47,7 +47,7 @@ public class InfraAlertConditionOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", policyId);
-        return HTTP.GET("/alerts/conditions", null, queryParams, INFRA_ALERT_CONDITIONS).get();
+        return HTTP.GET("/v2/alerts/conditions", null, queryParams, INFRA_ALERT_CONDITIONS).get();
     }
 
     /**
@@ -57,7 +57,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public Optional<InfraAlertCondition> show(long conditionId)
     {
-        return HTTP.GET(String.format("/alerts/conditions/%d", conditionId), null, null, INFRA_ALERT_CONDITION);
+        return HTTP.GET(String.format("/v2/alerts/conditions/%d", conditionId), null, null, INFRA_ALERT_CONDITION);
     }
    
     /**
@@ -67,7 +67,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public Optional<InfraAlertCondition> create(InfraAlertCondition condition)
     {
-        return HTTP.POST("/alerts/conditions", condition, INFRA_ALERT_CONDITION);
+        return HTTP.POST("/v2/alerts/conditions", condition, INFRA_ALERT_CONDITION);
     }
 
     /**
@@ -77,7 +77,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public Optional<InfraAlertCondition> update(InfraAlertCondition condition)
     {
-        return HTTP.PUT(String.format("/alerts/conditions/%d", condition.getId()), condition, INFRA_ALERT_CONDITION);
+        return HTTP.PUT(String.format("/v2/alerts/conditions/%d", condition.getId()), condition, INFRA_ALERT_CONDITION);
     }
 
     /**
@@ -87,7 +87,7 @@ public class InfraAlertConditionOperations extends BaseFluent
      */
     public InfraAlertConditionOperations delete(long conditionId)
     {
-        HTTP.DELETE(String.format("/alerts/conditions/%d", conditionId));       
+        HTTP.DELETE(String.format("/v2/alerts/conditions/%d", conditionId));       
         return this;
     }
 }

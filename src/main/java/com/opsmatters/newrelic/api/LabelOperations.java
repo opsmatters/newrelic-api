@@ -43,7 +43,7 @@ public class LabelOperations extends BaseFluent
      */
     public Collection<Label> list()
     {
-        return HTTP.GET("/labels.json", null, null, LABELS).get();
+        return HTTP.GET("/v2/labels.json", null, null, LABELS).get();
     }
 
     /**
@@ -72,7 +72,7 @@ public class LabelOperations extends BaseFluent
      */
     public Optional<Label> create(Label label)
     {
-        return HTTP.PUT("/labels.json", label, LABEL);
+        return HTTP.PUT("/v2/labels.json", label, LABEL);
     }
 
     /**
@@ -82,7 +82,7 @@ public class LabelOperations extends BaseFluent
      */
     public LabelOperations delete(String key)
     {
-        HTTP.DELETE(String.format("/labels/%s.json", key));       
+        HTTP.DELETE(String.format("/v2/labels/%s.json", key));       
         return this;
     }
 }

@@ -49,7 +49,7 @@ public class AlertEntityConditionOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("entity_type", entityType);
-        return HTTP.GET(String.format("/alerts_entity_conditions/%d.json", entityId), null, queryParams, ALERT_CONDITIONS).get();
+        return HTTP.GET(String.format("/v2/alerts_entity_conditions/%d.json", entityId), null, queryParams, ALERT_CONDITIONS).get();
     }
 
     /**
@@ -74,7 +74,7 @@ public class AlertEntityConditionOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("entity_type", entityType);
         queryParams.add("condition_id", conditionId);
-        return HTTP.PUT(String.format("/alerts_entity_conditions/%d.json", entityId), null, null, queryParams, ALERT_CONDITION);
+        return HTTP.PUT(String.format("/v2/alerts_entity_conditions/%d.json", entityId), null, null, queryParams, ALERT_CONDITION);
     }
 
     /**
@@ -100,7 +100,7 @@ public class AlertEntityConditionOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("entity_type", entityType);
         queryParams.add("condition_id", conditionId);
-        HTTP.DELETE(String.format("/alerts_entity_conditions/%d.json", entityId), null, queryParams);       
+        HTTP.DELETE(String.format("/v2/alerts_entity_conditions/%d.json", entityId), null, queryParams);       
         return this;
     }
 

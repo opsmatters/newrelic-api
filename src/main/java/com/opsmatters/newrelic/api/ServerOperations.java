@@ -50,7 +50,7 @@ public class ServerOperations extends BaseFluent
      */
     public Collection<Server> list(List<String> queryParams)
     {
-        return HTTP.GET("/servers.json", null, queryParams, SERVERS).get();
+        return HTTP.GET("/v2/servers.json", null, queryParams, SERVERS).get();
     }
 
     /**
@@ -69,7 +69,7 @@ public class ServerOperations extends BaseFluent
      */
     public Optional<Server> show(long serverId)
     {
-        return HTTP.GET(String.format("/servers/%d.json", serverId), SERVER);
+        return HTTP.GET(String.format("/v2/servers/%d.json", serverId), SERVER);
     }
 
     /**
@@ -79,7 +79,7 @@ public class ServerOperations extends BaseFluent
      */
     public Optional<Server> update(Server server)
     {
-        return HTTP.PUT(String.format("/servers/%d.json", server.getId()), server, SERVER);
+        return HTTP.PUT(String.format("/v2/servers/%d.json", server.getId()), server, SERVER);
     }
 
     /**
@@ -89,7 +89,7 @@ public class ServerOperations extends BaseFluent
      */
     public ServerOperations delete(long serverId)
     {
-        HTTP.DELETE(String.format("/servers/%d.json", serverId));       
+        HTTP.DELETE(String.format("/v2/servers/%d.json", serverId));       
         return this;
     }
 
@@ -104,7 +104,7 @@ public class ServerOperations extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         if(name != null && name.length() > 0)
             queryParams.add("name", name);
-        return HTTP.GET(String.format("/servers/%d/metrics.json", serverId), null, queryParams, METRICS).get();
+        return HTTP.GET(String.format("/v2/servers/%d/metrics.json", serverId), null, queryParams, METRICS).get();
     }
 
     /**
@@ -125,7 +125,7 @@ public class ServerOperations extends BaseFluent
      */
     public Optional<MetricData> metricData(long serverId, List<String> queryParams)
     {
-        return HTTP.GET(String.format("/servers/%d/metrics/data.json", serverId), null, queryParams, METRIC_DATA);
+        return HTTP.GET(String.format("/v2/servers/%d/metrics/data.json", serverId), null, queryParams, METRIC_DATA);
     }
 
     /**

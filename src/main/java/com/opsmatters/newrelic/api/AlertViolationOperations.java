@@ -56,6 +56,6 @@ public class AlertViolationOperations extends BaseFluent
         if(endDate > 0L)
             queryParams.add("end_date", Utils.getUtcDateTime(endDate));
         queryParams.add("only_open", onlyOpen);
-        return HTTP.GET("/alerts_violations.json", null, queryParams, ALERT_VIOLATIONS).get();
+        return HTTP.GET("/v2/alerts_violations.json", null, queryParams, ALERT_VIOLATIONS).get();
     }
 }

@@ -46,6 +46,6 @@ public class AlertIncidentOperations extends BaseFluent
     {
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("only_open", onlyOpen);
-        return HTTP.GET("/alerts_incidents.json", null, queryParams, ALERT_INCIDENTS).get();
+        return HTTP.GET("/v2/alerts_incidents.json", null, queryParams, ALERT_INCIDENTS).get();
     }
 }
