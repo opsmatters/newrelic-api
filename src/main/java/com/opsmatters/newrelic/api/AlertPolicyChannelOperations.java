@@ -17,7 +17,7 @@
 package com.opsmatters.newrelic.api;
 
 import com.google.common.base.Optional;
-import com.opsmatters.newrelic.api.model.policies.AlertPolicyChannel;
+import com.opsmatters.newrelic.api.model.alerts.policies.AlertPolicyChannel;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**

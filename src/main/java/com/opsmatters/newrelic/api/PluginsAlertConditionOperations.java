@@ -18,7 +18,7 @@ package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
 import com.google.common.base.Optional;
-import com.opsmatters.newrelic.api.model.conditions.PluginsAlertCondition;
+import com.opsmatters.newrelic.api.model.alerts.conditions.PluginsAlertCondition;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**

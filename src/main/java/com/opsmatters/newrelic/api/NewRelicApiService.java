@@ -16,12 +16,7 @@
 
 package com.opsmatters.newrelic.api;
 
-//GERALD: check
-//import java.util.List;
-//import java.util.Map;
 import java.util.logging.Logger;
-//import javax.ws.rs.client.Client;
-//import javax.ws.rs.core.GenericType;
 import com.opsmatters.newrelic.httpclient.ApiKeyHttpClientProvider;
 import com.opsmatters.newrelic.httpclient.HttpClientProvider;
 

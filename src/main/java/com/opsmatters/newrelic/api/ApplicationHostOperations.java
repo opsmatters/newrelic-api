@@ -19,9 +19,9 @@ package com.opsmatters.newrelic.api;
 import java.util.Collection;
 import java.util.List;
 import com.google.common.base.Optional;
-import com.opsmatters.newrelic.api.model.entities.ApplicationHost;
-import com.opsmatters.newrelic.api.model.entities.Metric;
-import com.opsmatters.newrelic.api.model.entities.MetricData;
+import com.opsmatters.newrelic.api.model.applications.ApplicationHost;
+import com.opsmatters.newrelic.api.model.metrics.Metric;
+import com.opsmatters.newrelic.api.model.metrics.MetricData;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**

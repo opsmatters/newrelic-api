@@ -21,9 +21,9 @@ import java.util.Map;
 import java.util.List;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-import com.opsmatters.newrelic.api.model.entities.Application;
-import com.opsmatters.newrelic.api.model.entities.Metric;
-import com.opsmatters.newrelic.api.model.entities.MetricData;
+import com.opsmatters.newrelic.api.model.applications.Application;
+import com.opsmatters.newrelic.api.model.metrics.Metric;
+import com.opsmatters.newrelic.api.model.metrics.MetricData;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**

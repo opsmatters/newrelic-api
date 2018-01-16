@@ -16,7 +16,6 @@
 
 package com.opsmatters.newrelic.api;
 
-//GERALD: check
 import java.util.logging.Logger;
 import com.opsmatters.newrelic.httpclient.ApiKeyHttpClientProvider;
 import com.opsmatters.newrelic.httpclient.HttpClientProvider;

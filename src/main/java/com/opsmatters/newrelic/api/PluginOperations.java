@@ -19,7 +19,7 @@ package com.opsmatters.newrelic.api;
 import java.util.Collection;
 import java.util.List;
 import com.google.common.base.Optional;
-import com.opsmatters.newrelic.api.model.entities.Plugin;
+import com.opsmatters.newrelic.api.model.plugins.Plugin;
 import com.opsmatters.newrelic.util.QueryParameterList;
 
 /**
