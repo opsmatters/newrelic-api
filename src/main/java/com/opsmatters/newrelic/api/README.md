@@ -37,7 +37,7 @@
 - [Monitors](#monitors)
 - [Locations](#locations)
 
-#### Other v2 APIs
+#### Accounts v2 APIs
 - [Users](#users)
 - [Usages](#usages)
 

@@ -42,7 +42,7 @@ The following New Relic APIs are currently supported:
 * Monitors (List, Show, Show Script, Create, Update, Update Script, Patch, Delete)
 * Locations (List)
 
-### Other v2 APIs
+### Accounts v2 APIs
 * Users (List, Show, Reset Password)
 * Usages (List)
 
