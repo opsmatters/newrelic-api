@@ -86,6 +86,7 @@ import com.opsmatters.newrelic.api.model.synthetics.SimpleMonitor;
 import com.opsmatters.newrelic.api.model.synthetics.ScriptBrowserMonitor;
 import com.opsmatters.newrelic.api.model.synthetics.Script;
 import com.opsmatters.newrelic.api.model.synthetics.ScriptLocation;
+import com.opsmatters.newrelic.api.model.synthetics.Location;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -412,9 +413,13 @@ public class NewRelicApiTest
         NewRelicSyntheticsApiService api = getSyntheticsService();
         Assert.assertNotNull(api);
 
+        // Get all the locations
+        Collection<Location> locations = getLocations(api);
+        Location location = locations.iterator().next();
+
         // Create the simple monitor
         Monitor simpleMonitor = createMonitor(api, 
-            getSimpleMonitor(simpleMonitorName, monitorUrl));
+            getSimpleMonitor(simpleMonitorName, monitorUrl, location));
 
         // Update the simple monitor
         simpleMonitor.setName(simpleMonitor.getName()+"-updated");
@@ -432,7 +437,7 @@ public class NewRelicApiTest
 
         // Create the script monitor
         Monitor scriptMonitor = createMonitor(api, 
-            getScriptMonitor(scriptMonitorName, monitorUrl));
+            getScriptMonitor(scriptMonitorName, monitorUrl, location));
         Script script = updateMonitorScript(api, scriptMonitor, getScript());
 
         // Update the script monitor
@@ -1675,6 +1680,52 @@ public class NewRelicApiTest
         return ret;
     }
 
+    public Monitor getSimpleMonitor(String name, String url, Location location)
+    {
+        return SimpleMonitor.builder()
+            .name(name)
+            .frequency(Monitor.Frequency.MINUTES_60)
+            .uri(url)
+            .slaThreshold(1.0)
+            .status(Monitor.Status.ENABLED)
+            .addLocation(location.getName())
+            .validationStringOption("html")
+            .verifySslOption(true)
+            .build();
+    }
+
+    public Monitor getScriptMonitor(String name, String url, Location location)
+    {
+        return ScriptBrowserMonitor.builder()
+            .name(name)
+            .frequency(Monitor.Frequency.MINUTES_60)
+            .slaThreshold(1.0)
+            .status(Monitor.Status.ENABLED)
+            .addLocation(location.getName())
+            .build();
+    }
+
+    public Script getScript()
+    {
+        ScriptLocation location = ScriptLocation.builder()
+            .name("my_vse_enabled_location")
+            .hmac("MjhiNGE4MjVlMDE1N2M4NDQ4MjNjNDFkZDEyYTRjMmUzZDE3NGJlNjU0MWFmOTJlMzNiODExOGU2ZjhkZTY4")
+            .build();
+
+        return Script.builder()
+            .scriptText("dmFyIGFzc2VydCA9IHJlcXVpcmUoJ2Fzc2VydCcpOw0KYXNzZXJ0LmVxdWFsKCcxJywgJzEnKTs=")
+            //.addScriptLocation(location) // Only for private locations
+            .build();
+    }
+
+    public Monitor getMonitor(NewRelicSyntheticsApiService api, String id)
+    {
+        logger.info("Get monitor: "+id);
+        Monitor ret = api.monitors().show(id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
     public Collection<Monitor> getMonitors(NewRelicSyntheticsApiService api)
     {
         Collection<Monitor> ret = null;
@@ -1690,52 +1741,6 @@ public class NewRelicApiTest
         }
 
         return ret;
-    }
-
-    public Monitor getMonitor(NewRelicSyntheticsApiService api, String id)
-    {
-        logger.info("Get monitor: "+id);
-        Monitor ret = api.monitors().show(id).get();
-        Assert.assertNotNull(ret);
-        return ret;
-    }
-
-    public Monitor getSimpleMonitor(String name, String url)
-    {
-        return SimpleMonitor.builder()
-            .name(name)
-            .frequency(Monitor.Frequency.MINUTES_60)
-            .uri(url)
-            .slaThreshold(1.0)
-            .status(Monitor.Status.ENABLED)
-            .addLocation("LINODE_EU_WEST_1")
-            .validationStringOption("html")
-            .verifySslOption(true)
-            .build();
-    }
-
-    public Monitor getScriptMonitor(String name, String url)
-    {
-        return ScriptBrowserMonitor.builder()
-            .name(name)
-            .frequency(Monitor.Frequency.MINUTES_60)
-            .slaThreshold(1.0)
-            .status(Monitor.Status.ENABLED)
-            .addLocation("LINODE_EU_WEST_1")
-            .build();
-    }
-
-    public Script getScript()
-    {
-        ScriptLocation location = ScriptLocation.builder()
-            .name("my_vse_enabled_location")
-            .hmac("MjhiNGE4MjVlMDE1N2M4NDQ4MjNjNDFkZDEyYTRjMmUzZDE3NGJlNjU0MWFmOTJlMzNiODExOGU2ZjhkZTY4")
-            .build();
-
-        return Script.builder()
-            .scriptText("dmFyIGFzc2VydCA9IHJlcXVpcmUoJ2Fzc2VydCcpOw0KYXNzZXJ0LmVxdWFsKCcxJywgJzEnKTs=")
-            //.addScriptLocation(location) // Only for private locations
-            .build();
     }
 
     public Monitor createMonitor(NewRelicSyntheticsApiService api, Monitor input)
@@ -1811,5 +1816,22 @@ public class NewRelicApiTest
              if(e.getMessage().indexOf("404 Not Found") == -1) // throws 404
                  Assert.fail("Error in get monitors: "+e.getMessage());
         }
+    }
+
+    public Collection<Location> getLocations(NewRelicSyntheticsApiService api)
+    {
+        Collection<Location> ret = null;
+
+        try
+        {
+            logger.info("Get locations: ");
+            ret = api.locations().list();
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get locations: "+e.getMessage());
+        }
+
+        return ret;
     }
 }

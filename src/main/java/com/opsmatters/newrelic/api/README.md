@@ -35,6 +35,7 @@
 
 #### Synthetics v3 API
 - [Monitors](#monitors)
+- [Locations](#locations)
 
 #### Other v2 APIs
 - [Users](#users)
@@ -699,6 +700,12 @@ Other operations have also been included for monitors:
 * update(monitor): updates the monitor with the given details (full update).
 * patch(monitor): updates the monitor with the given details (partial update).
 * delete(monitorId): deletes the monitor with the given id.
+
+### Locations
+To list the valid locations call the "list" operation:
+```
+Collection<Location> locations = syntheticsApi.locations().list();
+```
 
 ### Users
 To list the users call the "list" operation with a set of filters:

@@ -40,6 +40,7 @@ The following New Relic APIs are currently supported:
 
 ### Synthetics v3 APIs
 * Monitors (List, Show, Show Script, Create, Update, Update Script, Patch, Delete)
+* Locations (List)
 
 ### Other v2 APIs
 * Users (List, Show, Reset Password)
@@ -80,7 +81,7 @@ The following tests are included:
 * ApplicationOperationsTest: Creates or gets several types of applications, and then carries out various operations on them.
 * UserOperationsTest: Gets the users for an account.
 * UsageOperationsTest: Gets the usages for a product.
-* SyntheticsOperationsTest: Creates several types of monitors, and then deletes.
+* SyntheticsOperationsTest: Creates several types of monitors, and then deletes. Gets the list of locations.
 
 ## Examples
 
@@ -95,7 +96,7 @@ Add the following dependency to include the artefact within your project:
 <dependency>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 

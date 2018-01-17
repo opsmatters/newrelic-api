@@ -87,6 +87,16 @@ public class NewRelicSyntheticsApiService extends NewRelicService
     }
 
     /**
+     * Returns the operations related to Synthetics locations.
+     * @return The Synthetics location operations
+     */
+    public LocationOperations locations()
+    {
+        checkInitialize();
+        return new LocationOperations(httpContext, this);
+    }
+
+    /**
      * Returns a builder for the NewRelicSyntheticsApiService.
      * @return The builder instance.
      */

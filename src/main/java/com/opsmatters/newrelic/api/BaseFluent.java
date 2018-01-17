@@ -50,6 +50,7 @@ import com.opsmatters.newrelic.api.model.accounts.User;
 import com.opsmatters.newrelic.api.model.accounts.UsageData;
 import com.opsmatters.newrelic.api.model.synthetics.Monitor;
 import com.opsmatters.newrelic.api.model.synthetics.Script;
+import com.opsmatters.newrelic.api.model.synthetics.Location;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -140,6 +141,8 @@ public class BaseFluent
     protected static final GenericType<Collection<Monitor>> MONITORS = new GenericType<Collection<Monitor>>(){};
 
     protected static final GenericType<Script> SCRIPT = new GenericType<Script>(){};
+
+    protected static final GenericType<Collection<Location>> LOCATIONS = new GenericType<Collection<Location>>(){};
 
     protected HttpContext HTTP;
     private NewRelicService service;
