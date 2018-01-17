@@ -33,6 +33,9 @@
 - [Deployments](#deployments)
 - [Labels](#labels)
 
+#### Synthetics v3 API
+- [Monitors](#monitors)
+
 #### Other v2 APIs
 - [Users](#users)
 - [Usages](#usages)

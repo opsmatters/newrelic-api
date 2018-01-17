@@ -74,6 +74,7 @@ public abstract class NewRelicService
         Client client = provider.getClient();
         String protocol = provider.useSsl() ? "https" : "http";
         httpContext = new HttpContext(client, protocol, hostname, port);
+        httpContext.setUriPrefix(getUriPrefix());
         httpContext.setThrowExceptions(handleErrors);
         String className = getClass().getName();
         logger.info(className.substring(className.lastIndexOf(".")+1)+" initialized");
@@ -134,6 +135,17 @@ public abstract class NewRelicService
     public boolean handleErrors()
     {
         return handleErrors;
+    }
+
+    /**
+     * Returns the uri prefix for resources used by the service.
+     * <P>
+     * Defaults to an empty prefix.
+     * @return The uri prefix for the service
+     */
+    public String getUriPrefix()
+    {
+        return "";
     }
   
     /**

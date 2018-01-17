@@ -28,6 +28,7 @@ import com.google.common.base.Optional;
 import org.apache.commons.lang3.ArrayUtils;
 import com.opsmatters.newrelic.api.NewRelicApiService;
 import com.opsmatters.newrelic.api.NewRelicInfraApiService;
+import com.opsmatters.newrelic.api.NewRelicSyntheticsApiService;
 import com.opsmatters.newrelic.api.AlertEventOperations;
 import com.opsmatters.newrelic.api.ApplicationOperations;
 import com.opsmatters.newrelic.api.ApplicationHostOperations;
@@ -80,6 +81,11 @@ import com.opsmatters.newrelic.api.model.labels.Label;
 import com.opsmatters.newrelic.api.model.accounts.User;
 import com.opsmatters.newrelic.api.model.accounts.UsageData;
 import com.opsmatters.newrelic.api.model.accounts.Product;
+import com.opsmatters.newrelic.api.model.synthetics.Monitor;
+import com.opsmatters.newrelic.api.model.synthetics.SimpleMonitor;
+import com.opsmatters.newrelic.api.model.synthetics.ScriptBrowserMonitor;
+import com.opsmatters.newrelic.api.model.synthetics.Script;
+import com.opsmatters.newrelic.api.model.synthetics.ScriptLocation;
 
 /**
  * The set of tests used for New Relic API operations.
@@ -101,15 +107,18 @@ public class NewRelicApiTest
     private String externalServiceConditionName = "test-external-service-condition";
     private String pluginsConditionName = "test-plugins-condition";
     private String syntheticsConditionName = "test-synthetics-condition";
-    private String applicationName = "test-application-";
+    private String applicationName = "test-application";
     private String browserApplicationName = "test-browser-application-"+System.currentTimeMillis();
     private String deploymentDescription = "deployment-"+System.currentTimeMillis();
     private String labelCategory = "production";
     private String labelName = "label-"+System.currentTimeMillis();
+    private String simpleMonitorName = "test-simple-monitor";
+    private String scriptMonitorName = "test-script-monitor";
     private String whereClause = "env=prod";
     private String email = "alerts@test.com";
     private String channel = "#slack";
     private String webhookUrl = "https://hooks.slack.com/services/T8LVC2SGM/B8M02K7yy/k7SrSQGoluE2olG3LpmH4sxx";
+    private String monitorUrl = "http://google.com";
 
     @Test
     public void testAlertOperations()
@@ -254,7 +263,7 @@ public class NewRelicApiTest
             Deployment deployment = createDeployment(api, application.getId(),
                 getDeployment(deploymentDescription));
             getDeployments(api, application.getId());
-            deleteDeployment(api, application.getId(), deployment.getId());
+            deleteDeployment(api, application, deployment);
         }
 
         Collection<ApplicationHost> applicationHosts = null;
@@ -340,7 +349,7 @@ public class NewRelicApiTest
             Iterator<Label> it = labels.iterator();
             Label label = it.next();
             label = getLabel(api, label.getKey());
-            deleteLabel(api, label.getKey());
+            deleteLabel(api, label);
         }
 
         logger.info("Completed test: "+testName);
@@ -391,6 +400,65 @@ public class NewRelicApiTest
         logger.info("Completed test: "+testName);
     }
 
+    @Test
+    public void testSyntheticsOperations()
+    {
+        String testName = "SyntheticsOperationsTest";
+        logger.info("Starting test: "+testName);
+
+        // Initialise the services
+        logger.info("Initialise the service");
+
+        NewRelicSyntheticsApiService api = getSyntheticsService();
+        Assert.assertNotNull(api);
+
+        // Create the simple monitor
+        Monitor simpleMonitor = createMonitor(api, 
+            getSimpleMonitor(simpleMonitorName, monitorUrl));
+
+        // Update the simple monitor
+        simpleMonitor.setName(simpleMonitor.getName()+"-updated");
+        simpleMonitor.setFrequency(Monitor.Frequency.MINUTES_15);
+        updateMonitor(api, simpleMonitor);
+
+        // Patch the simple monitor
+        SimpleMonitor patchSimpleMonitor = new SimpleMonitor();
+        patchSimpleMonitor.setId(simpleMonitor.getId());
+        patchSimpleMonitor.setType((String)null); // "type" causes error in PATCH
+        patchSimpleMonitor.setName(simpleMonitor.getName()+"-patched");
+        patchSimpleMonitor.setFrequency(Monitor.Frequency.MINUTES_30);
+        patchSimpleMonitor.setLocations(simpleMonitor.getLocations());
+        patchMonitor(api, patchSimpleMonitor);
+
+        // Create the script monitor
+        Monitor scriptMonitor = createMonitor(api, 
+            getScriptMonitor(scriptMonitorName, monitorUrl));
+        Script script = updateMonitorScript(api, scriptMonitor, getScript());
+
+        // Update the script monitor
+        scriptMonitor.setName(scriptMonitor.getName()+"-updated");
+        scriptMonitor.setFrequency(Monitor.Frequency.MINUTES_15);
+        updateMonitor(api, scriptMonitor);
+
+        // Patch the script monitor
+        ScriptBrowserMonitor patchScriptMonitor = new ScriptBrowserMonitor();
+        patchScriptMonitor.setId(scriptMonitor.getId());
+        patchScriptMonitor.setType((String)null); // "type" causes error in PATCH
+        patchScriptMonitor.setName(scriptMonitor.getName()+"-patched");
+        patchScriptMonitor.setFrequency(Monitor.Frequency.MINUTES_30);
+        patchScriptMonitor.setLocations(scriptMonitor.getLocations());
+        patchMonitor(api, patchScriptMonitor);
+
+        // Get all the monitors
+        Collection<Monitor> monitors = getMonitors(api);
+
+        // Delete all the monitors
+        deleteMonitor(api, simpleMonitor);
+        deleteMonitor(api, scriptMonitor);
+
+        logger.info("Completed test: "+testName);
+    }
+
     public NewRelicApiService getService()
     {
         return NewRelicApiService.builder()
@@ -401,6 +469,13 @@ public class NewRelicApiTest
     public NewRelicInfraApiService getInfraService()
     {
         return NewRelicInfraApiService.builder()
+            .apiKey(key)
+            .build();
+	}
+
+    public NewRelicSyntheticsApiService getSyntheticsService()
+    {
+        return NewRelicSyntheticsApiService.builder()
             .apiKey(key)
             .build();
 	}
@@ -1418,11 +1493,11 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public void deleteDeployment(NewRelicApiService api, long applicationId, long deploymentId)
+    public void deleteDeployment(NewRelicApiService api, Application application, Deployment deployment)
     {
-        logger.info("Delete deployment: "+deploymentId);
-        api.deployments().delete(applicationId, deploymentId);
-        Optional<Deployment> ret = api.deployments().show(applicationId, deploymentId);
+        logger.info("Delete deployment: "+deployment.getId());
+        api.deployments().delete(application.getId(), deployment.getId());
+        Optional<Deployment> ret = api.deployments().show(application.getId(), deployment.getId());
         Assert.assertFalse(ret.isPresent());
     }
 
@@ -1542,11 +1617,11 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public void deleteLabel(NewRelicApiService api, String key)
+    public void deleteLabel(NewRelicApiService api, Label label)
     {
-        logger.info("Delete label: "+key);
-        api.labels().delete(key);
-        Optional<Label> ret = api.labels().show(key);
+        logger.info("Delete label: "+label.getKey());
+        api.labels().delete(label.getKey());
+        Optional<Label> ret = api.labels().show(label.getKey());
         Assert.assertFalse(ret.isPresent());
     }
 
@@ -1598,5 +1673,143 @@ public class NewRelicApiTest
         UsageData ret = api.usages().list(product, startDate, endDate, true).get();
         Assert.assertNotNull(ret);
         return ret;
+    }
+
+    public Collection<Monitor> getMonitors(NewRelicSyntheticsApiService api)
+    {
+        Collection<Monitor> ret = null;
+
+        try
+        {
+            logger.info("Get monitors: ");
+            ret = api.monitors().list();
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get monitors: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Monitor getMonitor(NewRelicSyntheticsApiService api, String id)
+    {
+        logger.info("Get monitor: "+id);
+        Monitor ret = api.monitors().show(id).get();
+        Assert.assertNotNull(ret);
+        return ret;
+    }
+
+    public Monitor getSimpleMonitor(String name, String url)
+    {
+        return SimpleMonitor.builder()
+            .name(name)
+            .frequency(Monitor.Frequency.MINUTES_60)
+            .uri(url)
+            .slaThreshold(1.0)
+            .status(Monitor.Status.ENABLED)
+            .addLocation("LINODE_EU_WEST_1")
+            .validationStringOption("html")
+            .verifySslOption(true)
+            .build();
+    }
+
+    public Monitor getScriptMonitor(String name, String url)
+    {
+        return ScriptBrowserMonitor.builder()
+            .name(name)
+            .frequency(Monitor.Frequency.MINUTES_60)
+            .slaThreshold(1.0)
+            .status(Monitor.Status.ENABLED)
+            .addLocation("LINODE_EU_WEST_1")
+            .build();
+    }
+
+    public Script getScript()
+    {
+        ScriptLocation location = ScriptLocation.builder()
+            .name("my_vse_enabled_location")
+            .hmac("MjhiNGE4MjVlMDE1N2M4NDQ4MjNjNDFkZDEyYTRjMmUzZDE3NGJlNjU0MWFmOTJlMzNiODExOGU2ZjhkZTY4")
+            .build();
+
+        return Script.builder()
+            .scriptText("dmFyIGFzc2VydCA9IHJlcXVpcmUoJ2Fzc2VydCcpOw0KYXNzZXJ0LmVxdWFsKCcxJywgJzEnKTs=")
+            //.addScriptLocation(location) // Only for private locations
+            .build();
+    }
+
+    public Monitor createMonitor(NewRelicSyntheticsApiService api, Monitor input)
+    {
+        logger.info("Create monitor: "+input.getName());
+        Monitor monitor = api.monitors().create(input).get();
+
+        // Get the monitor
+        {
+            logger.info("Get monitor: "+monitor.getId());
+            Optional<Monitor> ret = api.monitors().show(monitor.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        return monitor;
+    }
+
+    public void updateMonitor(NewRelicSyntheticsApiService api, Monitor input)
+    {
+        try
+        {
+            logger.info("Update monitor: "+input.getName());
+            Optional<Monitor> ret = api.monitors().update(input);
+            Assert.assertTrue(ret.isPresent());
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in update monitor: "+e.getMessage());
+        }
+    }
+
+    public Script updateMonitorScript(NewRelicSyntheticsApiService api, Monitor monitor, Script input)
+    {
+        logger.info("Update monitor script: "+monitor.getName());
+        Script script = api.monitors().updateScript(monitor.getId(), input).get();
+
+        // Get the script
+        {
+            logger.info("Get monitor script: "+monitor.getId());
+            Optional<Script> ret = api.monitors().showScript(monitor.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        return script;
+    }
+
+    public void patchMonitor(NewRelicSyntheticsApiService api, Monitor input)
+    {
+        try
+        {
+            logger.info("Patch monitor: "+input.getName());
+            Optional<Monitor> ret = api.monitors().patch(input);
+            Assert.assertTrue(ret.isPresent());
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in patch monitor: "+e.getMessage());
+        }
+    }
+
+    public void deleteMonitor(NewRelicSyntheticsApiService api, Monitor monitor)
+    {
+        logger.info("Delete monitor: "+monitor.getId());
+        api.monitors().delete(monitor.getId());
+
+        try
+        {
+            Optional<Monitor> ret = api.monitors().show(monitor.getId());
+            Assert.assertFalse(ret.isPresent());
+        }
+        catch(RuntimeException e)
+        {
+             if(e.getMessage().indexOf("404 Not Found") == -1) // throws 404
+                 Assert.fail("Error in get monitors: "+e.getMessage());
+        }
     }
 }

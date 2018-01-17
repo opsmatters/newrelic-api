@@ -38,6 +38,9 @@ The following New Relic APIs are currently supported:
 * Deployments (List, Create, Delete)
 * Labels (List, Create, Delete)
 
+### Synthetics v3 APIs
+* Monitors (List, Show, Create, CreateScript, Update, Patch, Delete)
+
 ### Other v2 APIs
 * Users (List, Show, Reset Password)
 * Usages (List)
@@ -77,6 +80,7 @@ The following tests are included:
 * ApplicationOperationsTest: Creates or gets several types of applications, and then carries out various operations on them.
 * UserOperationsTest: Gets the users for an account.
 * UsageOperationsTest: Gets the usages for a product.
+* SyntheticsOperationsTest: Creates several types of monitors, and then deletes.
 
 ## Examples
 

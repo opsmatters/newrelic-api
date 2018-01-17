@@ -22,6 +22,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Configuration;
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import org.glassfish.jersey.logging.LoggingFeature;
 import com.opsmatters.newrelic.httpclient.filters.ApiKeyFilter;
 
@@ -65,6 +66,7 @@ public class ApiKeyHttpClientProvider implements HttpClientProvider
         ClientConfig config = new ClientConfig();
         config.register(GsonMessageBodyHandler.class);   
         Client client = ClientBuilder.newClient(config);
+        client.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true); // To support PATCH method
         client.register(new ApiKeyFilter(this.apikey));
         if(logger.isLoggable(Level.FINE))
             client.register(new LoggingFeature(logger, Level.FINE, LoggingFeature.Verbosity.PAYLOAD_TEXT, 8192));

@@ -24,10 +24,11 @@ import com.opsmatters.newrelic.api.model.NamedResource;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class Label extends NamedResource
+public class Label implements NamedResource
 {
     private String key;
     private String category;
+    private String name;
 
     @SerializedName("application_health_status")
     private HealthStatus applicationHealthStatus;
@@ -81,6 +82,24 @@ public class Label extends NamedResource
     }
 
     /**
+     * Sets the name of the label.
+     * @param name The name of the label
+     */
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    /**
+     * Returns the name of the label.
+     * @return The name of the label
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
      * Returns the application health status for the label.
      * @return The application health status for the label
      */
@@ -125,6 +144,7 @@ public class Label extends NamedResource
         return "Label ["+super.toString()
             +", key="+key
             +", category="+category
+            +", name="+name
             +", applicationHealthStatus="+applicationHealthStatus
             +", serverHealthStatus="+serverHealthStatus
             +", links="+links

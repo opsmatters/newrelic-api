@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.alerts.conditions;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.NamedIdResource;
 
 /**
  * Represents the base class for all New Relic alert conditions.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class BaseCondition extends NamedResource
+public abstract class BaseCondition extends NamedIdResource
 {
     private Boolean enabled;
 

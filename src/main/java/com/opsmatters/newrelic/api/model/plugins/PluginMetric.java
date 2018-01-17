@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.plugins;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.NamedIdResource;
 
 /**
  * Represents a New Relic plugin metric summary.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class PluginMetric extends NamedResource
+public class PluginMetric extends NamedIdResource
 {
     private String metric;
 

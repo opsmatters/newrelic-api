@@ -17,7 +17,7 @@
 package com.opsmatters.newrelic.api.model.alerts;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.IdResource;
 import com.opsmatters.newrelic.api.model.EntityType;
 import com.opsmatters.newrelic.api.model.accounts.Product;
 
@@ -26,7 +26,7 @@ import com.opsmatters.newrelic.api.model.accounts.Product;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertEvent extends NamedResource
+public class AlertEvent extends IdResource
 {
     @SerializedName("event_type")
     private String eventType;

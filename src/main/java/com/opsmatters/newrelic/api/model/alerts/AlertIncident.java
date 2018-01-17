@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.alerts;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.IdResource;
 
 /**
  * Represents a New Relic alert incident.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertIncident extends NamedResource
+public class AlertIncident extends IdResource
 {
     @SerializedName("incident_preference")
     private String incidentPreference;

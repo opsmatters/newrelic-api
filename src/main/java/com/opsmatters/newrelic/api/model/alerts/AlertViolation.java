@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.alerts;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.IdResource;
 
 /**
  * Represents a New Relic alert violation.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertViolation extends NamedResource
+public class AlertViolation extends IdResource
 {
     @SerializedName("label")
     private String label;

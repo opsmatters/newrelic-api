@@ -65,16 +65,22 @@ public class AlertConditionsDeserializer implements JsonDeserializer<Collection<
                         {
                             case APM_APP:
                                 values.add(gson.fromJson(condition, ApmAppAlertCondition.class));
+                                break;
                             case APM_KEY_TRANSACTION:
                                 values.add(gson.fromJson(condition, ApmKeyTransactionAlertCondition.class));
+                                break;
                             case APM_JVM:
                                 values.add(gson.fromJson(condition, ApmJvmAlertCondition.class));
+                                break;
                             case SERVERS:
                                 values.add(gson.fromJson(condition, ServersAlertCondition.class));
+                                break;
                             case BROWSER:
                                 values.add(gson.fromJson(condition, BrowserAlertCondition.class));
+                                break;
                             case MOBILE:
                                 values.add(gson.fromJson(condition, MobileAlertCondition.class));
+                                break;
                         }
                     }
                 }

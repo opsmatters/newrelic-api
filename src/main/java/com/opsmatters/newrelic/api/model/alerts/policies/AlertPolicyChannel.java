@@ -19,14 +19,14 @@ package com.opsmatters.newrelic.api.model.alerts.policies;
 import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.IdResource;
 
 /**
  * Represents a New Relic alert policy channel.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicyChannel extends NamedResource
+public class AlertPolicyChannel extends IdResource
 {
     @SerializedName("channel_ids")
     private List<Long> channelIds = new ArrayList<Long>();

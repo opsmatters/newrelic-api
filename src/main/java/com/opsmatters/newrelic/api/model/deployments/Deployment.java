@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.deployments;
 
 import java.util.Date;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.IdResource;
 
 /**
  * Represents a New Relic nrql.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class Deployment extends NamedResource
+public class Deployment extends IdResource
 {
     private String revision;
     private String changelog;

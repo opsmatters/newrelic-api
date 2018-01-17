@@ -17,65 +17,21 @@
 package com.opsmatters.newrelic.api.model;
 
 /**
- * Represents the base class for all entities with a name and id.
+ * Represents the base class for all resources with a name.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class NamedResource
+public interface NamedResource
 {
-    private Long id;
-    private String name;
-    
-    /**
-     * Default constructor.
-     */
-    public NamedResource()
-    {
-    }
-
-    /**
-     * Sets the id of the resource.
-     * @param id The id of the resource
-     */
-    public void setId(long id)
-    {
-        this.id = id;
-    }
-   
-    /**
-     * Returns the id of the resource.
-     * @return The id of the resource
-     */
-    public long getId()
-    {
-        return id;
-    }
-
     /**
      * Sets the name of the resource.
      * @param name The name of the resource
      */
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+    public void setName(String name);
 
     /**
      * Returns the name of the resource.
      * @return The name of the resource
      */
-    public String getName()
-    {
-        return name;
-    }
-    
-    /**
-     * Returns a string representation of the resource.
-     */
-    @Override
-    public String toString()
-    {
-        return "id="+id
-            +", name="+name;
-    }
+    public String getName();   
 }

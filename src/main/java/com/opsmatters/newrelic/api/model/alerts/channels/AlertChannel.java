@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.alerts.channels;
 
 import java.util.List;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.NamedIdResource;
 
 /**
  * Represents a New Relic alert channel.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class AlertChannel extends NamedResource
+public abstract class AlertChannel extends NamedIdResource
 {
     private String type;
     private ChannelConfiguration configuration;

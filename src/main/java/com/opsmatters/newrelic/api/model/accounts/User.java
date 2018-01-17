@@ -17,14 +17,14 @@
 package com.opsmatters.newrelic.api.model.accounts;
 
 import com.google.gson.annotations.SerializedName;
-import com.opsmatters.newrelic.api.model.NamedResource;
+import com.opsmatters.newrelic.api.model.IdResource;
 
 /**
  * Represents a New Relic account user.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class User extends NamedResource
+public class User extends IdResource
 {
     @SerializedName("first_name")
     private String firstName;

@@ -48,6 +48,7 @@ public class HttpContext
     private int port;
     private Gson gson = new Gson();
     private boolean throwExceptions = false;
+    private String uriPrefix = "";
 
     private static final GenericType<ResponseError> ERROR = new GenericType<ResponseError>(){};
     
@@ -72,8 +73,8 @@ public class HttpContext
      * @return The URL to call
      */
     String buildUrl(String relativePath)
-    {    
-        return String.format("%s://%s:%s/%s", this.protocol, this.hostname, this.port, relativePath);
+    {
+        return String.format("%s://%s:%s/%s%s", this.protocol, this.hostname, this.port, this.uriPrefix, relativePath);
     }
     
     /**
@@ -186,11 +187,12 @@ public class HttpContext
      * Execute a POST call against the partial URL.
      * @param partialUrl The partial URL to build
      * @param payload The object to use for the POST
+     * @return The response to the POST
      */
-    public void POST(String partialUrl, Object payload)
+    public Optional<Response> POST(String partialUrl, Object payload)
     {    
         URI uri = buildUri(partialUrl);   
-        executePostRequest(uri, payload);
+        return executePostRequest(uri, payload);
     }
 
     /**
@@ -198,11 +200,12 @@ public class HttpContext
      * @param partialUrl The partial URL to build
      * @param payload The object to use for the POST
      * @param headers A set of headers to add to the request
+     * @return The response to the POST
      */
-    public void POST(String partialUrl, Object payload, Map<String, Object> headers)
+    public Optional<Response> POST(String partialUrl, Object payload, Map<String, Object> headers)
     {
         URI uri = buildUri(partialUrl);
-        executePostRequest(uri, payload, headers);
+        return executePostRequest(uri, payload, headers);
     }
 
     /**
@@ -233,6 +236,62 @@ public class HttpContext
     {
         URI uri = buildUri(partialUrl);
         return executePostRequest(uri, payload, headers, returnType);
+    }
+
+    /**
+     * Execute a PATCH call against the partial URL.
+     * @param partialUrl The partial URL to build
+     * @param payload The object to use for the PATCH
+     */
+    public void PATCH(String partialUrl, Object payload)
+    {    
+        URI uri = buildUri(partialUrl);   
+        executePatchRequest(uri, payload);
+    }
+
+    /**
+     * Execute a PATCH call against the partial URL.
+     * @param partialUrl The partial URL to build
+     * @param payload The object to use for the PATCH
+     * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
+     */
+    public void PATCH(String partialUrl, Object payload, Map<String, Object> headers, 
+        List<String> queryParams)
+    {
+        URI uri = buildUri(partialUrl);
+        executePatchRequest(uri, payload, headers, queryParams);
+    }
+
+    /**
+     * Execute a PATCH call against the partial URL.
+     * @param <T> The type parameter used for the return object
+     * @param partialUrl The partial URL to build
+     * @param payload The object to use for the PATCH
+     * @param returnType The expected return type
+     * @return The return type
+     */
+    public <T> Optional<T> PATCH(String partialUrl, Object payload, GenericType<T> returnType)
+    {    
+        URI uri = buildUri(partialUrl);   
+        return executePatchRequest(uri, payload, null, null, returnType);
+    }
+
+    /**
+     * Execute a PATCH call against the partial URL.
+     * @param <T> The type parameter used for the return object
+     * @param partialUrl The partial URL to build
+     * @param payload The object to use for the PATCH
+     * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
+     * @param returnType The expected return type
+     * @return The return type
+     */
+    public <T> Optional<T> PATCH(String partialUrl, Object payload, 
+        Map<String, Object> headers, List<String> queryParams, GenericType<T> returnType)
+    {
+        URI uri = buildUri(partialUrl);
+        return executePatchRequest(uri, payload, headers, queryParams, returnType);
     }
     
     /**
@@ -352,10 +411,11 @@ public class HttpContext
      * Execute a POST request.
      * @param uri The URI to call
      * @param obj The object to use for the POST
+     * @return The response to the POST
      */
-    protected void executePostRequest(URI uri, Object obj)
+    protected Optional<Response> executePostRequest(URI uri, Object obj)
     {    
-        executePostRequest(uri, obj, (Map<String, Object>)null);
+        return executePostRequest(uri, obj, (Map<String, Object>)null);
     }
 
     /**
@@ -363,14 +423,16 @@ public class HttpContext
      * @param uri The URI to call
      * @param obj The object to use for the POST
      * @param headers A set of headers to add to the request
+     * @return The response to the POST
      */
-    protected void executePostRequest(URI uri, Object obj, Map<String, Object> headers)
+    protected Optional<Response> executePostRequest(URI uri, Object obj, Map<String, Object> headers)
     {
         Invocation.Builder invocation = this.client.target(uri).request(MediaType.APPLICATION_JSON);
         applyHeaders(invocation, headers);
         Response response = invocation.post(Entity.entity(obj, MediaType.APPLICATION_JSON));
         handleResponseError("POST", uri, response);
         logResponse(uri, response);
+        return Optional.of(response);
     }
 
     /**
@@ -401,6 +463,62 @@ public class HttpContext
         applyHeaders(invocation, headers);
         Response response = invocation.post(Entity.entity(obj, MediaType.APPLICATION_JSON));
         handleResponseError("POST", uri, response);
+        logResponse(uri, response);
+        return extractEntityFromResponse(response, returnType);
+    }
+
+    /**
+     * Execute a PATCH request.
+     * @param uri The URI to call
+     * @param obj The object to use for the PATCH
+     */
+    protected void executePatchRequest(URI uri, Object obj)
+    {
+        executePatchRequest(uri, obj, null, null);
+    }
+
+    /**
+     * Execute a PATCH request.
+     * @param uri The URI to call
+     * @param obj The object to use for the PATCH
+     * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
+     */
+    protected void executePatchRequest(URI uri, Object obj, Map<String, Object> headers, 
+        List<String> queryParams)
+    {
+        WebTarget target = this.client.target(uri);
+        target = applyQueryParams(target, queryParams);
+        Invocation.Builder invocation = target.request(MediaType.APPLICATION_JSON);
+        applyHeaders(invocation, headers);
+        if(obj == null)
+            obj = Entity.text("");
+        Response response = invocation.method("PATCH", Entity.entity(obj, MediaType.APPLICATION_JSON));
+        handleResponseError("PATCH", uri, response);
+        logResponse(uri, response);
+    }
+
+    /**
+     * Execute a PATCH request with a return object.
+     * @param <T> The type parameter used for the return object
+     * @param uri The URI to call
+     * @param obj The object to use for the PATCH
+     * @param headers A set of headers to add to the request
+     * @param queryParams A set of query parameters to add to the request
+     * @param returnType The type to marshall the result back into
+     * @return The return type
+     */
+    protected <T> Optional<T> executePatchRequest(URI uri, Object obj, Map<String, Object> headers, 
+        List<String> queryParams, GenericType<T> returnType)
+    {
+        WebTarget target = this.client.target(uri);
+        target = applyQueryParams(target, queryParams);
+        Invocation.Builder invocation = target.request(MediaType.APPLICATION_JSON);
+        applyHeaders(invocation, headers);
+        if(obj == null)
+            obj = Entity.text("");
+        Response response = invocation.method("PATCH", Entity.entity(obj, MediaType.APPLICATION_JSON));
+        handleResponseError("PATCH", uri, response);
         logResponse(uri, response);
         return extractEntityFromResponse(response, returnType);
     }
@@ -518,11 +636,11 @@ public class HttpContext
 
     /**
      * Set to <CODE>true</CODE> if an exception should be thrown on an error HTTP response.
-     * @param b <CODE>true</CODE> if an exception should be thrown on an error HTTP response
+     * @param throwExceptions <CODE>true</CODE> if an exception should be thrown on an error HTTP response
      */
-    public void setThrowExceptions(boolean b)
+    public void setThrowExceptions(boolean throwExceptions)
     {
-        throwExceptions = b;
+        this.throwExceptions = throwExceptions;
     }
 
     /**
@@ -532,5 +650,23 @@ public class HttpContext
     public boolean throwExceptions()
     {
         return throwExceptions;
+    }
+
+    /**
+     * Sets the uri prefix for resources used by the service.
+     * @param uriPrefix The uri prefix for the service
+     */
+    public void setUriPrefix(String uriPrefix)
+    {
+        this.uriPrefix = uriPrefix;
+    }
+
+    /**
+     * Returns the uri prefix for resources used by the service.
+     * @return The uri prefix for the service
+     */
+    public String getUriPrefix()
+    {
+        return uriPrefix;
     }
 }

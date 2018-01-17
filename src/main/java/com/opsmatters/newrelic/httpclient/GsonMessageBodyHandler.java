@@ -66,6 +66,7 @@ import com.opsmatters.newrelic.api.model.deployments.Deployment;
 import com.opsmatters.newrelic.api.model.labels.Label;
 import com.opsmatters.newrelic.api.model.accounts.User;
 import com.opsmatters.newrelic.api.model.accounts.UsageData;
+import com.opsmatters.newrelic.api.model.synthetics.Monitor;
 import com.opsmatters.newrelic.httpclient.serializers.alerts.policies.AlertPolicySerializer;
 import com.opsmatters.newrelic.httpclient.serializers.alerts.channels.AlertChannelSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.alerts.conditions.AlertConditionSerializer;
@@ -126,6 +127,8 @@ import com.opsmatters.newrelic.httpclient.deserializers.labels.LabelsDeserialize
 import com.opsmatters.newrelic.httpclient.deserializers.accounts.UserDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.accounts.UsersDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.accounts.UsageDataDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.synthetics.MonitorDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.synthetics.MonitorsDeserializer;
 
 /**
  * Provides GSON support for serializing and deserializing objects.
@@ -163,6 +166,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Type DEPLOYMENTS_TYPE = new TypeToken<Collection<Deployment>>(){}.getType();
     private static final Type LABELS_TYPE = new TypeToken<Collection<Label>>(){}.getType();
     private static final Type USERS_TYPE = new TypeToken<Collection<User>>(){}.getType();
+    private static final Type MONITORS_TYPE = new TypeToken<Collection<Monitor>>(){}.getType();
 
     private Gson gson;
 
@@ -236,6 +240,8 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(User.class, new UserDeserializer());
             builder.registerTypeAdapter(USERS_TYPE, new UsersDeserializer());
             builder.registerTypeAdapter(UsageData.class, new UsageDataDeserializer());
+            builder.registerTypeAdapter(Monitor.class, new MonitorDeserializer());
+            builder.registerTypeAdapter(MONITORS_TYPE, new MonitorsDeserializer());
             gson = builder.create();
         }
 

@@ -21,7 +21,7 @@ package com.opsmatters.newrelic.api.model;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class Entity extends NamedResource
+public abstract class Entity extends NamedIdResource
 {
     private transient String type;
 

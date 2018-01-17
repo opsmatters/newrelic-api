@@ -62,10 +62,13 @@ public class InfraAlertConditionsDeserializer implements JsonDeserializer<Collec
                         {
                             case METRIC:
                                 values.add(gson.fromJson(condition, InfraMetricAlertCondition.class));
+                                break;
                             case HOST_NOT_REPORTING:
                                 values.add(gson.fromJson(condition, InfraHostNotReportingAlertCondition.class));
+                                break;
                             case PROCESS_RUNNING:
                                 values.add(gson.fromJson(condition, InfraProcessRunningAlertCondition.class));
+                                break;
                         }
                     }
                 }

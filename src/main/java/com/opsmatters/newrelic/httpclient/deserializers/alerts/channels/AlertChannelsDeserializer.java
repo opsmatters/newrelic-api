@@ -70,6 +70,7 @@ public class AlertChannelsDeserializer implements JsonDeserializer<Collection<Al
                         {
                             case USER:
                                 values.add(gson.fromJson(channel, UserChannel.class));
+                                break;
                             case EMAIL:
                                 values.add(gson.fromJson(channel, EmailChannel.class));
                                 break;
