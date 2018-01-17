@@ -42,7 +42,7 @@
 
 ### Initialisation
 
-Use the builder provided to obtain a service instance to carry out most New Relic operations:
+To obtain a service instance to carry out most New Relic operations use the builder provided:
 ```
 NewRelicApiService api = NewRelicApiService.builder()
     .hostname("api.newrelic.com")
@@ -57,7 +57,7 @@ NewRelicApiService api = NewRelicApiService.builder()
     .build();
 ```
 
-Similarly, use the builder provided to obtain a service instance to carry out New Relic Infrastructure operations:
+Similarly, to obtain a service instance to carry out New Relic Infrastructure operations use the builder provided:
 ```
 NewRelicInfraApiService infraApi = NewRelicInfraApiService.builder()
     .hostname("infra-api.newrelic.com")
@@ -68,6 +68,21 @@ NewRelicInfraApiService infraApi = NewRelicInfraApiService.builder()
 Again, if the hostname and port are omitted they default to "infra-api.newrelic.com" and 443 respectively, so this becomes:
 ```
 NewRelicInfraApiService infraApi = NewRelicInfraApiService.builder()
+    .apiKey("<YOUR_API_KEY>")
+    .build();
+```
+
+Lastly, to obtain a service instance to carry out New Relic Synthetics operations use the builder provided:
+```
+NewRelicSyntheticsApiService syntheticsApi = NewRelicSyntheticsApiService.builder()
+    .hostname("synthetics.newrelic.com")
+    .port(443)
+    .apiKey("<YOUR_API_KEY>")
+    .build();
+```
+Again, if the hostname and port are omitted they default to "synthetics.newrelic.com" and 443 respectively, so this becomes:
+```
+NewRelicSyntheticsApiService syntheticsApi = NewRelicSyntheticsApiService.builder()
     .apiKey("<YOUR_API_KEY>")
     .build();
 ```
@@ -103,10 +118,10 @@ The available channel types are:
 * WebhookChannel
 
 ### Alerts Policies
-To create an alert policy called "test-policy" with a PER_POLICY rollup strategy, first instantiate the policy and then pass it to the "create" operation:
+To create an alert policy called "my-policy" with a PER_POLICY rollup strategy, first instantiate the policy and then pass it to the "create" operation:
 ```
 AlertPolicy p = AlertPolicy.builder()
-    .name("test-policy")
+    .name("my-policy")
     .perPolicyIncidentPreference()
     .build();
 
@@ -249,9 +264,9 @@ PluginId plugin = PluginId.builder()
     .build();
 
 PluginsAlertCondition c = PluginsAlertCondition.builder()
-    .name("test-metric-error")
-    .metric("test-metric")
-    .metricDescription("test-metric-description")
+    .name("my-metric-error")
+    .metric("my-metric")
+    .metricDescription("my-metric-description")
     .averageValueFunction()
     .addTerm(term)
     .plugin(plugin)
@@ -272,7 +287,7 @@ Other operations have also been included for Plugins alert conditions:
 To add a critical Synthetics alert condition for a monitor, instantiate a condition object and then pass it to the "create" operation:
 ```
 SyntheticsAlertCondition c = SyntheticsAlertCondition.builder()
-    .name("test-synthetics-error")
+    .name("my-synthetics-error")
     .monitorId("abcde-12345-abcde-12345")
     .enabled(true)
     .build();
@@ -419,7 +434,7 @@ Other operations have also been included for applications:
 To list the hosts for an application call the "list" operation with a set of filters:
 ```
 List<String> filters = ApplicationHostOperations.filters()
-    .hostname("test-host")
+    .hostname("my-host")
     .build();
 
 Collection<ApplicationHost> applicationHosts = api.applicationHosts().list(applicationId, filters);
@@ -446,7 +461,7 @@ Other operations have also been included for application hosts:
 To list the instances for an application call the "list" operation with a set of filters:
 ```
 List<String> filters = ApplicationInstanceOperations.filters()
-    .hostname("test-host")
+    .hostname("my-host")
     .build();
 
 Collection<ApplicationInstance> applicationInstances = api.applicationInstances().list(applicationId, filters);
@@ -473,7 +488,7 @@ Other operations have also been included for application instances:
 To add a browser application, instantiate an application object and then pass it to the "create" operation:
 ```
 BrowserApplication a = BrowserApplication.builder()
-    .name("test-browser-app")
+    .name("my-browser-app")
     .build();
 
 BrowserApplication application = api.browserApplications().create(a).get();
@@ -512,7 +527,7 @@ Other operations have also been included for mobile applications:
 To list the key transactions call the "list" operation with a set of filters:
 ```
 List<String> filters = KeyTransactionOperations.filters()
-    .name("test-transaction")
+    .name("my-transaction")
     .build();
 
 Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
@@ -525,7 +540,7 @@ Other operations have also been included for key transactions:
 To list the installed plugins call the "list" operation with a set of filters:
 ```
 List<String> filters = PluginOperations.filters()
-    .guid("test-guid")
+    .guid("12345-54321")
     .build();
 
 Collection<Plugin> plugins = api.plugins().list(filters);
@@ -636,6 +651,54 @@ Other operations have also been included for labels:
 * list(): returns all labels.
 * show(key): returns the label with the given key.
 * delete(key): deletes the label with the given key.
+
+### Monitors
+To create a simple (ping) monitor for a URL, first instantiate the monitor and then pass it to the "create" operation:
+```
+SimpleMonitor sm = SimpleMonitor.builder()
+    .name("my-simple-monitor")
+    .frequency(Monitor.Frequency.MINUTES_60)
+    .uri("http://test.com")
+    .slaThreshold(1.0)
+    .status(Monitor.Status.ENABLED)
+    .addLocation("LINODE_EU_WEST_1")
+    .validationStringOption("phrase")
+    .verifySslOption(true)
+    .build();
+
+Monitor monitor = syntheticsApi.monitors().create(sm).get();
+```
+The monitor returned includes all the additional fields that were populated by the server on creation eg, "id".
+
+Alternatively, to create a monitor for a script, first instantiate the monitor and then pass it to the "create" operation:
+```
+ScriptBrowserMonitor sbm = ScriptBrowserMonitor.builder()
+    .name("my-script-monitor")
+    .frequency(Monitor.Frequency.MINUTES_60)
+    .slaThreshold(1.0)
+    .status(Monitor.Status.ENABLED)
+    .addLocation("LINODE_EU_WEST_1")
+    .build();
+
+Monitor monitor = syntheticsApi.monitors().create(sbm).get();
+```
+Next, add a script to the monitor by instantiating the script and then passing it to the "updateScript" operation with the id of the monitor:
+```
+Script script = Script.builder()
+    .scriptText("dmFyIGFzc2VydCA9IHJlcXVpcmUoJ2Fzc2VydCcpOw0KYXNzZXJ0LmVxdWFsKCcxJywgJzEnKTs=")
+    .build();
+
+syntheticsApi.monitors().updateScript(monitor.getId(), script).get();
+```
+Note that the "scriptText" parameter in the payload contains a Base64 encoded version of the script to be added.
+
+Other operations have also been included for monitors:
+* list(): returns all monitors.
+* show(monitorId): returns the monitor with the given id.
+* showScript(monitorId): returns the script for the monitor with the given id.
+* update(monitor): updates the monitor with the given details (full update).
+* patch(monitor): updates the monitor with the given details (partial update).
+* delete(monitorId): deletes the monitor with the given id.
 
 ### Users
 To list the users call the "list" operation with a set of filters:

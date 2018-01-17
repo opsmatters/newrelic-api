@@ -39,7 +39,7 @@ The following New Relic APIs are currently supported:
 * Labels (List, Create, Delete)
 
 ### Synthetics v3 APIs
-* Monitors (List, Show, Create, CreateScript, Update, Patch, Delete)
+* Monitors (List, Show, Show Script, Create, Update, Update Script, Patch, Delete)
 
 ### Other v2 APIs
 * Users (List, Show, Reset Password)
