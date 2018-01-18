@@ -38,7 +38,7 @@ The following New Relic APIs are currently supported:
 * Deployments (List, Create, Delete)
 * Labels (List, Create, Delete)
 
-### Synthetics v3 APIs
+### Synthetics v1/v3 APIs
 * Monitors (List, Show, Show Script, Create, Update, Update Script, Patch, Delete)
 * Labels (List, Create, Delete)
 * Locations (List)

@@ -33,7 +33,7 @@
 - [Deployments](#deployments)
 - [Labels](#labels)
 
-#### Synthetics v3 API
+#### Synthetics v1/v3 API
 - [Monitors](#monitors)
 - [Locations](#locations)
 
