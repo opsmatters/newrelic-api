@@ -33,7 +33,7 @@ public abstract class NewRelicService
     /**
      * The name of the standard property used for the API key.
      */
-    public static final String API_KEY_PROPERTY = "newrelic.apiKey";
+    public static final String API_KEY_PROPERTY = "newrelic.api_key";
 
     /**
      * The default port for New Relic.

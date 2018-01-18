@@ -26,6 +26,7 @@ import org.junit.Test;
 import junit.framework.Assert;
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.ArrayUtils;
+import com.opsmatters.newrelic.api.services.NewRelicService;
 import com.opsmatters.newrelic.api.services.NewRelicApiService;
 import com.opsmatters.newrelic.api.services.NewRelicInfraApiService;
 import com.opsmatters.newrelic.api.services.NewRelicSyntheticsApiService;
@@ -97,7 +98,7 @@ public class NewRelicApiTest
 {
     private static final Logger logger = Logger.getLogger(NewRelicApiTest.class.getName());
 
-    private String key = System.getProperty(NewRelicApiService.API_KEY_PROPERTY);
+    private String key = System.getProperty(NewRelicService.API_KEY_PROPERTY);
     private String policyName = "test-policy";
     private String apmConditionName = "test-apm-condition";
     private String browserConditionName = "test-browser-condition";
