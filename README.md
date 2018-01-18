@@ -82,7 +82,7 @@ The following tests are included:
 * ApplicationOperationsTest: Creates or gets several types of applications, and then carries out various operations on them.
 * UserOperationsTest: Gets the users for an account.
 * UsageOperationsTest: Gets the usages for a product.
-* SyntheticsOperationsTest: Creates several types of monitors, and then deletes. Gets the list of locations.
+* SyntheticsOperationsTest: Creates several types of monitors, adds labels to them, and then deletes them. Also gets the list of locations.
 
 ## Examples
 
