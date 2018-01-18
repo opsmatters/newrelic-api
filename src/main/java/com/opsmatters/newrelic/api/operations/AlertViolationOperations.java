@@ -17,10 +17,6 @@
 package com.opsmatters.newrelic.api.operations;
 
 import java.util.Collection;
-//import java.util.Date;
-//GERALD: check
-//import java.util.TimeZone;
-//import java.text.SimpleDateFormat;
 import com.opsmatters.newrelic.api.services.NewRelicService;
 import com.opsmatters.newrelic.api.model.alerts.AlertViolation;
 import com.opsmatters.newrelic.util.QueryParameterList;
