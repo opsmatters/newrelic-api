@@ -67,7 +67,7 @@ public class NewRelicSyntheticsApiService extends NewRelicService
     /**
      * Returns the uri prefix for resources used by the service.
      * <P>
-     * Defaults to "synthetics/api for Synthetics.
+     * Defaults to "synthetics/api" for Synthetics.
      * @return The uri prefix for the service
      */
     @Override
