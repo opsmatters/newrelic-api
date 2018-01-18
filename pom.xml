@@ -185,7 +185,7 @@ built.on=${TODAY}
         <version>2.20.1</version>
         <configuration>
           <systemPropertyVariables>
-            <newrelic.apiKey>${newrelic.apiKey}</newrelic.apiKey>
+            <newrelic.api_key>${newrelic.api_key}</newrelic.api_key>
             <java.util.logging.config.file>${project.build.directory}/test-classes/logging.properties</java.util.logging.config.file>
           </systemPropertyVariables>
         </configuration>
@@ -215,7 +215,7 @@ built.on=${TODAY}
           <useReleaseProfile>false</useReleaseProfile>
           <releaseProfiles>release</releaseProfiles>
           <goals>deploy</goals>
-          <arguments>-Dnewrelic.apiKey=${newrelic.apiKey}</arguments>
+          <arguments>-Dnewrelic.api_key=${newrelic.api_key}</arguments>
         </configuration>
       </plugin>
 
