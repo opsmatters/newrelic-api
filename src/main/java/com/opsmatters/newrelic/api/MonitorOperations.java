@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.model.synthetics.Monitor;
 import com.opsmatters.newrelic.api.model.synthetics.Script;
+import com.opsmatters.newrelic.api.model.labels.Label;
 
 /**
  * The set of operations used for Synthetics monitors.
@@ -45,7 +46,18 @@ public class MonitorOperations extends BaseFluent
      */
     public Collection<Monitor> list()
     {
-        return HTTP.GET("/v3/monitors", null, null, MONITORS).get();
+        return HTTP.GET("/v3/monitors", MONITORS).get();
+    }
+
+    /**
+     * Returns the set of monitors for the given label.
+     * @param label The label to use to select the monitors to return
+     * @return The set of monitors for the given label
+     */
+    public Collection<Monitor> list(Label label)
+    {
+        String name = encode(String.format("{%s:%s}", label.getCategory(), label.getName()));
+        return HTTP.GET(String.format("/v1/monitors/labels/%s", name), MONITORS).get();
     }
 
     /**
@@ -117,6 +129,18 @@ public class MonitorOperations extends BaseFluent
     }
 
     /**
+     * Adds the given label to the monitor with the given id.
+     * @param monitorId The id of the monitor to update
+     * @param label The label to add
+     * @return The label that was added
+     */
+    public Optional<Label> createLabel(String monitorId, Label label)
+    {
+        HTTP.POST(String.format("/v1/monitors/%s/labels", monitorId), String.format("{%s:%s}", label.getCategory(), label.getName()));
+        return Optional.of(label);
+    }
+
+    /**
      * Deletes the monitor with the given id.
      * @param monitorId The id of the monitor to delete
      * @return This object
@@ -124,6 +148,19 @@ public class MonitorOperations extends BaseFluent
     public MonitorOperations delete(String monitorId)
     {
         HTTP.DELETE(String.format("/v3/monitors/%s", monitorId));       
+        return this;
+    }
+
+    /**
+     * Deletes the given label from the monitor with the given id.
+     * @param monitorId The id of the monitor with the label
+     * @param label The label to delete
+     * @return This object
+     */
+    public MonitorOperations deleteLabel(String monitorId, Label label)
+    {
+        String name = encode(String.format("{%s:%s}", label.getCategory(), label.getName()));
+        HTTP.DELETE(String.format("/v1/monitors/%s/labels/%s", monitorId, name));
         return this;
     }
 }

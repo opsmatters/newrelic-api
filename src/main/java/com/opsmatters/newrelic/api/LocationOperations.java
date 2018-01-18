@@ -43,6 +43,6 @@ public class LocationOperations extends BaseFluent
      */
     public Collection<Location> list()
     {
-        return HTTP.GET("/v1/locations", null, null, LOCATIONS).get();
+        return HTTP.GET("/v1/locations", LOCATIONS).get();
     }
 }

@@ -671,7 +671,7 @@ Monitor monitor = syntheticsApi.monitors().create(sm).get();
 ```
 The monitor returned includes all the additional fields that were populated by the server on creation eg, "id".
 
-Alternatively, to create a monitor for a script, first instantiate the monitor and then pass it to the "create" operation:
+Alternatively, to create a scripted monitor, first instantiate the monitor and then pass it to the "create" operation:
 ```
 ScriptBrowserMonitor sbm = ScriptBrowserMonitor.builder()
     .name("my-script-monitor")
@@ -695,11 +695,14 @@ Note that the "scriptText" parameter in the payload contains a Base64 encoded ve
 
 Other operations have also been included for monitors:
 * list(): returns all monitors.
+* list(label): returns all monitors with the given label.
 * show(monitorId): returns the monitor with the given id.
 * showScript(monitorId): returns the script for the monitor with the given id.
 * update(monitor): updates the monitor with the given details (full update).
 * patch(monitor): updates the monitor with the given details (partial update).
 * delete(monitorId): deletes the monitor with the given id.
+* createLabel(monitorId,label): adds the label to the monitor with the given id.
+* deleteLabel(monitorId,label): deletes the label from the monitor with the given id.
 
 ### Locations
 To list the valid locations call the "list" operation:

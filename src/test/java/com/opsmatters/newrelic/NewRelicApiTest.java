@@ -120,6 +120,8 @@ public class NewRelicApiTest
     private String channel = "#slack";
     private String webhookUrl = "https://hooks.slack.com/services/T8LVC2SGM/B8M02K7yy/k7SrSQGoluE2olG3LpmH4sxx";
     private String monitorUrl = "http://google.com";
+    private String monitorCategory = "Monitors";
+    private String monitorLabel = "Test";
 
     @Test
     public void testAlertOperations()
@@ -417,6 +419,9 @@ public class NewRelicApiTest
         Collection<Location> locations = getLocations(api);
         Location location = locations.iterator().next();
 
+        // Create a label for the monitors
+        Label label = getMonitorLabel(monitorCategory, monitorLabel);
+
         // Create the simple monitor
         Monitor simpleMonitor = createMonitor(api, 
             getSimpleMonitor(simpleMonitorName, monitorUrl, location));
@@ -435,17 +440,20 @@ public class NewRelicApiTest
         patchSimpleMonitor.setLocations(simpleMonitor.getLocations());
         patchMonitor(api, patchSimpleMonitor);
 
-        // Create the script monitor
+        // Add the label to the simple monitor
+        addMonitorLabel(api, simpleMonitor, label);
+
+        // Create the scripted monitor
         Monitor scriptMonitor = createMonitor(api, 
             getScriptMonitor(scriptMonitorName, monitorUrl, location));
         Script script = updateMonitorScript(api, scriptMonitor, getScript());
 
-        // Update the script monitor
+        // Update the scripted monitor
         scriptMonitor.setName(scriptMonitor.getName()+"-updated");
         scriptMonitor.setFrequency(Monitor.Frequency.MINUTES_15);
         updateMonitor(api, scriptMonitor);
 
-        // Patch the script monitor
+        // Patch the scripted monitor
         ScriptBrowserMonitor patchScriptMonitor = new ScriptBrowserMonitor();
         patchScriptMonitor.setId(scriptMonitor.getId());
         patchScriptMonitor.setType((String)null); // "type" causes error in PATCH
@@ -454,8 +462,18 @@ public class NewRelicApiTest
         patchScriptMonitor.setLocations(scriptMonitor.getLocations());
         patchMonitor(api, patchScriptMonitor);
 
+        // Add the label to the scripted monitor
+        addMonitorLabel(api, scriptMonitor, label);
+
         // Get all the monitors
         Collection<Monitor> monitors = getMonitors(api);
+
+        // Get all the monitors for the label
+        Collection<Monitor> labelMonitors = getMonitorsForLabel(api, label);
+
+        // Delete the label from the monitors
+        deleteMonitorLabel(api, simpleMonitor, label);
+        deleteMonitorLabel(api, scriptMonitor, label);
 
         // Delete all the monitors
         deleteMonitor(api, simpleMonitor);
@@ -1816,6 +1834,43 @@ public class NewRelicApiTest
              if(e.getMessage().indexOf("404 Not Found") == -1) // throws 404
                  Assert.fail("Error in get monitors: "+e.getMessage());
         }
+    }
+
+    public Label getMonitorLabel(String category, String label)
+    {
+        return Label.builder()
+            .name(label)
+            .category(category)
+            .build();
+    }
+
+    public void addMonitorLabel(NewRelicSyntheticsApiService api, Monitor monitor, Label label)
+    {
+        logger.info("Add monitor label: "+monitor.getId());
+        api.monitors().createLabel(monitor.getId(), label);
+    }
+
+    public Collection<Monitor> getMonitorsForLabel(NewRelicSyntheticsApiService api, Label label)
+    {
+        Collection<Monitor> ret = null;
+
+        try
+        {
+            logger.info("Get monitors for label: "+label.getCategory()+":"+label.getName());
+            ret = api.monitors().list(label);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get monitors for label: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public void deleteMonitorLabel(NewRelicSyntheticsApiService api, Monitor monitor, Label label)
+    {
+        logger.info("Delete monitor label: "+monitor.getId());
+        api.monitors().deleteLabel(monitor.getId(), label);
     }
 
     public Collection<Location> getLocations(NewRelicSyntheticsApiService api)
