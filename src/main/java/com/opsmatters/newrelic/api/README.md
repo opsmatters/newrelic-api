@@ -43,9 +43,9 @@
 
 ### Initialisation
 
-To obtain a service instance to carry out most New Relic operations use the builder provided:
+To obtain a client instance to carry out most New Relic operations use the builder provided:
 ```
-NewRelicApiService api = NewRelicApiService.builder()
+NewRelicApi api = NewRelicApi.builder()
     .hostname("api.newrelic.com")
     .port(443)
     .apiKey("<YOUR_API_KEY>")
@@ -53,14 +53,14 @@ NewRelicApiService api = NewRelicApiService.builder()
 ```
 Alternatively, if the hostname and port are omitted they default to "api.newrelic.com" and 443 respectively, so this becomes:
 ```
-NewRelicApiService api = NewRelicApiService.builder()
+NewRelicApi api = NewRelicApi.builder()
     .apiKey("<YOUR_API_KEY>")
     .build();
 ```
 
-Similarly, to obtain a service instance to carry out New Relic Infrastructure operations use the builder provided:
+Similarly, to obtain a client instance to carry out New Relic Infrastructure operations use the builder provided:
 ```
-NewRelicInfraApiService infraApi = NewRelicInfraApiService.builder()
+NewRelicInfraApi infraApi = NewRelicInfraApi.builder()
     .hostname("infra-api.newrelic.com")
     .port(443)
     .apiKey("<YOUR_API_KEY>")
@@ -68,14 +68,14 @@ NewRelicInfraApiService infraApi = NewRelicInfraApiService.builder()
 ```
 Again, if the hostname and port are omitted they default to "infra-api.newrelic.com" and 443 respectively, so this becomes:
 ```
-NewRelicInfraApiService infraApi = NewRelicInfraApiService.builder()
+NewRelicInfraApi infraApi = NewRelicInfraApi.builder()
     .apiKey("<YOUR_API_KEY>")
     .build();
 ```
 
-Lastly, to obtain a service instance to carry out New Relic Synthetics operations use the builder provided:
+Lastly, to obtain a client instance to carry out New Relic Synthetics operations use the builder provided:
 ```
-NewRelicSyntheticsApiService syntheticsApi = NewRelicSyntheticsApiService.builder()
+NewRelicSyntheticsApi syntheticsApi = NewRelicSyntheticsApi.builder()
     .hostname("synthetics.newrelic.com")
     .port(443)
     .apiKey("<YOUR_API_KEY>")
@@ -83,7 +83,7 @@ NewRelicSyntheticsApiService syntheticsApi = NewRelicSyntheticsApiService.builde
 ```
 Again, if the hostname and port are omitted they default to "synthetics.newrelic.com" and 443 respectively, so this becomes:
 ```
-NewRelicSyntheticsApiService syntheticsApi = NewRelicSyntheticsApiService.builder()
+NewRelicSyntheticsApi syntheticsApi = NewRelicSyntheticsApi.builder()
     .apiKey("<YOUR_API_KEY>")
     .build();
 ```

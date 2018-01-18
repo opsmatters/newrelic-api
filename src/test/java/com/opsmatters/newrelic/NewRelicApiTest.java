@@ -26,20 +26,20 @@ import org.junit.Test;
 import junit.framework.Assert;
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.ArrayUtils;
-import com.opsmatters.newrelic.api.services.NewRelicService;
-import com.opsmatters.newrelic.api.services.NewRelicApiService;
-import com.opsmatters.newrelic.api.services.NewRelicInfraApiService;
-import com.opsmatters.newrelic.api.services.NewRelicSyntheticsApiService;
-import com.opsmatters.newrelic.api.operations.AlertEventOperations;
-import com.opsmatters.newrelic.api.operations.ApplicationOperations;
-import com.opsmatters.newrelic.api.operations.ApplicationHostOperations;
-import com.opsmatters.newrelic.api.operations.ApplicationInstanceOperations;
-import com.opsmatters.newrelic.api.operations.MobileApplicationOperations;
-import com.opsmatters.newrelic.api.operations.KeyTransactionOperations;
-import com.opsmatters.newrelic.api.operations.PluginOperations;
-import com.opsmatters.newrelic.api.operations.PluginComponentOperations;
-import com.opsmatters.newrelic.api.operations.ServerOperations;
-import com.opsmatters.newrelic.api.operations.MetricParameterBuilder;
+import com.opsmatters.newrelic.api.Constants;
+import com.opsmatters.newrelic.api.NewRelicApi;
+import com.opsmatters.newrelic.api.NewRelicInfraApi;
+import com.opsmatters.newrelic.api.NewRelicSyntheticsApi;
+import com.opsmatters.newrelic.api.services.AlertEventService;
+import com.opsmatters.newrelic.api.services.ApplicationService;
+import com.opsmatters.newrelic.api.services.ApplicationHostService;
+import com.opsmatters.newrelic.api.services.ApplicationInstanceService;
+import com.opsmatters.newrelic.api.services.MobileApplicationService;
+import com.opsmatters.newrelic.api.services.KeyTransactionService;
+import com.opsmatters.newrelic.api.services.PluginService;
+import com.opsmatters.newrelic.api.services.PluginComponentService;
+import com.opsmatters.newrelic.api.services.ServerService;
+import com.opsmatters.newrelic.api.services.MetricParameterBuilder;
 import com.opsmatters.newrelic.api.model.Entity;
 import com.opsmatters.newrelic.api.model.EntityType;
 import com.opsmatters.newrelic.api.model.alerts.AlertEvent;
@@ -90,7 +90,7 @@ import com.opsmatters.newrelic.api.model.synthetics.ScriptLocation;
 import com.opsmatters.newrelic.api.model.synthetics.Location;
 
 /**
- * The set of tests used for New Relic API operations.
+ * The set of tests used for New Relic API services.
  * 
  * @author Gerald Curley (opsmatters)
  */
@@ -98,7 +98,7 @@ public class NewRelicApiTest
 {
     private static final Logger logger = Logger.getLogger(NewRelicApiTest.class.getName());
 
-    private String key = System.getProperty(NewRelicService.API_KEY_PROPERTY);
+    private String key = System.getProperty(Constants.API_KEY_PROPERTY);
     private String policyName = "test-policy";
     private String apmConditionName = "test-apm-condition";
     private String browserConditionName = "test-browser-condition";
@@ -125,23 +125,21 @@ public class NewRelicApiTest
     private String monitorLabel = "Test";
 
     @Test
-    public void testAlertOperations()
+    public void testAlertServices()
     {
-        String testName = "AlertOperationsTest";
+        String testName = "AlertServicesTest";
         logger.info("Starting test: "+testName);
 
-        // Initialise the services
-        logger.info("Initialise the services");
-
-        NewRelicApiService api = getService();
+        // Initialise the clients
+        logger.info("Initialise the clients");
+        NewRelicApi api = getApiClient();
         Assert.assertNotNull(api);
+        NewRelicInfraApi infraApi = getInfraApiClient();
+        Assert.assertNotNull(infraApi);
 
         // Create the browser application
         BrowserApplication browserApplication = createBrowserApplication(api, 
             getBrowserApplication(browserApplicationName));
-
-        NewRelicInfraApiService infraApi = getInfraService();
-        Assert.assertNotNull(infraApi);
 
         // Create the alert channels
         AlertChannel emailChannel = createChannel(api, getEmailChannel(email));
@@ -226,15 +224,14 @@ public class NewRelicApiTest
     }
 
     @Test
-    public void testApplicationOperations()
+    public void testApplicationServices()
     {
-        String testName = "ApplicationOperationsTest";
+        String testName = "ApplicationServicesTest";
         logger.info("Starting test: "+testName);
 
-        // Initialise the services
-        logger.info("Initialise the service");
-
-        NewRelicApiService api = getService();
+        // Initialise the client
+        logger.info("Initialise the client");
+        NewRelicApi api = getApiClient();
         Assert.assertNotNull(api);
 
         // Create the browser application
@@ -360,15 +357,14 @@ public class NewRelicApiTest
     }
 
     @Test
-    public void testUserOperations()
+    public void testUserServices()
     {
-        String testName = "UserOperationsTest";
+        String testName = "UserServicesTest";
         logger.info("Starting test: "+testName);
 
-        // Initialise the services
-        logger.info("Initialise the service");
-
-        NewRelicApiService api = getService();
+        // Initialise the client
+        logger.info("Initialise the client");
+        NewRelicApi api = getApiClient();
         Assert.assertNotNull(api);
 
         // Get all the users
@@ -387,15 +383,14 @@ public class NewRelicApiTest
     }
 
     @Test
-    public void testUsageOperations()
+    public void testUsageServices()
     {
-        String testName = "UsageOperationsTest";
+        String testName = "UsageServicesTest";
         logger.info("Starting test: "+testName);
 
-        // Initialise the services
-        logger.info("Initialise the service");
-
-        NewRelicApiService api = getService();
+        // Initialise the clients
+        logger.info("Initialise the client");
+        NewRelicApi api = getApiClient();
         Assert.assertNotNull(api);
 
         // Get all the users
@@ -405,15 +400,14 @@ public class NewRelicApiTest
     }
 
     @Test
-    public void testSyntheticsOperations()
+    public void testSyntheticsServices()
     {
-        String testName = "SyntheticsOperationsTest";
+        String testName = "SyntheticsServicesTest";
         logger.info("Starting test: "+testName);
 
-        // Initialise the services
-        logger.info("Initialise the service");
-
-        NewRelicSyntheticsApiService api = getSyntheticsService();
+        // Initialise the client
+        logger.info("Initialise the client");
+        NewRelicSyntheticsApi api = getSyntheticsApiClient();
         Assert.assertNotNull(api);
 
         // Get all the locations
@@ -483,23 +477,23 @@ public class NewRelicApiTest
         logger.info("Completed test: "+testName);
     }
 
-    public NewRelicApiService getService()
+    public NewRelicApi getApiClient()
     {
-        return NewRelicApiService.builder()
+        return NewRelicApi.builder()
             .apiKey(key)
             .build();
 	}
 
-    public NewRelicInfraApiService getInfraService()
+    public NewRelicInfraApi getInfraApiClient()
     {
-        return NewRelicInfraApiService.builder()
+        return NewRelicInfraApi.builder()
             .apiKey(key)
             .build();
 	}
 
-    public NewRelicSyntheticsApiService getSyntheticsService()
+    public NewRelicSyntheticsApi getSyntheticsApiClient()
     {
-        return NewRelicSyntheticsApiService.builder()
+        return NewRelicSyntheticsApi.builder()
             .apiKey(key)
             .build();
 	}
@@ -512,7 +506,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public AlertPolicy createPolicy(NewRelicApiService api)
+    public AlertPolicy createPolicy(NewRelicApi api)
     {
         // Create the policy
         logger.info("Create policy: "+policyName);
@@ -530,7 +524,7 @@ public class NewRelicApiTest
         return policy;
     }
 
-    public void deletePolicy(NewRelicApiService api, AlertPolicy policy)
+    public void deletePolicy(NewRelicApi api, AlertPolicy policy)
     {
         logger.info("Delete policy: "+policy.getId());
         api.alertPolicies().delete(policy.getId());
@@ -576,7 +570,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public AlertCondition createApmCondition(NewRelicApiService api, AlertPolicy policy, AlertCondition input)
+    public AlertCondition createApmCondition(NewRelicApi api, AlertPolicy policy, AlertCondition input)
     {
         logger.info("Create APM condition: "+apmConditionName);
         AlertCondition condition = api.alertConditions().create(policy.getId(), input).get();
@@ -585,14 +579,14 @@ public class NewRelicApiTest
         return condition;
     }
 
-    public void deleteApmCondition(NewRelicApiService api, AlertPolicy policy, AlertCondition condition)
+    public void deleteApmCondition(NewRelicApi api, AlertPolicy policy, AlertCondition condition)
     {
         logger.info("Delete APM condition: "+condition.getId());
         api.alertConditions().delete(condition.getId());
         Assert.assertFalse(getApmCondition(api, policy, condition).isPresent());
     }
 
-    public Optional<AlertCondition> getApmCondition(NewRelicApiService api, AlertPolicy policy, AlertCondition condition)
+    public Optional<AlertCondition> getApmCondition(NewRelicApi api, AlertPolicy policy, AlertCondition condition)
     {
         Optional<AlertCondition> ret = Optional.absent();
 
@@ -608,7 +602,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<AlertCondition> getAllApmConditions(NewRelicApiService api, AlertPolicy policy)
+    public Collection<AlertCondition> getAllApmConditions(NewRelicApi api, AlertPolicy policy)
     {
         logger.info("Get all APM conditions for policy: "+policy.getId());
         Collection<AlertCondition> ret = api.alertConditions().list(policy.getId());
@@ -640,7 +634,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public NrqlAlertCondition createNrqlCondition(NewRelicApiService api, AlertPolicy policy, NrqlAlertCondition input)
+    public NrqlAlertCondition createNrqlCondition(NewRelicApi api, AlertPolicy policy, NrqlAlertCondition input)
     {
         logger.info("Create NRQL condition: "+input.getName());
         NrqlAlertCondition condition = api.nrqlAlertConditions().create(policy.getId(), input).get();
@@ -649,14 +643,14 @@ public class NewRelicApiTest
         return condition;
     }
 
-    public void deleteNrqlCondition(NewRelicApiService api, AlertPolicy policy, NrqlAlertCondition condition)
+    public void deleteNrqlCondition(NewRelicApi api, AlertPolicy policy, NrqlAlertCondition condition)
     {
         logger.info("Delete NRQL condition: "+condition.getId());
         api.nrqlAlertConditions().delete(condition.getId());
         Assert.assertFalse(getNrqlCondition(api, policy, condition).isPresent());
     }
 
-    public Optional<NrqlAlertCondition> getNrqlCondition(NewRelicApiService api, AlertPolicy policy, NrqlAlertCondition condition)
+    public Optional<NrqlAlertCondition> getNrqlCondition(NewRelicApi api, AlertPolicy policy, NrqlAlertCondition condition)
     {
         Optional<NrqlAlertCondition> ret = Optional.absent();
 
@@ -672,7 +666,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<NrqlAlertCondition> getAllNrqlConditions(NewRelicApiService api, AlertPolicy policy)
+    public Collection<NrqlAlertCondition> getAllNrqlConditions(NewRelicApi api, AlertPolicy policy)
     {
         logger.info("Get all NRQL conditions for policy: "+policy.getId());
         Collection<NrqlAlertCondition> ret = api.nrqlAlertConditions().list(policy.getId());
@@ -699,7 +693,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public ExternalServiceAlertCondition createExternalServiceCondition(NewRelicApiService api, AlertPolicy policy, ExternalServiceAlertCondition input)
+    public ExternalServiceAlertCondition createExternalServiceCondition(NewRelicApi api, AlertPolicy policy, ExternalServiceAlertCondition input)
     {
         logger.info("Create external service condition: "+input.getName());
         ExternalServiceAlertCondition condition = api.externalServiceAlertConditions().create(policy.getId(), input).get();
@@ -708,14 +702,14 @@ public class NewRelicApiTest
         return condition;
     }
 
-    public void deleteExternalServiceCondition(NewRelicApiService api, AlertPolicy policy, ExternalServiceAlertCondition condition)
+    public void deleteExternalServiceCondition(NewRelicApi api, AlertPolicy policy, ExternalServiceAlertCondition condition)
     {
         logger.info("Delete external service condition: "+condition.getId());
         api.externalServiceAlertConditions().delete(condition.getId());
         Assert.assertFalse(getExternalServiceCondition(api, policy, condition).isPresent());
     }
 
-    public Optional<ExternalServiceAlertCondition> getExternalServiceCondition(NewRelicApiService api, AlertPolicy policy, ExternalServiceAlertCondition condition)
+    public Optional<ExternalServiceAlertCondition> getExternalServiceCondition(NewRelicApi api, AlertPolicy policy, ExternalServiceAlertCondition condition)
     {
         Optional<ExternalServiceAlertCondition> ret = Optional.absent();
 
@@ -731,7 +725,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<ExternalServiceAlertCondition> getAllExternalServiceConditions(NewRelicApiService api, AlertPolicy policy)
+    public Collection<ExternalServiceAlertCondition> getAllExternalServiceConditions(NewRelicApi api, AlertPolicy policy)
     {
         logger.info("Get all external service conditions for policy: "+policy.getId());
         Collection<ExternalServiceAlertCondition> ret = api.externalServiceAlertConditions().list(policy.getId());
@@ -766,7 +760,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public PluginsAlertCondition createPluginsCondition(NewRelicApiService api, AlertPolicy policy, PluginsAlertCondition input)
+    public PluginsAlertCondition createPluginsCondition(NewRelicApi api, AlertPolicy policy, PluginsAlertCondition input)
     {
         logger.info("Create Plugins condition: "+input.getName());
         PluginsAlertCondition condition = api.pluginsAlertConditions().create(policy.getId(), input).get();
@@ -775,14 +769,14 @@ public class NewRelicApiTest
         return condition;
     }
 
-    public void deletePluginsCondition(NewRelicApiService api, AlertPolicy policy, PluginsAlertCondition condition)
+    public void deletePluginsCondition(NewRelicApi api, AlertPolicy policy, PluginsAlertCondition condition)
     {
         logger.info("Delete Plugins condition: "+condition.getId());
         api.pluginsAlertConditions().delete(condition.getId());
         Assert.assertFalse(getPluginsCondition(api, policy, condition).isPresent());
     }
 
-    public Optional<PluginsAlertCondition> getPluginsCondition(NewRelicApiService api, AlertPolicy policy, PluginsAlertCondition condition)
+    public Optional<PluginsAlertCondition> getPluginsCondition(NewRelicApi api, AlertPolicy policy, PluginsAlertCondition condition)
     {
         Optional<PluginsAlertCondition> ret = Optional.absent();
 
@@ -798,7 +792,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<PluginsAlertCondition> getAllPluginsConditions(NewRelicApiService api, AlertPolicy policy)
+    public Collection<PluginsAlertCondition> getAllPluginsConditions(NewRelicApi api, AlertPolicy policy)
     {
         logger.info("Get all Plugins conditions for policy: "+policy.getId());
         Collection<PluginsAlertCondition> ret = api.pluginsAlertConditions().list(policy.getId());
@@ -815,7 +809,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public SyntheticsAlertCondition createSyntheticsCondition(NewRelicApiService api, AlertPolicy policy, SyntheticsAlertCondition input)
+    public SyntheticsAlertCondition createSyntheticsCondition(NewRelicApi api, AlertPolicy policy, SyntheticsAlertCondition input)
     {
         logger.info("Create Synthetics condition: "+input.getName());
         SyntheticsAlertCondition condition = api.syntheticsAlertConditions().create(policy.getId(), input).get();
@@ -824,14 +818,14 @@ public class NewRelicApiTest
         return condition;
     }
 
-    public void deleteSyntheticsCondition(NewRelicApiService api, AlertPolicy policy, SyntheticsAlertCondition condition)
+    public void deleteSyntheticsCondition(NewRelicApi api, AlertPolicy policy, SyntheticsAlertCondition condition)
     {
         logger.info("Delete Synthetics condition: "+condition.getId());
         api.syntheticsAlertConditions().delete(condition.getId());
         Assert.assertFalse(getSyntheticsCondition(api, policy, condition).isPresent());
     }
 
-    public Optional<SyntheticsAlertCondition> getSyntheticsCondition(NewRelicApiService api, AlertPolicy policy, SyntheticsAlertCondition condition)
+    public Optional<SyntheticsAlertCondition> getSyntheticsCondition(NewRelicApi api, AlertPolicy policy, SyntheticsAlertCondition condition)
     {
         Optional<SyntheticsAlertCondition> ret = Optional.absent();
 
@@ -847,7 +841,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<SyntheticsAlertCondition> getAllSyntheticsConditions(NewRelicApiService api, AlertPolicy policy)
+    public Collection<SyntheticsAlertCondition> getAllSyntheticsConditions(NewRelicApi api, AlertPolicy policy)
     {
         logger.info("Get all Synthetics conditions for policy: "+policy.getId());
         Collection<SyntheticsAlertCondition> ret = api.syntheticsAlertConditions().list(policy.getId());
@@ -893,7 +887,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public InfraAlertCondition createInfraCondition(NewRelicInfraApiService api, AlertPolicy policy, InfraAlertCondition input)
+    public InfraAlertCondition createInfraCondition(NewRelicInfraApi api, AlertPolicy policy, InfraAlertCondition input)
     {
         // Create the infra condition
         logger.info("Create infra condition: "+input.getName());
@@ -903,14 +897,14 @@ public class NewRelicApiTest
         return condition;
     }
 
-    public void deleteInfraCondition(NewRelicInfraApiService api, AlertPolicy policy, InfraAlertCondition condition)
+    public void deleteInfraCondition(NewRelicInfraApi api, AlertPolicy policy, InfraAlertCondition condition)
     {
         logger.info("Delete infra condition: "+condition.getId());
         api.infraAlertConditions().delete(condition.getId());
         Assert.assertFalse(getInfraCondition(api, policy, condition).isPresent());
     }
 
-    public Optional<InfraAlertCondition> getInfraCondition(NewRelicInfraApiService api, AlertPolicy policy, InfraAlertCondition condition)
+    public Optional<InfraAlertCondition> getInfraCondition(NewRelicInfraApi api, AlertPolicy policy, InfraAlertCondition condition)
     {
         Optional<InfraAlertCondition> ret = Optional.absent();
 
@@ -926,7 +920,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<InfraAlertCondition> getAllInfraConditions(NewRelicInfraApiService api, AlertPolicy policy)
+    public Collection<InfraAlertCondition> getAllInfraConditions(NewRelicInfraApi api, AlertPolicy policy)
     {
         logger.info("Get all infra conditions for policy: "+policy.getId());
         Collection<InfraAlertCondition> ret = api.infraAlertConditions().list(policy.getId());
@@ -952,7 +946,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public AlertChannel createChannel(NewRelicApiService api, AlertChannel input)
+    public AlertChannel createChannel(NewRelicApi api, AlertChannel input)
     {
         logger.info("Create alert channel: "+input.getName());
         AlertChannel channel = api.alertChannels().create(input).get();
@@ -967,7 +961,7 @@ public class NewRelicApiTest
         return channel;
     }
 
-    public Collection<AlertChannel> getAllChannels(NewRelicApiService api)
+    public Collection<AlertChannel> getAllChannels(NewRelicApi api)
     {
         logger.info("Get all alert channels: ");
         Collection<AlertChannel> ret = api.alertChannels().list();
@@ -975,7 +969,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public void deleteChannel(NewRelicApiService api, AlertChannel channel)
+    public void deleteChannel(NewRelicApi api, AlertChannel channel)
     {
         logger.info("Delete alert channel: "+channel.getId());
         api.alertChannels().delete(channel.getId());
@@ -983,27 +977,27 @@ public class NewRelicApiTest
         Assert.assertTrue(!ret.isPresent());
     }
 
-    public void addPolicyChannel(NewRelicApiService api, AlertPolicy policy, AlertChannel channel)
+    public void addPolicyChannel(NewRelicApi api, AlertPolicy policy, AlertChannel channel)
     {
         logger.info("Adding alert channel: "+channel.getId()+" to policy: "+policy.getId());
         Optional<AlertPolicyChannel> ret = api.alertPolicyChannels().update(policy.getId(), channel.getId());
         Assert.assertTrue(ret.isPresent() && ArrayUtils.contains(ret.get().getChannelIdArray(), channel.getId()));
     }
 
-    public void deletePolicyChannel(NewRelicApiService api, AlertPolicy policy, AlertChannel channel)
+    public void deletePolicyChannel(NewRelicApi api, AlertPolicy policy, AlertChannel channel)
     {
         logger.info("Deleting alert channel: "+channel.getId()+" from policy: "+policy.getId());
         api.alertPolicyChannels().delete(policy.getId(), channel.getId());
     }
 
-    public void addEntityCondition(NewRelicApiService api, Entity entity, AlertCondition condition)
+    public void addEntityCondition(NewRelicApi api, Entity entity, AlertCondition condition)
     {
         logger.info("Adding entity condition: "+condition.getId()+" to entity: "+entity.getId());
         Optional<AlertCondition> ret = api.alertEntityConditions().add(entity, condition.getId());
         Assert.assertTrue(ret.isPresent() && ArrayUtils.contains(ret.get().getEntitiesArray(), entity.getId()));
     }
 
-    public Collection<AlertCondition> getEntityConditions(NewRelicApiService api, Entity entity)
+    public Collection<AlertCondition> getEntityConditions(NewRelicApi api, Entity entity)
     {
         logger.info("Get conditions for entity: "+entity.getId());
         Collection<AlertCondition> ret = api.alertEntityConditions().list(entity);
@@ -1011,13 +1005,13 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public void removeEntityCondition(NewRelicApiService api, Entity entity, AlertCondition condition)
+    public void removeEntityCondition(NewRelicApi api, Entity entity, AlertCondition condition)
     {
         logger.info("Removing entity condition: "+condition.getId()+" from entity: "+entity.getId());
         api.alertEntityConditions().remove(entity, condition.getId());
     }
 
-    public Collection<AlertEvent> getAlertEvents(NewRelicApiService api)
+    public Collection<AlertEvent> getAlertEvents(NewRelicApi api)
     {
 
         Collection<AlertEvent> ret = null;
@@ -1040,14 +1034,14 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<AlertEvent> getAlertEventsWithFilters(NewRelicApiService api)
+    public Collection<AlertEvent> getAlertEventsWithFilters(NewRelicApi api)
     {
 
         Collection<AlertEvent> ret = null;
 
         try
         {
-            List<String> filters = AlertEventOperations.filters()
+            List<String> filters = AlertEventService.filters()
                 //.product(Product.INFRASTRUCTURE)
                 .entityType(EntityType.HOST)
                 //.eventType(AlertEvent.EventType.NOTIFICATION)
@@ -1069,7 +1063,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<AlertViolation> getAlertViolations(NewRelicApiService api)
+    public Collection<AlertViolation> getAlertViolations(NewRelicApi api)
     {
         Collection<AlertViolation> ret = null;
 
@@ -1090,7 +1084,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<AlertIncident> getAlertIncidents(NewRelicApiService api)
+    public Collection<AlertIncident> getAlertIncidents(NewRelicApi api)
     {
         Collection<AlertIncident> ret = null;
 
@@ -1118,7 +1112,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public Application updateApplication(NewRelicApiService api, Application input)
+    public Application updateApplication(NewRelicApi api, Application input)
     {
         logger.info("Update application: "+input.getName());
         Application application = api.applications().update(input).get();
@@ -1126,7 +1120,7 @@ public class NewRelicApiTest
         return application;
     }
 
-    public Application getApplication(NewRelicApiService api, long id)
+    public Application getApplication(NewRelicApi api, long id)
     {
         logger.info("Get application: "+id);
         Application ret = api.applications().show(id).get();
@@ -1134,14 +1128,14 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Application> getApplications(NewRelicApiService api)
+    public Collection<Application> getApplications(NewRelicApi api)
     {
         Collection<Application> ret = null;
 
         try
         {
             logger.info("Get applications: ");
-            List<String> filters = ApplicationOperations.filters()
+            List<String> filters = ApplicationService.filters()
                 .language("java")
                 .build();
             ret = api.applications().list(filters);
@@ -1154,7 +1148,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Metric> getApplicationMetricNames(NewRelicApiService api, long id)
+    public Collection<Metric> getApplicationMetricNames(NewRelicApi api, long id)
     {
         logger.info("Get application metric names: "+id);
         Collection<Metric> metrics = api.applications().metricNames(id, "Threads/SummaryState/");
@@ -1162,7 +1156,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public MetricData getApplicationMetricData(NewRelicApiService api, long id)
+    public MetricData getApplicationMetricData(NewRelicApi api, long id)
     {
         logger.info("Get application metric data: "+id);
         List<String> parameters = MetricParameterBuilder.builder()
@@ -1187,7 +1181,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public BrowserApplication createBrowserApplication(NewRelicApiService api, BrowserApplication input)
+    public BrowserApplication createBrowserApplication(NewRelicApi api, BrowserApplication input)
     {
         logger.info("Create browser application: "+input.getName());
         BrowserApplication application = api.browserApplications().create(input).get();
@@ -1202,7 +1196,7 @@ public class NewRelicApiTest
         return application;
     }
 
-    public Collection<BrowserApplication> getBrowserApplications(NewRelicApiService api)
+    public Collection<BrowserApplication> getBrowserApplications(NewRelicApi api)
     {
         logger.info("Get all browser applications: ");
         Collection<BrowserApplication> ret = api.browserApplications().list();
@@ -1210,7 +1204,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public MobileApplication getMobileApplication(NewRelicApiService api, long id)
+    public MobileApplication getMobileApplication(NewRelicApi api, long id)
     {
         logger.info("Get mobile application: "+id);
         MobileApplication ret = api.mobileApplications().show(id).get();
@@ -1218,7 +1212,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<MobileApplication> getMobileApplications(NewRelicApiService api)
+    public Collection<MobileApplication> getMobileApplications(NewRelicApi api)
     {
         Collection<MobileApplication> ret = null;
 
@@ -1235,7 +1229,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Metric> getMobileApplicationMetricNames(NewRelicApiService api, long id)
+    public Collection<Metric> getMobileApplicationMetricNames(NewRelicApi api, long id)
     {
         logger.info("Get mobile application metric names: "+id);
         Collection<Metric> metrics = api.mobileApplications().metricNames(id, "Threads/SummaryState/");
@@ -1243,7 +1237,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public MetricData getMobileApplicationMetricData(NewRelicApiService api, long id)
+    public MetricData getMobileApplicationMetricData(NewRelicApi api, long id)
     {
         logger.info("Get mobile application metric data: "+id);
         List<String> parameters = MetricParameterBuilder.builder()
@@ -1260,7 +1254,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public KeyTransaction getKeyTransaction(NewRelicApiService api, long id)
+    public KeyTransaction getKeyTransaction(NewRelicApi api, long id)
     {
         logger.info("Get key transaction: "+id);
         KeyTransaction ret = api.keyTransactions().show(id).get();
@@ -1268,14 +1262,14 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<KeyTransaction> getKeyTransactions(NewRelicApiService api)
+    public Collection<KeyTransaction> getKeyTransactions(NewRelicApi api)
     {
         Collection<KeyTransaction> ret = null;
 
         try
         {
             logger.info("Get key transactions: ");
-            List<String> filters = KeyTransactionOperations.filters()
+            List<String> filters = KeyTransactionService.filters()
                 .name("/agent")
                 .build();
             ret = api.keyTransactions().list(filters);
@@ -1289,7 +1283,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public ApplicationHost getApplicationHost(NewRelicApiService api, long applicationId, long id)
+    public ApplicationHost getApplicationHost(NewRelicApi api, long applicationId, long id)
     {
         logger.info("Get application host: "+id+" for application: "+applicationId);
         ApplicationHost ret = api.applicationHosts().show(applicationId, id).get();
@@ -1297,14 +1291,14 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<ApplicationHost> getApplicationHosts(NewRelicApiService api, long applicationId)
+    public Collection<ApplicationHost> getApplicationHosts(NewRelicApi api, long applicationId)
     {
         Collection<ApplicationHost> ret = null;
 
         try
         {
             logger.info("Get application hosts: ");
-            List<String> filters = ApplicationHostOperations.filters()
+            List<String> filters = ApplicationHostService.filters()
                 .hostname("host")
                 .build();
             ret = api.applicationHosts().list(applicationId, filters);
@@ -1317,7 +1311,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Metric> getApplicationHostMetricNames(NewRelicApiService api, long applicationId, long id)
+    public Collection<Metric> getApplicationHostMetricNames(NewRelicApi api, long applicationId, long id)
     {
         logger.info("Get application host metric names: "+id);
         Collection<Metric> metrics = api.applicationHosts().metricNames(applicationId, id, "Threads/SummaryState/");
@@ -1325,7 +1319,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public MetricData getApplicationHostMetricData(NewRelicApiService api, long applicationId, long id)
+    public MetricData getApplicationHostMetricData(NewRelicApi api, long applicationId, long id)
     {
         logger.info("Get application host metric data: "+id);
         List<String> parameters = MetricParameterBuilder.builder()
@@ -1341,7 +1335,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public ApplicationInstance getApplicationInstance(NewRelicApiService api, long applicationId, long id)
+    public ApplicationInstance getApplicationInstance(NewRelicApi api, long applicationId, long id)
     {
         logger.info("Get application instance: "+id+" for application: "+applicationId);
         ApplicationInstance ret = api.applicationInstances().show(applicationId, id).get();
@@ -1349,14 +1343,14 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<ApplicationInstance> getApplicationInstances(NewRelicApiService api, long applicationId)
+    public Collection<ApplicationInstance> getApplicationInstances(NewRelicApi api, long applicationId)
     {
         Collection<ApplicationInstance> ret = null;
 
         try
         {
             logger.info("Get application instances: ");
-            List<String> filters = ApplicationInstanceOperations.filters()
+            List<String> filters = ApplicationInstanceService.filters()
                 .hostname("host")
                 .build();
             ret = api.applicationInstances().list(applicationId, filters);
@@ -1369,7 +1363,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Metric> getApplicationInstanceMetricNames(NewRelicApiService api, long applicationId, long id)
+    public Collection<Metric> getApplicationInstanceMetricNames(NewRelicApi api, long applicationId, long id)
     {
         logger.info("Get application instance metric names: "+id);
         Collection<Metric> metrics = api.applicationInstances().metricNames(applicationId, id, "Threads/SummaryState/");
@@ -1377,7 +1371,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public MetricData getApplicationInstanceMetricData(NewRelicApiService api, long applicationId, long id)
+    public MetricData getApplicationInstanceMetricData(NewRelicApi api, long applicationId, long id)
     {
         logger.info("Get application instance metric data: "+id);
         List<String> parameters = MetricParameterBuilder.builder()
@@ -1393,7 +1387,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public Plugin getPlugin(NewRelicApiService api, long id)
+    public Plugin getPlugin(NewRelicApi api, long id)
     {
         logger.info("Get plugin: "+id);
         Plugin ret = api.plugins().show(id, true).get();
@@ -1401,14 +1395,14 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Plugin> getPlugins(NewRelicApiService api)
+    public Collection<Plugin> getPlugins(NewRelicApi api)
     {
         Collection<Plugin> ret = null;
 
         try
         {
             logger.info("Get plugins: ");
-            List<String> filters = PluginOperations.filters()
+            List<String> filters = PluginService.filters()
                 //.guid("guid")
                 .detailed(true)
                 .build();
@@ -1422,7 +1416,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public PluginComponent getPluginComponent(NewRelicApiService api, long componentId)
+    public PluginComponent getPluginComponent(NewRelicApi api, long componentId)
     {
         logger.info("Get plugin component: "+componentId);
         PluginComponent ret = api.pluginComponents().show(componentId).get();
@@ -1430,14 +1424,14 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<PluginComponent> getPluginComponents(NewRelicApiService api)
+    public Collection<PluginComponent> getPluginComponents(NewRelicApi api)
     {
         Collection<PluginComponent> ret = null;
 
         try
         {
             logger.info("Get plugin components: ");
-            List<String> filters = PluginComponentOperations.filters()
+            List<String> filters = PluginComponentService.filters()
                 //.pluginId("12345")
                 .healthStatus(true)
                 .build();
@@ -1451,7 +1445,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Metric> getPluginComponentMetricNames(NewRelicApiService api, long id)
+    public Collection<Metric> getPluginComponentMetricNames(NewRelicApi api, long id)
     {
         logger.info("Get plugin component metric names: "+id);
         Collection<Metric> metrics = api.pluginComponents().metricNames(id, "Threads/SummaryState/");
@@ -1459,7 +1453,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public MetricData getPluginComponentMetricData(NewRelicApiService api, long id)
+    public MetricData getPluginComponentMetricData(NewRelicApi api, long id)
     {
         logger.info("Get plugin component metric data: "+id);
         List<String> parameters = MetricParameterBuilder.builder()
@@ -1485,7 +1479,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public Deployment createDeployment(NewRelicApiService api, long applicationId, Deployment input)
+    public Deployment createDeployment(NewRelicApi api, long applicationId, Deployment input)
     {
         logger.info("Create deployment: "+input.getDescription());
         Deployment deployment = api.deployments().create(applicationId, input).get();
@@ -1500,7 +1494,7 @@ public class NewRelicApiTest
         return deployment;
     }
 
-    public Collection<Deployment> getDeployments(NewRelicApiService api, long applicationId)
+    public Collection<Deployment> getDeployments(NewRelicApi api, long applicationId)
     {
         Collection<Deployment> ret = null;
 
@@ -1517,7 +1511,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public void deleteDeployment(NewRelicApiService api, Application application, Deployment deployment)
+    public void deleteDeployment(NewRelicApi api, Application application, Deployment deployment)
     {
         logger.info("Delete deployment: "+deployment.getId());
         api.deployments().delete(application.getId(), deployment.getId());
@@ -1533,7 +1527,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public Server getServer(NewRelicApiService api, long id)
+    public Server getServer(NewRelicApi api, long id)
     {
         logger.info("Get server: "+id);
         Server ret = api.servers().show(id).get();
@@ -1541,14 +1535,14 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Server> getServers(NewRelicApiService api)
+    public Collection<Server> getServers(NewRelicApi api)
     {
         Collection<Server> ret = null;
 
         try
         {
             logger.info("Get servers: ");
-            List<String> filters = ServerOperations.filters()
+            List<String> filters = ServerService.filters()
                 .reported(true)
                 .build();
             ret = api.servers().list(filters);
@@ -1561,7 +1555,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Server updateServer(NewRelicApiService api, Server input)
+    public Server updateServer(NewRelicApi api, Server input)
     {
         logger.info("Update server: "+input.getName());
         Server server = api.servers().update(input).get();
@@ -1569,7 +1563,7 @@ public class NewRelicApiTest
         return server;
     }
 
-    public Collection<Metric> getServerMetricNames(NewRelicApiService api, long id)
+    public Collection<Metric> getServerMetricNames(NewRelicApi api, long id)
     {
         logger.info("Get server metric names: "+id);
         Collection<Metric> metrics = api.servers().metricNames(id, "System/Memory/");
@@ -1577,7 +1571,7 @@ public class NewRelicApiTest
         return metrics;
     }
 
-    public MetricData getServerMetricData(NewRelicApiService api, long id)
+    public MetricData getServerMetricData(NewRelicApi api, long id)
     {
         logger.info("Get server metric data: "+id);
         List<String> parameters = MetricParameterBuilder.builder()
@@ -1601,7 +1595,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public Label createLabel(NewRelicApiService api, Label input)
+    public Label createLabel(NewRelicApi api, Label input)
     {
         logger.info("Create label: "+input.getName());
         Label label = api.labels().create(input).get();
@@ -1616,7 +1610,7 @@ public class NewRelicApiTest
         return label;
     }
 
-    public Label getLabel(NewRelicApiService api, String key)
+    public Label getLabel(NewRelicApi api, String key)
     {
         logger.info("Get label: "+key);
         Label ret = api.labels().show(key).get();
@@ -1624,7 +1618,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Label> getLabels(NewRelicApiService api)
+    public Collection<Label> getLabels(NewRelicApi api)
     {
         Collection<Label> ret = null;
 
@@ -1641,15 +1635,25 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public void deleteLabel(NewRelicApiService api, Label label)
+    public void deleteLabel(NewRelicApi api, Label label)
     {
-        logger.info("Delete label: "+label.getKey());
-        api.labels().delete(label.getKey());
-        Optional<Label> ret = api.labels().show(label.getKey());
-        Assert.assertFalse(ret.isPresent());
+        try
+        {
+            logger.info("Delete label: "+label.getKey());
+            api.labels().delete(label.getKey());
+            Optional<Label> ret = api.labels().show(label.getKey());
+            Assert.assertFalse(ret.isPresent());
+        }
+        catch(RuntimeException e)
+        {
+            if(e.getMessage().indexOf("404 Not Found") == -1) // throws 404 if label contains illegal characters
+                Assert.fail("Error in delete label: "+e.getMessage());
+            else
+                logger.warning("Error in delete label: "+e.getMessage());
+        }
     }
 
-    public User getUser(NewRelicApiService api, long id)
+    public User getUser(NewRelicApi api, long id)
     {
         logger.info("Get user: "+id);
         User ret = api.users().show(id).get();
@@ -1657,7 +1661,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<User> getUsers(NewRelicApiService api)
+    public Collection<User> getUsers(NewRelicApi api)
     {
         Collection<User> ret = null;
 
@@ -1674,7 +1678,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public void resetUser(NewRelicApiService api, long id)
+    public void resetUser(NewRelicApi api, long id)
     {
         try
         {
@@ -1687,7 +1691,7 @@ public class NewRelicApiTest
         }
     }
 
-    public UsageData getUsage(NewRelicApiService api, String product)
+    public UsageData getUsage(NewRelicApi api, String product)
     {
         logger.info("Get usage: "+product);
         Calendar c = Calendar.getInstance();
@@ -1737,7 +1741,7 @@ public class NewRelicApiTest
             .build();
     }
 
-    public Monitor getMonitor(NewRelicSyntheticsApiService api, String id)
+    public Monitor getMonitor(NewRelicSyntheticsApi api, String id)
     {
         logger.info("Get monitor: "+id);
         Monitor ret = api.monitors().show(id).get();
@@ -1745,7 +1749,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Collection<Monitor> getMonitors(NewRelicSyntheticsApiService api)
+    public Collection<Monitor> getMonitors(NewRelicSyntheticsApi api)
     {
         Collection<Monitor> ret = null;
 
@@ -1762,7 +1766,7 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public Monitor createMonitor(NewRelicSyntheticsApiService api, Monitor input)
+    public Monitor createMonitor(NewRelicSyntheticsApi api, Monitor input)
     {
         logger.info("Create monitor: "+input.getName());
         Monitor monitor = api.monitors().create(input).get();
@@ -1777,7 +1781,7 @@ public class NewRelicApiTest
         return monitor;
     }
 
-    public void updateMonitor(NewRelicSyntheticsApiService api, Monitor input)
+    public void updateMonitor(NewRelicSyntheticsApi api, Monitor input)
     {
         try
         {
@@ -1791,7 +1795,7 @@ public class NewRelicApiTest
         }
     }
 
-    public Script updateMonitorScript(NewRelicSyntheticsApiService api, Monitor monitor, Script input)
+    public Script updateMonitorScript(NewRelicSyntheticsApi api, Monitor monitor, Script input)
     {
         logger.info("Update monitor script: "+monitor.getName());
         Script script = api.monitors().updateScript(monitor.getId(), input).get();
@@ -1806,7 +1810,7 @@ public class NewRelicApiTest
         return script;
     }
 
-    public void patchMonitor(NewRelicSyntheticsApiService api, Monitor input)
+    public void patchMonitor(NewRelicSyntheticsApi api, Monitor input)
     {
         try
         {
@@ -1820,7 +1824,7 @@ public class NewRelicApiTest
         }
     }
 
-    public void deleteMonitor(NewRelicSyntheticsApiService api, Monitor monitor)
+    public void deleteMonitor(NewRelicSyntheticsApi api, Monitor monitor)
     {
         logger.info("Delete monitor: "+monitor.getId());
         api.monitors().delete(monitor.getId());
@@ -1845,13 +1849,13 @@ public class NewRelicApiTest
             .build();
     }
 
-    public void addMonitorLabel(NewRelicSyntheticsApiService api, Monitor monitor, Label label)
+    public void addMonitorLabel(NewRelicSyntheticsApi api, Monitor monitor, Label label)
     {
         logger.info("Add monitor label: "+monitor.getId());
         api.monitors().createLabel(monitor.getId(), label);
     }
 
-    public Collection<Monitor> getMonitorsForLabel(NewRelicSyntheticsApiService api, Label label)
+    public Collection<Monitor> getMonitorsForLabel(NewRelicSyntheticsApi api, Label label)
     {
         Collection<Monitor> ret = null;
 
@@ -1868,13 +1872,13 @@ public class NewRelicApiTest
         return ret;
     }
 
-    public void deleteMonitorLabel(NewRelicSyntheticsApiService api, Monitor monitor, Label label)
+    public void deleteMonitorLabel(NewRelicSyntheticsApi api, Monitor monitor, Label label)
     {
         logger.info("Delete monitor label: "+monitor.getId());
         api.monitors().deleteLabel(monitor.getId(), label);
     }
 
-    public Collection<Location> getLocations(NewRelicSyntheticsApiService api)
+    public Collection<Location> getLocations(NewRelicSyntheticsApi api)
     {
         Collection<Location> ret = null;
 
