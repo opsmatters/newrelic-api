@@ -43,7 +43,9 @@
 
 ### Initialisation
 
-To obtain a client instance to carry out most New Relic operations use the builder provided:
+#### REST API
+
+To obtain a client instance to carry out operations with the New Relic REST API use the builder provided:
 ```
 NewRelicApi api = NewRelicApi.builder()
     .hostname("api.newrelic.com")
@@ -58,7 +60,9 @@ NewRelicApi api = NewRelicApi.builder()
     .build();
 ```
 
-Similarly, to obtain a client instance to carry out New Relic Infrastructure operations use the builder provided:
+#### Infrastructure REST API
+
+To obtain a client instance to carry out operations with the New Relic Infrastructure REST API use the builder provided:
 ```
 NewRelicInfraApi infraApi = NewRelicInfraApi.builder()
     .hostname("infra-api.newrelic.com")
@@ -73,7 +77,9 @@ NewRelicInfraApi infraApi = NewRelicInfraApi.builder()
     .build();
 ```
 
-Lastly, to obtain a client instance to carry out New Relic Synthetics operations use the builder provided:
+#### Synthetics REST API
+
+To obtain a client instance to carry out operations with the New Relic Synthetics REST API use the builder provided:
 ```
 NewRelicSyntheticsApi syntheticsApi = NewRelicSyntheticsApi.builder()
     .hostname("synthetics.newrelic.com")
