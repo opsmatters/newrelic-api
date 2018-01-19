@@ -37,6 +37,7 @@ The following New Relic APIs are currently supported:
 * Servers (List, Show, Update, Delete, Metric Names, Metric Data)
 * Deployments (List, Create, Delete)
 * Labels (List, Create, Delete)
+* Dashboards (List, Create, Delete)
 
 ### Synthetics v1/v3 APIs
 * Monitors (List, Show, Show Script, Create, Update, Update Script, Patch, Delete)
@@ -45,6 +46,9 @@ The following New Relic APIs are currently supported:
 
 ### Insights v1 APIs
 * Query (List)
+
+### Plugins v1 APIs
+* Plugin Metrics (Metric Data)
 
 ### Accounts v2 APIs
 * Users (List, Show, Reset Password)

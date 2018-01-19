@@ -188,6 +188,7 @@ built.on=${TODAY}
             <newrelic.account_id>${newrelic.account_id}</newrelic.account_id>
             <newrelic.api_key>${newrelic.api_key}</newrelic.api_key>
             <newrelic.query_key>${newrelic.query_key}</newrelic.query_key>
+            <newrelic.license_key>${newrelic.license_key}</newrelic.license_key>
             <java.util.logging.config.file>${project.build.directory}/test-classes/logging.properties</java.util.logging.config.file>
           </systemPropertyVariables>
         </configuration>
@@ -217,7 +218,7 @@ built.on=${TODAY}
           <useReleaseProfile>false</useReleaseProfile>
           <releaseProfiles>release</releaseProfiles>
           <goals>deploy</goals>
-          <arguments>-Dnewrelic.account_id=${newrelic.account_id} -Dnewrelic.api_key=${newrelic.api_key} -Dnewrelic.query_key=${newrelic.query_key}</arguments>
+          <arguments>-Dnewrelic.account_id=${newrelic.account_id} -Dnewrelic.api_key=${newrelic.api_key} -Dnewrelic.query_key=${newrelic.query_key} -Dnewrelic.license_key=${newrelic.license_key}</arguments>
         </configuration>
       </plugin>
 

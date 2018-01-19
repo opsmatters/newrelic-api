@@ -32,6 +32,7 @@
 - [Servers](#servers)
 - [Deployments](#deployments)
 - [Labels](#labels)
+- [Dashboards](#dashboards)
 
 #### Synthetics v1/v3 API
 - [Monitors](#monitors)
@@ -39,6 +40,9 @@
 
 #### Insights v1 API
 - [Query](#insights-query)
+
+#### Plugins v1 API
+- [Plugins Metrics](#plugins-metrics)
 
 #### Accounts v2 APIs
 - [Users](#users)
