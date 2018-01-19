@@ -136,7 +136,7 @@ public abstract class NewRelicClient
     /**
      * Returns the uri prefix for resources used by the client.
      * <P>
-     * Defaults to an empty prefix.
+     * Defaults to an empty prefix. Where used, should always start with a "/".
      * @return The uri prefix for the client
      */
     public String getUriPrefix()

@@ -52,6 +52,7 @@ import com.opsmatters.newrelic.api.model.accounts.UsageData;
 import com.opsmatters.newrelic.api.model.synthetics.Monitor;
 import com.opsmatters.newrelic.api.model.synthetics.Script;
 import com.opsmatters.newrelic.api.model.synthetics.Location;
+import com.opsmatters.newrelic.api.model.insights.QueryData;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -145,6 +146,8 @@ public class BaseFluent
 
     protected static final GenericType<Collection<Location>> LOCATIONS = new GenericType<Collection<Location>>(){};
 
+    protected static final GenericType<QueryData> QUERY_DATA = new GenericType<QueryData>(){};
+
     protected HttpContext HTTP;
     private NewRelicClient client;
 
@@ -169,7 +172,7 @@ public class BaseFluent
     }
 
     /**
-     * Encode "/" to its URL encoded representation "%2F".
+     * Encode special character in query string to the URL encoded representation.
      * @param str The input string
      * @return The encoded String
      */
@@ -179,7 +182,10 @@ public class BaseFluent
 
         try
         {
-            encodedValue = URLEncoder.encode(str, "UTF-8");
+            encodedValue = URLEncoder.encode(encodedValue, "UTF-8");
+
+            // Spaces in NRQL queries expected to be encoded as "%20" instead of "+".
+            encodedValue = encodedValue.replace("+", "%20");
         }
         catch (UnsupportedEncodingException e)
         {

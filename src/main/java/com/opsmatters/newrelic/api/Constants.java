@@ -31,7 +31,22 @@ public class Constants
     }
 
     /**
+     * The name of the standard property used for the Account ID.
+     */
+    public static final String ACCOUNT_ID_PROPERTY = "newrelic.account_id";
+
+    /**
      * The name of the standard property used for the API key.
      */
     public static final String API_KEY_PROPERTY = "newrelic.api_key";
+
+    /**
+     * The name of the standard property used for the Query key.
+     */
+    public static final String QUERY_KEY_PROPERTY = "newrelic.query_key";
+
+    /**
+     * The name of the standard property used for the License key.
+     */
+    public static final String LICENSE_KEY_PROPERTY = "newrelic.license_key";
 }

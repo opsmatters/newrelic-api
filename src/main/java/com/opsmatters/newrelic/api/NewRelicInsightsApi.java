@@ -17,29 +17,28 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.logging.Logger;
-import com.opsmatters.newrelic.httpclient.ApiKeyHttpClientProvider;
+import com.opsmatters.newrelic.httpclient.QueryKeyHttpClientProvider;
 import com.opsmatters.newrelic.httpclient.HttpClientProvider;
-import com.opsmatters.newrelic.api.services.MonitorService;
-import com.opsmatters.newrelic.api.services.LocationService;
+import com.opsmatters.newrelic.api.services.QueryService;
 
 /**
- * Client used to invoke New Relic operations using the Synthetics API.
+ * Client used to invoke New Relic operations using the Insights API.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class NewRelicSyntheticsApi extends NewRelicClient
+public class NewRelicInsightsApi extends NewRelicClient
 {
-    private static final Logger logger = Logger.getLogger(NewRelicSyntheticsApi.class.getName());
+    private static final Logger logger = Logger.getLogger(NewRelicInsightsApi.class.getName());
  
     /**
-     * The default hostname for New Relic Synthetics.
+     * The default hostname for New Relic Insights.
      */
-    public static final String DEFAULT_HOST = "synthetics.newrelic.com";
+    public static final String DEFAULT_HOST = "insights-api.newrelic.com";
 
     /**
      * Default constructor.
      */
-    public NewRelicSyntheticsApi()
+    public NewRelicInsightsApi()
     {
         setHostname(DEFAULT_HOST);
     }
@@ -50,7 +49,7 @@ public class NewRelicSyntheticsApi extends NewRelicClient
      * @param port The port of the server
      * @param provider The HTTP client provider
      */
-    public NewRelicSyntheticsApi(String hostname, int port, HttpClientProvider provider)
+    public NewRelicInsightsApi(String hostname, int port, HttpClientProvider provider)
     {    
         super(hostname, port, provider);
     }
@@ -58,7 +57,7 @@ public class NewRelicSyntheticsApi extends NewRelicClient
     /**
      * Sets the name of the host to connect to.
      * <P>
-     * The default hostname is "synthetics.newrelic.com".
+     * The default hostname is "insights-api.newrelic.com".
      * @param hostname The name of the host
      */
     public void setHostname(String hostname)
@@ -67,39 +66,17 @@ public class NewRelicSyntheticsApi extends NewRelicClient
     }
 
     /**
-     * Returns the uri prefix for resources used by the client.
-     * <P>
-     * Defaults to "/synthetics/api" for Synthetics.
-     * @return The uri prefix for the client
+     * Returns the operations related to Insights queries.
+     * @return The Insights query service
      */
-    @Override
-    public String getUriPrefix()
-    {
-        return "/synthetics/api";
-    }
-
-    /**
-     * Returns the operations related to Synthetics monitors.
-     * @return The Synthetics monitor service
-     */
-    public MonitorService monitors()
+    public QueryService queries()
     {
         checkInitialize();
-        return new MonitorService(httpContext, this);
+        return new QueryService(httpContext, this);
     }
 
     /**
-     * Returns the operations related to Synthetics locations.
-     * @return The Synthetics location service
-     */
-    public LocationService locations()
-    {
-        checkInitialize();
-        return new LocationService(httpContext, this);
-    }
-
-    /**
-     * Returns a builder for the NewRelicSyntheticsApi.
+     * Returns a builder for the NewRelicInsightsApi.
      * @return The builder instance.
      */
     public static Builder builder()
@@ -108,13 +85,13 @@ public class NewRelicSyntheticsApi extends NewRelicClient
     }
 
     /**
-     * Builder to make NewRelicSyntheticsApi construction easier.
+     * Builder to make NewRelicInsightsApi construction easier.
      */
     public static class Builder
     {
         private String hostname = DEFAULT_HOST;
         private int port = DEFAULT_PORT;
-        private HttpClientProvider provider = new ApiKeyHttpClientProvider("");
+        private HttpClientProvider provider = new QueryKeyHttpClientProvider("");
 
         /**
          * Default constructor.
@@ -127,7 +104,7 @@ public class NewRelicSyntheticsApi extends NewRelicClient
         /**
          * Sets the name of the host to connect to.
          * <P>
-         * The default hostname is "synthetics.newrelic.com".
+         * The default hostname is "insights-api.newrelic.com".
          * @param hostname The name of the host
          * @return This object
          */
@@ -151,23 +128,23 @@ public class NewRelicSyntheticsApi extends NewRelicClient
         }
 
         /**
-         * Sets the API key used to authenticate the connection.
-         * @param key The API key
+         * Sets the Query key used to authenticate the connection.
+         * @param key The Query key
          * @return This object
          */
-        public Builder apiKey(String key)
+        public Builder queryKey(String key)
         {
-            this.provider = new ApiKeyHttpClientProvider(key);
+            this.provider = new QueryKeyHttpClientProvider(key);
             return this;
         }
 
         /**
-         * Returns the configured synthetics API client instance
-         * @return The synthetics API client instance
+         * Returns the configured Insights API client instance
+         * @return The Insights API client instance
          */
-        public NewRelicSyntheticsApi build()
+        public NewRelicInsightsApi build()
         {
-            return new NewRelicSyntheticsApi(hostname, port, provider);
+            return new NewRelicInsightsApi(hostname, port, provider);
         }
     }
 }

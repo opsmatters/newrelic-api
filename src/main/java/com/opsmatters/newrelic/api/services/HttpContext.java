@@ -68,18 +68,18 @@ public class HttpContext
     }
     
     /**
-     * Build the URL from the protocol://hostname:port + relativePath
-     * @param relativePath The path of the resource
+     * Build the URL from the protocol://hostname:port + uriPrefix + relativePath
+     * @param relativePath The path of the resource (should always start with a "/")
      * @return The URL to call
      */
     String buildUrl(String relativePath)
     {
-        return String.format("%s://%s:%s/%s%s", this.protocol, this.hostname, this.port, this.uriPrefix, relativePath);
+        return String.format("%s://%s:%s%s%s", this.protocol, this.hostname, this.port, this.uriPrefix, relativePath);
     }
     
     /**
-     * Build the URI from the protocol://hostname:port + relativePath.
-     * @param relativePath The path of the resource
+     * Build the URI from the protocol://hostname:port + uriPrefix + relativePath.
+     * @param relativePath The path of the resource (should always start with a "/")
      * @return The URI to call
      */
     URI buildUri(String relativePath)

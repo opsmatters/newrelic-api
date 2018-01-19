@@ -24,26 +24,26 @@ import javax.ws.rs.core.Configuration;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import org.glassfish.jersey.logging.LoggingFeature;
-import com.opsmatters.newrelic.httpclient.filters.ApiKeyFilter;
+import com.opsmatters.newrelic.httpclient.filters.LicenseKeyFilter;
 
 /**
- * HTTP client provider to attach an API key used for authentication.
+ * HTTP client provider to attach a License key used for authentication.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class ApiKeyHttpClientProvider implements HttpClientProvider
+public class LicenseKeyHttpClientProvider implements HttpClientProvider
 {
-    private static final Logger logger = Logger.getLogger(ApiKeyHttpClientProvider.class.getName());
+    private static final Logger logger = Logger.getLogger(LicenseKeyHttpClientProvider.class.getName());
 
-    private String apiKey;
+    private String licenseKey;
     
     /**
-     * Constructor that takes an API key.
-     * @param apiKey The API key
+     * Constructor that takes a License key.
+     * @param licenseKey The License key
      */
-    public ApiKeyHttpClientProvider(String apiKey)
+    public LicenseKeyHttpClientProvider(String licenseKey)
     {    
-        this.apiKey = apiKey;
+        this.licenseKey = licenseKey;
     }
 
     /**
@@ -67,7 +67,7 @@ public class ApiKeyHttpClientProvider implements HttpClientProvider
         config.register(GsonMessageBodyHandler.class);   
         Client client = ClientBuilder.newClient(config);
         client.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true); // To support PATCH method
-        client.register(new ApiKeyFilter(this.apiKey));
+        client.register(new LicenseKeyFilter(this.licenseKey));
         if(logger.isLoggable(Level.FINE))
             client.register(new LoggingFeature(logger, Level.FINE, LoggingFeature.Verbosity.PAYLOAD_TEXT, 8192));
         return client;

@@ -43,6 +43,9 @@ The following New Relic APIs are currently supported:
 * Labels (List, Create, Delete)
 * Locations (List)
 
+### Insights v1 APIs
+* Query (List)
+
 ### Accounts v2 APIs
 * Users (List, Show, Reset Password)
 * Usages (List)
@@ -54,7 +57,10 @@ Other APIs can be included on request.
 A New Relic account with an Admin user.
 The user needs to generate an [Admin API Key](https://docs.newrelic.com/docs/apis/rest-api-v2/getting-started/api-keys) 
 to provide read-write access via the [New Relic REST APIs](https://api.newrelic.com).
-The Admin API Key is referenced in this documentation as the parameter "YOUR_API_KEY".
+The Admin API Key is referenced in the documentation as the parameter "YOUR_API_KEY".
+
+Other keys:
+* For Insights queries, a Query key will need to be generated. The Query Key is referenced in the documentation as the parameter "YOUR_QUERY_KEY".
 
 ## Installing
 
@@ -83,6 +89,7 @@ The following tests are included:
 * UserServicesTest: Gets the users for an account.
 * UsageServicesTest: Gets the usages for a product.
 * SyntheticsServicesTest: Creates several types of monitors, adds labels to them, and then deletes them. Also gets the list of locations.
+* InsightsServicesTest: Executes an NRQL query and then parses the result.
 
 ## Examples
 

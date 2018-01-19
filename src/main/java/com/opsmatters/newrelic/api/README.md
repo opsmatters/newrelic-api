@@ -37,6 +37,9 @@
 - [Monitors](#monitors)
 - [Locations](#locations)
 
+#### Insights v1 API
+- [Query](#query)
+
 #### Accounts v2 APIs
 - [Users](#users)
 - [Usages](#usages)
@@ -91,6 +94,23 @@ Again, if the hostname and port are omitted they default to "synthetics.newrelic
 ```
 NewRelicSyntheticsApi syntheticsApi = NewRelicSyntheticsApi.builder()
     .apiKey("<YOUR_API_KEY>")
+    .build();
+```
+
+#### Insights REST API
+
+To obtain a client instance to carry out operations with the New Relic Insights REST API use the builder provided:
+```
+NewRelicInsightsApi insightsApi = NewRelicInsightsApi.builder()
+    .hostname("insights-api.newrelic.com")
+    .port(443)
+    .queryKey("<YOUR_QUERY_KEY>")
+    .build();
+```
+Again, if the hostname and port are omitted they default to "insights-api.newrelic.com" and 443 respectively, so this becomes:
+```
+NewRelicInsightsApi insightsApi = NewRelicInsightsApi.builder()
+    .queryKey("<YOUR_QUERY_KEY>")
     .build();
 ```
 
@@ -714,6 +734,14 @@ Other operations have also been included for monitors:
 To list the valid locations call the "list" operation:
 ```
 Collection<Location> locations = syntheticsApi.locations().list();
+```
+
+### Insights Query
+To execute an Insights query and get the results call the "list" operation:
+```
+long accountId = 123456;
+String query = "SELECT average(duration) FROM PageView";
+QueryData data = insightsApi.queries().list(accountId, query).get();
 ```
 
 ### Users

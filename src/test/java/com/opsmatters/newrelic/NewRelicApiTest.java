@@ -30,6 +30,7 @@ import com.opsmatters.newrelic.api.Constants;
 import com.opsmatters.newrelic.api.NewRelicApi;
 import com.opsmatters.newrelic.api.NewRelicInfraApi;
 import com.opsmatters.newrelic.api.NewRelicSyntheticsApi;
+import com.opsmatters.newrelic.api.NewRelicInsightsApi;
 import com.opsmatters.newrelic.api.services.AlertEventService;
 import com.opsmatters.newrelic.api.services.ApplicationService;
 import com.opsmatters.newrelic.api.services.ApplicationHostService;
@@ -88,6 +89,8 @@ import com.opsmatters.newrelic.api.model.synthetics.ScriptBrowserMonitor;
 import com.opsmatters.newrelic.api.model.synthetics.Script;
 import com.opsmatters.newrelic.api.model.synthetics.ScriptLocation;
 import com.opsmatters.newrelic.api.model.synthetics.Location;
+import com.opsmatters.newrelic.api.model.insights.QueryData;
+import com.opsmatters.newrelic.util.Utils;
 
 /**
  * The set of tests used for New Relic API services.
@@ -98,7 +101,11 @@ public class NewRelicApiTest
 {
     private static final Logger logger = Logger.getLogger(NewRelicApiTest.class.getName());
 
-    private String key = System.getProperty(Constants.API_KEY_PROPERTY);
+    // Get the keys
+    private String apiKey = System.getProperty(Constants.API_KEY_PROPERTY);
+    private String queryKey = System.getProperty(Constants.QUERY_KEY_PROPERTY);
+    private long accountId = Long.parseLong(System.getProperty(Constants.ACCOUNT_ID_PROPERTY, "0"));
+
     private String policyName = "test-policy";
     private String apmConditionName = "test-apm-condition";
     private String browserConditionName = "test-browser-condition";
@@ -123,6 +130,7 @@ public class NewRelicApiTest
     private String monitorUrl = "http://google.com";
     private String monitorCategory = "Monitors";
     private String monitorLabel = "Test";
+    private String insightsQuery = "SELECT average(duration) FROM PageView";
 
     @Test
     public void testAlertServices()
@@ -477,24 +485,50 @@ public class NewRelicApiTest
         logger.info("Completed test: "+testName);
     }
 
+    @Test
+    public void testInsightsServices()
+    {
+        String testName = "InsightsServicesTest";
+        logger.info("Starting test: "+testName);
+
+        // Initialise the client
+        logger.info("Initialise the client");
+        NewRelicInsightsApi api = getInsightsApiClient();
+        Assert.assertNotNull(api);
+
+        // Get the results of the query
+        QueryData data = getQueryResult(api, accountId, insightsQuery);
+        logger.info("Query data: "+data.getResults());
+        Assert.assertTrue(data.getResults().size() > 0);
+
+        logger.info("Completed test: "+testName);
+    }
+
     public NewRelicApi getApiClient()
     {
         return NewRelicApi.builder()
-            .apiKey(key)
+            .apiKey(apiKey)
             .build();
 	}
 
     public NewRelicInfraApi getInfraApiClient()
     {
         return NewRelicInfraApi.builder()
-            .apiKey(key)
+            .apiKey(apiKey)
             .build();
 	}
 
     public NewRelicSyntheticsApi getSyntheticsApiClient()
     {
         return NewRelicSyntheticsApi.builder()
-            .apiKey(key)
+            .apiKey(apiKey)
+            .build();
+	}
+
+    public NewRelicInsightsApi getInsightsApiClient()
+    {
+        return NewRelicInsightsApi.builder()
+            .queryKey(queryKey)
             .build();
 	}
 
@@ -1890,6 +1924,27 @@ public class NewRelicApiTest
         catch(RuntimeException e)
         {
             Assert.fail("Error in get locations: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public QueryData getQueryResult(NewRelicInsightsApi api, long accountId, String query)
+    {
+        QueryData ret = null;
+
+        try
+        {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DATE, -1); // data for the last day
+            query += " SINCE '"+Utils.getNrqlDateTime(c.getTimeInMillis())+"'";
+
+            logger.info("Get query data: "+query);
+            ret = api.queries().list(accountId, query).get();
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get query data: "+e.getMessage());
         }
 
         return ret;

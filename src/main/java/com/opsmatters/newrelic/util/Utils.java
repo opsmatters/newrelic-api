@@ -38,6 +38,11 @@ public class Utils
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     /**
+     * The date format used by NRQL queries.
+     */
+    public static final String NRQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    /**
      * Private constructor.
      */
     private Utils()
@@ -99,5 +104,15 @@ public class Utils
     static public String getFormattedDate(long dt)
     {
         return getFormattedDate(dt, DATE_FORMAT);
+    }
+
+    /**
+     * Returns the given date time formatted using the NRQL format.
+     * @param dt The date to format (in milliseconds)
+     * @return The date in NRQL format
+     */
+    static public String getNrqlDateTime(long dt)
+    {
+        return getFormattedDateTime(dt, null, NRQL_DATE_FORMAT);
     }
 }
