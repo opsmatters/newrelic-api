@@ -38,7 +38,7 @@
 - [Locations](#locations)
 
 #### Insights v1 API
-- [Query](#query)
+- [Query](#insights-query)
 
 #### Accounts v2 APIs
 - [Users](#users)
