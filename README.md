@@ -37,7 +37,7 @@ The following New Relic APIs are currently supported:
 * Servers (List, Show, Update, Delete, Metric Names, Metric Data)
 * Deployments (List, Create, Delete)
 * Labels (List, Create, Delete)
-* Dashboards (List, Create, Delete)
+* Dashboards (List, Show, Create, Update, Delete)
 
 ### Synthetics v1/v3 APIs
 * Monitors (List, Show, Show Script, Create, Update, Update Script, Patch, Delete)
@@ -55,6 +55,10 @@ The following New Relic APIs are currently supported:
 * Usages (List)
 
 Other APIs can be included on request.
+
+## Examples
+
+A detailed set of examples of the usage of the API can be found on [the API site](src/main/java/com/opsmatters/newrelic/api).
 
 ## Prerequisites
 
@@ -99,10 +103,7 @@ The following tests are included:
 * SyntheticsServicesTest: Creates several types of monitors, adds labels to them, and then deletes them. Also gets the list of locations.
 * InsightsServicesTest: Executes an NRQL query and then parses the result.
 * PluginServicesTest: Sends a set of plugin metric timeslices to New Relic.
-
-## Examples
-
-A detailed set of examples of the usage of the API can be found [here](src/main/java/com/opsmatters/newrelic/api).
+* DashboardServicesTest: Creates several dashboards, updates them, lists them, and then deletes them.
 
 ## Deployment
 
