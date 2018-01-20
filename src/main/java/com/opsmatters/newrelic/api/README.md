@@ -130,7 +130,7 @@ NewRelicPluginsApi pluginsApi = NewRelicPluginsApi.builder()
 ```
 Again, if the hostname and port are omitted they default to "platform-api.newrelic.com" and 443 respectively, so this becomes:
 ```
-NewRelicPluginsApi insightsApi = NewRelicPluginsApi.builder()
+NewRelicPluginsApi pluginsApi = NewRelicPluginsApi.builder()
     .licenseKey("<YOUR_LICENSE_KEY>")
     .build();
 ```
@@ -765,7 +765,6 @@ String query = "SELECT average(duration) FROM PageView";
 QueryData data = insightsApi.queries().list(accountId, query).get();
 ```
 
-#GERALD
 ### Plugins Metrics
 To send a set of metrics to New Relic build the metric component with the required timeslices, and then call the "metricData" operation:
 ```
@@ -802,7 +801,7 @@ PluginData data = PluginData.builder()
     .addComponent(component)
     .build();
 
-Status status = api.metrics().metricData(data).get();
+Status status = pluginsApi.metrics().metricData(data).get();
 Assert.assertTrue(status.getStatus().equals("ok"));
 ```
 If the data was sent successfully, a "status" attribute is returned with a value of "ok".
