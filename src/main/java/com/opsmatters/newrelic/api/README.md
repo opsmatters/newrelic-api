@@ -32,14 +32,14 @@
 - [Servers](#servers)
 - [Deployments](#deployments)
 - [Labels](#labels)
-- [Dashboards](#dashboards)
 
 #### Synthetics v1/v3 API
 - [Monitors](#monitors)
 - [Locations](#locations)
 
-#### Insights v1 API
+#### Insights v1/v2 API
 - [Query](#insights-query)
+- [Dashboards](#dashboards)
 
 #### Plugins v1 API
 - [Plugins Metrics](#plugins-metrics)
