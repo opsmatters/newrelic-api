@@ -64,8 +64,11 @@ to provide read-write access via the [New Relic REST APIs](https://api.newrelic.
 The Admin API Key is referenced in the documentation as the parameter "YOUR_API_KEY".
 
 Other keys:
-* For executing Insights queries, a Query key will need to be generated. The Query Key is referenced in the documentation as the parameter "YOUR_QUERY_KEY".
-* For sending Plugins metrics, the main license key for the account is required. The License Key is referenced in the documentation as the parameter "YOUR_LICENSE_KEY".
+* For executing Insights queries, the Account ID is required and a Query key will need to be generated. 
+    - The Account ID is referenced in the documentation as the parameter "YOUR_ACCOUNT_ID".
+    - The Query Key is referenced in the documentation as the parameter "YOUR_QUERY_KEY".
+* For sending Plugins metrics, the main license key for the account is required. 
+    - The License Key is referenced in the documentation as the parameter "YOUR_LICENSE_KEY".
 
 ## Installing
 
@@ -77,14 +80,14 @@ First clone the repository using:
 
 To compile the source code, run all tests, and generate all artefacts (including sources, javadoc, etc):
 ```
-mvn package -Dnewrelic.apiKey="<YOUR_API_KEY>" 
+mvn package -Dnewrelic.api_key="<YOUR_API_KEY>" -Dnewrelic.query_key="<YOUR_QUERY_KEY>" -Dnewrelic.license_key="<YOUR_LICENSE_KEY>" -Dnewrelic.account_id="<YOUR_ACCOUNT_ID>"
 ```
 
 ## Running the tests
 
 To execute the unit tests:
 ```
-mvn clean test -Dnewrelic.apiKey="<YOUR_API_KEY>"
+mvn clean test -Dnewrelic.api_key="<YOUR_API_KEY>" -Dnewrelic.query_key="<YOUR_QUERY_KEY>" -Dnewrelic.license_key="<YOUR_LICENSE_KEY>" -Dnewrelic.account_id="<YOUR_ACCOUNT_ID>"
 ```
 
 The following tests are included:
