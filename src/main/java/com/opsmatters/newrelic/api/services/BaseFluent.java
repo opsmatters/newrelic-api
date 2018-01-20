@@ -53,6 +53,7 @@ import com.opsmatters.newrelic.api.model.synthetics.Monitor;
 import com.opsmatters.newrelic.api.model.synthetics.Script;
 import com.opsmatters.newrelic.api.model.synthetics.Location;
 import com.opsmatters.newrelic.api.model.insights.QueryData;
+import com.opsmatters.newrelic.api.model.Status;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -147,6 +148,8 @@ public class BaseFluent
     protected static final GenericType<Collection<Location>> LOCATIONS = new GenericType<Collection<Location>>(){};
 
     protected static final GenericType<QueryData> QUERY_DATA = new GenericType<QueryData>(){};
+
+    protected static final GenericType<Status> STATUS = new GenericType<Status>(){};
 
     protected HttpContext HTTP;
     private NewRelicClient client;

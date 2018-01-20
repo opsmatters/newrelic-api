@@ -31,6 +31,7 @@ import com.opsmatters.newrelic.api.NewRelicApi;
 import com.opsmatters.newrelic.api.NewRelicInfraApi;
 import com.opsmatters.newrelic.api.NewRelicSyntheticsApi;
 import com.opsmatters.newrelic.api.NewRelicInsightsApi;
+import com.opsmatters.newrelic.api.NewRelicPluginsApi;
 import com.opsmatters.newrelic.api.services.AlertEventService;
 import com.opsmatters.newrelic.api.services.ApplicationService;
 import com.opsmatters.newrelic.api.services.ApplicationHostService;
@@ -90,6 +91,10 @@ import com.opsmatters.newrelic.api.model.synthetics.Script;
 import com.opsmatters.newrelic.api.model.synthetics.ScriptLocation;
 import com.opsmatters.newrelic.api.model.synthetics.Location;
 import com.opsmatters.newrelic.api.model.insights.QueryData;
+import com.opsmatters.newrelic.api.model.plugins.PluginData;
+import com.opsmatters.newrelic.api.model.plugins.Component;
+import com.opsmatters.newrelic.api.model.plugins.MetricTimeslice;
+import com.opsmatters.newrelic.api.model.Status;
 import com.opsmatters.newrelic.util.Utils;
 
 /**
@@ -101,10 +106,11 @@ public class NewRelicApiTest
 {
     private static final Logger logger = Logger.getLogger(NewRelicApiTest.class.getName());
 
-    // Get the keys
+    // Get the properties
+    private long accountId = Long.parseLong(System.getProperty(Constants.ACCOUNT_ID_PROPERTY, "0"));
     private String apiKey = System.getProperty(Constants.API_KEY_PROPERTY);
     private String queryKey = System.getProperty(Constants.QUERY_KEY_PROPERTY);
-    private long accountId = Long.parseLong(System.getProperty(Constants.ACCOUNT_ID_PROPERTY, "0"));
+    private String licenseKey = System.getProperty(Constants.LICENSE_KEY_PROPERTY);
 
     private String policyName = "test-policy";
     private String apmConditionName = "test-apm-condition";
@@ -131,6 +137,7 @@ public class NewRelicApiTest
     private String monitorCategory = "Monitors";
     private String monitorLabel = "Test";
     private String insightsQuery = "SELECT average(duration) FROM PageView";
+    private String pluginHost = "my-host";
 
     @Test
     public void testAlertServices()
@@ -504,6 +511,23 @@ public class NewRelicApiTest
         logger.info("Completed test: "+testName);
     }
 
+    @Test
+    public void testPluginsServices()
+    {
+        String testName = "PluginsServicesTest";
+        logger.info("Starting test: "+testName);
+
+        // Initialise the client
+        logger.info("Initialise the client");
+        NewRelicPluginsApi api = getPluginsApiClient();
+        Assert.assertNotNull(api);
+
+        // Send the metric data
+        sendPluginData(api, getPluginData(pluginHost));
+
+        logger.info("Completed test: "+testName);
+    }
+
     public NewRelicApi getApiClient()
     {
         return NewRelicApi.builder()
@@ -529,6 +553,13 @@ public class NewRelicApiTest
     {
         return NewRelicInsightsApi.builder()
             .queryKey(queryKey)
+            .build();
+	}
+
+    public NewRelicPluginsApi getPluginsApiClient()
+    {
+        return NewRelicPluginsApi.builder()
+            .licenseKey(licenseKey)
             .build();
 	}
 
@@ -1481,9 +1512,18 @@ public class NewRelicApiTest
 
     public Collection<Metric> getPluginComponentMetricNames(NewRelicApi api, long id)
     {
-        logger.info("Get plugin component metric names: "+id);
-        Collection<Metric> metrics = api.pluginComponents().metricNames(id, "Threads/SummaryState/");
-        Assert.assertTrue(metrics.size() > 0);
+        Collection<Metric> metrics = null;
+
+        try
+        {
+            logger.info("Get plugin component metric names: "+id);
+            metrics = api.pluginComponents().metricNames(id, "Threads/SummaryState/");
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get plugin component metric names: "+e.getMessage());
+        }
+
         return metrics;
     }
 
@@ -1498,8 +1538,17 @@ public class NewRelicApiTest
             .summarize(true)
             .build();
 
-        MetricData metrics = api.pluginComponents().metricData(id, parameters).get();
-        Assert.assertTrue(metrics.getMetrics().size() > 0);
+        MetricData metrics = null;
+
+        try
+        {
+            metrics = api.pluginComponents().metricData(id, parameters).get();
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get plugin component metric data: "+e.getMessage());
+        }
+
         return metrics;
     }
 
@@ -1948,5 +1997,48 @@ public class NewRelicApiTest
         }
 
         return ret;
+    }
+
+    public PluginData getPluginData(String host)
+    {
+        MetricTimeslice<Integer> timeslice1 = MetricTimeslice.<Integer> builder()
+            .total(50)
+            .count(4)
+            .min(10)
+            .max(15)
+            .sumOfSquares(325)
+            .build();
+
+        MetricTimeslice<Double> timeslice2 = MetricTimeslice.<Double> builder()
+            .total(50.1)
+            .count(4.1)
+            .min(10.1)
+            .max(15.1)
+            .sumOfSquares(325.1)
+            .build();
+
+        Component component = Component.builder()
+            .name("my-component")
+            .guid("com.test.my-plugin")
+            .duration(60)
+            .addMetric("Component/Database[Queries/First]", 100) // scalar metric
+            .addMetric("Component/Database[Queries/Second]", new int[] {25, 2, 10, 15, 325}) // array metric
+            .addMetric("Component/Database[Queries/Third]", timeslice1) // int timeslice
+            .addMetric("Component/Database[Queries/Fourth]", timeslice2) // float timeslice
+            .build();
+
+        return PluginData.builder()
+            .host(host)
+            .pid(12345)
+            .version("1.0")
+            .addComponent(component)
+            .build();
+    }
+
+    public void sendPluginData(NewRelicPluginsApi api, PluginData data)
+    {
+        logger.info("Send plugin data: "+data);
+        Status status = api.metrics().metricData(data).get();
+        Assert.assertTrue(status.getStatus().equals("ok"));
     }
 }

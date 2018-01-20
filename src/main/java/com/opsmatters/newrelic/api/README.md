@@ -67,7 +67,7 @@ NewRelicApi api = NewRelicApi.builder()
     .build();
 ```
 
-#### Infrastructure REST API
+#### Infrastructure API
 
 To obtain a client instance to carry out operations with the New Relic Infrastructure REST API use the builder provided:
 ```
@@ -84,7 +84,7 @@ NewRelicInfraApi infraApi = NewRelicInfraApi.builder()
     .build();
 ```
 
-#### Synthetics REST API
+#### Synthetics API
 
 To obtain a client instance to carry out operations with the New Relic Synthetics REST API use the builder provided:
 ```
@@ -101,7 +101,7 @@ NewRelicSyntheticsApi syntheticsApi = NewRelicSyntheticsApi.builder()
     .build();
 ```
 
-#### Insights REST API
+#### Insights API
 
 To obtain a client instance to carry out operations with the New Relic Insights REST API use the builder provided:
 ```
@@ -115,6 +115,23 @@ Again, if the hostname and port are omitted they default to "insights-api.newrel
 ```
 NewRelicInsightsApi insightsApi = NewRelicInsightsApi.builder()
     .queryKey("<YOUR_QUERY_KEY>")
+    .build();
+```
+
+#### Plugins API
+
+To obtain a client instance to carry out operations with the New Relic Plugins API use the builder provided:
+```
+NewRelicPluginsApi pluginsApi = NewRelicPluginsApi.builder()
+    .hostname("platform-api.newrelic.com")
+    .port(443)
+    .licenseKey("<YOUR_LICENSE_KEY>")
+    .build();
+```
+Again, if the hostname and port are omitted they default to "platform-api.newrelic.com" and 443 respectively, so this becomes:
+```
+NewRelicPluginsApi insightsApi = NewRelicPluginsApi.builder()
+    .licenseKey("<YOUR_LICENSE_KEY>")
     .build();
 ```
 
@@ -747,6 +764,48 @@ long accountId = 123456;
 String query = "SELECT average(duration) FROM PageView";
 QueryData data = insightsApi.queries().list(accountId, query).get();
 ```
+
+#GERALD
+### Plugins Metrics
+To send a set of metrics to New Relic build the metric component with the required timeslices, and then call the "metricData" operation:
+```
+MetricTimeslice<Integer> timeslice1 = MetricTimeslice.<Integer> builder()
+    .total(50)
+    .count(4)
+    .min(10)
+    .max(15)
+    .sumOfSquares(325)
+    .build();
+
+MetricTimeslice<Double> timeslice2 = MetricTimeslice.<Double> builder()
+    .total(50.1)
+    .count(4.1)
+    .min(10.1)
+    .max(15.1)
+    .sumOfSquares(325.1)
+    .build();
+
+Component component = Component.builder()
+    .name("my-component")
+    .guid("com.test.my-plugin")
+    .duration(60)
+    .addMetric("Component/Database[Queries/First]", 100) // scalar metric
+    .addMetric("Component/Database[Queries/Second]", new int[] {25, 2, 10, 15, 325}) // array metric
+    .addMetric("Component/Database[Queries/Third]", timeslice1) // int timeslice
+    .addMetric("Component/Database[Queries/Fourth]", timeslice2) // float timeslice
+    .build();
+
+PluginData data = PluginData.builder()
+    .host("my-host")
+    .pid(12345)
+    .version("1.0")
+    .addComponent(component)
+    .build();
+
+Status status = api.metrics().metricData(data).get();
+Assert.assertTrue(status.getStatus().equals("ok"));
+```
+If the data was sent successfully, a "status" attribute is returned with a value of "ok".
 
 ### Users
 To list the users call the "list" operation with a set of filters:

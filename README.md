@@ -64,7 +64,8 @@ to provide read-write access via the [New Relic REST APIs](https://api.newrelic.
 The Admin API Key is referenced in the documentation as the parameter "YOUR_API_KEY".
 
 Other keys:
-* For Insights queries, a Query key will need to be generated. The Query Key is referenced in the documentation as the parameter "YOUR_QUERY_KEY".
+* For executing Insights queries, a Query key will need to be generated. The Query Key is referenced in the documentation as the parameter "YOUR_QUERY_KEY".
+* For sending Plugins metrics, the main license key for the account is required. The License Key is referenced in the documentation as the parameter "YOUR_LICENSE_KEY".
 
 ## Installing
 
@@ -94,6 +95,7 @@ The following tests are included:
 * UsageServicesTest: Gets the usages for a product.
 * SyntheticsServicesTest: Creates several types of monitors, adds labels to them, and then deletes them. Also gets the list of locations.
 * InsightsServicesTest: Executes an NRQL query and then parses the result.
+* PluginServicesTest: Sends a set of plugin metric timeslices to New Relic.
 
 ## Examples
 
