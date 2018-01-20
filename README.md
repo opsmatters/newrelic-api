@@ -58,7 +58,7 @@ Other APIs can be included on request.
 
 ## Examples
 
-A detailed set of examples of the usage of the API can be found on [the API site](src/main/java/com/opsmatters/newrelic/api).
+A detailed set of examples of the usage of each of the APIs can be found on [the API site](src/main/java/com/opsmatters/newrelic/api).
 
 ## Prerequisites
 
