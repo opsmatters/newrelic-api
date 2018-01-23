@@ -113,7 +113,7 @@ public class ApplicationInstanceService extends BaseFluent
     }
 
     /**
-     * Returns a builder for the key transaction filters.
+     * Returns a builder for the application instance filters.
      * @return The builder instance.
      */
     public static FilterBuilder filters()
@@ -122,7 +122,7 @@ public class ApplicationInstanceService extends BaseFluent
     }
 
     /**
-     * Builder to make application instance filter construction easier.
+     * Builder to make filter construction easier.
      */
     public static class FilterBuilder
     {

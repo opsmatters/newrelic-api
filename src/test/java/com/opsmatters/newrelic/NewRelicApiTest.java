@@ -41,6 +41,7 @@ import com.opsmatters.newrelic.api.services.KeyTransactionService;
 import com.opsmatters.newrelic.api.services.PluginService;
 import com.opsmatters.newrelic.api.services.PluginComponentService;
 import com.opsmatters.newrelic.api.services.ServerService;
+import com.opsmatters.newrelic.api.services.DashboardService;
 import com.opsmatters.newrelic.api.services.MetricParameterBuilder;
 import com.opsmatters.newrelic.api.model.Entity;
 import com.opsmatters.newrelic.api.model.EntityType;
@@ -67,7 +68,7 @@ import com.opsmatters.newrelic.api.model.alerts.conditions.InfraAlertCondition;
 import com.opsmatters.newrelic.api.model.alerts.conditions.InfraMetricAlertCondition;
 import com.opsmatters.newrelic.api.model.alerts.conditions.InfraHostNotReportingAlertCondition;
 import com.opsmatters.newrelic.api.model.alerts.conditions.InfraProcessRunningAlertCondition;
-import com.opsmatters.newrelic.api.model.alerts.conditions.Threshold;
+import com.opsmatters.newrelic.api.model.alerts.conditions.AlertThreshold;
 import com.opsmatters.newrelic.api.model.applications.Application;
 import com.opsmatters.newrelic.api.model.applications.ApplicationHost;
 import com.opsmatters.newrelic.api.model.applications.ApplicationInstance;
@@ -91,6 +92,29 @@ import com.opsmatters.newrelic.api.model.synthetics.Script;
 import com.opsmatters.newrelic.api.model.synthetics.ScriptLocation;
 import com.opsmatters.newrelic.api.model.synthetics.Location;
 import com.opsmatters.newrelic.api.model.insights.QueryData;
+import com.opsmatters.newrelic.api.model.insights.Dashboard;
+import com.opsmatters.newrelic.api.model.insights.Filter;
+import com.opsmatters.newrelic.api.model.insights.widgets.Widget;
+import com.opsmatters.newrelic.api.model.insights.widgets.EventChart;
+import com.opsmatters.newrelic.api.model.insights.widgets.ThresholdEventChart;
+import com.opsmatters.newrelic.api.model.insights.widgets.FacetChart;
+import com.opsmatters.newrelic.api.model.insights.widgets.MetricLineChart;
+import com.opsmatters.newrelic.api.model.insights.widgets.BreakdownMetricChart;
+import com.opsmatters.newrelic.api.model.insights.widgets.TrafficLightChart;
+import com.opsmatters.newrelic.api.model.insights.widgets.Markdown;
+import com.opsmatters.newrelic.api.model.insights.widgets.Inventory;
+import com.opsmatters.newrelic.api.model.insights.widgets.EventsData;
+import com.opsmatters.newrelic.api.model.insights.widgets.MetricsData;
+import com.opsmatters.newrelic.api.model.insights.widgets.MarkdownData;
+import com.opsmatters.newrelic.api.model.insights.widgets.InventoryData;
+import com.opsmatters.newrelic.api.model.insights.widgets.Presentation;
+import com.opsmatters.newrelic.api.model.insights.widgets.ThresholdPresentation;
+import com.opsmatters.newrelic.api.model.insights.widgets.DrilldownPresentation;
+import com.opsmatters.newrelic.api.model.insights.widgets.TrafficLightPresentation;
+import com.opsmatters.newrelic.api.model.insights.widgets.Layout;
+import com.opsmatters.newrelic.api.model.insights.widgets.Threshold;
+import com.opsmatters.newrelic.api.model.insights.widgets.TrafficLight;
+import com.opsmatters.newrelic.api.model.insights.widgets.TrafficLightState;
 import com.opsmatters.newrelic.api.model.plugins.PluginData;
 import com.opsmatters.newrelic.api.model.plugins.Component;
 import com.opsmatters.newrelic.api.model.plugins.MetricTimeslice;
@@ -137,6 +161,7 @@ public class NewRelicApiTest
     private String monitorCategory = "Monitors";
     private String monitorLabel = "Test";
     private String insightsQuery = "SELECT average(duration) FROM PageView";
+    private String dashboardName = "test-dashboard";
     private String pluginHost = "my-host";
 
     @Test
@@ -408,7 +433,7 @@ public class NewRelicApiTest
         NewRelicApi api = getApiClient();
         Assert.assertNotNull(api);
 
-        // Get all the users
+        // Get the usage
         UsageData usage = getUsage(api, "apm");
 
         logger.info("Completed test: "+testName);
@@ -524,6 +549,48 @@ public class NewRelicApiTest
 
         // Send the metric data
         sendPluginData(api, getPluginData(pluginHost));
+
+        logger.info("Completed test: "+testName);
+    }
+
+    @Test
+    public void testDashboardsServices()
+    {
+        String testName = "DashboardsServicesTest";
+        logger.info("Starting test: "+testName);
+
+        // Initialise the client
+        logger.info("Initialise the client");
+        NewRelicApi api = getApiClient();
+        Assert.assertNotNull(api);
+
+        // Get all the applications
+        Collection<Application> applications = getApplications(api);
+        Application application = applications.iterator().next();
+
+        // Create the dashboards
+        Dashboard dashboard = createDashboard(api, 
+            getDashboard(dashboardName));
+
+        // Add widgets to the chart
+        dashboard.addWidget(getMarkdown());
+        dashboard.addWidget(getEventChart());
+        dashboard.addWidget(getThresholdEventChart());
+        dashboard.addWidget(getFacetPieChart(dashboard.getId()));
+        dashboard.addWidget(getFacetBarChart(dashboard.getId()));
+        dashboard.addWidget(getMetricLineChart(application.getId()));
+        dashboard.addWidget(getBreakdownMetricChart(application.getId()));
+        dashboard.addWidget(getTrafficLightChart());
+        dashboard.addWidget(getInventoryChart());
+        updateDashboard(api, dashboard);
+
+        // Get all the dashboards
+        Collection<Dashboard> dashboards = getDashboards(api);
+
+        Collection<Dashboard> filteredDashboards = getDashboardsWithFilter(api, dashboardName);
+
+        // Delete the dashboards
+        deleteDashboard(api, dashboard);
 
         logger.info("Completed test: "+testName);
     }
@@ -921,7 +988,7 @@ public class NewRelicApiTest
             .name(name)
             .storageEventType()
             .selectValue("diskUsedPercent")
-            .criticalThreshold(new Threshold().builder().durationMinutes(10).value(80).allTimeFunction().build())
+            .criticalThreshold(AlertThreshold.builder().durationMinutes(10).value(80).allTimeFunction().build())
             .aboveComparison()
             .whereClause(whereClause)
             .enabled(true)
@@ -933,7 +1000,7 @@ public class NewRelicApiTest
         return InfraHostNotReportingAlertCondition.builder()
             .policyId(policyId)
             .name(name)
-            .criticalThreshold(new Threshold(10))
+            .criticalThreshold(new AlertThreshold(10))
             .whereClause(whereClause)
             .enabled(true)
             .build();
@@ -944,7 +1011,7 @@ public class NewRelicApiTest
         return InfraProcessRunningAlertCondition.builder()
             .policyId(policyId)
             .name(name)
-            .criticalThreshold(new Threshold().builder().durationMinutes(10).value(0).build())
+            .criticalThreshold(AlertThreshold.builder().durationMinutes(10).value(0).build())
             .equalComparison()
             .processWhereClause("(commandName = 'java')")
             .whereClause(whereClause)
@@ -2040,5 +2107,353 @@ public class NewRelicApiTest
         logger.info("Send plugin data: "+data);
         Status status = api.metrics().metricData(data).get();
         Assert.assertTrue(status.getStatus().equals("ok"));
+    }
+
+    public Dashboard getDashboard(String title)
+    {
+        return Dashboard.builder()
+            .title(title)
+            .version(1)
+            .icon(Dashboard.Icon.BAR_CHART)
+            .allVisibility()
+            .ownerEditable()
+            .addFilter("ProcessSample", "commandName")
+            .build();
+    }
+
+    public Widget getMarkdown()
+    {
+        MarkdownData data = MarkdownData.builder()
+            .source("# Dashboard Notes\n\nHere are some notes")
+            .build();
+
+        Presentation presentation = Presentation.builder()
+            .title("markdown-title")
+            .notes("markdown notes")
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(2)
+            .row(1)
+            .column(2)
+            .build();
+
+        return Markdown.builder()
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Widget getEventChart()
+    {
+        EventsData data = EventsData.builder()
+            .nrql("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
+            .build();
+
+        Presentation presentation = Presentation.builder()
+            .title("event-title")
+            .notes("event notes")
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(1)
+            .row(1)
+            .column(1)
+            .build();
+
+        return EventChart.builder()
+            .visualization(EventChart.Visualization.HISTOGRAM)
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Widget getThresholdEventChart()
+    {
+        EventsData data = EventsData.builder()
+            .nrql("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
+            .build();
+
+        ThresholdPresentation presentation = ThresholdPresentation.builder()
+            .title("threshold-title")
+            .notes("threshold notes")
+            .threshold(Threshold.builder().red(10).yellow(5).build())
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(1)
+            .row(2)
+            .column(1)
+            .build();
+
+        return ThresholdEventChart.builder()
+            .visualization(ThresholdEventChart.Visualization.GAUGE)
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Widget getFacetPieChart(long dashboardId)
+    {
+        EventsData data = EventsData.builder()
+            .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
+            .build();
+
+        DrilldownPresentation presentation = DrilldownPresentation.builder()
+            .title("facet-pie-title")
+            .notes("facet pie notes")
+            .drilldownDashboardId(dashboardId)
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(2)
+            .row(2)
+            .column(2)
+            .build();
+
+        return FacetChart.builder()
+            .visualization(FacetChart.Visualization.FACET_PIE_CHART)
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Widget getFacetBarChart(long dashboardId)
+    {
+        EventsData data = EventsData.builder()
+            .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
+            .build();
+
+        DrilldownPresentation presentation = DrilldownPresentation.builder()
+            .title("facet-bar-title")
+            .notes("facet bar notes")
+            .drilldownDashboardId(dashboardId)
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(1)
+            .row(3)
+            .column(1)
+            .build();
+
+        return FacetChart.builder()
+            .visualization(FacetChart.Visualization.FACET_BAR_CHART)
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Widget getBreakdownMetricChart(long entityId)
+    {
+        MetricsData data = MetricsData.builder()
+            .duration(86400000)
+            .addEntityId(entityId)
+            .build();
+
+        Presentation presentation = Presentation.builder()
+            .title("breakdown-title")
+            .notes("breakdown notes")
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(1)
+            .row(3)
+            .column(2)
+            .build();
+
+        return BreakdownMetricChart.builder()
+            .visualization(BreakdownMetricChart.Visualization.APPLICATION_BREAKDOWN)
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Widget getMetricLineChart(long entityId)
+    {
+        MetricsData data = MetricsData.builder()
+            .duration(86400000)
+            .addEntityId(entityId)
+            .addMetric(Metric.builder().name("Apdex").addValue("score").build())
+            .orderBy("score")
+            .limit(10)
+            .build();
+
+        Presentation presentation = Presentation.builder()
+            .title("metric-line-title")
+            .notes("metric line notes")
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(1)
+            .row(3)
+            .column(3)
+            .build();
+
+        return MetricLineChart.builder()
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Widget getTrafficLightChart()
+    {
+        EventsData data = EventsData.builder()
+            .nrql("SELECT max(cpuPercent) from ProcessSample SINCE 10 minutes ago")
+            .build();
+
+        TrafficLight trafficLight = TrafficLight.builder()
+            .id("12345")
+            .title("cpu-percent")
+            .subtitle("maximum")
+            .addState(TrafficLightState.builder().type("wrong").min(0).max(3).build())
+            .addState(TrafficLightState.builder().type("warning").min(3).max(7).build())
+            .addState(TrafficLightState.builder().type("ok").min(7).max(10).build())
+            .build();
+
+        TrafficLightPresentation presentation = TrafficLightPresentation.builder()
+            .title("traffic-light-title")
+            .notes("traffic light notes")
+            .addTrafficLight(trafficLight)
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(1)
+            .row(4)
+            .column(1)
+            .build();
+
+        return TrafficLightChart.builder()
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Widget getInventoryChart()
+    {
+        InventoryData data = InventoryData.builder()
+            .addSource("metadata/system")
+            .addFilter("operatingSystem", "linux")
+            .build();
+
+        Presentation presentation = Presentation.builder()
+            .title("inventory-title")
+            .notes("inventory notes")
+            .build();
+
+        Layout layout = Layout.builder()
+            .height(1)
+            .width(1)
+            .row(4)
+            .column(2)
+            .build();
+
+        return Inventory.builder()
+            .accountId(accountId)
+            .presentation(presentation)
+            .layout(layout)
+            .addData(data)
+            .build();
+    }
+
+    public Dashboard createDashboard(NewRelicApi api, Dashboard input)
+    {
+        logger.info("Create dashboard: "+input.getTitle());
+        Dashboard dashboard = api.dashboards().create(input).get();
+
+        // Get the dashboard
+        {
+            logger.info("Get dashboard: "+dashboard.getId());
+            Optional<Dashboard> ret = api.dashboards().show(dashboard.getId());
+            Assert.assertTrue(ret.isPresent());
+        }
+
+        return dashboard;
+    }
+
+    public Collection<Dashboard> getDashboards(NewRelicApi api)
+    {
+        Collection<Dashboard> ret = null;
+
+        try
+        {
+            logger.info("Get dashboards: ");
+            ret = api.dashboards().list();
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get dashboards: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Collection<Dashboard> getDashboardsWithFilter(NewRelicApi api, String title)
+    {
+        Collection<Dashboard> ret = null;
+
+        try
+        {
+            logger.info("Get dashboards for title: "+title);
+            List<String> filters = DashboardService.filters()
+                .title(title)
+                .build();
+            ret = api.dashboards().list(filters);
+            Assert.assertTrue(ret.iterator().next() != null);
+        }
+        catch(RuntimeException e)
+        {
+            Assert.fail("Error in get dashboards: "+e.getMessage());
+        }
+
+        return ret;
+    }
+
+    public Dashboard updateDashboard(NewRelicApi api, Dashboard input)
+    {
+        logger.info("Update dashboard: "+input.getTitle());
+        Dashboard dashboard = api.dashboards().update(input).get();
+        Assert.assertNotNull(dashboard);
+        return dashboard;
+    }
+
+    public void deleteDashboard(NewRelicApi api, Dashboard dashboard)
+    {
+        logger.info("Delete dashboard: "+dashboard.getId());
+        api.dashboards().delete(dashboard.getId());
+
+        try
+        {
+            Optional<Dashboard> ret = api.dashboards().show(dashboard.getId());
+            Assert.assertFalse(ret.isPresent());
+        }
+        catch(RuntimeException e)
+        {
+             if(e.getMessage().indexOf("404 Not Found") == -1) // throws 404
+                 Assert.fail("Error in get dashboards: "+e.getMessage());
+        }
     }
 }

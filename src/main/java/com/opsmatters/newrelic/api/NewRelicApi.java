@@ -44,6 +44,7 @@ import com.opsmatters.newrelic.api.services.ServerService;
 import com.opsmatters.newrelic.api.services.SyntheticsAlertConditionService;
 import com.opsmatters.newrelic.api.services.UsageService;
 import com.opsmatters.newrelic.api.services.UserService;
+import com.opsmatters.newrelic.api.services.DashboardService;
 
 /**
  * Client used to invoke New Relic operations using the REST API.
@@ -337,6 +338,16 @@ public class NewRelicApi extends NewRelicClient
     {
         checkInitialize();
         return new UsageService(httpContext, this);
+    }
+
+    /**
+     * Returns the operations related to dashboards.
+     * @return The dashboard service
+     */
+    public DashboardService dashboards()
+    {
+        checkInitialize();
+        return new DashboardService(httpContext, this);
     }
 
     /**

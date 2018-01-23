@@ -33,10 +33,10 @@ public abstract class InfraAlertCondition extends BaseCondition
     private String filter;
 
     @SerializedName("critical_threshold")
-    private Threshold criticalThreshold;
+    private AlertThreshold criticalThreshold;
 
     @SerializedName("warning_threshold")
-    private Threshold warningThreshold;
+    private AlertThreshold warningThreshold;
 
     @SerializedName("policy_id")
     private Long policyId;
@@ -168,7 +168,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Sets the critical threshold of the alert condition.
      * @param criticalThreshold The critical threshold of the alert condition
      */
-    public void setCriticalThreshold(Threshold criticalThreshold)
+    public void setCriticalThreshold(AlertThreshold criticalThreshold)
     {
         this.criticalThreshold = criticalThreshold;
     }
@@ -177,7 +177,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Returns the critical threshold of the alert condition.
      * @return The critical threshold of the alert condition
      */
-    public Threshold getCriticalThreshold()
+    public AlertThreshold getCriticalThreshold()
     {
         return criticalThreshold;
     }
@@ -186,7 +186,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Sets the warning threshold of the alert condition.
      * @param warningThreshold The warning threshold of the alert condition
      */
-    public void setWarningThreshold(Threshold warningThreshold)
+    public void setWarningThreshold(AlertThreshold warningThreshold)
     {
         this.warningThreshold = warningThreshold;
     }
@@ -195,7 +195,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Returns the warning threshold of the alert condition.
      * @return The warning threshold of the alert condition
      */
-    public Threshold getWarningThreshold()
+    public AlertThreshold getWarningThreshold()
     {
         return warningThreshold;
     }
@@ -293,7 +293,7 @@ public abstract class InfraAlertCondition extends BaseCondition
          * @param criticalThreshold The critical threshold of the alert condition
          * @return This object
          */
-        public B criticalThreshold(Threshold criticalThreshold)
+        public B criticalThreshold(AlertThreshold criticalThreshold)
         {
             condition.setCriticalThreshold(criticalThreshold);
             return self();
@@ -304,7 +304,7 @@ public abstract class InfraAlertCondition extends BaseCondition
          * @param warningThreshold The warning threshold of the alert condition
          * @return This object
          */
-        public B warningThreshold(Threshold warningThreshold)
+        public B warningThreshold(AlertThreshold warningThreshold)
         {
             condition.setWarningThreshold(warningThreshold);
             return self();

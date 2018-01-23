@@ -79,7 +79,7 @@ public class KeyTransactionService extends BaseFluent
     }
 
     /**
-     * Builder to make key transaction filter construction easier.
+     * Builder to make filter construction easier.
      */
     public static class FilterBuilder
     {

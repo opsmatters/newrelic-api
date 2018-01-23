@@ -102,8 +102,8 @@ The following tests are included:
 * UsageServicesTest: Gets the usages for a product.
 * SyntheticsServicesTest: Creates several types of monitors, adds labels to them, and then deletes them. Also gets the list of locations.
 * InsightsServicesTest: Executes an NRQL query and then parses the result.
-* PluginServicesTest: Sends a set of plugin metric timeslices to New Relic.
-* DashboardServicesTest: Creates several dashboards, updates them, lists them, and then deletes them.
+* PluginsServicesTest: Sends a set of plugin metric timeslices to New Relic.
+* DashboardsServicesTest: Creates several dashboards, updates them, lists them, and then deletes them.
 
 ## Deployment
 

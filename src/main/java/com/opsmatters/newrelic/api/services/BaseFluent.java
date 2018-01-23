@@ -54,6 +54,7 @@ import com.opsmatters.newrelic.api.model.synthetics.Script;
 import com.opsmatters.newrelic.api.model.synthetics.Location;
 import com.opsmatters.newrelic.api.model.insights.QueryData;
 import com.opsmatters.newrelic.api.model.Status;
+import com.opsmatters.newrelic.api.model.insights.Dashboard;
 
 /**
  * Provides the types and HTTP operations to be used with the API calls.  
@@ -150,6 +151,9 @@ public class BaseFluent
     protected static final GenericType<QueryData> QUERY_DATA = new GenericType<QueryData>(){};
 
     protected static final GenericType<Status> STATUS = new GenericType<Status>(){};
+
+    protected static final GenericType<Dashboard> DASHBOARD = new GenericType<Dashboard>(){};
+    protected static final GenericType<Collection<Dashboard>> DASHBOARDS = new GenericType<Collection<Dashboard>>(){};
 
     protected HttpContext HTTP;
     private NewRelicClient client;

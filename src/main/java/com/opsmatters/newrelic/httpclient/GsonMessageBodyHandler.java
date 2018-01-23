@@ -67,6 +67,7 @@ import com.opsmatters.newrelic.api.model.labels.Label;
 import com.opsmatters.newrelic.api.model.accounts.User;
 import com.opsmatters.newrelic.api.model.accounts.UsageData;
 import com.opsmatters.newrelic.api.model.synthetics.Monitor;
+import com.opsmatters.newrelic.api.model.insights.Dashboard;
 import com.opsmatters.newrelic.httpclient.serializers.alerts.policies.AlertPolicySerializer;
 import com.opsmatters.newrelic.httpclient.serializers.alerts.channels.AlertChannelSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.alerts.conditions.AlertConditionSerializer;
@@ -80,6 +81,7 @@ import com.opsmatters.newrelic.httpclient.serializers.applications.BrowserApplic
 import com.opsmatters.newrelic.httpclient.serializers.servers.ServerSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.deployments.DeploymentSerializer;
 import com.opsmatters.newrelic.httpclient.serializers.labels.LabelSerializer;
+import com.opsmatters.newrelic.httpclient.serializers.insights.DashboardSerializer;
 import com.opsmatters.newrelic.httpclient.deserializers.ResponseErrorDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertIncidentsDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.alerts.AlertViolationsDeserializer;
@@ -129,6 +131,8 @@ import com.opsmatters.newrelic.httpclient.deserializers.accounts.UsersDeserializ
 import com.opsmatters.newrelic.httpclient.deserializers.accounts.UsageDataDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.synthetics.MonitorDeserializer;
 import com.opsmatters.newrelic.httpclient.deserializers.synthetics.MonitorsDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.insights.DashboardDeserializer;
+import com.opsmatters.newrelic.httpclient.deserializers.insights.DashboardsDeserializer;
 
 /**
  * Provides GSON support for serializing and deserializing objects.
@@ -167,6 +171,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
     private static final Type LABELS_TYPE = new TypeToken<Collection<Label>>(){}.getType();
     private static final Type USERS_TYPE = new TypeToken<Collection<User>>(){}.getType();
     private static final Type MONITORS_TYPE = new TypeToken<Collection<Monitor>>(){}.getType();
+    private static final Type DASHBOARDS_TYPE = new TypeToken<Collection<Dashboard>>(){}.getType();
 
     private Gson gson;
 
@@ -242,6 +247,10 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
             builder.registerTypeAdapter(UsageData.class, new UsageDataDeserializer());
             builder.registerTypeAdapter(Monitor.class, new MonitorDeserializer());
             builder.registerTypeAdapter(MONITORS_TYPE, new MonitorsDeserializer());
+            builder.registerTypeAdapter(Dashboard.class, new DashboardSerializer());
+            builder.registerTypeAdapter(Dashboard.class, new DashboardDeserializer());
+            builder.registerTypeAdapter(DASHBOARDS_TYPE, new DashboardsDeserializer());
+
             gson = builder.create();
         }
 

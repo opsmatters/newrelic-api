@@ -139,7 +139,7 @@ public class ServerService extends BaseFluent
     }
 
     /**
-     * Builder to make server filter construction easier.
+     * Builder to make filter construction easier.
      */
     public static class FilterBuilder
     {

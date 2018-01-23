@@ -85,7 +85,7 @@ public class PluginService extends BaseFluent
     }
 
     /**
-     * Builder to make plugin filter construction easier.
+     * Builder to make filter construction easier.
      */
     public static class FilterBuilder
     {

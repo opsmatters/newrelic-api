@@ -139,7 +139,7 @@ public class ApplicationService extends BaseFluent
     }
 
     /**
-     * Builder to make application filter construction easier.
+     * Builder to make filter construction easier.
      */
     public static class FilterBuilder
     {

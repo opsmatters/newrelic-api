@@ -107,7 +107,7 @@ public class PluginComponentService extends BaseFluent
     }
 
     /**
-     * Returns a builder for the key transaction filters.
+     * Returns a builder for the plugin component filters.
      * @return The builder instance.
      */
     public static FilterBuilder filters()
@@ -116,7 +116,7 @@ public class PluginComponentService extends BaseFluent
     }
 
     /**
-     * Builder to make application host filter construction easier.
+     * Builder to make filter construction easier.
      */
     public static class FilterBuilder
     {

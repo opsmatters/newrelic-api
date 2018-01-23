@@ -89,7 +89,7 @@ public class UserService extends BaseFluent
     }
 
     /**
-     * Builder to make user filter construction easier.
+     * Builder to make filter construction easier.
      */
     public static class FilterBuilder
     {

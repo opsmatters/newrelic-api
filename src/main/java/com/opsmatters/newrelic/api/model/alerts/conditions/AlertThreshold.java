@@ -19,11 +19,11 @@ package com.opsmatters.newrelic.api.model.alerts.conditions;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Represents a New Relic Infrastructure threshold.  
+ * Represents a New Relic Infrastructure alert threshold.  
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class Threshold
+public class AlertThreshold
 {
     private Integer value;
 
@@ -36,7 +36,7 @@ public class Threshold
     /**
      * Default constructor.
      */
-    public Threshold()
+    public AlertThreshold()
     {
     }
     
@@ -44,7 +44,7 @@ public class Threshold
      * Constructor that takes a durationMinutes.
      * @param durationMinutes The durationMinutes of the threshold
      */
-    public Threshold(int durationMinutes)
+    public AlertThreshold(int durationMinutes)
     {
         setDurationMinutes(durationMinutes);
     }
@@ -118,7 +118,7 @@ public class Threshold
     @Override
     public String toString()
     {
-        return "Threshold ["
+        return "AlertThreshold ["
             +", value="+value
             +", durationMinutes="+durationMinutes
             +", timeFunction="+timeFunction
@@ -126,7 +126,7 @@ public class Threshold
     }
 
     /**
-     * Returns a builder for the threshold.
+     * Returns a builder for the alert threshold.
      * @return The builder instance.
      */
     public static Builder builder()
@@ -135,11 +135,11 @@ public class Threshold
     }
 
     /**
-     * Builder to make threshold construction easier.
+     * Builder to make alert threshold construction easier.
      */
     public static class Builder
     {
-        private Threshold threshold = new Threshold();
+        private AlertThreshold threshold = new AlertThreshold();
 
         /**
          * Sets the durationMinutes of the threshold.
@@ -198,7 +198,7 @@ public class Threshold
          * Returns the configured threshold instance
          * @return The threshold instance
          */
-        public Threshold build()
+        public AlertThreshold build()
         {
             return threshold;
         }
