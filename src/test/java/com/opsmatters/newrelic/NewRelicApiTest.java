@@ -101,8 +101,8 @@ import com.opsmatters.newrelic.api.model.insights.widgets.FacetChart;
 import com.opsmatters.newrelic.api.model.insights.widgets.MetricLineChart;
 import com.opsmatters.newrelic.api.model.insights.widgets.BreakdownMetricChart;
 import com.opsmatters.newrelic.api.model.insights.widgets.TrafficLightChart;
+import com.opsmatters.newrelic.api.model.insights.widgets.InventoryChart;
 import com.opsmatters.newrelic.api.model.insights.widgets.Markdown;
-import com.opsmatters.newrelic.api.model.insights.widgets.Inventory;
 import com.opsmatters.newrelic.api.model.insights.widgets.EventsData;
 import com.opsmatters.newrelic.api.model.insights.widgets.MetricsData;
 import com.opsmatters.newrelic.api.model.insights.widgets.MarkdownData;
@@ -2371,7 +2371,7 @@ public class NewRelicApiTest
             .column(2)
             .build();
 
-        return Inventory.builder()
+        return InventoryChart.builder()
             .accountId(accountId)
             .presentation(presentation)
             .layout(layout)

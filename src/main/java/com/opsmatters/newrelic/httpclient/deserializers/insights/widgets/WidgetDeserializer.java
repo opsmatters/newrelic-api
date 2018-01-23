@@ -22,7 +22,7 @@ import com.opsmatters.newrelic.api.model.insights.widgets.Widget;
 import com.opsmatters.newrelic.api.model.insights.widgets.EventChart;
 import com.opsmatters.newrelic.api.model.insights.widgets.BreakdownMetricChart;
 import com.opsmatters.newrelic.api.model.insights.widgets.FacetChart;
-import com.opsmatters.newrelic.api.model.insights.widgets.Inventory;
+import com.opsmatters.newrelic.api.model.insights.widgets.InventoryChart;
 import com.opsmatters.newrelic.api.model.insights.widgets.Markdown;
 import com.opsmatters.newrelic.api.model.insights.widgets.MetricLineChart;
 import com.opsmatters.newrelic.api.model.insights.widgets.ThresholdEventChart;
@@ -65,8 +65,8 @@ public class WidgetDeserializer implements JsonDeserializer<Widget>
                 return gson.fromJson(obj, BreakdownMetricChart.class);
             else if(FacetChart.Visualization.contains(visualization))
                 return gson.fromJson(obj, FacetChart.class);
-            else if(Inventory.Visualization.contains(visualization))
-                return gson.fromJson(obj, Inventory.class);
+            else if(InventoryChart.Visualization.contains(visualization))
+                return gson.fromJson(obj, InventoryChart.class);
             else if(Markdown.Visualization.contains(visualization))
                 return gson.fromJson(obj, Markdown.class);
             else if(MetricLineChart.Visualization.contains(visualization))

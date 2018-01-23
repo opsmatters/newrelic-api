@@ -17,11 +17,11 @@
 package com.opsmatters.newrelic.api.model.insights.widgets;
 
 /**
- * Represents a New Relic Insights inventory panel.
+ * Represents a New Relic Insights inventory chart.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class Inventory extends Widget
+public class InventoryChart extends Widget
 {
     /**
      * Represents the available visualizations for this widget type.  
@@ -72,7 +72,7 @@ public class Inventory extends Widget
     /**
      * Default constructor.
      */
-    public Inventory()
+    public InventoryChart()
     {
         setVisualization(Visualization.INVENTORY.value());
     }
@@ -83,7 +83,7 @@ public class Inventory extends Widget
     @Override
     public String toString()
     {
-        return "Inventory ["+super.toString()+"]";
+        return "InventoryChart ["+super.toString()+"]";
     }
 
     /**
@@ -98,9 +98,9 @@ public class Inventory extends Widget
     /**
      * Builder to make widget construction easier.
      */
-    public static class Builder extends Widget.Builder<Inventory, Builder>
+    public static class Builder extends Widget.Builder<InventoryChart, Builder>
     {
-        private Inventory widget = new Inventory();
+        private InventoryChart widget = new InventoryChart();
 
         /**
          * Default constructor.
@@ -147,7 +147,7 @@ public class Inventory extends Widget
          * @return The widget instance
          */
         @Override
-        public Inventory build()
+        public InventoryChart build()
         {
             return widget;
         }
