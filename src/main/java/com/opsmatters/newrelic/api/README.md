@@ -765,7 +765,6 @@ String query = "SELECT average(duration) FROM PageView";
 QueryData data = insightsApi.queries().list(accountId, query).get();
 ```
 
-#GERALD
 ### Insights Dashboards
 To create a dashboard called "my-dashboard", first instantiate the dashboard and then pass it to the "create" operation:
 ```
@@ -791,7 +790,8 @@ Map<String,Object> filters = DashboardService.filters()
 Collection<Dashboard> dashboards = api.dashboards().list(filters);
 ```
 
-To add a histogram widget to an existing dashboard, pass the policy id and channel id to the "update" operation:
+##### Adding a histogram widget to the dashboard
+To add a histogram widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
 EventsData data = EventsData.builder()
     .nrql("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
@@ -811,6 +811,39 @@ Layout layout = Layout.builder()
 
 EventChart chart = EventChart.builder()
     .visualization(EventChart.Visualization.HISTOGRAM)
+    .accountId(accountId)
+    .presentation(presentation)
+    .layout(layout)
+    .addData(data)
+    .build();
+
+dashboard.addWidget(chart);
+
+dashboard = api.dashboards().update(dashboard).get();
+```
+
+##### Adding a gauge histogram widget to the dashboard
+To add a gauge widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+```
+EventsData data = EventsData.builder()
+    .nrql("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
+    .build();
+
+ThresholdPresentation presentation = ThresholdPresentation.builder()
+    .title("threshold-title")
+    .notes("threshold notes")
+    .threshold(Threshold.builder().red(10).yellow(5).build())
+    .build();
+
+Layout layout = Layout.builder()
+    .height(1)
+    .width(1)
+    .row(2)
+    .column(1)
+    .build();
+
+ThresholdEventChart chart = ThresholdEventChart.builder()
+    .visualization(ThresholdEventChart.Visualization.GAUGE)
     .accountId(accountId)
     .presentation(presentation)
     .layout(layout)
