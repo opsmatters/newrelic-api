@@ -6,8 +6,9 @@
   <packaging>jar</packaging>
   <name>New Relic API</name>
   <description>
-    Java client library for the New Relic REST APIs built using Jersey and Gson.
-    The library can be used by applications to automate the configuration of New Relic Monitoring and Alerting, as well as for extracting alert and metric data.
+    Java client library for the New Relic REST APIs built using Jersey and Gson. 
+    The library implements over 100 operations across all of the available 32 New Relic services. 
+    It can be used by applications to automate the configuration of New Relic Monitoring, Alerting and Dashboards, as well as for extracting incident and metric data and uploading metrics.
   </description>
   <url>https://github.com/opsmatters/newrelic-api</url>
 
