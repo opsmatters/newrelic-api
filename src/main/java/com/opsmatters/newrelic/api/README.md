@@ -39,7 +39,7 @@
 
 #### Insights v1/v2 API
 - [Query](#insights-query)
-- [Dashboards](#dashboards)
+- [Dashboards](#insights-dashboards)
 
 #### Plugins v1 API
 - [Plugins Metrics](#plugins-metrics)
@@ -406,7 +406,7 @@ Collection<AlertEvent> events = api.alertEvents().list();
 
 To list all events matching one or more filters, build the set of filters and pass it to the "list" operation:
 ```
-Map<String,Object> filters = AlertEventOperations.filters()
+Map<String,Object> filters = AlertEventService.filters()
     .product(Product.APM)
     .entityType(EntityType.APPLICATION)
     .eventType(AlertEvent.EventType.VIOLATION_OPEN)
@@ -449,7 +449,7 @@ The "id" field needs to be provided as it is used to locate the existing applica
 
 To list the applications matching one or more filters, build the filters and then pass it to the "list" operation:
 ```
-Map<String,Object> filters = ApplicationOperations.filters()
+Map<String,Object> filters = ApplicationService.filters()
     .language("java") // all Java applications
     .build();
 
@@ -481,7 +481,7 @@ Other operations have also been included for applications:
 ### Application Hosts
 To list the hosts for an application call the "list" operation with a set of filters:
 ```
-List<String> filters = ApplicationHostOperations.filters()
+List<String> filters = ApplicationHostService.filters()
     .hostname("my-host")
     .build();
 
@@ -508,7 +508,7 @@ Other operations have also been included for application hosts:
 ### Application Instances
 To list the instances for an application call the "list" operation with a set of filters:
 ```
-List<String> filters = ApplicationInstanceOperations.filters()
+List<String> filters = ApplicationInstanceService.filters()
     .hostname("my-host")
     .build();
 
@@ -574,7 +574,7 @@ Other operations have also been included for mobile applications:
 ### Key Transactions
 To list the key transactions call the "list" operation with a set of filters:
 ```
-List<String> filters = KeyTransactionOperations.filters()
+List<String> filters = KeyTransactionService.filters()
     .name("my-transaction")
     .build();
 
@@ -587,7 +587,7 @@ Other operations have also been included for key transactions:
 ### Plugins
 To list the installed plugins call the "list" operation with a set of filters:
 ```
-List<String> filters = PluginOperations.filters()
+List<String> filters = PluginService.filters()
     .guid("12345-54321")
     .build();
 
@@ -600,7 +600,7 @@ Other operations have also been included for plugins:
 ### Plugin Components
 To list the components for a plugin call the "list" operation with a set of filters:
 ```
-List<String> filters = PluginComponentOperations.filters()
+List<String> filters = PluginComponentService.filters()
     .name("plugin-name")
     .build();
 
@@ -638,7 +638,7 @@ The "id" field needs to be provided as it is used to locate the existing server 
 
 To list the servers matching one or more filters, build the filters and then pass it to the "list" operation:
 ```
-Map<String,Object> filters = ServerOperations.filters()
+Map<String,Object> filters = ServerService.filters()
     .reported(true) // all servers that have reported in the last 10 hours
     .build();
 
@@ -765,6 +765,69 @@ String query = "SELECT average(duration) FROM PageView";
 QueryData data = insightsApi.queries().list(accountId, query).get();
 ```
 
+#GERALD
+### Insights Dashboards
+To create a dashboard called "my-dashboard", first instantiate the dashboard and then pass it to the "create" operation:
+```
+Dashboard d = Dashboard.builder()
+    .title("my-policy")
+    .version(1)
+    .icon(Dashboard.Icon.BAR_CHART)
+    .allVisibility()
+    .ownerEditable()
+    .addFilter("ProcessSample", "commandName")
+    .build();
+
+Dashboard dashboard = api.dashboards().create(d).get();
+```
+The dashboard returned includes all the additional fields that were populated by the server on creation eg, "id", "created_at".
+
+To list the dashboards matching one or more filters, build the filters and then pass it to the "list" operation:
+```
+Map<String,Object> filters = DashboardService.filters()
+    .title("test-dashboard")
+    .build();
+
+Collection<Dashboard> dashboards = api.dashboards().list(filters);
+```
+
+To add a histogram widget to an existing dashboard, pass the policy id and channel id to the "update" operation:
+```
+EventsData data = EventsData.builder()
+    .nrql("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
+    .build();
+
+Presentation presentation = Presentation.builder()
+    .title("event-title")
+    .notes("event notes")
+    .build();
+
+Layout layout = Layout.builder()
+    .height(1)
+    .width(1)
+    .row(1)
+    .column(1)
+    .build();
+
+EventChart chart = EventChart.builder()
+    .visualization(EventChart.Visualization.HISTOGRAM)
+    .accountId(accountId)
+    .presentation(presentation)
+    .layout(layout)
+    .addData(data)
+    .build();
+
+dashboard.addWidget(chart);
+
+dashboard = api.dashboards().update(dashboard).get();
+```
+
+Other operations have also been included for dashboards:
+* list(): returns all dashboards for the account.
+* show(dashboardId): returns the dashboard with the given id.
+* update(dashboard): updates the dashboard with the given dashboard details and widgets.
+* delete(dashboardId): deletes the dashboard with the given id.
+
 ### Plugins Metrics
 To send a set of metrics to New Relic build the metric component with the required timeslices, and then call the "metricData" operation:
 ```
@@ -809,7 +872,7 @@ If the data was sent successfully, a "status" attribute is returned with a value
 ### Users
 To list the users call the "list" operation with a set of filters:
 ```
-List<String> filters = UserOperations.filters()
+List<String> filters = UserService.filters()
     .email("me@test.com")
     .build();
 
