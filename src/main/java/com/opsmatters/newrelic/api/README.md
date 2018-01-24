@@ -790,7 +790,7 @@ Map<String,Object> filters = DashboardService.filters()
 Collection<Dashboard> dashboards = api.dashboards().list(filters);
 ```
 
-#### Adding a histogram widget
+#### Adding a Histogram widget
 To add a histogram widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
 EventsData data = EventsData.builder()
@@ -822,7 +822,7 @@ dashboard.addWidget(chart);
 dashboard = api.dashboards().update(dashboard).get();
 ```
 
-#### Adding a gauge widget
+#### Adding a Gauge widget
 To add a gauge widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
 EventsData data = EventsData.builder()
@@ -851,6 +851,70 @@ ThresholdEventChart chart = ThresholdEventChart.builder()
     .build();
 
 dashboard.addWidget(chart);
+
+dashboard = api.dashboards().update(dashboard).get();
+```
+
+#### Adding a Pie Chart widget
+To add a pie chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+```
+EventsData data = EventsData.builder()
+    .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
+    .build();
+
+DrilldownPresentation presentation = DrilldownPresentation.builder()
+    .title("facet-pie-title")
+    .notes("facet pie notes")
+    .drilldownDashboardId(dashboardId)
+    .build();
+
+Layout layout = Layout.builder()
+    .height(1)
+    .width(2)
+    .row(2)
+    .column(2)
+    .build();
+
+FacetChart chart = FacetChart.builder()
+    .visualization(FacetChart.Visualization.FACET_PIE_CHART)
+    .accountId(accountId)
+    .presentation(presentation)
+    .layout(layout)
+    .addData(data)
+    .build();
+
+dashboard.addWidget(chart);
+
+dashboard = api.dashboards().update(dashboard).get();
+```
+
+#### Adding a Markdown widget
+To add a markdown widget to an existing dashboard, create the widget and pass it to the "update" operation:
+```
+MarkdownData data = MarkdownData.builder()
+    .source("# Dashboard Notes\n\nHere are some notes")
+    .build();
+
+Presentation presentation = Presentation.builder()
+    .title("markdown-title")
+    .notes("markdown notes")
+    .build();
+
+Layout layout = Layout.builder()
+    .height(1)
+    .width(2)
+    .row(1)
+    .column(2)
+    .build();
+
+Markdown markdown = Markdown.builder()
+    .accountId(accountId)
+    .presentation(presentation)
+    .layout(layout)
+    .addData(data)
+    .build();
+
+dashboard.addWidget(markdown);
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
