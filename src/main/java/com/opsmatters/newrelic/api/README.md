@@ -757,6 +757,71 @@ To list the valid locations call the "list" operation:
 Collection<Location> locations = syntheticsApi.locations().list();
 ```
 
+### Plugins Metrics
+To send a set of metrics to New Relic build the metric component with the required timeslices, and then call the "metricData" operation:
+```
+MetricTimeslice<Integer> timeslice1 = MetricTimeslice.<Integer> builder()
+    .total(50)
+    .count(4)
+    .min(10)
+    .max(15)
+    .sumOfSquares(325)
+    .build();
+
+MetricTimeslice<Double> timeslice2 = MetricTimeslice.<Double> builder()
+    .total(50.1)
+    .count(4.1)
+    .min(10.1)
+    .max(15.1)
+    .sumOfSquares(325.1)
+    .build();
+
+Component component = Component.builder()
+    .name("my-component")
+    .guid("com.test.my-plugin")
+    .duration(60)
+    .addMetric("Component/Database[Queries/First]", 100) // scalar metric
+    .addMetric("Component/Database[Queries/Second]", new int[] {25, 2, 10, 15, 325}) // array metric
+    .addMetric("Component/Database[Queries/Third]", timeslice1) // int timeslice
+    .addMetric("Component/Database[Queries/Fourth]", timeslice2) // float timeslice
+    .build();
+
+PluginData data = PluginData.builder()
+    .host("my-host")
+    .pid(12345)
+    .version("1.0")
+    .addComponent(component)
+    .build();
+
+Status status = pluginsApi.metrics().metricData(data).get();
+Assert.assertTrue(status.getStatus().equals("ok"));
+```
+If the data was sent successfully, a "status" attribute is returned with a value of "ok".
+
+### Users
+To list the users call the "list" operation with a set of filters:
+```
+List<String> filters = UserService.filters()
+    .email("me@test.com")
+    .build();
+
+Collection<User> users = api.users().list(filters);
+```
+
+Other operations have also been included for users:
+* show(userId): returns the user for the given id.
+* resetPassword(userId): resets the password for the user with the given id.
+
+### Usages
+To list the usages for a product call the "list" operation with a set of parameters:
+```
+Calendar c = Calendar.getInstance();
+c.add(Calendar.DATE, -1); // usages from yesterday to today
+long startDate = c.getTimeInMillis();
+long endDate = System.currentTimeMillis();
+UsageData usage = api.usages().list(product, startDate, endDate, true).get();
+```
+
 ### Insights Query
 To execute an Insights query and get the results call the "list" operation:
 ```
@@ -888,6 +953,79 @@ dashboard.addWidget(chart);
 dashboard = api.dashboards().update(dashboard).get();
 ```
 
+#### Adding a Traffic Light widget
+To add a traffic light widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+```
+EventsData data = EventsData.builder()
+    .nrql("SELECT max(cpuPercent) from ProcessSample SINCE 10 minutes ago")
+    .build();
+
+TrafficLight trafficLight = TrafficLight.builder()
+    .id("12345")
+    .title("cpu-percent")
+    .subtitle("maximum")
+    .addState(TrafficLightState.builder().type("wrong").min(0).max(3).build())
+    .addState(TrafficLightState.builder().type("warning").min(3).max(7).build())
+    .addState(TrafficLightState.builder().type("ok").min(7).max(10).build())
+    .build();
+
+TrafficLightPresentation presentation = TrafficLightPresentation.builder()
+    .title("traffic-light-title")
+    .notes("traffic light notes")
+    .addTrafficLight(trafficLight)
+    .build();
+
+Layout layout = Layout.builder()
+    .height(1)
+    .width(1)
+    .row(4)
+    .column(1)
+    .build();
+
+TrafficLightChart chart = TrafficLightChart.builder()
+    .accountId(accountId)
+    .presentation(presentation)
+    .layout(layout)
+    .addData(data)
+    .build();
+
+dashboard.addWidget(chart);
+
+dashboard = api.dashboards().update(dashboard).get();
+```
+
+#### Adding an Inventory Chart widget
+To add an inventory chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+```
+InventoryData data = InventoryData.builder()
+    .addSource("metadata/system")
+    .addFilter("operatingSystem", "linux")
+    .build();
+
+Presentation presentation = Presentation.builder()
+    .title("inventory-title")
+    .notes("inventory notes")
+    .build();
+
+Layout layout = Layout.builder()
+    .height(1)
+    .width(1)
+    .row(4)
+    .column(2)
+    .build();
+
+InventoryChart chart = InventoryChart.builder()
+    .accountId(accountId)
+    .presentation(presentation)
+    .layout(layout)
+    .addData(data)
+    .build();
+
+dashboard.addWidget(chart);
+
+dashboard = api.dashboards().update(dashboard).get();
+```
+
 #### Adding a Markdown widget
 To add a markdown widget to an existing dashboard, create the widget and pass it to the "update" operation:
 ```
@@ -924,70 +1062,5 @@ Other operations have also been included for dashboards:
 * show(dashboardId): returns the dashboard with the given id.
 * update(dashboard): updates the dashboard with the given dashboard details and widgets.
 * delete(dashboardId): deletes the dashboard with the given id.
-
-### Plugins Metrics
-To send a set of metrics to New Relic build the metric component with the required timeslices, and then call the "metricData" operation:
-```
-MetricTimeslice<Integer> timeslice1 = MetricTimeslice.<Integer> builder()
-    .total(50)
-    .count(4)
-    .min(10)
-    .max(15)
-    .sumOfSquares(325)
-    .build();
-
-MetricTimeslice<Double> timeslice2 = MetricTimeslice.<Double> builder()
-    .total(50.1)
-    .count(4.1)
-    .min(10.1)
-    .max(15.1)
-    .sumOfSquares(325.1)
-    .build();
-
-Component component = Component.builder()
-    .name("my-component")
-    .guid("com.test.my-plugin")
-    .duration(60)
-    .addMetric("Component/Database[Queries/First]", 100) // scalar metric
-    .addMetric("Component/Database[Queries/Second]", new int[] {25, 2, 10, 15, 325}) // array metric
-    .addMetric("Component/Database[Queries/Third]", timeslice1) // int timeslice
-    .addMetric("Component/Database[Queries/Fourth]", timeslice2) // float timeslice
-    .build();
-
-PluginData data = PluginData.builder()
-    .host("my-host")
-    .pid(12345)
-    .version("1.0")
-    .addComponent(component)
-    .build();
-
-Status status = pluginsApi.metrics().metricData(data).get();
-Assert.assertTrue(status.getStatus().equals("ok"));
-```
-If the data was sent successfully, a "status" attribute is returned with a value of "ok".
-
-### Users
-To list the users call the "list" operation with a set of filters:
-```
-List<String> filters = UserService.filters()
-    .email("me@test.com")
-    .build();
-
-Collection<User> users = api.users().list(filters);
-```
-
-Other operations have also been included for users:
-* show(userId): returns the user for the given id.
-* resetPassword(userId): resets the password for the user with the given id.
-
-### Usages
-To list the usages for a product call the "list" operation with a set of parameters:
-```
-Calendar c = Calendar.getInstance();
-c.add(Calendar.DATE, -1); // usages from yesterday to today
-long startDate = c.getTimeInMillis();
-long endDate = System.currentTimeMillis();
-UsageData usage = api.usages().list(product, startDate, endDate, true).get();
-```
 
 <sub>Copyright (c) 2018 opsmatters</sub>
