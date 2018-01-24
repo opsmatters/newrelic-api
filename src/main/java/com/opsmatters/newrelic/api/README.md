@@ -903,8 +903,8 @@ ThresholdPresentation presentation = ThresholdPresentation.builder()
 Layout layout = Layout.builder()
     .height(1)
     .width(1)
-    .row(2)
-    .column(1)
+    .row(1)
+    .column(2)
     .build();
 
 ThresholdEventChart chart = ThresholdEventChart.builder()
@@ -937,7 +937,7 @@ Layout layout = Layout.builder()
     .height(1)
     .width(2)
     .row(2)
-    .column(2)
+    .column(1)
     .build();
 
 FacetChart chart = FacetChart.builder()
@@ -972,7 +972,7 @@ Presentation presentation = Presentation.builder()
 Layout layout = Layout.builder()
     .height(1)
     .width(1)
-    .row(3)
+    .row(2)
     .column(3)
     .build();
 
@@ -1005,7 +1005,7 @@ Layout layout = Layout.builder()
     .height(1)
     .width(1)
     .row(3)
-    .column(2)
+    .column(1)
     .build();
 
 BreakdownMetricChart chart = BreakdownMetricChart.builder()
@@ -1046,8 +1046,8 @@ TrafficLightPresentation presentation = TrafficLightPresentation.builder()
 Layout layout = Layout.builder()
     .height(1)
     .width(1)
-    .row(4)
-    .column(1)
+    .row(3)
+    .column(2)
     .build();
 
 TrafficLightChart chart = TrafficLightChart.builder()
@@ -1079,7 +1079,7 @@ Layout layout = Layout.builder()
     .height(1)
     .width(1)
     .row(4)
-    .column(2)
+    .column(1)
     .build();
 
 InventoryChart chart = InventoryChart.builder()
@@ -1109,7 +1109,7 @@ Presentation presentation = Presentation.builder()
 Layout layout = Layout.builder()
     .height(1)
     .width(2)
-    .row(1)
+    .row(4)
     .column(2)
     .build();
 
