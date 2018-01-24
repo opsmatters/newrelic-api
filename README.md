@@ -6,7 +6,8 @@
 [![Javadocs](http://javadoc.io/badge/com.opsmatters/newrelic-api.svg)](http://javadoc.io/doc/com.opsmatters/newrelic-api)
 
 A Java client library for the New Relic Monitoring and Alerting REST APIs built using Jersey and Gson.
-The library can be used by applications to automate the configuration of New Relic Monitoring and Alerting, as well as for extracting alert and metric data.
+The library implements over 100 operations across all of the available 32 New Relic services.
+It can be used by applications to automate the configuration of New Relic Monitoring, Alerting and Dashboards, as well as for extracting incident and metric data and uploading metrics.
 
 The following New Relic APIs are currently supported:
 
