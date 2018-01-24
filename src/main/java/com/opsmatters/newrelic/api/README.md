@@ -790,7 +790,7 @@ Map<String,Object> filters = DashboardService.filters()
 Collection<Dashboard> dashboards = api.dashboards().list(filters);
 ```
 
-##### Adding a histogram widget to the dashboard
+#### Adding a histogram widget
 To add a histogram widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
 EventsData data = EventsData.builder()
@@ -822,7 +822,7 @@ dashboard.addWidget(chart);
 dashboard = api.dashboards().update(dashboard).get();
 ```
 
-##### Adding a gauge histogram widget to the dashboard
+#### Adding a gauge widget
 To add a gauge widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
 EventsData data = EventsData.builder()
