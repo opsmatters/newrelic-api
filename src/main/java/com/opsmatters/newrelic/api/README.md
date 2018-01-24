@@ -37,16 +37,16 @@
 - [Monitors](#monitors)
 - [Locations](#locations)
 
-#### Insights v1/v2 API
-- [Query](#insights-query)
-- [Dashboards](#insights-dashboards)
-
 #### Plugins v1 API
 - [Plugins Metrics](#plugins-metrics)
 
 #### Accounts v2 APIs
 - [Users](#users)
 - [Usages](#usages)
+
+#### Insights v1/v2 API
+- [Query](#insights-query)
+- [Dashboards](#insights-dashboards)
 
 ### Initialisation
 
@@ -942,6 +942,74 @@ Layout layout = Layout.builder()
 
 FacetChart chart = FacetChart.builder()
     .visualization(FacetChart.Visualization.FACET_PIE_CHART)
+    .accountId(accountId)
+    .presentation(presentation)
+    .layout(layout)
+    .addData(data)
+    .build();
+
+dashboard.addWidget(chart);
+
+dashboard = api.dashboards().update(dashboard).get();
+```
+
+#### Adding a Metric Line Chart widget
+To add a pie chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+```
+MetricsData data = MetricsData.builder()
+    .duration(86400000)
+    .addEntityId(entityId)
+    .addMetric(Metric.builder().name("Apdex").addValue("score").build())
+    .orderBy("score")
+    .limit(10)
+    .build();
+
+Presentation presentation = Presentation.builder()
+    .title("metric-line-title")
+    .notes("metric line notes")
+    .build();
+
+Layout layout = Layout.builder()
+    .height(1)
+    .width(1)
+    .row(3)
+    .column(3)
+    .build();
+
+MetricLineChart chart = MetricLineChart.builder()
+    .accountId(accountId)
+    .presentation(presentation)
+    .layout(layout)
+    .addData(data)
+    .build();
+
+dashboard.addWidget(chart);
+
+dashboard = api.dashboards().update(dashboard).get();
+```
+
+#### Adding a Breakdown Chart widget
+To add a breakdown chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+```
+MetricsData data = MetricsData.builder()
+    .duration(86400000)
+    .addEntityId(entityId)
+    .build();
+
+Presentation presentation = Presentation.builder()
+    .title("breakdown-title")
+    .notes("breakdown notes")
+    .build();
+
+Layout layout = Layout.builder()
+    .height(1)
+    .width(1)
+    .row(3)
+    .column(2)
+    .build();
+
+BreakdownMetricChart chart = BreakdownMetricChart.builder()
+    .visualization(BreakdownMetricChart.Visualization.APPLICATION_BREAKDOWN)
     .accountId(accountId)
     .presentation(presentation)
     .layout(layout)
