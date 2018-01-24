@@ -43,16 +43,16 @@ The following New Relic APIs are currently supported:
 * Labels (List, Create, Delete)
 * Locations (List)
 
-### Insights v1/V2 APIs
-* Query (List)
-* Dashboards (List, Show, Create, Update, Delete)
-
 ### Plugins v1 APIs
 * Plugin Metrics (Metric Data)
 
 ### Accounts v2 APIs
 * Users (List, Show, Reset Password)
 * Usages (List)
+
+### Insights v1/V2 APIs
+* Query (List)
+* Dashboards (List, Show, Create, Update, Delete)
 
 Other APIs can be included on request.
 
@@ -114,7 +114,7 @@ Add the following dependency to include the artefact within your project:
 <dependency>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.4.0</version>
+  <version>0.5.0</version>
 </dependency>
 ```
 

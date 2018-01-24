@@ -954,10 +954,10 @@ dashboard = api.dashboards().update(dashboard).get();
 ```
 
 #### Adding a Metric Line Chart widget
-To add a pie chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+To add a metric line chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
 MetricsData data = MetricsData.builder()
-    .duration(86400000)
+    .duration(86400000) // 1 day
     .addEntityId(entityId)
     .addMetric(Metric.builder().name("Apdex").addValue("score").build())
     .orderBy("score")
