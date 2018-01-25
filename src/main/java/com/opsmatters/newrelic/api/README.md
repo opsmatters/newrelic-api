@@ -858,10 +858,6 @@ Collection<Dashboard> dashboards = api.dashboards().list(filters);
 #### Adding a Histogram widget
 To add a histogram widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-EventsData data = EventsData.builder()
-    .nrql("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
-    .build();
-
 EventChart chart = EventChart.builder()
     .visualization(EventChart.Visualization.HISTOGRAM)
     .accountId(accountId)
@@ -869,7 +865,7 @@ EventChart chart = EventChart.builder()
     .notes("event notes")
     .position(1,1)
     .size(1,1)
-    .addData(data)
+    .addNrqlData("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
     .build();
 
 dashboard.addWidget(chart);
@@ -880,10 +876,6 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding a Gauge widget
 To add a gauge widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-EventsData data = EventsData.builder()
-    .nrql("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
-    .build();
-
 ThresholdEventChart chart = ThresholdEventChart.builder()
     .visualization(ThresholdEventChart.Visualization.GAUGE)
     .title("threshold-title")
@@ -892,7 +884,7 @@ ThresholdEventChart chart = ThresholdEventChart.builder()
     .accountId(accountId)
     .position(1,2)
     .size(1,1)
-    .addData(data)
+    .addNrqlData("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
     .build();
 
 dashboard.addWidget(chart);
@@ -903,10 +895,6 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding a Pie Chart widget
 To add a pie chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-EventsData data = EventsData.builder()
-    .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
-    .build();
-
 FacetChart chart = FacetChart.builder()
     .visualization(FacetChart.Visualization.FACET_PIE_CHART)
     .title("facet-pie-title")
@@ -915,7 +903,7 @@ FacetChart chart = FacetChart.builder()
     .accountId(accountId)
     .position(2,1)
     .size(2,1)
-    .addData(data)
+    .addNrqlData("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
     .build();
 
 dashboard.addWidget(chart);
@@ -974,10 +962,6 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding a Traffic Light widget
 To add a traffic light widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-EventsData data = EventsData.builder()
-    .nrql("SELECT max(cpuPercent) from ProcessSample SINCE 10 minutes ago")
-    .build();
-
 TrafficLight trafficLight = TrafficLight.builder()
     .id("12345")
     .title("cpu-percent")
@@ -994,7 +978,7 @@ TrafficLightChart chart = TrafficLightChart.builder()
     .accountId(accountId)
     .position(3,2)
     .size(1,1)
-    .addData(data)
+    .addNrqlData("SELECT max(cpuPercent) from ProcessSample SINCE 10 minutes ago")
     .build();
 
 dashboard.addWidget(chart);
@@ -1005,18 +989,14 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding an Inventory Chart widget
 To add an inventory chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-InventoryData data = InventoryData.builder()
-    .addSource("metadata/system")
-    .addFilter("operatingSystem", "linux")
-    .build();
-
 InventoryChart chart = InventoryChart.builder()
     .title("inventory-title")
     .notes("inventory notes")
     .accountId(accountId)
     .position(4,1)
     .size(1,1)
-    .addData(data)
+    .addSourceData("metadata/system")
+    .addFilterData("operatingSystem", "linux")
     .build();
 
 dashboard.addWidget(chart);
@@ -1027,17 +1007,13 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding a Markdown widget
 To add a markdown widget to an existing dashboard, create the widget and pass it to the "update" operation:
 ```
-MarkdownData data = MarkdownData.builder()
-    .source("# Dashboard Notes\n\nHere are some notes")
-    .build();
-
 Markdown markdown = Markdown.builder()
     .accountId(accountId)
     .title("markdown-title")
     .notes("markdown notes")
     .position(4,2)
     .size(2,1)
-    .addData(data)
+    .addSourceData("# Dashboard Notes\n\nHere are some notes")
     .build();
 
 dashboard.addWidget(markdown);
