@@ -1007,16 +1007,14 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding a Markdown widget
 To add a markdown widget to an existing dashboard, create the widget and pass it to the "update" operation:
 ```
-Markdown markdown = Markdown.builder()
+dashboard.addWidget(Markdown.builder()
     .accountId(accountId)
     .title("markdown-title")
     .notes("markdown notes")
     .position(4,2)
     .size(2,1)
     .addSourceData("# Dashboard Notes\n\nHere are some notes")
-    .build();
-
-dashboard.addWidget(markdown);
+    .build());
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
