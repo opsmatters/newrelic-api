@@ -2118,26 +2118,18 @@ public class NewRelicApiTest
 
     public Widget getMarkdown()
     {
-        MarkdownData data = MarkdownData.builder()
-            .source("# Dashboard Notes\n\nHere are some notes")
-            .build();
-
         return Markdown.builder()
             .accountId(accountId)
             .title("markdown-title")
             .notes("markdown notes")
             .position(1,2)
             .size(2,1)
-            .addData(data)
+            .addSourceData("# Dashboard Notes\n\nHere are some notes")
             .build();
     }
 
     public Widget getEventChart()
     {
-        EventsData data = EventsData.builder()
-            .nrql("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
-            .build();
-
         return EventChart.builder()
             .visualization(EventChart.Visualization.HISTOGRAM)
             .accountId(accountId)
@@ -2145,61 +2137,49 @@ public class NewRelicApiTest
             .notes("event notes")
             .position(1,1)
             .size(1,1)
-            .addData(data)
+            .addNrqlData("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
             .build();
     }
 
     public Widget getThresholdEventChart()
     {
-        EventsData data = EventsData.builder()
-            .nrql("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
-            .build();
-
         return ThresholdEventChart.builder()
             .visualization(ThresholdEventChart.Visualization.GAUGE)
             .title("threshold-title")
             .notes("threshold notes")
-            .threshold(Threshold.builder().red(10).yellow(5).build())
             .accountId(accountId)
             .position(2,1)
             .size(1,1)
-            .addData(data)
+            .addNrqlData("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
+            .threshold(Threshold.builder().red(10).yellow(5).build())
             .build();
     }
 
     public Widget getFacetPieChart(long dashboardId)
     {
-        EventsData data = EventsData.builder()
-            .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
-            .build();
-
         return FacetChart.builder()
             .visualization(FacetChart.Visualization.FACET_PIE_CHART)
             .title("facet-pie-title")
             .notes("facet pie notes")
-            .drilldownDashboardId(dashboardId)
             .accountId(accountId)
             .position(2,2)
             .size(2,1)
-            .addData(data)
+            .addNrqlData("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
+            .drilldownDashboardId(dashboardId)
             .build();
     }
 
     public Widget getFacetBarChart(long dashboardId)
     {
-        EventsData data = EventsData.builder()
-            .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
-            .build();
-
         return FacetChart.builder()
             .visualization(FacetChart.Visualization.FACET_BAR_CHART)
             .title("facet-bar-title")
             .notes("facet bar notes")
-            .drilldownDashboardId(dashboardId)
             .accountId(accountId)
             .position(3,1)
             .size(1,1)
-            .addData(data)
+            .addNrqlData("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
+            .drilldownDashboardId(dashboardId)
             .build();
     }
 
@@ -2243,10 +2223,6 @@ public class NewRelicApiTest
 
     public Widget getTrafficLightChart()
     {
-        EventsData data = EventsData.builder()
-            .nrql("SELECT max(cpuPercent) from ProcessSample SINCE 10 minutes ago")
-            .build();
-
         TrafficLight trafficLight = TrafficLight.builder()
             .id("12345")
             .title("cpu-percent")
@@ -2259,28 +2235,24 @@ public class NewRelicApiTest
         return TrafficLightChart.builder()
             .title("traffic-light-title")
             .notes("traffic light notes")
-            .addTrafficLight(trafficLight)
             .accountId(accountId)
             .position(4,1)
             .size(1,1)
-            .addData(data)
+            .addNrqlData("SELECT max(cpuPercent) from ProcessSample SINCE 10 minutes ago")
+            .addTrafficLight(trafficLight)
             .build();
     }
 
     public Widget getInventoryChart()
     {
-        InventoryData data = InventoryData.builder()
-            .addSource("metadata/system")
-            .addFilter("operatingSystem", "linux")
-            .build();
-
         return InventoryChart.builder()
             .title("inventory-title")
             .notes("inventory notes")
             .accountId(accountId)
             .position(4,2)
             .size(1,1)
-            .addData(data)
+            .addSourceData("metadata/system")
+            .addFilter("operatingSystem", "linux")
             .build();
     }
 

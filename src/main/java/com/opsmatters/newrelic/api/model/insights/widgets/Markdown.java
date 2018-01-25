@@ -135,6 +135,17 @@ public class Markdown extends Widget
         }
 
         /**
+         * Adds the given source to the list of widget data items.
+         * @param source The source of the widget data
+         * @return This object
+         */
+        public Builder addSourceData(String source)
+        {
+            widget.addData(new MarkdownData(source));
+            return this;
+        }
+
+        /**
          * Returns this object.
          * @return This object
          */

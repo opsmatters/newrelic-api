@@ -163,6 +163,17 @@ public class EventChart extends Widget
         }
 
         /**
+         * Adds the given nrql to the list of widget data items.
+         * @param nrql The nrql of the widget data
+         * @return This object
+         */
+        public Builder addNrqlData(String nrql)
+        {
+            widget.addData(new EventsData(nrql));
+            return this;
+        }
+
+        /**
          * Returns this object.
          * @return This object
          */

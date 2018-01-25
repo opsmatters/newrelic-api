@@ -92,7 +92,7 @@ public abstract class Widget
 
     /**
      * Adds an item to the list of widget data items.
-     * @param data The list of widget data items
+     * @param data The data item to be added
      */
     public void addData(WidgetData data)
     {
@@ -106,6 +106,16 @@ public abstract class Widget
     public List<WidgetData> getData()
     {
         return data;
+    }
+
+   /**
+     * Returns <CODE>true</CODE> if the given data item is contained in the list of widget data items.
+     * @param data The data item to be checked
+     * @return <CODE>true</CODE> if the given data item is contained in the list of widget data items
+     */
+    public boolean containsData(WidgetData data)
+    {
+        return this.data != null && this.data.contains(data);
     }
 
     /**

@@ -844,7 +844,7 @@ Dashboard d = Dashboard.builder()
 
 Dashboard dashboard = api.dashboards().create(d).get();
 ```
-The dashboard returned includes all the additional fields that were populated by the server on creation eg, "id", "created_at".
+The dashboard returned includes all the additional fields that were populated by the server on creation eg, "id", "created_at" and "owner_email".
 
 To list the dashboards matching one or more filters, build the filters and then pass it to the "list" operation:
 ```
@@ -987,7 +987,7 @@ dashboard.addWidget(InventoryChart.builder()
     .position(4,1)
     .size(1,1)
     .addSourceData("metadata/system")
-    .addFilterData("operatingSystem", "linux")
+    .addFilter("operatingSystem", "linux")
     .build());
 
 dashboard = api.dashboards().update(dashboard).get();

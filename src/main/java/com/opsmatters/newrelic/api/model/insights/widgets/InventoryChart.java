@@ -102,6 +102,7 @@ public class InventoryChart extends Widget
     {
         private InventoryChart widget = new InventoryChart();
         private Presentation presentation = new Presentation();
+        private InventoryData data = new InventoryData();
 
         /**
          * Default constructor.
@@ -109,6 +110,7 @@ public class InventoryChart extends Widget
         public Builder()
         {
             widget.setPresentation(presentation);
+            widget.addData(data);
             widget(widget);
         }
 
@@ -131,6 +133,33 @@ public class InventoryChart extends Widget
         public Builder addData(InventoryData data)
         {
             widget.addData(data);
+            return this;
+        }
+
+        /**
+         * Adds the given inventory source to the list of widget data items.
+         * @param source The source of the widget data
+         * @return This object
+         */
+        public Builder addSourceData(String source)
+        {
+            if(!widget.containsData(data))
+                widget.addData(data);
+            data.addSource(source);
+            return this;
+        }
+
+        /**
+         * Adds the given inventory filter to the list of widget data items.
+         * @param name The name of the filter to add
+         * @param value The value of the filter to add
+         * @return This object
+         */
+        public Builder addFilter(String name, String value)
+        {
+            if(!widget.containsData(data))
+                widget.addData(data);
+            data.addFilter(name, value);
             return this;
         }
 
