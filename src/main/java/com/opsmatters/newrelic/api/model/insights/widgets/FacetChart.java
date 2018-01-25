@@ -114,12 +114,14 @@ public class FacetChart extends Widget
     public static class Builder extends Widget.Builder<FacetChart, Builder>
     {
         private FacetChart widget = new FacetChart();
+        private DrilldownPresentation presentation = new DrilldownPresentation();
 
         /**
          * Default constructor.
          */
         public Builder()
         {
+            widget.setPresentation(presentation);
             widget(widget);
         }
 
@@ -142,6 +144,17 @@ public class FacetChart extends Widget
         public Builder presentation(DrilldownPresentation presentation)
         {
             widget.setPresentation(presentation);
+            return this;
+        }
+
+        /**
+         * Sets the drilldown dashboard id of the presentation.
+         * @param drilldownDashboardId The drilldown dashboard id of the presentation
+         * @return This object
+         */
+        public Builder drilldownDashboardId(long drilldownDashboardId)
+        {
+            presentation.setDrilldownDashboardId(drilldownDashboardId);
             return this;
         }
 

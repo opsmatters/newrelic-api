@@ -114,12 +114,14 @@ public class BreakdownMetricChart extends Widget
     public static class Builder extends Widget.Builder<BreakdownMetricChart, Builder>
     {
         private BreakdownMetricChart widget = new BreakdownMetricChart();
+        private Presentation presentation = new Presentation();
 
         /**
          * Default constructor.
          */
         public Builder()
         {
+            widget.setPresentation(presentation);
             widget(widget);
         }
 

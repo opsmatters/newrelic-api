@@ -101,12 +101,14 @@ public class InventoryChart extends Widget
     public static class Builder extends Widget.Builder<InventoryChart, Builder>
     {
         private InventoryChart widget = new InventoryChart();
+        private Presentation presentation = new Presentation();
 
         /**
          * Default constructor.
          */
         public Builder()
         {
+            widget.setPresentation(presentation);
             widget(widget);
         }
 

@@ -118,12 +118,14 @@ public class EventChart extends Widget
     public static class Builder extends Widget.Builder<EventChart, Builder>
     {
         private EventChart widget = new EventChart();
+        private Presentation presentation = new Presentation();
 
         /**
          * Default constructor.
          */
         public Builder()
         {
+            widget.setPresentation(presentation);
             widget(widget);
         }
 

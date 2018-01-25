@@ -101,12 +101,14 @@ public class Markdown extends Widget
     public static class Builder extends Widget.Builder<Markdown, Builder>
     {
         private Markdown widget = new Markdown();
+        private Presentation presentation = new Presentation();
 
         /**
          * Default constructor.
          */
         public Builder()
         {
+            widget.setPresentation(presentation);
             widget(widget);
         }
 

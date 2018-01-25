@@ -862,23 +862,13 @@ EventsData data = EventsData.builder()
     .nrql("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
     .build();
 
-Presentation presentation = Presentation.builder()
-    .title("event-title")
-    .notes("event notes")
-    .build();
-
-Layout layout = Layout.builder()
-    .height(1)
-    .width(1)
-    .row(1)
-    .column(1)
-    .build();
-
 EventChart chart = EventChart.builder()
     .visualization(EventChart.Visualization.HISTOGRAM)
     .accountId(accountId)
-    .presentation(presentation)
-    .layout(layout)
+    .title("event-title")
+    .notes("event notes")
+    .position(1,1)
+    .size(1,1)
     .addData(data)
     .build();
 
@@ -894,24 +884,14 @@ EventsData data = EventsData.builder()
     .nrql("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
     .build();
 
-ThresholdPresentation presentation = ThresholdPresentation.builder()
+ThresholdEventChart chart = ThresholdEventChart.builder()
+    .visualization(ThresholdEventChart.Visualization.GAUGE)
     .title("threshold-title")
     .notes("threshold notes")
     .threshold(Threshold.builder().red(10).yellow(5).build())
-    .build();
-
-Layout layout = Layout.builder()
-    .height(1)
-    .width(1)
-    .row(1)
-    .column(2)
-    .build();
-
-ThresholdEventChart chart = ThresholdEventChart.builder()
-    .visualization(ThresholdEventChart.Visualization.GAUGE)
     .accountId(accountId)
-    .presentation(presentation)
-    .layout(layout)
+    .position(1,2)
+    .size(1,1)
     .addData(data)
     .build();
 
@@ -927,24 +907,14 @@ EventsData data = EventsData.builder()
     .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
     .build();
 
-DrilldownPresentation presentation = DrilldownPresentation.builder()
+FacetChart chart = FacetChart.builder()
+    .visualization(FacetChart.Visualization.FACET_PIE_CHART)
     .title("facet-pie-title")
     .notes("facet pie notes")
     .drilldownDashboardId(dashboardId)
-    .build();
-
-Layout layout = Layout.builder()
-    .height(1)
-    .width(2)
-    .row(2)
-    .column(1)
-    .build();
-
-FacetChart chart = FacetChart.builder()
-    .visualization(FacetChart.Visualization.FACET_PIE_CHART)
     .accountId(accountId)
-    .presentation(presentation)
-    .layout(layout)
+    .position(2,1)
+    .size(2,1)
     .addData(data)
     .build();
 
@@ -964,22 +934,12 @@ MetricsData data = MetricsData.builder()
     .limit(10)
     .build();
 
-Presentation presentation = Presentation.builder()
+MetricLineChart chart = MetricLineChart.builder()
     .title("metric-line-title")
     .notes("metric line notes")
-    .build();
-
-Layout layout = Layout.builder()
-    .height(1)
-    .width(1)
-    .row(2)
-    .column(3)
-    .build();
-
-MetricLineChart chart = MetricLineChart.builder()
     .accountId(accountId)
-    .presentation(presentation)
-    .layout(layout)
+    .position(2,3)
+    .size(1,1)
     .addData(data)
     .build();
 
@@ -992,27 +952,17 @@ dashboard = api.dashboards().update(dashboard).get();
 To add a breakdown chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
 MetricsData data = MetricsData.builder()
-    .duration(86400000)
+    .duration(86400000) // 1 day
     .addEntityId(entityId)
-    .build();
-
-Presentation presentation = Presentation.builder()
-    .title("breakdown-title")
-    .notes("breakdown notes")
-    .build();
-
-Layout layout = Layout.builder()
-    .height(1)
-    .width(1)
-    .row(3)
-    .column(1)
     .build();
 
 BreakdownMetricChart chart = BreakdownMetricChart.builder()
     .visualization(BreakdownMetricChart.Visualization.APPLICATION_BREAKDOWN)
+    .title("breakdown-title")
+    .notes("breakdown notes")
     .accountId(accountId)
-    .presentation(presentation)
-    .layout(layout)
+    .position(3,1)
+    .size(1,1)
     .addData(data)
     .build();
 
@@ -1032,28 +982,18 @@ TrafficLight trafficLight = TrafficLight.builder()
     .id("12345")
     .title("cpu-percent")
     .subtitle("maximum")
-    .addState(TrafficLightState.builder().type("wrong").min(0).max(3).build())
-    .addState(TrafficLightState.builder().type("warning").min(3).max(7).build())
-    .addState(TrafficLightState.builder().type("ok").min(7).max(10).build())
-    .build();
-
-TrafficLightPresentation presentation = TrafficLightPresentation.builder()
-    .title("traffic-light-title")
-    .notes("traffic light notes")
-    .addTrafficLight(trafficLight)
-    .build();
-
-Layout layout = Layout.builder()
-    .height(1)
-    .width(1)
-    .row(3)
-    .column(2)
+    .addState(TrafficLightState.builder().wrongType().min(0).max(3).build())
+    .addState(TrafficLightState.builder().warningType().min(3).max(7).build())
+    .addState(TrafficLightState.builder().okType().min(7).max(10).build())
     .build();
 
 TrafficLightChart chart = TrafficLightChart.builder()
+    .title("traffic-light-title")
+    .notes("traffic light notes")
+    .addTrafficLight(trafficLight)
     .accountId(accountId)
-    .presentation(presentation)
-    .layout(layout)
+    .position(3,2)
+    .size(1,1)
     .addData(data)
     .build();
 
@@ -1070,22 +1010,12 @@ InventoryData data = InventoryData.builder()
     .addFilter("operatingSystem", "linux")
     .build();
 
-Presentation presentation = Presentation.builder()
+InventoryChart chart = InventoryChart.builder()
     .title("inventory-title")
     .notes("inventory notes")
-    .build();
-
-Layout layout = Layout.builder()
-    .height(1)
-    .width(1)
-    .row(4)
-    .column(1)
-    .build();
-
-InventoryChart chart = InventoryChart.builder()
     .accountId(accountId)
-    .presentation(presentation)
-    .layout(layout)
+    .position(4,1)
+    .size(1,1)
     .addData(data)
     .build();
 
@@ -1101,22 +1031,12 @@ MarkdownData data = MarkdownData.builder()
     .source("# Dashboard Notes\n\nHere are some notes")
     .build();
 
-Presentation presentation = Presentation.builder()
-    .title("markdown-title")
-    .notes("markdown notes")
-    .build();
-
-Layout layout = Layout.builder()
-    .height(1)
-    .width(2)
-    .row(4)
-    .column(2)
-    .build();
-
 Markdown markdown = Markdown.builder()
     .accountId(accountId)
-    .presentation(presentation)
-    .layout(layout)
+    .title("markdown-title")
+    .notes("markdown notes")
+    .position(4,2)
+    .size(2,1)
     .addData(data)
     .build();
 

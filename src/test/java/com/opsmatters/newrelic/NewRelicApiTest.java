@@ -107,11 +107,6 @@ import com.opsmatters.newrelic.api.model.insights.widgets.EventsData;
 import com.opsmatters.newrelic.api.model.insights.widgets.MetricsData;
 import com.opsmatters.newrelic.api.model.insights.widgets.MarkdownData;
 import com.opsmatters.newrelic.api.model.insights.widgets.InventoryData;
-import com.opsmatters.newrelic.api.model.insights.widgets.Presentation;
-import com.opsmatters.newrelic.api.model.insights.widgets.ThresholdPresentation;
-import com.opsmatters.newrelic.api.model.insights.widgets.DrilldownPresentation;
-import com.opsmatters.newrelic.api.model.insights.widgets.TrafficLightPresentation;
-import com.opsmatters.newrelic.api.model.insights.widgets.Layout;
 import com.opsmatters.newrelic.api.model.insights.widgets.Threshold;
 import com.opsmatters.newrelic.api.model.insights.widgets.TrafficLight;
 import com.opsmatters.newrelic.api.model.insights.widgets.TrafficLightState;
@@ -2127,22 +2122,12 @@ public class NewRelicApiTest
             .source("# Dashboard Notes\n\nHere are some notes")
             .build();
 
-        Presentation presentation = Presentation.builder()
-            .title("markdown-title")
-            .notes("markdown notes")
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(2)
-            .row(1)
-            .column(2)
-            .build();
-
         return Markdown.builder()
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .title("markdown-title")
+            .notes("markdown notes")
+            .position(1,2)
+            .size(2,1)
             .addData(data)
             .build();
     }
@@ -2153,23 +2138,13 @@ public class NewRelicApiTest
             .nrql("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
             .build();
 
-        Presentation presentation = Presentation.builder()
-            .title("event-title")
-            .notes("event notes")
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(1)
-            .row(1)
-            .column(1)
-            .build();
-
         return EventChart.builder()
             .visualization(EventChart.Visualization.HISTOGRAM)
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .title("event-title")
+            .notes("event notes")
+            .position(1,1)
+            .size(1,1)
             .addData(data)
             .build();
     }
@@ -2180,24 +2155,14 @@ public class NewRelicApiTest
             .nrql("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
             .build();
 
-        ThresholdPresentation presentation = ThresholdPresentation.builder()
+        return ThresholdEventChart.builder()
+            .visualization(ThresholdEventChart.Visualization.GAUGE)
             .title("threshold-title")
             .notes("threshold notes")
             .threshold(Threshold.builder().red(10).yellow(5).build())
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(1)
-            .row(2)
-            .column(1)
-            .build();
-
-        return ThresholdEventChart.builder()
-            .visualization(ThresholdEventChart.Visualization.GAUGE)
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .position(2,1)
+            .size(1,1)
             .addData(data)
             .build();
     }
@@ -2208,24 +2173,14 @@ public class NewRelicApiTest
             .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
             .build();
 
-        DrilldownPresentation presentation = DrilldownPresentation.builder()
+        return FacetChart.builder()
+            .visualization(FacetChart.Visualization.FACET_PIE_CHART)
             .title("facet-pie-title")
             .notes("facet pie notes")
             .drilldownDashboardId(dashboardId)
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(2)
-            .row(2)
-            .column(2)
-            .build();
-
-        return FacetChart.builder()
-            .visualization(FacetChart.Visualization.FACET_PIE_CHART)
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .position(2,2)
+            .size(2,1)
             .addData(data)
             .build();
     }
@@ -2236,24 +2191,14 @@ public class NewRelicApiTest
             .nrql("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
             .build();
 
-        DrilldownPresentation presentation = DrilldownPresentation.builder()
+        return FacetChart.builder()
+            .visualization(FacetChart.Visualization.FACET_BAR_CHART)
             .title("facet-bar-title")
             .notes("facet bar notes")
             .drilldownDashboardId(dashboardId)
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(1)
-            .row(3)
-            .column(1)
-            .build();
-
-        return FacetChart.builder()
-            .visualization(FacetChart.Visualization.FACET_BAR_CHART)
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .position(3,1)
+            .size(1,1)
             .addData(data)
             .build();
     }
@@ -2265,23 +2210,13 @@ public class NewRelicApiTest
             .addEntityId(entityId)
             .build();
 
-        Presentation presentation = Presentation.builder()
-            .title("breakdown-title")
-            .notes("breakdown notes")
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(1)
-            .row(3)
-            .column(2)
-            .build();
-
         return BreakdownMetricChart.builder()
             .visualization(BreakdownMetricChart.Visualization.APPLICATION_BREAKDOWN)
+            .title("breakdown-title")
+            .notes("breakdown notes")
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .position(3,2)
+            .size(1,1)
             .addData(data)
             .build();
     }
@@ -2296,22 +2231,12 @@ public class NewRelicApiTest
             .limit(10)
             .build();
 
-        Presentation presentation = Presentation.builder()
+        return MetricLineChart.builder()
             .title("metric-line-title")
             .notes("metric line notes")
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(1)
-            .row(3)
-            .column(3)
-            .build();
-
-        return MetricLineChart.builder()
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .position(3,3)
+            .size(1,1)
             .addData(data)
             .build();
     }
@@ -2326,28 +2251,18 @@ public class NewRelicApiTest
             .id("12345")
             .title("cpu-percent")
             .subtitle("maximum")
-            .addState(TrafficLightState.builder().type("wrong").min(0).max(3).build())
-            .addState(TrafficLightState.builder().type("warning").min(3).max(7).build())
-            .addState(TrafficLightState.builder().type("ok").min(7).max(10).build())
-            .build();
-
-        TrafficLightPresentation presentation = TrafficLightPresentation.builder()
-            .title("traffic-light-title")
-            .notes("traffic light notes")
-            .addTrafficLight(trafficLight)
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(1)
-            .row(4)
-            .column(1)
+            .addState(TrafficLightState.builder().wrongType().min(0).max(3).build())
+            .addState(TrafficLightState.builder().warningType().min(3).max(7).build())
+            .addState(TrafficLightState.builder().okType().min(7).max(10).build())
             .build();
 
         return TrafficLightChart.builder()
+            .title("traffic-light-title")
+            .notes("traffic light notes")
+            .addTrafficLight(trafficLight)
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .position(4,1)
+            .size(1,1)
             .addData(data)
             .build();
     }
@@ -2359,22 +2274,12 @@ public class NewRelicApiTest
             .addFilter("operatingSystem", "linux")
             .build();
 
-        Presentation presentation = Presentation.builder()
+        return InventoryChart.builder()
             .title("inventory-title")
             .notes("inventory notes")
-            .build();
-
-        Layout layout = Layout.builder()
-            .height(1)
-            .width(1)
-            .row(4)
-            .column(2)
-            .build();
-
-        return InventoryChart.builder()
             .accountId(accountId)
-            .presentation(presentation)
-            .layout(layout)
+            .position(4,2)
+            .size(1,1)
             .addData(data)
             .build();
     }

@@ -111,12 +111,14 @@ public class ThresholdEventChart extends Widget
     public static class Builder extends Widget.Builder<ThresholdEventChart, Builder>
     {
         private ThresholdEventChart widget = new ThresholdEventChart();
+        private ThresholdPresentation presentation = new ThresholdPresentation();
 
         /**
          * Default constructor.
          */
         public Builder()
         {
+            widget.setPresentation(presentation);
             widget(widget);
         }
 
@@ -139,6 +141,17 @@ public class ThresholdEventChart extends Widget
         public Builder presentation(ThresholdPresentation presentation)
         {
             widget.setPresentation(presentation);
+            return this;
+        }
+
+        /**
+         * Sets the threshold of the presentation.
+         * @param threshold The threshold of the presentation
+         * @return This object
+         */
+        public Builder threshold(Threshold threshold)
+        {
+            presentation.setThreshold(threshold);
             return this;
         }
 

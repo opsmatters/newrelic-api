@@ -101,12 +101,14 @@ public class TrafficLightChart extends Widget
     public static class Builder extends Widget.Builder<TrafficLightChart, Builder>
     {
         private TrafficLightChart widget = new TrafficLightChart();
+        private TrafficLightPresentation presentation = new TrafficLightPresentation();
 
         /**
          * Default constructor.
          */
         public Builder()
         {
+            widget.setPresentation(presentation);
             widget(widget);
         }
 
@@ -118,6 +120,17 @@ public class TrafficLightChart extends Widget
         public Builder presentation(TrafficLightPresentation presentation)
         {
             widget.setPresentation(presentation);
+            return this;
+        }
+
+        /**
+         * Adds a traffic light to the presentation.
+         * @param trafficLight The traffic light to add to the presentation
+         * @return This object
+         */
+        public Builder addTrafficLight(TrafficLight trafficLight)
+        {
+            presentation.addTrafficLight(trafficLight);
             return this;
         }
 

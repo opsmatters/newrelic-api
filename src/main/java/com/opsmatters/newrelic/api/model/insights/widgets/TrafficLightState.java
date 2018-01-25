@@ -30,6 +30,28 @@ public class TrafficLightState
     private Integer max;
 
     /**
+     * Represents the types of traffic light state.  
+     */
+    public enum StateType
+    {
+        WRONG("wrong"),
+        WARNING("warning"),
+        OK("ok");
+
+        StateType(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
      * Default constructor.
      */
     public TrafficLightState()
@@ -43,6 +65,15 @@ public class TrafficLightState
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    /**
+     * Sets the type of the state.
+     * @param type The type of the state
+     */
+    public void setType(StateType type)
+    {
+        setType(type.value());
     }
 
     /**
@@ -126,6 +157,47 @@ public class TrafficLightState
         public Builder type(String type)
         {
             state.setType(type);
+            return this;
+        }
+
+        /**
+         * Sets the type of the state.
+         * @param type The type of the state
+         * @return This object
+         */
+        public Builder type(StateType type)
+        {
+            state.setType(type);
+            return this;
+        }
+
+        /**
+         * Sets the type of the state to "wrong".
+         * @return This object
+         */
+        public Builder wrongType()
+        {
+            state.setType(StateType.WRONG);
+            return this;
+        }
+
+        /**
+         * Sets the type of the state to "warning".
+         * @return This object
+         */
+        public Builder warningType()
+        {
+            state.setType(StateType.WARNING);
+            return this;
+        }
+
+        /**
+         * Sets the type of the state to "ok".
+         * @return This object
+         */
+        public Builder okType()
+        {
+            state.setType(StateType.OK);
             return this;
         }
 

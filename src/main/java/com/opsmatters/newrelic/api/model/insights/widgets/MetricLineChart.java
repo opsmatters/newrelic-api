@@ -101,12 +101,14 @@ public class MetricLineChart extends Widget
     public static class Builder extends Widget.Builder<MetricLineChart, Builder>
     {
         private MetricLineChart widget = new MetricLineChart();
+        private Presentation presentation = new Presentation();
 
         /**
          * Default constructor.
          */
         public Builder()
         {
+            widget.setPresentation(presentation);
             widget(widget);
         }
 

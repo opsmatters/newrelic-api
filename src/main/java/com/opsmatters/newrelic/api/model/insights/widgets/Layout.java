@@ -111,6 +111,28 @@ public class Layout
     }
 
     /**
+     * Sets the size of the dashboard widget.
+     * @param width The width of the widget
+     * @param height The height of the widget
+     */
+    public void setSize(int width, int height)
+    {
+        setWidth(width);
+        setHeight(height);
+    }
+
+    /**
+     * Sets the position of the dashboard widget.
+     * @param row The row of the widget
+     * @param column The column of the widget
+     */
+    public void setPosition(int row, int column)
+    {
+        setRow(row);
+        setColumn(column);
+    }
+
+    /**
      * Returns a string representation of the object.
      */
     @Override

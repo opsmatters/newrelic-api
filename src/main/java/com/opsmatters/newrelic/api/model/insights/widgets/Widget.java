@@ -163,6 +163,7 @@ public abstract class Widget
     protected abstract static class Builder<T extends Widget, B extends Builder<T,B>>
     {
         private Widget widget;
+        private Layout layout = new Layout();
 
         /**
          * Sets the widget.
@@ -172,6 +173,7 @@ public abstract class Widget
         public B widget(Widget widget)
         {
             this.widget = widget;
+            widget.setLayout(layout);
             return self();
         }
 
@@ -205,6 +207,52 @@ public abstract class Widget
         public B layout(Layout layout)
         {
             widget.setLayout(layout);
+            return self();
+        }
+
+        /**
+         * Sets the position of the widget.
+         * @param row The row of the widget
+         * @param column The column of the widget
+         * @return This object
+         */
+        public B position(int row, int column)
+        {
+            widget.getLayout().setPosition(row, column);
+            return self();
+        }
+
+        /**
+         * Sets the size of the widget.
+         * @param width The width of the widget
+         * @param height The height of the widget
+         * @return This object
+         */
+        public B size(int width, int height)
+        {
+            widget.getLayout().setSize(width, height);
+            return self();
+        }
+
+        /**
+         * Sets the title of the presentation.
+         * @param title The title of the presentation
+         * @return This object
+         */
+        public B title(String title)
+        {
+            widget.getPresentation().setTitle(title);
+            return self();
+        }
+
+        /**
+         * Sets the notes of the presentation.
+         * @param notes The notes of the presentation
+         * @return This object
+         */
+        public B notes(String notes)
+        {
+            widget.getPresentation().setNotes(notes);
             return self();
         }
 
