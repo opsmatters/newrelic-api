@@ -858,7 +858,7 @@ Collection<Dashboard> dashboards = api.dashboards().list(filters);
 #### Adding a Histogram widget
 To add a histogram widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-EventChart chart = EventChart.builder()
+dashboard.addWidget(EventChart.builder()
     .visualization(EventChart.Visualization.HISTOGRAM)
     .accountId(accountId)
     .title("event-title")
@@ -866,9 +866,7 @@ EventChart chart = EventChart.builder()
     .position(1,1)
     .size(1,1)
     .addNrqlData("SELECT histogram(threadCount,10,20) from ProcessSample SINCE yesterday")
-    .build();
-
-dashboard.addWidget(chart);
+    .build());
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
@@ -876,7 +874,7 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding a Gauge widget
 To add a gauge widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-ThresholdEventChart chart = ThresholdEventChart.builder()
+dashboard.addWidget(ThresholdEventChart.builder()
     .visualization(ThresholdEventChart.Visualization.GAUGE)
     .title("threshold-title")
     .notes("threshold notes")
@@ -885,9 +883,7 @@ ThresholdEventChart chart = ThresholdEventChart.builder()
     .position(1,2)
     .size(1,1)
     .addNrqlData("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
-    .build();
-
-dashboard.addWidget(chart);
+    .build());
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
@@ -895,7 +891,7 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding a Pie Chart widget
 To add a pie chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-FacetChart chart = FacetChart.builder()
+dashboard.addWidget(FacetChart.builder()
     .visualization(FacetChart.Visualization.FACET_PIE_CHART)
     .title("facet-pie-title")
     .notes("facet pie notes")
@@ -904,9 +900,7 @@ FacetChart chart = FacetChart.builder()
     .position(2,1)
     .size(2,1)
     .addNrqlData("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
-    .build();
-
-dashboard.addWidget(chart);
+    .build());
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
@@ -922,16 +916,14 @@ MetricsData data = MetricsData.builder()
     .limit(10)
     .build();
 
-MetricLineChart chart = MetricLineChart.builder()
+dashboard.addWidget(MetricLineChart.builder()
     .title("metric-line-title")
     .notes("metric line notes")
     .accountId(accountId)
     .position(2,3)
     .size(1,1)
     .addData(data)
-    .build();
-
-dashboard.addWidget(chart);
+    .build());
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
@@ -944,7 +936,7 @@ MetricsData data = MetricsData.builder()
     .addEntityId(entityId)
     .build();
 
-BreakdownMetricChart chart = BreakdownMetricChart.builder()
+dashboard.addWidget(BreakdownMetricChart.builder()
     .visualization(BreakdownMetricChart.Visualization.APPLICATION_BREAKDOWN)
     .title("breakdown-title")
     .notes("breakdown notes")
@@ -952,9 +944,7 @@ BreakdownMetricChart chart = BreakdownMetricChart.builder()
     .position(3,1)
     .size(1,1)
     .addData(data)
-    .build();
-
-dashboard.addWidget(chart);
+    .build());
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
@@ -971,7 +961,7 @@ TrafficLight trafficLight = TrafficLight.builder()
     .addState(TrafficLightState.builder().okType().min(7).max(10).build())
     .build();
 
-TrafficLightChart chart = TrafficLightChart.builder()
+dashboard.addWidget(TrafficLightChart.builder()
     .title("traffic-light-title")
     .notes("traffic light notes")
     .addTrafficLight(trafficLight)
@@ -979,9 +969,7 @@ TrafficLightChart chart = TrafficLightChart.builder()
     .position(3,2)
     .size(1,1)
     .addNrqlData("SELECT max(cpuPercent) from ProcessSample SINCE 10 minutes ago")
-    .build();
-
-dashboard.addWidget(chart);
+    .build());
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
@@ -989,7 +977,7 @@ dashboard = api.dashboards().update(dashboard).get();
 #### Adding an Inventory Chart widget
 To add an inventory chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
 ```
-InventoryChart chart = InventoryChart.builder()
+dashboard.addWidget(InventoryChart.builder()
     .title("inventory-title")
     .notes("inventory notes")
     .accountId(accountId)
@@ -997,9 +985,7 @@ InventoryChart chart = InventoryChart.builder()
     .size(1,1)
     .addSourceData("metadata/system")
     .addFilterData("operatingSystem", "linux")
-    .build();
-
-dashboard.addWidget(chart);
+    .build());
 
 dashboard = api.dashboards().update(dashboard).get();
 ```
