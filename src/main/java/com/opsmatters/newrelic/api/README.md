@@ -856,7 +856,7 @@ Collection<Dashboard> dashboards = api.dashboards().list(filters);
 ```
 
 #### Adding a Histogram widget
-To add a histogram widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+To add a histogram widget to an existing dashboard, create the chart widget, add it to the dashboard, and then call the "update" operation:
 ```
 dashboard.addWidget(EventChart.builder()
     .visualization(EventChart.Visualization.HISTOGRAM)
@@ -872,7 +872,7 @@ dashboard = api.dashboards().update(dashboard).get();
 ```
 
 #### Adding a Gauge widget
-To add a gauge widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+To add a gauge widget to an existing dashboard, create the chart widget, add it to the dashboard, and then call the "update" operation:
 ```
 dashboard.addWidget(ThresholdEventChart.builder()
     .visualization(ThresholdEventChart.Visualization.GAUGE)
@@ -889,7 +889,7 @@ dashboard = api.dashboards().update(dashboard).get();
 ```
 
 #### Adding a Pie Chart widget
-To add a pie chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+To add a pie chart widget to an existing dashboard, create the chart widget, add it to the dashboard, and then call the "update" operation:
 ```
 dashboard.addWidget(FacetChart.builder()
     .visualization(FacetChart.Visualization.FACET_PIE_CHART)
@@ -906,7 +906,7 @@ dashboard = api.dashboards().update(dashboard).get();
 ```
 
 #### Adding a Metric Line Chart widget
-To add a metric line chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+To add a metric line chart widget to an existing dashboard, create the chart widget, add it to the dashboard, and then call the "update" operation:
 ```
 MetricsData data = MetricsData.builder()
     .duration(86400000) // 1 day
@@ -929,7 +929,7 @@ dashboard = api.dashboards().update(dashboard).get();
 ```
 
 #### Adding a Breakdown Chart widget
-To add a breakdown chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+To add a breakdown chart widget to an existing dashboard, create the chart widget, add it to the dashboard, and then call the "update" operation:
 ```
 MetricsData data = MetricsData.builder()
     .duration(86400000) // 1 day
@@ -950,7 +950,7 @@ dashboard = api.dashboards().update(dashboard).get();
 ```
 
 #### Adding a Traffic Light widget
-To add a traffic light widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+To add a traffic light widget to an existing dashboard, create the chart widget, add it to the dashboard, and then call the "update" operation:
 ```
 TrafficLight trafficLight = TrafficLight.builder()
     .id("12345")
@@ -975,7 +975,7 @@ dashboard = api.dashboards().update(dashboard).get();
 ```
 
 #### Adding an Inventory Chart widget
-To add an inventory chart widget to an existing dashboard, create the chart widget and pass it to the "update" operation:
+To add an inventory chart widget to an existing dashboard, create the chart widget, add it to the dashboard, and then call the "update" operation:
 ```
 dashboard.addWidget(InventoryChart.builder()
     .title("inventory-title")
@@ -991,7 +991,7 @@ dashboard = api.dashboards().update(dashboard).get();
 ```
 
 #### Adding a Markdown widget
-To add a markdown widget to an existing dashboard, create the widget and pass it to the "update" operation:
+To add a markdown widget to an existing dashboard, create the chart widget, add it to the dashboard, and then call the "update" operation:
 ```
 dashboard.addWidget(Markdown.builder()
     .title("markdown-title")
