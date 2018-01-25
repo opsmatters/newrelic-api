@@ -153,6 +153,15 @@ public class MetricsData extends WidgetData
     }
 
     /**
+     * Sets the order by of the metrics.
+     * @param orderBy The order by of the metrics
+     */
+    public void setOrderBy(Metric.Value orderBy)
+    {
+        setOrderBy(orderBy.value());
+    }
+
+    /**
      * Returns the order by of the metrics.
      * @return The order by of the metrics
      */
@@ -282,6 +291,17 @@ public class MetricsData extends WidgetData
          * @return This object
          */
         public Builder orderBy(String orderBy)
+        {
+            data.setOrderBy(orderBy);
+            return this;
+        }
+
+        /**
+         * Sets the order by of the widget data.
+         * @param orderBy The order by of the widget data
+         * @return This object
+         */
+        public Builder orderBy(Metric.Value orderBy)
         {
             data.setOrderBy(orderBy);
             return this;

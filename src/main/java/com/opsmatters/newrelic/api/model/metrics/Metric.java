@@ -33,6 +33,348 @@ public class Metric implements NamedResource
     private List<String> values;
 
     /**
+     * Represents the available categories for metrics.  
+     */
+    public enum Category
+    {
+        APDEX("Apdex"),
+        AGENT("Agent"),
+        AGENT_CHECK("AgentCheck"),
+        ERRORS("Errors"),
+        FILTER("Filter"),
+        HTTP_DISPATCHER("HttpDispatcher"),
+        JAVA("Java"),
+        JMX_BUILTIN("JmxBuiltin"),
+        OTHER_TRANSACTION("OtherTransaction"),
+        THREADS("Threads"),
+        WEB_TRANSACTION("WebTransaction"),
+        WEB_TRANSACTION_TOTAL_TIME("WebTransactionTotalTime");
+
+        Category(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Interface for all metric value enums.  
+     */
+    public interface Value
+    {
+        public String value();
+    }
+
+    /**
+     * Represents the available values for Apdex metrics.  
+     */
+    public enum Apdex implements Value
+    {
+        SCORE("score"),
+        S("s"),
+        T("t"),
+        F("f"),
+        COUNT("count");
+
+        Apdex(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for Errors metrics.  
+     */
+    public enum Errors implements Value
+    {
+        ERRORS_PER_MINUTE("errors_per_minute"),
+        ERROR_COUNT("error_count");
+
+        Errors(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for JmxBuiltin metrics.  
+     */
+    public enum JmxBuiltin implements Value
+    {
+        AVERAGE_VALUE("average_value"),
+        TOTAL_VALUE("total_value"),
+        MIN_VALUE("min_value"),
+        MAX_VALUE("max_value"),
+        STANDARD_DEVIATION("standard_deviation"),
+        COUNT("count"),
+        THROUGHPUT("throughput");
+
+        JmxBuiltin(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for Agent metrics.  
+     */
+    public enum Agent implements Value
+    {
+        AVERAGE_RESPONSE_TIME("average_response_time"),
+        CALLS_PER_MINUTE("calls_per_minute"),
+        CALL_COUNT("call_count"),
+        MIN_RESPONSE_TIME("min_response_time"),
+        MAX_RESPONSE_TIME("max_response_time"),
+        AVERAGE_EXCLUSIVE_TIME("average_exclusive_time"),
+        AVERAGE_VALUE("average_value"),
+        TOTAL_CALL_TIME_PER_MINUTE("total_call_time_per_minute"),
+        REQUESTS_PER_MINUTE("requests_per_minute"),
+        STANDARD_DEVIATION("standard_deviation");
+
+        Agent(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for Threads metrics.  
+     */
+    public enum Threads implements Value
+    {
+        AVERAGE_RESPONSE_TIME("average_response_time"),
+        CALLS_PER_MINUTE("calls_per_minute"),
+        CALL_COUNT("call_count"),
+        MIN_RESPONSE_TIME("min_response_time"),
+        MAX_RESPONSE_TIME("max_response_time"),
+        AVERAGE_EXCLUSIVE_TIME("average_exclusive_time"),
+        AVERAGE_VALUE("average_value"),
+        TOTAL_CALL_TIME_PER_MINUTE("total_call_time_per_minute"),
+        REQUESTS_PER_MINUTE("requests_per_minute"),
+        STANDARD_DEVIATION("standard_deviation");
+
+        Threads(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for Java metrics.  
+     */
+    public enum Java implements Value
+    {
+        AVERAGE_RESPONSE_TIME("average_response_time"),
+        CALLS_PER_MINUTE("calls_per_minute"),
+        CALL_COUNT("call_count"),
+        MIN_RESPONSE_TIME("min_response_time"),
+        MAX_RESPONSE_TIME("max_response_time"),
+        AVERAGE_EXCLUSIVE_TIME("average_exclusive_time"),
+        AVERAGE_VALUE("average_value"),
+        TOTAL_CALL_TIME_PER_MINUTE("total_call_time_per_minute"),
+        REQUESTS_PER_MINUTE("requests_per_minute"),
+        STANDARD_DEVIATION("standard_deviation");
+
+        Java(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for WebTransaction metrics.  
+     */
+    public enum WebTransaction implements Value
+    {
+        AVERAGE_CALL_TIME("average_call_time"),
+        AVERAGE_RESPONSE_TIME("average_response_time"),
+        REQUESTS_PER_MINUTE("requests_per_minute"),
+        CALL_COUNT("call_count"),
+        MIN_CALL_TIME("min_call_time"),
+        MAX_CALL_TIME("max_call_time"),
+        TOTAL_CALL_TIME("total_call_time"),
+        THROUGHPUT("throughput"),
+        STANDARD_DEVIATION("standard_deviation");
+
+        WebTransaction(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for WebTransactionTotalTime metrics.  
+     */
+    public enum WebTransactionTotalTime implements Value
+    {
+        AVERAGE_RESPONSE_TIME("average_response_time"),
+        CALLS_PER_MINUTE("calls_per_minute"),
+        CALL_COUNT("call_count"),
+        MIN_RESPONSE_TIME("min_response_time"),
+        MAX_RESPONSE_TIME("max_response_time"),
+        AVERAGE_EXCLUSIVE_TIME("average_exclusive_time"),
+        AVERAGE_VALUE("average_value"),
+        TOTAL_CALL_TIME_PER_MINUTE("total_call_time_per_minute"),
+        REQUESTS_PER_MINUTE("requests_per_minute"),
+        STANDARD_DEVIATION("standard_deviation");
+
+        WebTransactionTotalTime(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for HttpDispatcher metrics.  
+     */
+    public enum HttpDispatcher implements Value
+    {
+        AVERAGE_RESPONSE_TIME("average_response_time"),
+        CALLS_PER_MINUTE("calls_per_minute"),
+        CALL_COUNT("call_count"),
+        MIN_RESPONSE_TIME("min_response_time"),
+        MAX_RESPONSE_TIME("max_response_time"),
+        AVERAGE_EXCLUSIVE_TIME("average_exclusive_time"),
+        AVERAGE_VALUE("average_value"),
+        TOTAL_CALL_TIME_PER_MINUTE("total_call_time_per_minute"),
+        REQUESTS_PER_MINUTE("requests_per_minute"),
+        STANDARD_DEVIATION("standard_deviation"),
+        AVERAGE_CALL_TIME("average_call_time");
+
+        HttpDispatcher(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for Filter metrics.  
+     */
+    public enum Filter implements Value
+    {
+        AVERAGE_RESPONSE_TIME("average_response_time"),
+        CALLS_PER_MINUTE("calls_per_minute"),
+        CALL_COUNT("call_count"),
+        MIN_RESPONSE_TIME("min_response_time"),
+        MAX_RESPONSE_TIME("max_response_time"),
+        AVERAGE_EXCLUSIVE_TIME("average_exclusive_time"),
+        AVERAGE_VALUE("average_value"),
+        TOTAL_CALL_TIME_PER_MINUTE("total_call_time_per_minute"),
+        REQUESTS_PER_MINUTE("requests_per_minute"),
+        STANDARD_DEVIATION("standard_deviation");
+
+        Filter(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
+     * Represents the available values for OtherTransaction metrics.  
+     */
+    public enum OtherTransaction implements Value
+    {
+        AVERAGE_RESPONSE_TIME("average_response_time"),
+        CALLS_PER_MINUTE("calls_per_minute"),
+        CALL_COUNT("call_count"),
+        MIN_RESPONSE_TIME("min_response_time"),
+        MAX_RESPONSE_TIME("max_response_time"),
+        AVERAGE_EXCLUSIVE_TIME("average_exclusive_time"),
+        AVERAGE_VALUE("average_value"),
+        TOTAL_CALL_TIME_PER_MINUTE("total_call_time_per_minute"),
+        REQUESTS_PER_MINUTE("requests_per_minute"),
+        STANDARD_DEVIATION("standard_deviation");
+
+        OtherTransaction(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
      * Default constructor.
      */
     public Metric()
@@ -46,6 +388,15 @@ public class Metric implements NamedResource
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    /**
+     * Sets the name of the metric.
+     * @param name The name of the metric
+     */
+    public void setName(Category name)
+    {
+        setName(name.value());
     }
 
     /**
@@ -115,6 +466,15 @@ public class Metric implements NamedResource
     }
 
     /**
+     * Adds an metric value to the list of values.
+     * @param value The metric value to add to the list of values
+     */
+    public void addValue(Value value)
+    {
+        addValue(value.value());
+    }
+
+    /**
      * Returns the list of values.
      * @return The list of values
      */
@@ -164,6 +524,17 @@ public class Metric implements NamedResource
         }
 
         /**
+         * Sets the name of the metric.
+         * @param name The name of the metric
+         * @return This object
+         */
+        public Builder name(Category name)
+        {
+            metric.setName(name);
+            return this;
+        }
+
+        /**
          * Sets the scope of the metric.
          * @param scope The scope of the metric
          * @return This object
@@ -202,6 +573,17 @@ public class Metric implements NamedResource
          * @return This object
          */
         public Builder addValue(String value)
+        {
+            metric.addValue(value);
+            return this;
+        }
+
+        /**
+         * Adds the given metric value to the list of values for the metric.
+         * @param value The metric value to add to the list of values
+         * @return This object
+         */
+        public Builder addValue(Value value)
         {
             metric.addValue(value);
             return this;

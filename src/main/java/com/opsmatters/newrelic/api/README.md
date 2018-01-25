@@ -914,8 +914,8 @@ To add a metric line chart widget to an existing dashboard:
 MetricsData data = MetricsData.builder()
     .duration(86400000) // 1 day
     .addEntityId(entityId)
-    .addMetric(Metric.builder().name("Apdex").addValue("score").build())
-    .orderBy("score")
+    .addMetric(Metric.builder().name(Metric.Category.APDEX).addValue(Metric.Apdex.SCORE).build())
+    .orderBy(Metric.Apdex.SCORE)
     .limit(10)
     .build();
 
