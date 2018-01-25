@@ -878,11 +878,11 @@ dashboard.addWidget(ThresholdEventChart.builder()
     .visualization(ThresholdEventChart.Visualization.GAUGE)
     .title("threshold-title")
     .notes("threshold notes")
-    .threshold(Threshold.builder().red(10).yellow(5).build())
     .accountId(accountId)
     .position(1,2)
     .size(1,1)
     .addNrqlData("SELECT average(cpuPercent) from ProcessSample SINCE 10 minutes ago")
+    .threshold(Threshold.builder().red(10).yellow(5).build())
     .build());
 
 dashboard = api.dashboards().update(dashboard).get();
@@ -895,11 +895,11 @@ dashboard.addWidget(FacetChart.builder()
     .visualization(FacetChart.Visualization.FACET_PIE_CHART)
     .title("facet-pie-title")
     .notes("facet pie notes")
-    .drilldownDashboardId(dashboardId)
     .accountId(accountId)
     .position(2,1)
     .size(2,1)
     .addNrqlData("SELECT count(*) FROM ProcessSample SINCE 1 DAY AGO FACET commandName")
+    .drilldownDashboardId(dashboardId)
     .build());
 
 dashboard = api.dashboards().update(dashboard).get();
@@ -964,11 +964,11 @@ TrafficLight trafficLight = TrafficLight.builder()
 dashboard.addWidget(TrafficLightChart.builder()
     .title("traffic-light-title")
     .notes("traffic light notes")
-    .addTrafficLight(trafficLight)
     .accountId(accountId)
     .position(3,2)
     .size(1,1)
     .addNrqlData("SELECT max(cpuPercent) from ProcessSample SINCE 10 minutes ago")
+    .addTrafficLight(trafficLight)
     .build());
 
 dashboard = api.dashboards().update(dashboard).get();
@@ -994,9 +994,9 @@ dashboard = api.dashboards().update(dashboard).get();
 To add a markdown widget to an existing dashboard, create the widget and pass it to the "update" operation:
 ```
 dashboard.addWidget(Markdown.builder()
-    .accountId(accountId)
     .title("markdown-title")
     .notes("markdown notes")
+    .accountId(accountId)
     .position(4,2)
     .size(2,1)
     .addSourceData("# Dashboard Notes\n\nHere are some notes")
