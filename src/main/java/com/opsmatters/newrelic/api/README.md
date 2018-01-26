@@ -5,7 +5,7 @@
 
 - [Initialisation](#initialisation)
 
-#### Alerts v2 API
+#### REST v2 API
 - [Alerts Channels](#alerts-channels)
 - [Alerts Policies](#alerts-policies)
 - [Alerts Policy Channels](#alerts-policy-channels)
@@ -19,8 +19,6 @@
 - [Alerts Events](#alerts-events)
 - [Alerts Violations](#alerts-violations)
 - [Alerts Incidents](#alerts-incidents)
-
-#### Applications v2 API
 - [Applications](#applications)
 - [Application Hosts](#application-hosts)
 - [Application Instances](#application-instances)
@@ -32,6 +30,9 @@
 - [Servers](#servers)
 - [Deployments](#deployments)
 - [Labels](#labels)
+- [Users](#users)
+- [Usages](#usages)
+- [Dashboards](#insights-dashboards)
 
 #### Synthetics v1/v3 API
 - [Monitors](#monitors)
@@ -40,13 +41,13 @@
 #### Plugins v1 API
 - [Plugins Metrics](#plugins-metrics)
 
-#### Accounts v2 APIs
-- [Users](#users)
-- [Usages](#usages)
-
-#### Insights v1/v2 API
+#### Insights v1 API
 - [Query](#insights-query)
-- [Dashboards](#insights-dashboards)
+
+#### Partner v2 API
+- [Accounts](#partner-accounts)
+- [Users](#partner-users)
+- [Subscriptions](#partner-subscriptions)
 
 ### Initialisation
 
@@ -135,8 +136,25 @@ NewRelicPluginsApi pluginsApi = NewRelicPluginsApi.builder()
     .build();
 ```
 
+#### Partner API
+
+To obtain a client instance to carry out operations with the New Relic Partner REST API use the builder provided:
+```
+NewRelicPartnerApi partnerApi = NewRelicPartnerApi.builder()
+    .hostname("rpm.newrelic.com")
+    .port(443)
+    .apiKey("<YOUR_PARTNER_ACCOUNT_KEY>")
+    .build();
+```
+Again, if the hostname and port are omitted they default to "rpm.newrelic.com" and 443 respectively, so this becomes:
+```
+NewRelicPartnerApi partnerApi = NewRelicPartnerApi.builder()
+    .apiKey("<YOUR_PARTNER_ACCOUNT_KEY>")
+    .build();
+```
+
 ### Alerts Channels
-To create an email alert channel called "alerts@test.com", first instantiate the channel object and then pass it to the "create" operation:
+To create an email alert channel, first instantiate the channel object and then pass it to the "create" operation:
 ```
 EmailChannel c = EmailChannel.builder()
     .name("alerts@test.com")
@@ -825,13 +843,12 @@ UsageData usage = api.usages().list(product, startDate, endDate, true).get();
 ### Insights Query
 To execute an Insights query and get the results call the "list" operation:
 ```
-long accountId = 123456;
 String query = "SELECT average(duration) FROM PageView";
 QueryData data = insightsApi.queries().list(accountId, query).get();
 ```
 
 ### Insights Dashboards
-To create a dashboard called "my-dashboard", first instantiate the dashboard and then pass it to the "create" operation:
+To create a dashboard, first instantiate the dashboard and then pass it to the "create" operation:
 ```
 Dashboard d = Dashboard.builder()
     .title("my-policy")
@@ -1013,5 +1030,71 @@ Other operations have also been included for dashboards:
 * show(dashboardId): returns the dashboard with the given id.
 * update(dashboard): updates the dashboard with the given dashboard details and widgets.
 * delete(dashboardId): deletes the dashboard with the given id.
+
+### Partner Accounts
+To create a partner account, first instantiate the account with a set of users and subscriptions and then pass it to the "create" operation:
+```
+PartnerUser user = PartnerUser.builder()
+    .firstName("John")
+    .lastName("Doe")
+    .email("john.doe@test.com")
+    .role(User.Role.ADMIN)
+    .owner(true)
+    .password("XXXXXXXX")
+    .build()
+
+PartnerAccount a = PartnerAccount.builder()
+    .name("test-account")
+    .phoneNumber("0208234567"
+    .allowApiAccess(true)
+    .addUser(user)
+    .addSubscription(ProductSubscription.builder().productId(4).quantity(10).build())
+    .addSubscription(ProductSubscription.builder().productId(10).quantity(0).build())
+    .build();
+
+PartnerAccount account = partnerApi.accounts().create(partnerId, a).get();
+```
+The account returned includes all the additional fields that were populated by the server on creation eg, "id", "status".
+
+Other operations have also been included for partner accounts:
+* list(partnerId): returns all accounts for the given partner id.
+* show(partnerId, accountId): returns the account with the given account id for the given partner id.
+* update(partnerId, account): updates the account with the given account details.
+* delete(partnerId, accountId): deletes the account with the given id for the given partner id.
+
+### Partner Users
+To create a partner user, first instantiate the user and then pass it to the "create" operation:
+```
+PartnerUser u = PartnerUser.builder()
+    .firstName("John")
+    .lastName("Smith")
+    .email("john.smith@test.com")
+    .role(User.Role.USER)
+    .owner(false)
+    .password("XXXXXXXX")
+    .build()
+
+User user = partnerApi.users().create(partnerId, accountId, u).get();
+```
+The user returned includes all the additional fields that were populated by the server on creation eg, "id".
+
+Other operations have also been included for partner users:
+* list(partnerId, accountId): returns all users for the given partner id and account id.
+* update(partnerId, accountId, user): updates the user with the given user details.
+* delete(partnerId, accountId, userId): deletes the user with the given id for the given partner id and account id.
+
+### Partner Subscriptions
+To replace the product subscriptions for a partner account, first instantiate a list of subscriptions and then pass it to the "create" operation:
+```
+List<ProductSubscription> subscriptions = new ArrayList<ProductSubscription>();
+subscriptions.add(ProductSubscription.builder().productId(4).quantity(10).build());
+subscriptions.add(ProductSubscription.builder().productId(10).quantity(0).build());
+PartnerSubscription subscription = partnerApi.subscriptions().create(partnerId, accountId, subscriptions).get();
+```
+The subscription returned includes all the additional fields that were populated by the server on creation eg, "id", "status".
+
+Other operations have also been included for partner subscriptions:
+* list(partnerId, accountId): returns all subscriptions for the given partner id and account id.
+* show(partnerId, accountId, subscriptionId): returns the subscription with the given id for the given partner id and account id.
 
 <sub>Copyright (c) 2018 opsmatters</sub>

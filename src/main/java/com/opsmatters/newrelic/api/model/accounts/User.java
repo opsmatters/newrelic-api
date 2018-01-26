@@ -37,6 +37,28 @@ public class User extends IdResource
     private String role;
 
     /**
+     * Represents the available roles for a user.  
+     */
+    public enum Role
+    {
+        ADMIN("admin"),
+        USER("user"),
+        RESTRICTED("restricted");
+
+        Role(String value)
+        {
+            this.value = value;
+        }
+
+        public String value()
+        {
+            return value;
+        }
+
+        private String value;
+    }
+
+    /**
      * Default constructor.
      */
     public User()
@@ -104,6 +126,15 @@ public class User extends IdResource
     public void setRole(String role)
     {
         this.role = role;
+    }
+
+    /**
+     * Sets the role of the user.
+     * @param role The role of the user
+     */
+    public void setRole(Role role)
+    {
+        setRole(role.value());
     }
 
     /**

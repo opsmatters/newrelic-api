@@ -47,6 +47,9 @@ import com.opsmatters.newrelic.api.model.metrics.Metric;
 import com.opsmatters.newrelic.api.model.metrics.MetricData;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
 import com.opsmatters.newrelic.api.model.labels.Label;
+import com.opsmatters.newrelic.api.model.accounts.PartnerAccount;
+import com.opsmatters.newrelic.api.model.accounts.PartnerUser;
+import com.opsmatters.newrelic.api.model.accounts.PartnerSubscription;
 import com.opsmatters.newrelic.api.model.accounts.User;
 import com.opsmatters.newrelic.api.model.accounts.UsageData;
 import com.opsmatters.newrelic.api.model.synthetics.Monitor;
@@ -136,8 +139,15 @@ public class BaseFluent
     protected static final GenericType<Label> LABEL = new GenericType<Label>(){};
     protected static final GenericType<Collection<Label>> LABELS = new GenericType<Collection<Label>>(){};
 
+    protected static final GenericType<PartnerAccount> PARTNER_ACCOUNT = new GenericType<PartnerAccount>(){};
+    protected static final GenericType<Collection<PartnerAccount>> PARTNER_ACCOUNTS = new GenericType<Collection<PartnerAccount>>(){};
+
     protected static final GenericType<User> USER = new GenericType<User>(){};
     protected static final GenericType<Collection<User>> USERS = new GenericType<Collection<User>>(){};
+    protected static final GenericType<Collection<PartnerUser>> PARTNER_USERS = new GenericType<Collection<PartnerUser>>(){};
+
+    protected static final GenericType<PartnerSubscription> PARTNER_SUBSCRIPTION = new GenericType<PartnerSubscription>(){};
+    protected static final GenericType<Collection<PartnerSubscription>> PARTNER_SUBSCRIPTIONS = new GenericType<Collection<PartnerSubscription>>(){};
 
     protected static final GenericType<UsageData> USAGE_DATA = new GenericType<UsageData>(){};
 

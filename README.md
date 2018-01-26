@@ -11,7 +11,7 @@ It can be used by applications to automate the configuration of New Relic Monito
 
 The following New Relic APIs are currently supported:
 
-### Alerts v2 API
+### REST v2 API
 * Alerts Channels (List, Create, Delete)
 * Alerts Policies (List, Create, Update, Delete)
 * Alerts Policy Channels (Update, Delete)
@@ -25,8 +25,6 @@ The following New Relic APIs are currently supported:
 * Alerts Events (List)
 * Alerts Violations (List)
 * Alerts Incidents (List)
-
-### Applications v2 API
 * Applications (List, Show, Update, Delete, Metric Names, Metric Data)
 * Application Hosts (List, Show, Metric Names, Metric Data)
 * Application Instances (List, Show, Metric Names, Metric Data)
@@ -38,24 +36,25 @@ The following New Relic APIs are currently supported:
 * Servers (List, Show, Update, Delete, Metric Names, Metric Data)
 * Deployments (List, Create, Delete)
 * Labels (List, Create, Delete)
+* Users (List, Show, Reset Password)
+* Usages (List)
+* Dashboards (List, Show, Create, Update, Delete)
 
-### Synthetics v1/v3 APIs
+### Synthetics v1/v3 API
 * Monitors (List, Show, Show Script, Create, Update, Update Script, Patch, Delete)
 * Labels (List, Create, Delete)
 * Locations (List)
 
-### Plugins v1 APIs
+### Plugins v1 API
 * Plugin Metrics (Metric Data)
 
-### Accounts v2 APIs
-* Users (List, Show, Reset Password)
-* Usages (List)
-
-### Insights v1/V2 APIs
+### Insights v1 API
 * Query (List)
-* Dashboards (List, Show, Create, Update, Delete)
 
-Other APIs can be included on request.
+### Partner v2 API
+* Accounts (List, Show, Create, Update, Delete)
+* Users (List, Create, Update, Delete)
+* Subscriptions (List, Show, Create)
 
 ## Examples
 
@@ -74,6 +73,9 @@ Other keys:
     - The Query Key is referenced in the documentation as the parameter "YOUR_QUERY_KEY".
 * For sending Plugins metrics, the main license key for the account is required. 
     - The License Key is referenced in the documentation as the parameter "YOUR_LICENSE_KEY".
+* For executing Partner API operations, the Partner ID is required and a Partner API key will need to be generated. 
+    - The Partner ID is referenced in the documentation as the parameter "YOUR_PARTNER_ID".
+    - The Partner API Key is referenced in the documentation as the parameter "YOUR_PARTNER_ACCOUNT_KEY".
 
 ## Installing
 
@@ -115,7 +117,7 @@ Add the following dependency to include the artefact within your project:
 <dependency>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>0.5.0</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 

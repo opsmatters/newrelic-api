@@ -49,4 +49,9 @@ public class Constants
      * The name of the standard property used for the License key.
      */
     public static final String LICENSE_KEY_PROPERTY = "newrelic.license_key";
+
+    /**
+     * The name of the standard property used for the Partner ID.
+     */
+    public static final String PARTNER_ID_PROPERTY = "newrelic.partner_id";
 }
