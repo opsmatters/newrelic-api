@@ -7,7 +7,7 @@
 
 A Java client library for the New Relic Monitoring and Alerting REST APIs built using Jersey and Gson.
 The library implements over 110 operations across all of the available 35 New Relic services.
-It can be used by applications to automate the configuration of New Relic Monitoring, Alerting and Dashboards, extracting incident and metric data, executing Insights queries, and uploading plugin metrics.
+It is primarily used by applications to automate the configuration of New Relic Monitoring, Alerting and Dashboards, but can also be used for extracting incident and metric data, executing Insights queries, or uploading plugin metrics.
 
 The following New Relic APIs are currently supported:
 
