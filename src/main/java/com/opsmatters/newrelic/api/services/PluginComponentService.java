@@ -149,9 +149,9 @@ public class PluginComponentService extends BaseFluent
          * @param pluginId The plugin id to filter on
          * @return This object
          */
-        public FilterBuilder pluginId(String pluginId)
+        public FilterBuilder pluginId(long pluginId)
         {
-            filters.add("filter[plugin_id]", pluginId);
+            filters.add("filter[plugin_id]", Long.toString(pluginId));
             return this;
         }
 
