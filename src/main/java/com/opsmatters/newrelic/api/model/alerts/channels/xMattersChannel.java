@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class xMattersChannel extends AlertChannel
+public class xMattersChannel extends AlertChannel<xMattersConfiguration>
 {
     /**
      * Default constructor.

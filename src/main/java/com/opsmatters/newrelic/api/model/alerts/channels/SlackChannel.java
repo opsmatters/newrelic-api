@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class SlackChannel extends AlertChannel
+public class SlackChannel extends AlertChannel<SlackConfiguration>
 {
     /**
      * Default constructor.

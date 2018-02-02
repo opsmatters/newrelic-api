@@ -24,10 +24,10 @@ import com.opsmatters.newrelic.api.model.NamedIdResource;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public abstract class AlertChannel extends NamedIdResource
+public abstract class AlertChannel<T extends ChannelConfiguration> extends NamedIdResource
 {
     private String type;
-    private ChannelConfiguration configuration;
+    private T configuration;
     private ChannelLinks links;
 
     /**
@@ -59,7 +59,7 @@ public abstract class AlertChannel extends NamedIdResource
      * Sets the configuration of the channel.
      * @param configuration The configuration of the channel
      */
-    public void setConfiguration(ChannelConfiguration configuration)
+    public void setConfiguration(T configuration)
     {
         this.configuration = configuration;
     }
@@ -68,7 +68,7 @@ public abstract class AlertChannel extends NamedIdResource
      * Returns the configuration of the channel.
      * @return The configuration of the channel
      */
-    public ChannelConfiguration getConfiguration()
+    public T getConfiguration()
     {
         return configuration;
     }

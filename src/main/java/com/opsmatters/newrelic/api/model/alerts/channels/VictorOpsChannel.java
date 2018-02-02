@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class VictorOpsChannel extends AlertChannel
+public class VictorOpsChannel extends AlertChannel<VictorOpsConfiguration>
 {
     /**
      * Default constructor.

@@ -21,7 +21,7 @@ package com.opsmatters.newrelic.api.model.alerts.channels;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class ChannelConfiguration
+public abstract class ChannelConfiguration
 {
     private transient String type;
 

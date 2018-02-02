@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class UserChannel extends AlertChannel
+public class UserChannel extends AlertChannel<UserConfiguration>
 {
     /**
      * Default constructor.

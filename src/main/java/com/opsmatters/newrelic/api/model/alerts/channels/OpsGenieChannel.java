@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class OpsGenieChannel extends AlertChannel
+public class OpsGenieChannel extends AlertChannel<OpsGenieConfiguration>
 {
     /**
      * Default constructor.

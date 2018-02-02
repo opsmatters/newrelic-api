@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class CampfireChannel extends AlertChannel
+public class CampfireChannel extends AlertChannel<CampfireConfiguration>
 {
     /**
      * Default constructor.

@@ -24,7 +24,7 @@ import java.util.Map;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class WebhookChannel extends AlertChannel
+public class WebhookChannel extends AlertChannel<WebhookConfiguration>
 {
     /**
      * Default constructor.

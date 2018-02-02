@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class PagerDutyChannel extends AlertChannel
+public class PagerDutyChannel extends AlertChannel<PagerDutyConfiguration>
 {
     /**
      * Default constructor.

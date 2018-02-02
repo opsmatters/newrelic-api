@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class EmailChannel extends AlertChannel
+public class EmailChannel extends AlertChannel<EmailConfiguration>
 {
     /**
      * Default constructor.

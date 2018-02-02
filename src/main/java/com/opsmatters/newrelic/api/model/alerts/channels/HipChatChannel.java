@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class HipChatChannel extends AlertChannel
+public class HipChatChannel extends AlertChannel<HipChatConfiguration>
 {
     /**
      * Default constructor.
