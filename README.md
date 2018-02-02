@@ -127,6 +127,7 @@ Add the following dependency to include the artefact within your project:
 * [Gson](https://github.com/google/gson) - Java serialization/deserialization library
 * [Guava](https://github.com/google/guava/wiki) - An open-source set of common libraries for Java
 * [Maven](https://maven.apache.org/) - Dependency Management
+* [JUnit](http://junit.org/) - Unit testing framework
 
 ## Contributing
 
