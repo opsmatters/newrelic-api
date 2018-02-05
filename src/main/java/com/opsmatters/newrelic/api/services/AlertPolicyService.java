@@ -88,7 +88,7 @@ public class AlertPolicyService extends BaseFluent
      * @param policyId The id of the alert policy to return
      * @return The alert policy
      */
-    public Optional<AlertPolicy> show(policyId)
+    public Optional<AlertPolicy> show(long policyId)
     {
         return show(null, policyId);
     }
