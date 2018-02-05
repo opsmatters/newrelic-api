@@ -169,6 +169,7 @@ The alert channel returned includes all the additional fields that were populate
 Other operations have also been included for alert channels:
 * list(): returns all alert channels for the account.
 * show(channelId): returns the alert channel with the given id.
+* show(name): returns the alert channels with the given name.
 * delete(channelId): deletes the alert channel with the given id.
 
 The available channel types are:

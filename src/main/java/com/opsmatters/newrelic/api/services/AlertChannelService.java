@@ -18,6 +18,8 @@ package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.NewRelicClient;
@@ -50,11 +52,11 @@ public class AlertChannelService extends BaseFluent
     }
 
     /**
-     * Returns the set of alert channels with the given name.
+     * Returns the alert channel with the given id.
      * <P>
      * This is needed because the API does not contain an operation to get a channel using the id directly.
      * @param channelId The id of the alert channel to return
-     * @return The set of alert channels
+     * @return The alert channel
      */
     public Optional<AlertChannel> show(long channelId)
     {
@@ -64,6 +66,25 @@ public class AlertChannelService extends BaseFluent
         {
             if(channel.getId() == channelId)
                 ret = Optional.of(channel);
+        }
+        return ret;
+    }
+
+    /**
+     * Returns the set of alert channels with the given name.
+     * <P>
+     * This is needed because the API does not contain an operation to get a channel using the name directly.
+     * @param name The name of the alert channels to return
+     * @return The set of alert channels
+     */
+    public Collection<AlertChannel> show(String name)
+    {
+        List<AlertChannel> ret = new ArrayList<AlertChannel>();
+        Collection<AlertChannel> channels = list();
+        for(AlertChannel channel : channels)
+        {
+            if(channel.getName().equals(name))
+                ret.add(channel);
         }
         return ret;
     }
