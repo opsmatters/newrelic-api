@@ -26,4 +26,14 @@ public enum IncidentPreference
     PER_POLICY,
     PER_CONDITION,
     PER_CONDITION_AND_TARGET;
+
+    /**
+     * Returns <CODE>true</CODE> if the given value is contained in the list of types.
+     * @param value The type value
+     * @return <CODE>true</CODE> if the given value is contained in the list of types
+     */
+    public static boolean contains(String value)
+    {
+        return valueOf(value) != null;
+    }
 }

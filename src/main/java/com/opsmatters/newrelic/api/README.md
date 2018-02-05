@@ -229,7 +229,7 @@ AlertCondition c = ApmAppAlertCondition.builder()
     .name("apdex-application")
     .metric(ApmAppAlertCondition.Metric.APDEX)
     .applicationConditionScope()
-    .violationCloseTimer(AlertCondition.HOURS_12)
+    .violationCloseTimer(AlertCondition.ViolationCloseTimerInterval.HOURS_12)
     .addTerm(term)
     .enabled(true)
     .build();

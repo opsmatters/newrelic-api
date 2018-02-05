@@ -36,5 +36,31 @@ public enum Priority
         return value;
     }
 
+    /**
+     * Returns the type for the given value.
+     * @param value The type value
+     * @return The type for the given value
+     */
+    public static Priority fromValue(String value)
+    {
+        Priority[] types = values();
+        for(Priority type : types)
+        {
+            if(type.value().equals(value))
+                return type;
+        }
+        return null;
+    }
+
+    /**
+     * Returns <CODE>true</CODE> if the given value is contained in the list of types.
+     * @param value The type value
+     * @return <CODE>true</CODE> if the given value is contained in the list of types
+     */
+    public static boolean contains(String value)
+    {
+        return fromValue(value) != null;
+    }
+
     private String value;
 }

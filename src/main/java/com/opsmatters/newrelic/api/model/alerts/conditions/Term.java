@@ -56,6 +56,32 @@ public class Term
             return value;
         }
 
+        /**
+         * Returns the type for the given value.
+         * @param value The type value
+         * @return The type for the given value
+         */
+        public static Duration fromValue(int value)
+        {
+            Duration[] types = values();
+            for(Duration type : types)
+            {
+                if(type.value() == value)
+                    return type;
+            }
+            return null;
+        }
+
+        /**
+         * Returns <CODE>true</CODE> if the given value is contained in the list of types.
+         * @param value The type value
+         * @return <CODE>true</CODE> if the given value is contained in the list of types
+         */
+        public static boolean contains(int value)
+        {
+            return fromValue(value) != null;
+        }
+
         private int value;
     }
 
