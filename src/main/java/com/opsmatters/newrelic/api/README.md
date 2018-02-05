@@ -168,8 +168,8 @@ The alert channel returned includes all the additional fields that were populate
 
 Other operations have also been included for alert channels:
 * list(): returns all alert channels for the account.
+* list(name): returns the alert channels with the given name.
 * show(channelId): returns the alert channel with the given id.
-* show(name): returns the alert channels with the given name.
 * delete(channelId): deletes the alert channel with the given id.
 
 The available channel types are:
@@ -200,6 +200,7 @@ Other operations have also been included for alert policies:
 * list(): returns all alert policies for the account.
 * list(name): returns all alert policies with the given name.
 * show(name,policyId): returns the alert policy with the given name and id.
+* show(policyId): returns the alert policy with the given id.
 * update(policy): updates the alert policy with the given policy details.
 * delete(policyId): deletes the alert policy with the given id.
 

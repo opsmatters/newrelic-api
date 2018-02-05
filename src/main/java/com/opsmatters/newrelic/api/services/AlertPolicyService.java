@@ -56,7 +56,8 @@ public class AlertPolicyService extends BaseFluent
     public Collection<AlertPolicy> list(String name)
     {
         QueryParameterList queryParams = new QueryParameterList();
-        queryParams.add("filter[name]", name);
+        if(name != null)
+            queryParams.add("filter[name]", name);
         return HTTP.GET("/v2/alerts_policies.json", null, queryParams, ALERT_POLICIES).get();
     }
 
@@ -78,6 +79,18 @@ public class AlertPolicyService extends BaseFluent
                 ret = Optional.of(policy);
         }
         return ret;
+    }
+
+    /**
+     * Returns the alert policy with the given id.
+     * <P>
+     * This is needed because the API does not contain an operation to get a policy using the id directly, only filtering using the name.
+     * @param policyId The id of the alert policy to return
+     * @return The alert policy
+     */
+    public Optional<AlertPolicy> show(policyId)
+    {
+        return show(null, policyId);
     }
     
     /**
