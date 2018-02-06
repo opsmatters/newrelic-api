@@ -53,8 +53,6 @@ public class AlertChannelService extends BaseFluent
 
     /**
      * Returns the set of alert channels with the given name.
-     * <P>
-     * This is needed because the API does not contain an operation to get a channel using the name directly.
      * @param name The name of the alert channels to return
      * @return The set of alert channels
      */
@@ -66,6 +64,27 @@ public class AlertChannelService extends BaseFluent
         {
             if(channel.getName().equals(name))
                 ret.add(channel);
+        }
+        return ret;
+    }
+
+    /**
+     * Returns the set of alert channels with the given name and type.
+     * @param name The name of the alert channels to return
+     * @param type The type of the alert channels to return
+     * @return The set of alert channels
+     */
+    public Collection<AlertChannel> list(String name, String type)
+    {
+        List<AlertChannel> ret = new ArrayList<AlertChannel>();
+        Collection<AlertChannel> channels = list();
+        for(AlertChannel channel : channels)
+        {
+            if((name == null || channel.getName().equals(name))
+                && (type == null || channel.getType().equals(type)))
+            {
+                ret.add(channel);
+            }
         }
         return ret;
     }
