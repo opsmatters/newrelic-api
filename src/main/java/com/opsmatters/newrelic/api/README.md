@@ -314,6 +314,7 @@ The external service alert condition returned includes all the additional fields
 
 Other operations have also been included for external service alert conditions:
 * list(policyId): returns all external service alert conditions for the given policy id.
+* list(policyId,name): returns all external service alert conditions for the given policy id and name.
 * show(policyId,conditionId): returns the external service alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the external service alert condition with the given id.
 
@@ -350,6 +351,7 @@ The Plugins alert condition returned includes all the additional fields that wer
 
 Other operations have also been included for Plugins alert conditions:
 * list(policyId): returns all Plugins alert conditions for the given policy id.
+* list(policyId,name): returns all Plugins alert conditions for the given policy id and name.
 * show(policyId,conditionId): returns the Plugins alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the Plugins alert condition with the given id.
 
