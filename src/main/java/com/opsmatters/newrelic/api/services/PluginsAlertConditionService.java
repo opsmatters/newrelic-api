@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.services;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
@@ -49,6 +51,24 @@ public class PluginsAlertConditionService extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", new Long(policyId));
         return HTTP.GET("/v2/alerts_plugins_conditions.json", null, queryParams, PLUGINS_ALERT_CONDITIONS).get();
+    }
+
+    /**
+     * Returns the set of alert conditions for the given policy id and name.
+     * @param policyId The id of the alert policy to return the conditions for
+     * @param name The name of the conditions
+     * @return The set of alert conditions
+     */
+    public Collection<PluginsAlertCondition> list(long policyId, String name)
+    {
+        List<PluginsAlertCondition> ret = new ArrayList<PluginsAlertCondition>();
+        Collection<PluginsAlertCondition> conditions = list(policyId);
+        for(PluginsAlertCondition condition : conditions)
+        {
+            if(condition.getName().equals(name))
+                ret.add(condition);
+        }
+        return ret;
     }
 
     /**

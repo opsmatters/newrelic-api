@@ -16,6 +16,8 @@
 
 package com.opsmatters.newrelic.api.services;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
@@ -49,6 +51,24 @@ public class ExternalServiceAlertConditionService extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("policy_id", new Long(policyId));
         return HTTP.GET("/v2/alerts_external_service_conditions.json", null, queryParams, EXTERNAL_SERVICE_ALERT_CONDITIONS).get();
+    }
+
+    /**
+     * Returns the set of alert conditions for the given policy id and name.
+     * @param policyId The id of the alert policy to return the conditions for
+     * @param name The name of the conditions
+     * @return The set of alert conditions
+     */
+    public Collection<ExternalServiceAlertCondition> list(long policyId, String name)
+    {
+        List<ExternalServiceAlertCondition> ret = new ArrayList<ExternalServiceAlertCondition>();
+        Collection<ExternalServiceAlertCondition> conditions = list(policyId);
+        for(ExternalServiceAlertCondition condition : conditions)
+        {
+            if(condition.getName().equals(name))
+                ret.add(condition);
+        }
+        return ret;
     }
 
     /**
