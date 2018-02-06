@@ -18,6 +18,7 @@ package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import com.google.common.base.Optional;
@@ -87,6 +88,27 @@ public class AlertChannelService extends BaseFluent
             }
         }
         return ret;
+    }
+
+    /**
+     * Returns the set of alert channels for the given policy id.
+     * @param policyId The id of the policy for the alert channels
+     * @return The set of alert channels
+     */
+    public Collection<AlertChannel> list(long policyId)
+    {
+        Map<Long,AlertChannel> map = new HashMap<Long,AlertChannel>();
+        Collection<AlertChannel> channels = list();
+        for(AlertChannel channel : channels)
+        {
+            List<Long> channelPolicyIds = channel.getLinks().getPolicyIds();
+            for(long channelPolicyId : channelPolicyIds)
+            {
+                if(channelPolicyId == policyId)
+                    map.put(channel.getId(), channel);
+            }
+        }
+        return map.values();
     }
 
     /**
