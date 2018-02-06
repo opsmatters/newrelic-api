@@ -240,6 +240,7 @@ The APM alert condition returned includes all the additional fields that were po
 
 Other operations have also been included for APM alert conditions:
 * list(policyId): returns all APM alert conditions for the given policy id.
+* list(policyId,name): returns all APM alert conditions for the given policy id and name.
 * show(policyId,conditionId): returns the APM alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the APM alert condition with the given id.
 
