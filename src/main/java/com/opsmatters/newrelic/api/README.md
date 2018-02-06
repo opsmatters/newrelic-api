@@ -285,6 +285,7 @@ The NRQL alert condition returned includes all the additional fields that were p
 
 Other operations have also been included for NRQL alert conditions:
 * list(policyId): returns all NRQL alert conditions for the given policy id.
+* list(policyId,name): returns all NRQL alert conditions for the given policy id and name.
 * show(policyId,conditionId): returns the NRQL alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the NRQL alert condition with the given id.
 
@@ -367,6 +368,7 @@ The Synthetics alert condition returned includes all the additional fields that 
 
 Other operations have also been included for Synthetics alert conditions:
 * list(policyId): returns all Synthetics alert conditions for the given policy id.
+* list(policyId,name): returns all Synthetics alert conditions for the given policy id and name.
 * show(policyId,conditionId): returns the Synthetics alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the Synthetics alert condition with the given id.
 
@@ -416,6 +418,7 @@ The infrastructure alert condition returned includes all the additional fields t
 
 Other operations have also been included for infrastructure alert conditions:
 * list(policyId): returns all infrastructure alert conditions for the given policy id.
+* list(policyId,name): returns all infrastructure alert conditions for the given policy id and name.
 * show(conditionId): returns the infrastructure alert condition for the given condition id.
 * delete(conditionId): deletes the infrastructure alert condition with the given id.
 
