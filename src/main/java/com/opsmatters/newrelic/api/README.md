@@ -6,19 +6,19 @@
 - [Initialisation](#initialisation)
 
 #### REST v2 API
-- [Alerts Channels](#alerts-channels)
-- [Alerts Policies](#alerts-policies)
-- [Alerts Policy Channels](#alerts-policy-channels)
-- [Alerts Conditions](#alerts-conditions)
-- [Alerts Entity Conditions](#alerts-entity-conditions)
-- [Alerts NRQL Conditions](#alerts-nrql-conditions)
-- [Alerts External Service Conditions](#alerts-external-service-conditions)
-- [Alerts Plugins Conditions](#alerts-plugins-conditions)
-- [Alerts Synthetics Conditions](#alerts-synthetics-conditions)
-- [Alerts Infrastructure Conditions](#alerts-infrastructure-conditions)
-- [Alerts Events](#alerts-events)
-- [Alerts Violations](#alerts-violations)
-- [Alerts Incidents](#alerts-incidents)
+- [Alert Channels](#alert-channels)
+- [Alert Policies](#alert-policies)
+- [Alert Policy Channels](#alert-policy-channels)
+- [Alert Conditions](#alert-conditions)
+- [Alert Entity Conditions](#alert-entity-conditions)
+- [Alert NRQL Conditions](#alert-nrql-conditions)
+- [Alert External Service Conditions](#alert-external-service-conditions)
+- [Alert Plugins Conditions](#alert-plugins-conditions)
+- [Alert Synthetics Conditions](#alert-synthetics-conditions)
+- [Alert Infrastructure Conditions](#alert-infrastructure-conditions)
+- [Alert Events](#alert-events)
+- [Alert Violations](#alert-violations)
+- [Alert Incidents](#alert-incidents)
 - [Applications](#applications)
 - [Application Hosts](#application-hosts)
 - [Application Instances](#application-instances)
@@ -153,7 +153,7 @@ NewRelicPartnerApi partnerApi = NewRelicPartnerApi.builder()
     .build();
 ```
 
-### Alerts Channels
+### Alert Channels
 To create an email alert channel, first instantiate the channel object and then pass it to the "create" operation:
 ```
 EmailChannel c = EmailChannel.builder()
@@ -185,7 +185,7 @@ The available channel types are:
 * xMattersChannel
 * WebhookChannel
 
-### Alerts Policies
+### Alert Policies
 To create an alert policy called "my-policy" with a PER_POLICY rollup strategy, first instantiate the policy and then pass it to the "create" operation:
 ```
 AlertPolicy p = AlertPolicy.builder()
@@ -205,7 +205,7 @@ Other operations have also been included for alert policies:
 * update(policy): updates the alert policy with the given policy details.
 * delete(policyId): deletes the alert policy with the given id.
 
-### Alerts Policy Channels
+### Alert Policy Channels
 To add an alert channel to an existing policy, pass the policy id and channel id to the "update" operation:
 ```
 AlertPolicyChannel policyChannel = api.alertPolicyChannels().update(policy.getId(), channel.getId()).get();
@@ -215,7 +215,7 @@ The alert policy channel returned includes all the additional fields that were p
 Other operations have also been included for alert policy channels:
 * delete(policyId, id): deletes the alert channel with the given id from the policy.
 
-### Alerts Conditions
+### Alert Conditions
 To add a critical APM alert condition for application Apdex above 0.7, instantiate a condition object and then pass it to the "create" operation:
 ```
 Term term = Term.builder()
@@ -245,7 +245,7 @@ Other operations have also been included for APM alert conditions:
 * show(policyId,conditionId): returns the APM alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the APM alert condition with the given id.
 
-### Alerts Entity Conditions
+### Alert Entity Conditions
 To add an entity to an APM alert condition, call the "add" operation:
 ```
 AlertCondition condition = api.alertEntityConditions().add(condition.getId(), entityId, entityType).get();
@@ -256,7 +256,7 @@ Other operations have also been included for alert entity conditions:
 * get(entityId,entityType): returns the APM alert condition for the given entity id.
 * remove(conditionId,entityId,entityType): removes the given entity id from the APM alert condition with the given id.
 
-### Alerts NRQL Conditions
+### Alert NRQL Conditions
 To add a critical NRQL alert condition for average CPU percentage above 80%, instantiate a condition object and then pass them to the "create" operation:
 ```
 Term term = Term.builder()
@@ -290,7 +290,7 @@ Other operations have also been included for NRQL alert conditions:
 * show(policyId,conditionId): returns the NRQL alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the NRQL alert condition with the given id.
 
-### Alerts External Service Conditions
+### Alert External Service Conditions
 To add a critical external service alert condition for average response time above 5s, instantiate a condition object and then pass it to the "create" operation:
 ```
 Term term = Term.builder()
@@ -319,7 +319,7 @@ Other operations have also been included for external service alert conditions:
 * show(policyId,conditionId): returns the external service alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the external service alert condition with the given id.
 
-### Alerts Plugins Conditions
+### Alert Plugins Conditions
 To add a critical Plugins alert condition for a metric, instantiate a condition object and then pass it to the "create" operation:
 ```
 Term term = Term.builder()
@@ -356,7 +356,7 @@ Other operations have also been included for Plugins alert conditions:
 * show(policyId,conditionId): returns the Plugins alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the Plugins alert condition with the given id.
 
-### Alerts Synthetics Conditions
+### Alert Synthetics Conditions
 To add a critical Synthetics alert condition for a monitor, instantiate a condition object and then pass it to the "create" operation:
 ```
 SyntheticsAlertCondition c = SyntheticsAlertCondition.builder()
@@ -375,7 +375,7 @@ Other operations have also been included for Synthetics alert conditions:
 * show(policyId,conditionId): returns the Synthetics alert condition for the given policy id and condition id.
 * delete(conditionId): deletes the Synthetics alert condition with the given id.
 
-### Alerts Infrastructure Conditions
+### Alert Infrastructure Conditions
 To add a critical infrastructure alert condition for disk utilisation > 80%, instantiate a condition object and then pass it to the "create" operation:
 ```
 InfraAlertCondition c = InfraMetricAlertCondition.builder()
@@ -425,7 +425,7 @@ Other operations have also been included for infrastructure alert conditions:
 * show(conditionId): returns the infrastructure alert condition for the given condition id.
 * delete(conditionId): deletes the infrastructure alert condition with the given id.
 
-### Alerts Events
+### Alert Events
 To list all events, call the "list" operation with no parameters:
 ```
 Collection<AlertEvent> events = api.alertEvents().list();
@@ -441,7 +441,7 @@ Map<String,Object> filters = AlertEventService.filters()
 Collection<AlertEvent> events = api.alertEvents().list(filters);
 ```
 
-### Alerts Violations
+### Alert Violations
 To list all violations, call the "list" operation with a date range and a flag to indicate if only open violations are required:
 ```
 Calendar c = Calendar.getInstance();
@@ -452,7 +452,7 @@ boolean onlyOpen = true;
 Collection<AlertViolation> violations = api.alertViolations().list(startDate, endDate, onlyOpen);
 ```
 
-### Alerts Incidents
+### Alert Incidents
 To list all incidents, call the "list" operation with a flag to indicate if only open violations are required:
 ```
 boolean onlyOpen = true;

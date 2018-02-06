@@ -73,7 +73,7 @@ public abstract class NewRelicClient
         httpContext.setUriPrefix(getUriPrefix());
         httpContext.setThrowExceptions(handleErrors);
         String className = getClass().getName();
-        logger.info(className.substring(className.lastIndexOf(".")+1)+" initialized");
+        logger.fine(className.substring(className.lastIndexOf(".")+1)+" initialized");
         return this;
     }
     
