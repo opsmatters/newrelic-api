@@ -17,6 +17,8 @@
 package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.labels.Label;
@@ -45,6 +47,23 @@ public class LabelService extends BaseFluent
     public Collection<Label> list()
     {
         return HTTP.GET("/v2/labels.json", null, null, LABELS).get();
+    }
+
+    /**
+     * Returns the set of labels where the key contains the given (partial) name.
+     * @param name The name of the labels to return. Can be a partial key. A null value returns all labels.
+     * @return The set of labels
+     */
+    public Collection<Label> list(String name)
+    {
+        List<Label> ret = new ArrayList<Label>();
+        Collection<Label> labels = list();
+        for(Label label : labels)
+        {
+            if(name == null || label.getKey().toLowerCase().indexOf(name) != -1)
+                ret.add(label);
+        }
+        return ret;
     }
 
     /**

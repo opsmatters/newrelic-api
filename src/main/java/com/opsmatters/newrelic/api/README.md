@@ -730,6 +730,7 @@ The label returned includes all the additional fields that were populated by the
 
 Other operations have also been included for labels:
 * list(): returns all labels.
+* list(name): returns all labels with the given (partial) key.
 * show(key): returns the label with the given key.
 * delete(key): deletes the label with the given key.
 
