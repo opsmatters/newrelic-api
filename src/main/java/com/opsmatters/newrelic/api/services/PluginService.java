@@ -18,6 +18,7 @@ package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.plugins.Plugin;
@@ -60,6 +61,24 @@ public class PluginService extends BaseFluent
         QueryParameterList queryParams = new QueryParameterList();
         queryParams.add("detailed", Boolean.toString(detailed));
         return list(queryParams);
+    }
+
+    /**
+     * Returns the set of plugins for the given name.
+     * @param name The name of the plugins
+     * @param detailed <CODE>true</CODE> if the details of the plugin should be included
+     * @return The set of plugins
+     */
+    public Collection<Plugin> list(String name, boolean detailed)
+    {
+        List<Plugin> ret = new ArrayList<Plugin>();
+        Collection<Plugin> plugins = list(detailed);
+        for(Plugin plugin : plugins)
+        {
+            if(name == null || plugin.getName().equals(name))
+                ret.add(plugin);
+        }
+        return ret;
     }
 
     /**

@@ -17,6 +17,8 @@
 package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.applications.BrowserApplication;
@@ -46,6 +48,23 @@ public class BrowserApplicationService extends BaseFluent
     public Collection<BrowserApplication> list()
     {
         return HTTP.GET("/v2/browser_applications.json", BROWSER_APPLICATIONS).get();
+    }
+
+    /**
+     * Returns the set of Browser applications for the given name.
+     * @param name The name of the applications
+     * @return The set of applications
+     */
+    public Collection<BrowserApplication> list(String name)
+    {
+        List<BrowserApplication> ret = new ArrayList<BrowserApplication>();
+        Collection<BrowserApplication> applications = list();
+        for(BrowserApplication application : applications)
+        {
+            if(name == null || application.getName().equals(name))
+                ret.add(application);
+        }
+        return ret;
     }
 
     /**

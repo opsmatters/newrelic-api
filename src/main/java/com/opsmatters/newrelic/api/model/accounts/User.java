@@ -41,6 +41,7 @@ public class User extends IdResource
      */
     public enum Role
     {
+        OWNER("owner"),
         ADMIN("admin"),
         USER("user"),
         RESTRICTED("restricted");
@@ -53,6 +54,32 @@ public class User extends IdResource
         public String value()
         {
             return value;
+        }
+
+        /**
+         * Returns the type for the given value.
+         * @param value The type value
+         * @return The type for the given value
+         */
+        public static Role fromValue(String value)
+        {
+            Role[] types = values();
+            for(Role type : types)
+            {
+                if(type.value().equals(value))
+                    return type;
+            }
+            return null;
+        }
+
+        /**
+         * Returns <CODE>true</CODE> if the given value is contained in the list of types.
+         * @param value The type value
+         * @return <CODE>true</CODE> if the given value is contained in the list of types
+         */
+        public static boolean contains(String value)
+        {
+            return fromValue(value) != null;
         }
 
         private String value;
@@ -99,6 +126,15 @@ public class User extends IdResource
     public String getLastName()
     {
         return lastName;
+    }
+
+    /**
+     * Returns the first and last name of the user.
+     * @return The first and last name of the user
+     */
+    public String getName()
+    {
+        return getFirstName()+" "+getLastName();
     }
 
     /**

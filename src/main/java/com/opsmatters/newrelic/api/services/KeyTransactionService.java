@@ -18,6 +18,7 @@ package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.transactions.KeyTransaction;
@@ -56,7 +57,25 @@ public class KeyTransactionService extends BaseFluent
      */
     public Collection<KeyTransaction> list()
     {
-        return list(null);
+        List<String> queryParams = null;
+        return list(queryParams);
+    }
+
+    /**
+     * Returns the set of key transactions for the given name.
+     * @param name The name of the transactions
+     * @return The set of transactions
+     */
+    public Collection<KeyTransaction> list(String name)
+    {
+        List<KeyTransaction> ret = new ArrayList<KeyTransaction>();
+        Collection<KeyTransaction> transactions = list();
+        for(KeyTransaction transaction : transactions)
+        {
+            if(name == null || transaction.getName().equals(name))
+                ret.add(transaction);
+        }
+        return ret;
     }
 
     /**

@@ -500,6 +500,7 @@ MetricData metrics = api.applications().metricData(parameters).get();
 
 Other operations have also been included for applications:
 * list(): returns all applications.
+* list(name): returns all applications with the given name.
 * show(applicationId): returns the application for the given id.
 * delete(applicationId): deletes the application with the given id.
 * metricNames(applicationId): returns the metrics and their value names for the given application.
@@ -572,6 +573,7 @@ The Browser application returned includes all the additional fields that were po
 
 Other operations have also been included for Browser applications:
 * list(): returns all Browser applications.
+* list(name): returns all Browser applications with the given name.
 * show(applicationId): returns the Browser application for the given id.
 
 ### Mobile Applications
@@ -594,6 +596,7 @@ MetricData metrics = api.mobileApplications().metricData(parameters).get();
 ```
 
 Other operations have also been included for mobile applications:
+* list(name): returns all Mobile applications with the given name.
 * show(applicationId): returns the mobile application for the given id.
 * metricNames(applicationId): returns the metrics and their value names for the given mobile application.
 * metricNames(applicationId, name): returns the metrics and their value names for the given mobile application, where the value names match the given name.
@@ -609,6 +612,7 @@ Collection<KeyTransaction> transactions = api.keyTransactions().list(filters);
 ```
 
 Other operations have also been included for key transactions:
+* list(name): returns all key transactions with the given name.
 * show(transactionId): returns the key transaction for the given id.
 
 ### Plugins
@@ -622,6 +626,7 @@ Collection<Plugin> plugins = api.plugins().list(filters);
 ```
 
 Other operations have also been included for plugins:
+* list(name): returns all plugins with the given name.
 * show(pluginId): returns the plugin for the given id.
 
 ### Plugin Components
@@ -686,6 +691,7 @@ MetricData metrics = api.servers().metricData(parameters).get();
 
 Other operations have also been included for servers:
 * list(): returns all servers.
+* list(name): returns all servers with the given name.
 * show(serverId): returns the server for the given id.
 * delete(serverId): deletes the server with the given id.
 * metricNames(serverId): returns the metrics and their value names for the given server.
@@ -836,6 +842,7 @@ Collection<User> users = api.users().list(filters);
 ```
 
 Other operations have also been included for users:
+* list(name, role): returns all users with the given (partial) name or role.
 * show(userId): returns the user for the given id.
 * resetPassword(userId): resets the password for the user with the given id.
 

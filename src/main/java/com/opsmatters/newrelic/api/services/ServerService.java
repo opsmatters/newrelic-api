@@ -19,6 +19,7 @@ package com.opsmatters.newrelic.api.services;
 import java.util.Collection;
 import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.NewRelicClient;
@@ -60,7 +61,25 @@ public class ServerService extends BaseFluent
      */
     public Collection<Server> list()
     {
-        return list(null);
+        List<String> queryParams = null;
+        return list(queryParams);
+    }
+
+    /**
+     * Returns the set of servers for the given name.
+     * @param name The name of the servers
+     * @return The set of servers
+     */
+    public Collection<Server> list(String name)
+    {
+        List<Server> ret = new ArrayList<Server>();
+        Collection<Server> servers = list();
+        for(Server server : servers)
+        {
+            if(name == null || server.getName().equals(name))
+                ret.add(server);
+        }
+        return ret;
     }
 
     /**

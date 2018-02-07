@@ -19,6 +19,7 @@ package com.opsmatters.newrelic.api.services;
 import java.util.Collection;
 import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.NewRelicClient;
@@ -60,7 +61,25 @@ public class ApplicationService extends BaseFluent
      */
     public Collection<Application> list()
     {
-        return list(null);
+        List<String> queryParams = null;
+        return list(queryParams);
+    }
+
+    /**
+     * Returns the set of applications for the given name.
+     * @param name The name of the applications
+     * @return The set of applications
+     */
+    public Collection<Application> list(String name)
+    {
+        List<Application> ret = new ArrayList<Application>();
+        Collection<Application> applications = list();
+        for(Application application : applications)
+        {
+            if(name == null || application.getName().equals(name))
+                ret.add(application);
+        }
+        return ret;
     }
 
     /**

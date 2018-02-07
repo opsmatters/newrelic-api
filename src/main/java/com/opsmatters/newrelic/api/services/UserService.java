@@ -18,6 +18,7 @@ package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.accounts.User;
@@ -57,6 +58,27 @@ public class UserService extends BaseFluent
     public Collection<User> list()
     {
         return list(null);
+    }
+
+    /**
+     * Returns the set of users with the given role and where the first or last name contains the given (partial) name.
+     * @param name The name of the users to return. Can be a partial first or last name. A null value returns all users.
+     * @param role The role of the users to return. A null value returns all roles.
+     * @return The set of users
+     */
+    public Collection<User> list(String name, String role)
+    {
+        List<User> ret = new ArrayList<User>();
+        Collection<User> users = list();
+        for(User user : users)
+        {
+            if((name == null || user.getName().toLowerCase().indexOf(name) != -1)
+                && (role == null || user.getRole().equals(role)))
+            {
+                ret.add(user);
+            }
+        }
+        return ret;
     }
 
     /**

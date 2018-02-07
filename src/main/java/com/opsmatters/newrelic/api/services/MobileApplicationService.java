@@ -18,6 +18,7 @@ package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.applications.MobileApplication;
@@ -49,6 +50,23 @@ public class MobileApplicationService extends BaseFluent
     public Collection<MobileApplication> list()
     {
         return HTTP.GET("/v2/mobile_applications.json", MOBILE_APPLICATIONS).get();
+    }
+
+    /**
+     * Returns the set of Mobile applications for the given name.
+     * @param name The name of the applications
+     * @return The set of applications
+     */
+    public Collection<MobileApplication> list(String name)
+    {
+        List<MobileApplication> ret = new ArrayList<MobileApplication>();
+        Collection<MobileApplication> applications = list();
+        for(MobileApplication application : applications)
+        {
+            if(name == null || application.getName().equals(name))
+                ret.add(application);
+        }
+        return ret;
     }
 
     /**
