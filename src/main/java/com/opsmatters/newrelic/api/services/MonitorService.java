@@ -17,6 +17,8 @@
 package com.opsmatters.newrelic.api.services;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import javax.ws.rs.core.Response;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
@@ -51,14 +53,34 @@ public class MonitorService extends BaseFluent
     }
 
     /**
+     * Returns the set of monitors with the given type and where the name contains the given (partial) name.
+     * @param name The name of the monitors to return. Can be a partial name. A null value returns all monitors.
+     * @param type The type of the monitors to return. A null value returns all monitors.
+     * @return The set of monitors
+     */
+    public Collection<Monitor> list(String name, String type)
+    {
+        List<Monitor> ret = new ArrayList<Monitor>();
+        Collection<Monitor> monitors = list();
+        for(Monitor monitor : monitors)
+        {
+            if((name == null || monitor.getName().toLowerCase().indexOf(name) != -1)
+                && (type == null || monitor.getType().equals(type)))
+            {
+                ret.add(monitor);
+            }
+        }
+        return ret;
+    }
+
+    /**
      * Returns the set of monitors for the given label.
      * @param label The label to use to select the monitors to return
      * @return The set of monitors for the given label
      */
     public Collection<Monitor> list(Label label)
     {
-        String name = encode(String.format("{%s:%s}", label.getCategory(), label.getName()));
-        return HTTP.GET(String.format("/v1/monitors/labels/%s", name), MONITORS).get();
+        return HTTP.GET(String.format("/v1/monitors/labels/%s", label.getKey()), MONITORS).get();
     }
 
     /**
@@ -137,7 +159,7 @@ public class MonitorService extends BaseFluent
      */
     public Optional<Label> createLabel(String monitorId, Label label)
     {
-        HTTP.POST(String.format("/v1/monitors/%s/labels", monitorId), String.format("{%s:%s}", label.getCategory(), label.getName()));
+        HTTP.POST(String.format("/v1/monitors/%s/labels", monitorId), label.getKey());
         return Optional.of(label);
     }
 
@@ -160,8 +182,7 @@ public class MonitorService extends BaseFluent
      */
     public MonitorService deleteLabel(String monitorId, Label label)
     {
-        String name = encode(String.format("{%s:%s}", label.getCategory(), label.getName()));
-        HTTP.DELETE(String.format("/v1/monitors/%s/labels/%s", monitorId, name));
+        HTTP.DELETE(String.format("/v1/monitors/%s/labels/%s", monitorId, label.getKey()));
         return this;
     }
 }

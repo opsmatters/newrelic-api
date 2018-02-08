@@ -60,6 +60,8 @@ public class Label implements NamedResource
      */
     public String getKey()
     {
+        if(key == null)
+            setKey();
         return key;
     }
 
@@ -97,6 +99,27 @@ public class Label implements NamedResource
     public String getName()
     {
         return name;
+    }
+
+    /**
+     * Sets the key of the label from the name and category.
+     */
+    public void setKey()
+    {
+        setKey(getKey(category, name));
+    }
+
+    /**
+     * Sets the key of the label from the name and category.
+     * @param category The category of the label
+     * @param name The name of the label
+     * @return The key in the format "category:name"
+     */
+    public static String getKey(String category, String name)
+    {
+        if(category != null && name != null)
+            return category+":"+name;
+        return null;
     }
 
     /**
@@ -141,8 +164,7 @@ public class Label implements NamedResource
     @Override
     public String toString()
     {
-        return "Label ["+super.toString()
-            +", key="+key
+        return "Label [key="+key
             +", category="+category
             +", name="+name
             +", applicationHealthStatus="+applicationHealthStatus
@@ -216,7 +238,8 @@ public class Label implements NamedResource
          */
         public Builder addApplicationLink(long applicationId)
         {
-            links.getApplications().add(applicationId);
+            if(applicationId != 0L)
+                links.getApplications().add(applicationId);
             return this;
         }
 
@@ -227,7 +250,8 @@ public class Label implements NamedResource
          */
         public Builder addServerLink(long serverId)
         {
-            links.getServers().add(serverId);
+            if(serverId != 0L)
+                links.getServers().add(serverId);
             return this;
         }
 

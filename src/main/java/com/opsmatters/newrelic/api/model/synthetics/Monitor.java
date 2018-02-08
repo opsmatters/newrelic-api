@@ -49,7 +49,17 @@ public abstract class Monitor implements NamedResource
         SIMPLE,
         BROWSER,
         SCRIPT_BROWSER,
-        SCRIPT_API
+        SCRIPT_API;
+
+        /**
+         * Returns <CODE>true</CODE> if the given value is contained in the list of types.
+         * @param value The type value
+         * @return <CODE>true</CODE> if the given value is contained in the list of types
+         */
+        public static boolean contains(String value)
+        {
+            return valueOf(value) != null;
+        }
     }
 
     /**
@@ -85,6 +95,32 @@ public abstract class Monitor implements NamedResource
         public int value()
         {
             return value;
+        }
+
+        /**
+         * Returns the type for the given value.
+         * @param value The type value
+         * @return The type for the given value
+         */
+        public static Frequency fromValue(int value)
+        {
+            Frequency[] types = values();
+            for(Frequency type : types)
+            {
+                if(type.value() == value)
+                    return type;
+            }
+            return null;
+        }
+
+        /**
+         * Returns <CODE>true</CODE> if the given value is contained in the list of types.
+         * @param value The type value
+         * @return <CODE>true</CODE> if the given value is contained in the list of types
+         */
+        public static boolean contains(int value)
+        {
+            return fromValue(value) != null;
         }
 
         private int value;

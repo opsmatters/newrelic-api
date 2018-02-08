@@ -776,6 +776,7 @@ Note that the "scriptText" parameter in the payload contains a Base64 encoded ve
 
 Other operations have also been included for monitors:
 * list(): returns all monitors.
+* list(name,type): returns all monitors with the given type and (partial) key.
 * list(label): returns all monitors with the given label.
 * show(monitorId): returns the monitor with the given id.
 * showScript(monitorId): returns the script for the monitor with the given id.
