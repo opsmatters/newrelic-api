@@ -16,56 +16,55 @@
 
 package com.opsmatters.newrelic.api.model;
 
+import java.util.List;
+
 /**
- * Used to marshall a HTTP error response.
+ * Used to marshall a REST API error response.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class ResponseError<T>
+public class Errors
 {
-    private String error;
-    private T reason;
+    private List<Error> errors;
 
     /**
      * Default constructor.
      */
-    public ResponseError()
+    public Errors()
     {
     }
 
     /**
-     * Returns the HTTP error message.
-     * @return The HTTP error message
+     * Returns the error messages.
+     * @return The error messages
      */
-    public String getError()
+    public List<Error> getErrors()
     {
-        return error;
+        return errors;
     }
 
     /**
-     * Sets the HTTP error message.
-     * @param error The HTTP error message
+     * Sets the error messages.
+     * @param errors The error messages
      */
-    public void setError(String error)
+    public void setErrors(List<Error> errors)
     {
-        this.error = error;
+        this.errors = errors;
     }
 
     /**
-     * Returns the HTTP reason.
-     * @return The HTTP reason
+     * Returns the formatted error messages.
+     * @return The formatted error messages
      */
-    public T getReason()
+    public String toString()
     {
-        return reason;
-    }
-
-    /**
-     * Sets the HTTP reason.
-     * @param reason The HTTP reason
-     */
-    public void setReason(T reason)
-    {
-        this.reason = reason;
+        StringBuilder sb = new StringBuilder();
+        for(Error error : errors)
+        {
+            if(sb.length() > 0)
+                sb.append(" / ");
+            sb.append(error);
+        }
+        return sb.toString();
     }
 }

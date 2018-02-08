@@ -16,33 +16,46 @@
 
 package com.opsmatters.newrelic.api.model;
 
-import java.util.Map;
-
 /**
- * Used to marshall a HTTP error aresponse of each type.
+ * Used to marshall a REST API error message.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class ResponseErrors
+public class Error
 {
+    private String error;
+
     /**
-     * Used to marshall a HTTP error response containing a string.
+     * Default constructor.
      */
-    public static class StringResponseError extends ResponseError<String>
+    public Error()
     {
     }
 
     /**
-     * Used to marshall a HTTP error response containing an object.
+     * Returns the error message.
+     * @return The error message
      */
-    public static class ObjectResponseError extends ResponseError<Object>
+    public String getError()
     {
+        return error;
     }
 
     /**
-     * Used to marshall a HTTP error response containing a map.
+     * Sets the error message.
+     * @param error The error message
      */
-    public static class MapResponseError extends ResponseError<Map<String,Object>>
+    public void setError(String error)
     {
+        this.error = error;
+    }
+
+    /**
+     * Returns the error message.
+     * @return The error message
+     */
+    public String toString()
+    {
+        return error;
     }
 }
