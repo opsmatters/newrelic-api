@@ -53,17 +53,29 @@ public class Errors
     }
 
     /**
+     * Returns the number of error messages.
+     * @return The number of error messages
+     */
+    public int numErrors()
+    {
+        return errors != null ? errors.size() : -1;
+    }
+
+    /**
      * Returns the formatted error messages.
      * @return The formatted error messages
      */
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        for(Error error : errors)
+        if(errors != null)
         {
-            if(sb.length() > 0)
-                sb.append(" / ");
-            sb.append(error);
+            for(Error error : errors)
+            {
+                if(sb.length() > 0)
+                    sb.append(" / ");
+                sb.append(error);
+            }
         }
         return sb.toString();
     }
