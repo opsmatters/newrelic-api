@@ -44,11 +44,21 @@ public class DashboardService extends BaseFluent
     /**
      * Returns the set of dashboards with the given query parameters.
      * @param queryParams The query parameters
-     * @return The set of dashboard components
+     * @return The set of dashboards
      */
     public Collection<Dashboard> list(List<String> queryParams)
     {
         return HTTP.GET("/v2/dashboards.json", null, queryParams, DASHBOARDS).get();
+    }
+
+    /**
+     * Returns the set of dashboards for the given title.
+     * @param title The dashboard title
+     * @return The set of dashboards
+     */
+    public Collection<Dashboard> list(String title)
+    {
+        return list(filters().title(title).build());
     }
 
     /**
@@ -57,7 +67,8 @@ public class DashboardService extends BaseFluent
      */
     public Collection<Dashboard> list()
     {
-        return list(null);
+        QueryParameterList queryParams = null;
+        return list(queryParams);
     }
 
     /**
@@ -124,7 +135,8 @@ public class DashboardService extends BaseFluent
          */
         public FilterBuilder title(String title)
         {
-            filters.add("filter[title]", title);
+            if(title != null)
+                filters.add("filter[title]", title);
             return this;
         }
 
@@ -135,7 +147,8 @@ public class DashboardService extends BaseFluent
          */
         public FilterBuilder ownerEmail(String ownerEmail)
         {
-            filters.add("filter[owner_email]", ownerEmail);
+            if(ownerEmail != null)
+                filters.add("filter[owner_email]", ownerEmail);
             return this;
         }
 
@@ -146,7 +159,8 @@ public class DashboardService extends BaseFluent
          */
         public FilterBuilder category(String category)
         {
-            filters.add("filter[category]", category);
+            if(category != null)
+                filters.add("filter[category]", category);
             return this;
         }
 
@@ -157,7 +171,8 @@ public class DashboardService extends BaseFluent
          */
         public FilterBuilder createdBefore(long dt)
         {
-            filters.add("filter[created_before]", Utils.getUtcDateTime(dt));
+            if(dt > 0L)
+                filters.add("filter[created_before]", Utils.getUtcDateTime(dt));
             return this;
         }
 
@@ -168,7 +183,8 @@ public class DashboardService extends BaseFluent
          */
         public FilterBuilder createdAfter(long dt)
         {
-            filters.add("filter[created_after]", Utils.getUtcDateTime(dt));
+            if(dt > 0L)
+                filters.add("filter[created_after]", Utils.getUtcDateTime(dt));
             return this;
         }
 
@@ -179,7 +195,8 @@ public class DashboardService extends BaseFluent
          */
         public FilterBuilder updatedBefore(long dt)
         {
-            filters.add("filter[updated_before]", Utils.getUtcDateTime(dt));
+            if(dt > 0L)
+                filters.add("filter[updated_before]", Utils.getUtcDateTime(dt));
             return this;
         }
 
@@ -190,7 +207,8 @@ public class DashboardService extends BaseFluent
          */
         public FilterBuilder updatedAfter(long dt)
         {
-            filters.add("filter[updated_after]", Utils.getUtcDateTime(dt));
+            if(dt > 0L)
+                filters.add("filter[updated_after]", Utils.getUtcDateTime(dt));
             return this;
         }
 
@@ -201,7 +219,8 @@ public class DashboardService extends BaseFluent
          */
         public FilterBuilder sort(String sort)
         {
-            filters.add("sort", sort);
+            if(sort != null)
+                filters.add("sort", sort);
             return this;
         }
 

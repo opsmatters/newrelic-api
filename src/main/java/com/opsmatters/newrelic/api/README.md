@@ -1045,6 +1045,7 @@ dashboard = api.dashboards().update(dashboard).get();
 
 Other operations have also been included for dashboards:
 * list(): returns all dashboards for the account.
+* list(title): returns all dashboards with the given title.
 * show(dashboardId): returns the dashboard with the given id.
 * update(dashboard): updates the dashboard with the given dashboard details and widgets.
 * delete(dashboardId): deletes the dashboard with the given id.
