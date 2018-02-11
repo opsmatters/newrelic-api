@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic;
+package com.opsmatters.newrelic.api;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,12 +26,6 @@ import org.junit.Test;
 import junit.framework.Assert;
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.ArrayUtils;
-import com.opsmatters.newrelic.api.Constants;
-import com.opsmatters.newrelic.api.NewRelicApi;
-import com.opsmatters.newrelic.api.NewRelicInfraApi;
-import com.opsmatters.newrelic.api.NewRelicSyntheticsApi;
-import com.opsmatters.newrelic.api.NewRelicInsightsApi;
-import com.opsmatters.newrelic.api.NewRelicPluginsApi;
 import com.opsmatters.newrelic.api.services.AlertEventService;
 import com.opsmatters.newrelic.api.services.ApplicationService;
 import com.opsmatters.newrelic.api.services.ApplicationHostService;
