@@ -110,7 +110,6 @@ public class InventoryChart extends Widget
         public Builder()
         {
             widget.setPresentation(presentation);
-            widget.addData(data);
             widget(widget);
         }
 
@@ -132,7 +131,8 @@ public class InventoryChart extends Widget
          */
         public Builder addData(InventoryData data)
         {
-            widget.addData(data);
+            if(data != null)
+                widget.addData(data);
             return this;
         }
 
@@ -145,7 +145,8 @@ public class InventoryChart extends Widget
         {
             if(!widget.containsData(data))
                 widget.addData(data);
-            data.addSource(source);
+            if(source != null)
+                data.addSource(source);
             return this;
         }
 

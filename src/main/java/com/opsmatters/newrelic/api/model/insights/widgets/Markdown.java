@@ -130,7 +130,8 @@ public class Markdown extends Widget
          */
         public Builder addData(MarkdownData data)
         {
-            widget.addData(data);
+            if(data != null)
+                widget.addData(data);
             return this;
         }
 
@@ -141,7 +142,8 @@ public class Markdown extends Widget
          */
         public Builder addSourceData(String source)
         {
-            widget.addData(new MarkdownData(source));
+            if(source != null)
+                widget.addData(new MarkdownData(source));
             return this;
         }
 

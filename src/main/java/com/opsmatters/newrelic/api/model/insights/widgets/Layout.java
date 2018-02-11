@@ -138,10 +138,10 @@ public class Layout
     @Override
     public String toString()
     {
-        return "Layout [width="+width
-            +", height="+height
-            +", row="+row
+        return "Layout [row="+row
             +", column="+column
+            +", width="+width
+            +", height="+height
             +"]";
     }
 
@@ -202,6 +202,30 @@ public class Layout
         public Builder column(int column)
         {
             layout.setColumn(column);
+            return this;
+        }
+
+        /**
+         * Sets the position of the dashboard widget.
+         * @param row The row of the dashboard widget
+         * @param column The column of the dashboard widget
+         * @return This object
+         */
+        public Builder position(int row, int column)
+        {
+            layout.setPosition(row, column);
+            return this;
+        }
+
+        /**
+         * Sets the size of the dashboard widget.
+         * @param width The width of the dashboard widget
+         * @param height The height of the dashboard widget
+         * @return This object
+         */
+        public Builder size(int width, int height)
+        {
+            layout.setSize(width, height);
             return this;
         }
 

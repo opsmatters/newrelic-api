@@ -30,7 +30,7 @@ public class Metric implements NamedResource
     private String name;
     private String units;
     private String scope;
-    private List<String> values;
+    private List<String> values = new ArrayList<String>();
 
     /**
      * Represents the available categories for metrics.  
@@ -451,7 +451,8 @@ public class Metric implements NamedResource
     public void setValues(List<String> values)
     {
         this.values.clear();
-        this.values.addAll(values);
+        if(values != null)
+            this.values.addAll(values);
     }
 
     /**

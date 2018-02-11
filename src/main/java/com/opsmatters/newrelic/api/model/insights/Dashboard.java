@@ -605,8 +605,23 @@ public class Dashboard extends IdResource
          */
         public Builder addFilter(String eventType, String attribute)
         {
-            dashboard.getFilter().addEventType(eventType);
-            dashboard.getFilter().addAttribute(attribute);
+            if(eventType != null)
+                dashboard.getFilter().addEventType(eventType);
+            if(attribute != null)
+                dashboard.getFilter().addAttribute(attribute);
+            return this;
+        }
+
+        /**
+         * Sets the given filter event types and attributes on the dashboard.
+         * @param eventTypes The list of event types for the filter
+         * @param attributes The list of attributes for the filter
+         * @return This object
+         */
+        public Builder setFilter(List<String> eventTypes, List<String> attributes)
+        {
+            dashboard.getFilter().setEventTypes(eventTypes);
+            dashboard.getFilter().setAttributes(attributes);
             return this;
         }
 

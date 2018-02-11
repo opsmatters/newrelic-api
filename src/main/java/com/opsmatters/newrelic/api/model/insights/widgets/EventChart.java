@@ -158,7 +158,8 @@ public class EventChart extends Widget
          */
         public Builder addData(EventsData data)
         {
-            widget.addData(data);
+            if(data != null)
+                widget.addData(data);
             return this;
         }
 
@@ -169,7 +170,8 @@ public class EventChart extends Widget
          */
         public Builder addNrqlData(String nrql)
         {
-            widget.addData(new EventsData(nrql));
+            if(nrql != null)
+                widget.addData(new EventsData(nrql));
             return this;
         }
 

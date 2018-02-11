@@ -170,7 +170,7 @@ public abstract class Widget
     /**
      * Builder to make widget construction easier.
      */
-    protected abstract static class Builder<T extends Widget, B extends Builder<T,B>>
+    public abstract static class Builder<T extends Widget, B extends Builder<T,B>>
     {
         private Widget widget;
         private Layout layout = new Layout();

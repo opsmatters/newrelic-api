@@ -130,7 +130,8 @@ public class MetricLineChart extends Widget
          */
         public Builder addData(MetricsData data)
         {
-            widget.addData(data);
+            if(data != null)
+                widget.addData(data);
             return this;
         }
 
