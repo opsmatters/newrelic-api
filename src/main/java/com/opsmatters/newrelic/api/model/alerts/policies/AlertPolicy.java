@@ -73,7 +73,7 @@ public class AlertPolicy extends NamedIdResource
      * Returns the date the policy was created.
      * @return The date the policy was created
      */
-    public long getCreatedAt()
+    public Long getCreatedAt()
     {
         return createdAt;
     }
@@ -82,7 +82,7 @@ public class AlertPolicy extends NamedIdResource
      * Returns the date the policy was last updated.
      * @return The date the policy was last updated
      */
-    public long getUpdatedAt()
+    public Long getUpdatedAt()
     {
         return updatedAt;
     }

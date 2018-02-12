@@ -42,7 +42,7 @@ public class ViolationLinks
      * Sets the policy id of the violation.
      * @param policyId The policy id of the violation
      */
-    public void setPolicyId(long policyId)
+    public void setPolicyId(Long policyId)
     {
         this.policyId = policyId;
     }
@@ -51,7 +51,7 @@ public class ViolationLinks
      * Returns the policy id of the violation.
      * @return The policy id of the violation
      */
-    public long getPolicyId()
+    public Long getPolicyId()
     {
         return policyId;
     }
@@ -60,7 +60,7 @@ public class ViolationLinks
      * Sets the condition id of the violation.
      * @param conditionId The condition id of the violation
      */
-    public void setConditionId(long conditionId)
+    public void setConditionId(Long conditionId)
     {
         this.conditionId = conditionId;
     }
@@ -69,7 +69,7 @@ public class ViolationLinks
      * Returns the condition id of the violation.
      * @return The condition id of the violation
      */
-    public long getConditionId()
+    public Long getConditionId()
     {
         return conditionId;
     }

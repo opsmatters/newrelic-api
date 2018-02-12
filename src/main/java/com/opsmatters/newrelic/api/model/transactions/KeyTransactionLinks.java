@@ -36,7 +36,7 @@ public class KeyTransactionLinks
      * Sets the application of the key transaction.
      * @param application The application of the transaction
      */
-    public void setApplication(long application)
+    public void setApplication(Long application)
     {
         this.application = application;
     }
@@ -45,7 +45,7 @@ public class KeyTransactionLinks
      * Returns the application of the transaction.
      * @return The application of the transaction
      */
-    public long getApplication()
+    public Long getApplication()
     {
         return application;
     }

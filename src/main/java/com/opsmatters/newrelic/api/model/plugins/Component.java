@@ -82,7 +82,7 @@ public class Component implements NamedResource
      * Sets the duration over which the metric data was collected (in seconds).
      * @param duration The duration of the metric data
      */
-    public void setDuration(int duration)
+    public void setDuration(Integer duration)
     {
         this.duration = duration;
     }
@@ -91,7 +91,7 @@ public class Component implements NamedResource
      * Returns the duration over which the metric data was collected (in seconds).
      * @return The duration of the metric data
      */
-    public int getDuration()
+    public Integer getDuration()
     {
         return duration;
     }

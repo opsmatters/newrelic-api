@@ -102,7 +102,7 @@ public class KeyTransaction extends Entity
      * Set to <CODE>true</CODE> if the transaction is reporting.
      * @param reporting <CODE>true</CODE> if the transaction is reporting
      */
-    public void setReporting(boolean reporting)
+    public void setReporting(Boolean reporting)
     {
         this.reporting = reporting;
     }
@@ -111,7 +111,7 @@ public class KeyTransaction extends Entity
      * Returns <CODE>true</CODE> if the transaction is reporting.
      * @return <CODE>true</CODE> if the transaction is reporting
      */
-    public boolean getReporting()
+    public Boolean getReporting()
     {
         return reporting;
     }

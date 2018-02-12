@@ -111,7 +111,7 @@ public class PluginDetails
      * Returns <CODE>true</CODE> if the plugin is public.
      * @return <CODE>true</CODE> if the plugin is public
      */
-    public boolean isPublic()
+    public Boolean isPublic()
     {
         return isPublic;
     }
@@ -183,7 +183,7 @@ public class PluginDetails
      * Returns <CODE>true</CODE> if the plugin has unpublished changes.
      * @return <CODE>true</CODE> if the plugin has unpublished changes
      */
-    public boolean hasUnpublishedChanges()
+    public Boolean hasUnpublishedChanges()
     {
         return hasUnpublishedChanges;
     }

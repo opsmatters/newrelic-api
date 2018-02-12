@@ -67,7 +67,7 @@ public abstract class Widget
      * Sets the account id of the widget.
      * @param accountId The account id of the widget
      */
-    public void setAccountId(long accountId)
+    public void setAccountId(Long accountId)
     {
         this.accountId = accountId;
     }
@@ -76,7 +76,7 @@ public abstract class Widget
      * Returns the account id of the widget.
      * @return The account id of the widget
      */
-    public long getAccountId()
+    public Long getAccountId()
     {
         return accountId;
     }

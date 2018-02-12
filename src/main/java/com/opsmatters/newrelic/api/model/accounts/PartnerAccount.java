@@ -96,7 +96,7 @@ public class PartnerAccount extends NamedIdResource
      * Set to <CODE>true</CODE> if API access to application data is allowed.
      * @param allowApiAccess <CODE>true</CODE> if API access to application data is allowed
      */
-    public void setAllowApiAccess(boolean allowApiAccess)
+    public void setAllowApiAccess(Boolean allowApiAccess)
     {
         this.allowApiAccess = allowApiAccess;
     }
@@ -105,7 +105,7 @@ public class PartnerAccount extends NamedIdResource
      * Returns <CODE>true</CODE> if API access to application data is allowed.
      * @return <CODE>true</CODE> if API access to application data is allowed
      */
-    public boolean getAllowApiAccess()
+    public Boolean getAllowApiAccess()
     {
         return allowApiAccess;
     }
@@ -132,7 +132,7 @@ public class PartnerAccount extends NamedIdResource
      * Set to <CODE>true</CODE> if this account is a test account.
      * @param testing <CODE>true</CODE> if this account is a test account
      */
-    public void setTesting(boolean testing)
+    public void setTesting(Boolean testing)
     {
         this.testing = testing;
     }
@@ -141,7 +141,7 @@ public class PartnerAccount extends NamedIdResource
      * Returns <CODE>true</CODE> if this account is a test account.
      * @return <CODE>true</CODE> if this account is a test account
      */
-    public boolean getTesting()
+    public Boolean getTesting()
     {
         return testing;
     }
@@ -249,7 +249,7 @@ public class PartnerAccount extends NamedIdResource
      * Returns <CODE>true</CODE> if this account has high security enabled.
      * @return <CODE>true</CODE> if this account has high security enabled
      */
-    public boolean getHighSecurity()
+    public Boolean getHighSecurity()
     {
         return highSecurity;
     }

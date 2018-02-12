@@ -129,7 +129,7 @@ public class AlertEvent extends IdResource
      * Sets the entity id of the event.
      * @param entityId The entity id of the event
      */
-    public void setEntityId(long entityId)
+    public void setEntityId(Long entityId)
     {
         this.entityId = entityId;
     }
@@ -138,7 +138,7 @@ public class AlertEvent extends IdResource
      * Returns the entity id of the event.
      * @return The entity id of the event
      */
-    public long getEntityId()
+    public Long getEntityId()
     {
         return entityId;
     }
@@ -174,7 +174,7 @@ public class AlertEvent extends IdResource
      * Sets the entity group id of the event.
      * @param entityGroupId The entity group id of the event
      */
-    public void setEntityGroupId(long entityGroupId)
+    public void setEntityGroupId(Long entityGroupId)
     {
         this.entityGroupId = entityGroupId;
     }
@@ -183,7 +183,7 @@ public class AlertEvent extends IdResource
      * Returns the entity group id of the event.
      * @return The entity group id of the event
      */
-    public long getEntityGroupId()
+    public Long getEntityGroupId()
     {
         return entityGroupId;
     }
@@ -237,7 +237,7 @@ public class AlertEvent extends IdResource
      * Sets the timestamp of the event.
      * @param timestamp The timestamp of the event
      */
-    public void setTimestamp(long timestamp)
+    public void setTimestamp(Long timestamp)
     {
         this.timestamp = timestamp;
     }
@@ -246,7 +246,7 @@ public class AlertEvent extends IdResource
      * Returns the timestamp of the event.
      * @return The timestamp of the event
      */
-    public long getTimestamp()
+    public Long getTimestamp()
     {
         return timestamp;
     }
@@ -255,7 +255,7 @@ public class AlertEvent extends IdResource
      * Sets the incident id of the event.
      * @param incidentId The incident id of the event
      */
-    public void setIncidentId(long incidentId)
+    public void setIncidentId(Long incidentId)
     {
         this.incidentId = incidentId;
     }
@@ -264,7 +264,7 @@ public class AlertEvent extends IdResource
      * Returns the incident id of the event.
      * @return The incident id of the event
      */
-    public long getIncidentId()
+    public Long getIncidentId()
     {
         return incidentId;
     }

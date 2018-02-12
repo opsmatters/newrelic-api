@@ -34,7 +34,7 @@ public class ProductSubscription
     private String promoCode;
 
     @SerializedName("data_retention")
-    private int dataRetention;
+    private Integer dataRetention;
 
     /**
      * Default constructor.
@@ -47,7 +47,7 @@ public class ProductSubscription
      * Sets the product id of the subscription.
      * @param productId The product id of the subscription
      */
-    public void setProductId(int productId)
+    public void setProductId(Integer productId)
     {
         this.productId = productId;
     }
@@ -56,7 +56,7 @@ public class ProductSubscription
      * Returns the product id of the subscription.
      * @return The product id of the subscription
      */
-    public int getProductId()
+    public Integer getProductId()
     {
         return productId;
     }
@@ -65,7 +65,7 @@ public class ProductSubscription
      * Sets the quantity of the subscription.
      * @param quantity The quantity of the subscription
      */
-    public void setQuantity(int quantity)
+    public void setQuantity(Integer quantity)
     {
         this.quantity = quantity;
     }
@@ -74,7 +74,7 @@ public class ProductSubscription
      * Returns the quantity of the subscription.
      * @return The quantity of the subscription
      */
-    public int getQuantity()
+    public Integer getQuantity()
     {
         return quantity;
     }
@@ -101,7 +101,7 @@ public class ProductSubscription
      * Sets the data retention of the subscription (in weeks).
      * @param dataRetention The data retention of the subscription
      */
-    public void setDataRetention(int dataRetention)
+    public void setDataRetention(Integer dataRetention)
     {
         this.dataRetention = dataRetention;
     }
@@ -110,7 +110,7 @@ public class ProductSubscription
      * Returns the data retention of the subscription (in weeks).
      * @return The data retention of the subscription
      */
-    public int getDataRetention()
+    public Integer getDataRetention()
     {
         return dataRetention;
     }

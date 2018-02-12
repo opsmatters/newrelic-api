@@ -46,7 +46,7 @@ public class ProductLevel implements NamedResource
      * Sets the id of the product.
      * @param productId The id of the product
      */
-    public void setProductId(int productId)
+    public void setProductId(Integer productId)
     {
         this.productId = productId;
     }
@@ -55,7 +55,7 @@ public class ProductLevel implements NamedResource
      * Returns the id of the product.
      * @return The id of the product
      */
-    public int getProductId()
+    public Integer getProductId()
     {
         return productId;
     }
@@ -82,7 +82,7 @@ public class ProductLevel implements NamedResource
      * Sets the units of the product.
      * @param units The units of the product
      */
-    public void setUnits(int units)
+    public void setUnits(Integer units)
     {
         this.units = units;
     }
@@ -91,7 +91,7 @@ public class ProductLevel implements NamedResource
      * Returns the units of the product.
      * @return The units of the product
      */
-    public int getUnits()
+    public Integer getUnits()
     {
         return units;
     }
@@ -100,7 +100,7 @@ public class ProductLevel implements NamedResource
      * Sets the price of the product.
      * @param price The price of the product
      */
-    public void setPrice(float price)
+    public void setPrice(Float price)
     {
         this.price = price;
     }
@@ -109,7 +109,7 @@ public class ProductLevel implements NamedResource
      * Returns the price of the product.
      * @return The price of the product
      */
-    public float getPrice()
+    public Float getPrice()
     {
         return price;
     }

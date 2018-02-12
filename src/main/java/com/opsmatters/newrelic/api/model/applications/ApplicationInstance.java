@@ -98,7 +98,7 @@ public class ApplicationInstance extends Entity
      * Sets the port of the host.
      * @param port The port of the host
      */
-    public void setPort(int port)
+    public void setPort(Integer port)
     {
         this.port = port;
     }
@@ -107,7 +107,7 @@ public class ApplicationInstance extends Entity
      * Returns the port of the host.
      * @return The port of the host
      */
-    public int getPort()
+    public Integer getPort()
     {
         return port;
     }

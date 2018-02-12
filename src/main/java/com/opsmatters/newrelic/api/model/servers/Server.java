@@ -62,7 +62,7 @@ public class Server extends Entity
      * Returns the id of the account for the server.
      * @return The id of the account for the server
      */
-    public long getAccountId()
+    public Long getAccountId()
     {
         return accountId;
     }
@@ -107,7 +107,7 @@ public class Server extends Entity
      * Set to <CODE>true</CODE> if the server is reporting.
      * @param reporting <CODE>true</CODE> if the server is reporting
      */
-    public void setReporting(boolean reporting)
+    public void setReporting(Boolean reporting)
     {
         this.reporting = reporting;
     }
@@ -116,7 +116,7 @@ public class Server extends Entity
      * Returns <CODE>true</CODE> if the server is reporting.
      * @return <CODE>true</CODE> if the server is reporting
      */
-    public boolean getReporting()
+    public Boolean getReporting()
     {
         return reporting;
     }

@@ -59,7 +59,7 @@ public class ApplicationSummary
      * Returns the response time of the application.
      * @return The responseTime of the application
      */
-    public float getResponseTime()
+    public Float getResponseTime()
     {
         return responseTime;
     }
@@ -68,7 +68,7 @@ public class ApplicationSummary
      * Returns the throughput of the application.
      * @return The throughput of the application
      */
-    public float getThroughput()
+    public Float getThroughput()
     {
         return throughput;
     }
@@ -77,7 +77,7 @@ public class ApplicationSummary
      * Returns the error rate of the application.
      * @return The error rate of the application
      */
-    public float getErrorRate()
+    public Float getErrorRate()
     {
         return errorRate;
     }
@@ -86,7 +86,7 @@ public class ApplicationSummary
      * Returns the apdex target of the application.
      * @return The apdex target of the application
      */
-    public float getApdexTarget()
+    public Float getApdexTarget()
     {
         return apdexTarget;
     }
@@ -95,7 +95,7 @@ public class ApplicationSummary
      * Returns the apdex score of the application.
      * @return The apdex score of the application
      */
-    public float getApdexScore()
+    public Float getApdexScore()
     {
         return apdexScore;
     }
@@ -104,7 +104,7 @@ public class ApplicationSummary
      * Returns the host count of the application.
      * @return The host count of the application
      */
-    public int getHostCount()
+    public Integer getHostCount()
     {
         return hostCount;
     }
@@ -113,7 +113,7 @@ public class ApplicationSummary
      * Returns the instance count of the application.
      * @return The instance count of the application
      */
-    public int getInstanceCount()
+    public Integer getInstanceCount()
     {
         return instanceCount;
     }
@@ -122,7 +122,7 @@ public class ApplicationSummary
      * Returns the concurrent instance count of the application.
      * @return The concurrent instance count of the application
      */
-    public int getConcurrentInstanceCount()
+    public Integer getConcurrentInstanceCount()
     {
         return concurrentInstanceCount;
     }

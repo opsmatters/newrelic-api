@@ -39,7 +39,7 @@ public class ServerLinks
      * Sets the alert policy of the server.
      * @param alertPolicy The alert policy of the server
      */
-    public void setAlertPolicy(long alertPolicy)
+    public void setAlertPolicy(Long alertPolicy)
     {
         this.alertPolicy = alertPolicy;
     }
@@ -48,7 +48,7 @@ public class ServerLinks
      * Returns the alert policy of the server.
      * @return The alert policy of the server
      */
-    public long getAlertPolicy()
+    public Long getAlertPolicy()
     {
         return alertPolicy;
     }

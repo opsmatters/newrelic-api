@@ -59,7 +59,7 @@ public class MobileSummary
      * Returns the active users of the application.
      * @return The active users of the application
      */
-    public float getActiveUsers()
+    public Integer getActiveUsers()
     {
         return activeUsers;
     }
@@ -68,7 +68,7 @@ public class MobileSummary
      * Returns the launch count of the application.
      * @return The launch count of the application
      */
-    public float getLaunchCount()
+    public Integer getLaunchCount()
     {
         return launchCount;
     }
@@ -77,7 +77,7 @@ public class MobileSummary
      * Returns the response time of the application.
      * @return The response time of the application
      */
-    public float getResponseTime()
+    public Float getResponseTime()
     {
         return responseTime;
     }
@@ -86,7 +86,7 @@ public class MobileSummary
      * Returns the throughput of the application.
      * @return The throughput of the application
      */
-    public float getThroughput()
+    public Float getThroughput()
     {
         return throughput;
     }
@@ -95,7 +95,7 @@ public class MobileSummary
      * Returns the calls per session of the application.
      * @return The calls per session of the application
      */
-    public float getCallsPerSession()
+    public Float getCallsPerSession()
     {
         return callsPerSession;
     }
@@ -104,7 +104,7 @@ public class MobileSummary
      * Returns the interaction time of the application.
      * @return The interaction time of the application
      */
-    public float getInteractionTime()
+    public Float getInteractionTime()
     {
         return interactionTime;
     }
@@ -113,7 +113,7 @@ public class MobileSummary
      * Returns the failed call rate of the application.
      * @return The failed call rate of the application
      */
-    public float getFailedCallRate()
+    public Float getFailedCallRate()
     {
         return failedCallRate;
     }
@@ -122,7 +122,7 @@ public class MobileSummary
      * Returns the remote error rate of the application.
      * @return The remote error rate of the application
      */
-    public float getRemoteErrorRate()
+    public Float getRemoteErrorRate()
     {
         return remoteErrorRate;
     }

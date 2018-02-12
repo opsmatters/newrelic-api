@@ -53,7 +53,7 @@ public class MetricsData extends WidgetData
      * Sets the duration of the metrics.
      * @param duration The duration of the metrics
      */
-    public void setDuration(int duration)
+    public void setDuration(Integer duration)
     {
         this.duration = duration;
     }
@@ -62,7 +62,7 @@ public class MetricsData extends WidgetData
      * Returns the duration of the metrics.
      * @return The duration of the metrics
      */
-    public int getDuration()
+    public Integer getDuration()
     {
         return duration;
     }
@@ -71,7 +71,7 @@ public class MetricsData extends WidgetData
      * Sets the end time of the metrics.
      * @param endTime The end time of the metrics
      */
-    public void setEndTime(long endTime)
+    public void setEndTime(Long endTime)
     {
         this.endTime = endTime;
     }
@@ -80,7 +80,7 @@ public class MetricsData extends WidgetData
      * Returns the end time of the metrics.
      * @return The end time of the metrics
      */
-    public long getEndTime()
+    public Long getEndTime()
     {
         return endTime;
     }
@@ -174,7 +174,7 @@ public class MetricsData extends WidgetData
      * Sets the limit of the metrics.
      * @param limit The limit of the metrics
      */
-    public void setLimit(int limit)
+    public void setLimit(Integer limit)
     {
         this.limit = limit;
     }
@@ -183,7 +183,7 @@ public class MetricsData extends WidgetData
      * Returns the limit of the metrics.
      * @return The limit of the metrics
      */
-    public int getLimit()
+    public Integer getLimit()
     {
         return limit;
     }

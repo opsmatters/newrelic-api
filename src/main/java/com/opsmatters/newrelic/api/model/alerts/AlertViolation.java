@@ -78,7 +78,7 @@ public class AlertViolation extends IdResource
      * Sets the duration of the violation.
      * @param duration The duration of the violation
      */
-    public void setDuration(int duration)
+    public void setDuration(Integer duration)
     {
         this.duration = duration;
     }
@@ -87,7 +87,7 @@ public class AlertViolation extends IdResource
      * Returns the duration of the violation.
      * @return The duration of the violation
      */
-    public int getDuration()
+    public Integer getDuration()
     {
         return duration;
     }
@@ -159,7 +159,7 @@ public class AlertViolation extends IdResource
      * Returns the date the violation was opened.
      * @return The date the violation was opened
      */
-    public long getOpenedAt()
+    public Long getOpenedAt()
     {
         return openedAt;
     }
@@ -168,7 +168,7 @@ public class AlertViolation extends IdResource
      * Returns the date the violation was closed.
      * @return The date the violation was closed
      */
-    public long getClosedAt()
+    public Long getClosedAt()
     {
         return closedAt;
     }

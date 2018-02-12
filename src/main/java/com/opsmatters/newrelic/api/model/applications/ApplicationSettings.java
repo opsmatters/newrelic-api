@@ -48,7 +48,7 @@ public class ApplicationSettings
      * Sets the app apdex threshold of the application.
      * @param appApdexThreshold The app apdex threshold of the application
      */
-    public void setAppApdexThreshold(float appApdexThreshold)
+    public void setAppApdexThreshold(Float appApdexThreshold)
     {
         this.appApdexThreshold = appApdexThreshold;
     }
@@ -57,7 +57,7 @@ public class ApplicationSettings
      * Returns the app apdex threshold of the application.
      * @return The app apdex threshold of the application
      */
-    public float getAppApdexThreshold()
+    public Float getAppApdexThreshold()
     {
         return appApdexThreshold;
     }
@@ -66,7 +66,7 @@ public class ApplicationSettings
      * Sets the end user apdex threshold of the application.
      * @param endUserApdexThreshold The end user apdex threshold of the application
      */
-    public void setEndUserApdexThreshold(float endUserApdexThreshold)
+    public void setEndUserApdexThreshold(Float endUserApdexThreshold)
     {
         this.endUserApdexThreshold = endUserApdexThreshold;
     }
@@ -75,7 +75,7 @@ public class ApplicationSettings
      * Returns the end user apdex threshold of the application.
      * @return The end user apdex threshold of the application
      */
-    public float getEndUserApdexThreshold()
+    public Float getEndUserApdexThreshold()
     {
         return endUserApdexThreshold;
     }
@@ -84,7 +84,7 @@ public class ApplicationSettings
      * Set to <CODE>true</CODE> if real user monitoring is enabled for the application.
      * @param enableRealUserMonitoring <CODE>true</CODE> if real user monitoring is enabled for the application
      */
-    public void setEnableRealUserMonitoring(boolean enableRealUserMonitoring)
+    public void setEnableRealUserMonitoring(Boolean enableRealUserMonitoring)
     {
         this.enableRealUserMonitoring = enableRealUserMonitoring;
     }
@@ -93,7 +93,7 @@ public class ApplicationSettings
      * Returns <CODE>true</CODE> if real user monitoring is enabled for the application.
      * @return <CODE>true</CODE> if real user monitoring is enabled for the application
      */
-    public boolean getEnableRealUserMonitoring()
+    public Boolean getEnableRealUserMonitoring()
     {
         return enableRealUserMonitoring;
     }
@@ -102,7 +102,7 @@ public class ApplicationSettings
      * Set to <CODE>true</CODE> if the application uses server side config.
      * @param useServerSideConfig <CODE>true</CODE> if the application uses server side config
      */
-    public void setUseServerSideConfig(boolean useServerSideConfig)
+    public void setUseServerSideConfig(Boolean useServerSideConfig)
     {
         this.useServerSideConfig = useServerSideConfig;
     }
@@ -111,7 +111,7 @@ public class ApplicationSettings
      * Returns <CODE>true</CODE> if the application uses server side config.
      * @return <CODE>true</CODE> if the application uses server side config
      */
-    public boolean getUseServerSideConfig()
+    public Boolean getUseServerSideConfig()
     {
         return useServerSideConfig;
     }

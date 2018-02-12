@@ -36,7 +36,7 @@ public class DeploymentLinks
      * Sets the application of the deployment.
      * @param application The application of the deployment
      */
-    public void setApplication(long application)
+    public void setApplication(Long application)
     {
         this.application = application;
     }
@@ -45,7 +45,7 @@ public class DeploymentLinks
      * Returns the application of the deployment.
      * @return The application of the deployment
      */
-    public long getApplication()
+    public Long getApplication()
     {
         return application;
     }

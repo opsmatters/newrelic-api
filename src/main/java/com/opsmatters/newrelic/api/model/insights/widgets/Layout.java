@@ -42,7 +42,7 @@ public class Layout
      * Sets the width of the dashboard widget.
      * @param width The width of the dashboard widget
      */
-    public void setWidth(int width)
+    public void setWidth(Integer width)
     {
         this.width = width;
     }
@@ -51,7 +51,7 @@ public class Layout
      * Returns the width of the dashboard widget.
      * @return The width of the dashboard widget
      */
-    public int getWidth()
+    public Integer getWidth()
     {
         return width;
     }
@@ -60,7 +60,7 @@ public class Layout
      * Sets the height of the dashboard widget.
      * @param height The height of the dashboard widget
      */
-    public void setHeight(int height)
+    public void setHeight(Integer height)
     {
         this.height = height;
     }
@@ -69,7 +69,7 @@ public class Layout
      * Returns the height of the dashboard widget.
      * @return The height of the dashboard widget
      */
-    public int getHeight()
+    public Integer getHeight()
     {
         return height;
     }
@@ -78,7 +78,7 @@ public class Layout
      * Sets the row of the dashboard widget.
      * @param row The row of the dashboard widget
      */
-    public void setRow(int row)
+    public void setRow(Integer row)
     {
         this.row = row;
     }
@@ -87,7 +87,7 @@ public class Layout
      * Returns the row of the dashboard widget.
      * @return The row of the dashboard widget
      */
-    public int getRow()
+    public Integer getRow()
     {
         return row;
     }
@@ -96,7 +96,7 @@ public class Layout
      * Sets the column of the dashboard widget.
      * @param column The column of the dashboard widget
      */
-    public void setColumn(int column)
+    public void setColumn(Integer column)
     {
         this.column = column;
     }
@@ -105,7 +105,7 @@ public class Layout
      * Returns the column of the dashboard widget.
      * @return The column of the dashboard widget
      */
-    public int getColumn()
+    public Integer getColumn()
     {
         return column;
     }

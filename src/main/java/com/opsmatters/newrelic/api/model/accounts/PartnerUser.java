@@ -56,7 +56,7 @@ public class PartnerUser extends User
      * Set to <CODE>true</CODE> if the user is an account owner.
      * @param owner <CODE>true</CODE> if the user is an account owner
      */
-    public void setOwner(boolean owner)
+    public void setOwner(Boolean owner)
     {
         this.owner = owner;
     }
@@ -65,7 +65,7 @@ public class PartnerUser extends User
      * Returns <CODE>true</CODE> if the user is an account owner.
      * @return <CODE>true</CODE> if the user is an account owner
      */
-    public boolean getOwner()
+    public Boolean getOwner()
     {
         return owner;
     }

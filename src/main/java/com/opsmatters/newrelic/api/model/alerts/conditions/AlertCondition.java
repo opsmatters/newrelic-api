@@ -262,7 +262,7 @@ public abstract class AlertCondition extends MetricCondition
      * Sets the violation close timer of the alert condition (in hours).
      * @param violationCloseTimer The violation close timer of the alert condition
      */
-    public void setViolationCloseTimer(int violationCloseTimer)
+    public void setViolationCloseTimer(Integer violationCloseTimer)
     {
         this.violationCloseTimer = violationCloseTimer;
     }
@@ -280,7 +280,7 @@ public abstract class AlertCondition extends MetricCondition
      * Returns the violation close timer of the alert condition (in hours).
      * @return The violation close timer of the alert condition
      */
-    public int getViolationCloseTimer()
+    public Integer getViolationCloseTimer()
     {
         return violationCloseTimer;
     }

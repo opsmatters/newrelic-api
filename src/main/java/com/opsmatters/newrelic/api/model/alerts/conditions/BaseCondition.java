@@ -42,7 +42,7 @@ public abstract class BaseCondition extends NamedIdResource
      * Set to <CODE>true</CODE> if the alert condition is enabled.
      * @param enabled <CODE>true</CODE> if the alert condition is enabled
      */
-    public void setEnabled(boolean enabled)
+    public void setEnabled(Boolean enabled)
     {
         this.enabled = enabled;
     }
@@ -51,7 +51,7 @@ public abstract class BaseCondition extends NamedIdResource
      * Returns <CODE>true</CODE> if the alert condition is enabled.
      * @return <CODE>true</CODE> if the alert condition is enabled
      */
-    public boolean getEnabled()
+    public Boolean getEnabled()
     {
         return enabled;
     }

@@ -28,6 +28,7 @@ public class Location implements NamedResource
 {
     private String name;
     private String label;
+
     @SerializedName("private")
     private Boolean _private;
 
@@ -78,7 +79,7 @@ public class Location implements NamedResource
      * Set to <CODE>true</CODE> if the location is private.
      * @param _private <CODE>true</CODE> if the location is private
      */
-    public void setPrivate(boolean _private)
+    public void setPrivate(Boolean _private)
     {
         this._private = _private;
     }
@@ -87,7 +88,7 @@ public class Location implements NamedResource
      * Returns <CODE>true</CODE> if the location is private.
      * @return <CODE>true</CODE> if the location is private
      */
-    public boolean isPrivate()
+    public Boolean isPrivate()
     {
         return _private;
     }

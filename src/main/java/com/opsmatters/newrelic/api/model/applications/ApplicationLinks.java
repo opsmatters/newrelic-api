@@ -106,7 +106,7 @@ public class ApplicationLinks
      * Sets the alert policy of the application.
      * @param alertPolicy The alert policy of the application
      */
-    public void setAlertPolicy(long alertPolicy)
+    public void setAlertPolicy(Long alertPolicy)
     {
         this.alertPolicy = alertPolicy;
     }
@@ -115,7 +115,7 @@ public class ApplicationLinks
      * Returns the alert policy of the application.
      * @return The alert policy of the application
      */
-    public long getAlertPolicy()
+    public Long getAlertPolicy()
     {
         return alertPolicy;
     }

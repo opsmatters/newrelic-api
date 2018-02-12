@@ -200,7 +200,7 @@ public abstract class Monitor implements NamedResource
      * Sets the frequency of the monitor (in minutes).
      * @param frequency The frequency of the monitor
      */
-    public void setFrequency(int frequency)
+    public void setFrequency(Integer frequency)
     {
         this.frequency = frequency;
     }
@@ -218,7 +218,7 @@ public abstract class Monitor implements NamedResource
      * Returns the frequency of the monitor (in minutes).
      * @return The frequency of the monitor
      */
-    public int getFrequency()
+    public Integer getFrequency()
     {
         return frequency;
     }
@@ -254,7 +254,7 @@ public abstract class Monitor implements NamedResource
      * Sets the SLA threshold of the monitor.
      * @param slaThreshold The SLA threshold of the monitor
      */
-    public void setSlaThreshold(double slaThreshold)
+    public void setSlaThreshold(Double slaThreshold)
     {
         this.slaThreshold = slaThreshold;
     }
@@ -263,7 +263,7 @@ public abstract class Monitor implements NamedResource
      * Returns the SLA threshold of the monitor.
      * @return The SLA threshold of the monitor
      */
-    public double getSlaThreshold()
+    public Double getSlaThreshold()
     {
         return slaThreshold;
     }
@@ -309,7 +309,7 @@ public abstract class Monitor implements NamedResource
      * Returns the user id of the monitor.
      * @return The user id of the monitor
      */
-    public long getUserId()
+    public Long getUserId()
     {
         return userId;
     }

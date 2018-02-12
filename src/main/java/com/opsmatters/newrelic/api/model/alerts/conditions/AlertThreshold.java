@@ -44,7 +44,7 @@ public class AlertThreshold
      * Constructor that takes a durationMinutes.
      * @param durationMinutes The durationMinutes of the threshold
      */
-    public AlertThreshold(int durationMinutes)
+    public AlertThreshold(Integer durationMinutes)
     {
         setDurationMinutes(durationMinutes);
     }
@@ -53,7 +53,7 @@ public class AlertThreshold
      * Sets the value of the threshold.
      * @param value The value of the threshold
      */
-    public void setValue(int value)
+    public void setValue(Integer value)
     {
         this.value = value;
     }
@@ -62,7 +62,7 @@ public class AlertThreshold
      * Returns the value of the threshold.
      * @return The value of the threshold
      */
-    public int getValue()
+    public Integer getValue()
     {
         return value;
     }
@@ -71,7 +71,7 @@ public class AlertThreshold
      * Sets the durationMinutes of the threshold.
      * @param durationMinutes The duration minutes of the threshold
      */
-    public void setDurationMinutes(int durationMinutes)
+    public void setDurationMinutes(Integer durationMinutes)
     {
         this.durationMinutes = durationMinutes;
     }
@@ -80,7 +80,7 @@ public class AlertThreshold
      * Returns the duration minutes of the threshold.
      * @return The duration minutes of the threshold
      */
-    public int getDurationMinutes()
+    public Integer getDurationMinutes()
     {
         return durationMinutes;
     }

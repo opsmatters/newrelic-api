@@ -75,7 +75,7 @@ public class AlertIncident extends IdResource
      * Returns the date the incident was opened.
      * @return The date the incident was opened
      */
-    public long getOpenedAt()
+    public Long getOpenedAt()
     {
         return openedAt;
     }
@@ -84,7 +84,7 @@ public class AlertIncident extends IdResource
      * Returns the date the incident was closed.
      * @return The date the incident was closed
      */
-    public long getClosedAt()
+    public Long getClosedAt()
     {
         return closedAt;
     }

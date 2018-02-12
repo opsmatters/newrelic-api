@@ -89,7 +89,7 @@ public class TrafficLightState
      * Sets the minimum of the state.
      * @param min The minimum of the state
      */
-    public void setMin(int min)
+    public void setMin(Integer min)
     {
         this.min = min;
     }
@@ -98,7 +98,7 @@ public class TrafficLightState
      * Returns the minimum of the state.
      * @return The minimum of the state
      */
-    public int getMin()
+    public Integer getMin()
     {
         return min;
     }
@@ -107,7 +107,7 @@ public class TrafficLightState
      * Sets the maximum of the state.
      * @param max The maximum of the state
      */
-    public void setMax(int max)
+    public void setMax(Integer max)
     {
         this.max = max;
     }
@@ -116,7 +116,7 @@ public class TrafficLightState
      * Returns the maximum of the state.
      * @return The maximum of the state
      */
-    public int getMax()
+    public Integer getMax()
     {
         return max;
     }

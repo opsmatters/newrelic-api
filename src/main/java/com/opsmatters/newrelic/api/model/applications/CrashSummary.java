@@ -48,7 +48,7 @@ public class CrashSummary
      * Returns <CODE>true</CODE> of the application supports crash data.
      * @return <CODE>true</CODE> of the application supports crash data
      */
-    public boolean getSupportsCrashData()
+    public Boolean getSupportsCrashData()
     {
         return supportsCrashData;
     }
@@ -57,7 +57,7 @@ public class CrashSummary
      * Returns the unresolved crash count of the application.
      * @return The unresolved crash count of the application
      */
-    public int getUnresolvedCrashCount()
+    public Integer getUnresolvedCrashCount()
     {
         return unresolvedCrashCount;
     }
@@ -66,7 +66,7 @@ public class CrashSummary
      * Returns the crash count of the application.
      * @return The crash count of the application
      */
-    public int getCrashCount()
+    public Integer getCrashCount()
     {
         return crashCount;
     }
@@ -75,7 +75,7 @@ public class CrashSummary
      * Returns the crash rate of the application.
      * @return The crash rate of the application
      */
-    public float getCrashRate()
+    public Float getCrashRate()
     {
         return crashRate;
     }

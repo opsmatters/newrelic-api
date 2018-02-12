@@ -76,7 +76,7 @@ public class Plugin extends Entity
      * Returns the component agent count of the plugin.
      * @return The component agent count of the plugin
      */
-    public int getComponentAgentCount()
+    public Integer getComponentAgentCount()
     {
         return componentAgentCount;
     }

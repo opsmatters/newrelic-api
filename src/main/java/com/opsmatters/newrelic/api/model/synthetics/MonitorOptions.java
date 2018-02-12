@@ -64,7 +64,7 @@ public class MonitorOptions
      * Set to <CODE>true</CODE> if the SSL connection should be verified by the monitor.
      * @param verifySsl <CODE>true</CODE> if the SSL connection should be verified by the monitor
      */
-    public void setVerifySsl(boolean verifySsl)
+    public void setVerifySsl(Boolean verifySsl)
     {
         this.verifySsl = verifySsl;
     }
@@ -73,7 +73,7 @@ public class MonitorOptions
      * Returns <CODE>true</CODE> if the SSL connection should be verified by the monitor.
      * @return <CODE>true</CODE> if the SSL connection should be verified by the monitor
      */
-    public boolean getVerifySsl()
+    public Boolean getVerifySsl()
     {
         return verifySsl;
     }
@@ -82,7 +82,7 @@ public class MonitorOptions
      * Set to <CODE>true</CODE> if the monitor should bypass the HEAD request.
      * @param bypassHeadRequest <CODE>true</CODE> if the monitor should bypass the HEAD request
      */
-    public void setBypassHeadRequest(boolean bypassHeadRequest)
+    public void setBypassHeadRequest(Boolean bypassHeadRequest)
     {
         this.bypassHeadRequest = bypassHeadRequest;
     }
@@ -91,7 +91,7 @@ public class MonitorOptions
      * Returns <CODE>true</CODE> if the monitor should treat a 3xx redirect as a failure.
      * @return <CODE>true</CODE> if the monitor should treat a 3xx redirect as a failure
      */
-    public boolean getBypassHeadRequest()
+    public Boolean getBypassHeadRequest()
     {
         return bypassHeadRequest;
     }
@@ -100,7 +100,7 @@ public class MonitorOptions
      * Set to <CODE>true</CODE> if the monitor should treat a 3xx redirect as a failure.
      * @param treatRedirectAsFailure <CODE>true</CODE> if the monitor should treat a 3xx redirect as a failure
      */
-    public void setTreatRedirectAsFailure(boolean treatRedirectAsFailure)
+    public void setTreatRedirectAsFailure(Boolean treatRedirectAsFailure)
     {
         this.treatRedirectAsFailure = treatRedirectAsFailure;
     }
@@ -109,7 +109,7 @@ public class MonitorOptions
      * Returns <CODE>true</CODE> if the monitor should treat a 3xx redirect as a failure.
      * @return <CODE>true</CODE> if the monitor should treat a 3xx redirect as a failure
      */
-    public boolean getTreatRedirectAsFailure()
+    public Boolean getTreatRedirectAsFailure()
     {
         return treatRedirectAsFailure;
     }

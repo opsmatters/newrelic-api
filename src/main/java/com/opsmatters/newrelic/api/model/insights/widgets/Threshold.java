@@ -23,9 +23,9 @@ package com.opsmatters.newrelic.api.model.insights.widgets;
  */
 public class Threshold
 {
-    private Long red;
+    private Integer red;
 
-    private Long yellow;
+    private Integer yellow;
 
     /**
      * Default constructor.
@@ -38,7 +38,7 @@ public class Threshold
      * Sets the red threshold of the presentation.
      * @param red The red threshold of the presentation
      */
-    public void setRed(long red)
+    public void setRed(Integer red)
     {
         this.red = red;
     }
@@ -47,7 +47,7 @@ public class Threshold
      * Returns the red threshold of the presentation.
      * @return The red threshold of the presentation
      */
-    public long getRed()
+    public Integer getRed()
     {
         return red;
     }
@@ -56,7 +56,7 @@ public class Threshold
      * Sets the yellow threshold of the presentation.
      * @param yellow The yellow threshold of the presentation
      */
-    public void setYellow(long yellow)
+    public void setYellow(Integer yellow)
     {
         this.yellow = yellow;
     }
@@ -65,7 +65,7 @@ public class Threshold
      * Returns the yellow threshold of the presentation.
      * @return The yellow threshold of the presentation
      */
-    public long getYellow()
+    public Integer getYellow()
     {
         return yellow;
     }
@@ -102,7 +102,7 @@ public class Threshold
          * @param red The red threshold of the presentation
          * @return This object
          */
-        public Builder red(long red)
+        public Builder red(int red)
         {
             threshold.setRed(red);
             return this;
@@ -113,7 +113,7 @@ public class Threshold
          * @param yellow The yellow threshold of the presentation
          * @return This object
          */
-        public Builder yellow(long yellow)
+        public Builder yellow(int yellow)
         {
             threshold.setYellow(yellow);
             return this;

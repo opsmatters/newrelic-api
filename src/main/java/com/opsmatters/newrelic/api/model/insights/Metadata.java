@@ -36,7 +36,7 @@ public class Metadata
      * Sets the version of the dashboard schema.
      * @param version The version of the dashboard schema
      */
-    public void setVersion(int version)
+    public void setVersion(Integer version)
     {
         this.version = version;
     }
@@ -45,7 +45,7 @@ public class Metadata
      * Returns the version of the dashboard schema.
      * @return The version of the dashboard schema
      */
-    public int getVersion()
+    public Integer getVersion()
     {
         return version;
     }

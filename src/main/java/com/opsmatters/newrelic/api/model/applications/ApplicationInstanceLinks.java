@@ -43,7 +43,7 @@ public class ApplicationInstanceLinks
      * Sets the application of the application instance.
      * @param application The application of the application instance
      */
-    public void setApplication(long application)
+    public void setApplication(Long application)
     {
         this.application = application;
     }
@@ -52,7 +52,7 @@ public class ApplicationInstanceLinks
      * Returns the application of the application instance.
      * @return The application of the application instance
      */
-    public long getApplication()
+    public Long getApplication()
     {
         return application;
     }
@@ -61,7 +61,7 @@ public class ApplicationInstanceLinks
      * Sets the application host of the application instance.
      * @param applicationHost The application host of the application instance
      */
-    public void setApplicationHost(long applicationHost)
+    public void setApplicationHost(Long applicationHost)
     {
         this.applicationHost = applicationHost;
     }
@@ -70,7 +70,7 @@ public class ApplicationInstanceLinks
      * Returns the application host of the application instance.
      * @return The application host of the application instance
      */
-    public long getApplicationHost()
+    public Long getApplicationHost()
     {
         return applicationHost;
     }
@@ -79,7 +79,7 @@ public class ApplicationInstanceLinks
      * Sets the server of the application instance.
      * @param server The server of the application instance
      */
-    public void setServer(long server)
+    public void setServer(Long server)
     {
         this.server = server;
     }
@@ -88,7 +88,7 @@ public class ApplicationInstanceLinks
      * Returns the server of the application instance.
      * @return The server of the application instance
      */
-    public long getServer()
+    public Long getServer()
     {
         return server;
     }

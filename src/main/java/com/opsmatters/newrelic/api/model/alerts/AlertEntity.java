@@ -93,7 +93,7 @@ public class AlertEntity extends Entity
      * Sets the group id of the entity.
      * @param groupId The group id of the entity
      */
-    public void setGroupId(long groupId)
+    public void setGroupId(Long groupId)
     {
         this.groupId = groupId;
     }
@@ -102,7 +102,7 @@ public class AlertEntity extends Entity
      * Returns the group id of the entity.
      * @return The group id of the entity
      */
-    public long getGroupId()
+    public Long getGroupId()
     {
         return groupId;
     }

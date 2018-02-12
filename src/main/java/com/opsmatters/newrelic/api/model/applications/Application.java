@@ -101,7 +101,7 @@ public class Application extends Entity
      * Set to <CODE>true</CODE> if the application is reporting.
      * @param reporting <CODE>true</CODE> if the application is reporting
      */
-    public void setReporting(boolean reporting)
+    public void setReporting(Boolean reporting)
     {
         this.reporting = reporting;
     }
@@ -110,7 +110,7 @@ public class Application extends Entity
      * Returns <CODE>true</CODE> if the application is reporting.
      * @return <CODE>true</CODE> if the application is reporting
      */
-    public boolean getReporting()
+    public Boolean getReporting()
     {
         return reporting;
     }

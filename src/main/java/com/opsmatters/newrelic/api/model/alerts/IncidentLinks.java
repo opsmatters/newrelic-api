@@ -43,7 +43,7 @@ public class IncidentLinks
      * Sets the policy id of the incident.
      * @param policyId The policy id of the incident
      */
-    public void setPolicyId(long policyId)
+    public void setPolicyId(Long policyId)
     {
         this.policyId = policyId;
     }
@@ -52,7 +52,7 @@ public class IncidentLinks
      * Returns the policy id of the incident.
      * @return The policy id of the incident
      */
-    public long getPolicyId()
+    public Long getPolicyId()
     {
         return policyId;
     }

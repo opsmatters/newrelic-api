@@ -58,7 +58,7 @@ public class Usage
      * Returns the usage.
      * @return The usage
      */
-    public long getUsage()
+    public Long getUsage()
     {
         return usage;
     }

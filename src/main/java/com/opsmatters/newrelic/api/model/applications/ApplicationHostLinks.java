@@ -43,7 +43,7 @@ public class ApplicationHostLinks
      * Sets the application of the application host.
      * @param application The application of the application host
      */
-    public void setApplication(long application)
+    public void setApplication(Long application)
     {
         this.application = application;
     }
@@ -52,7 +52,7 @@ public class ApplicationHostLinks
      * Returns the application of the application host.
      * @return The application of the application host
      */
-    public long getApplication()
+    public Long getApplication()
     {
         return application;
     }

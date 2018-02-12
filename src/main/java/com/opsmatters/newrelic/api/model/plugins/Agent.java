@@ -58,7 +58,7 @@ public class Agent
      * Sets the pid for the agent.
      * @param pid The pid for the agent
      */
-    public void setPid(int pid)
+    public void setPid(Integer pid)
     {
         this.pid = pid;
     }
@@ -67,7 +67,7 @@ public class Agent
      * Returns the pid for the agent.
      * @return The pid for the agent
      */
-    public int getPid()
+    public Integer getPid()
     {
         return pid;
     }

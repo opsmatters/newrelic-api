@@ -39,7 +39,7 @@ public class DrilldownPresentation extends Presentation
      * Sets the drilldown dashboard id of the presentation.
      * @param drilldownDashboardId The drilldown dashboard id of the presentation
      */
-    public void setDrilldownDashboardId(long drilldownDashboardId)
+    public void setDrilldownDashboardId(Long drilldownDashboardId)
     {
         this.drilldownDashboardId = drilldownDashboardId;
     }
@@ -48,7 +48,7 @@ public class DrilldownPresentation extends Presentation
      * Returns the drilldown dashboard id of the presentation.
      * @return The drilldown dashboard id of the presentation
      */
-    public long getDrilldownDashboardId()
+    public Long getDrilldownDashboardId()
     {
         return drilldownDashboardId;
     }

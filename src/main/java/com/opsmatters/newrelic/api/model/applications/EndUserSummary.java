@@ -47,7 +47,7 @@ public class EndUserSummary
      * Returns the response time of the application.
      * @return The responseTime of the application
      */
-    public float getResponseTime()
+    public Float getResponseTime()
     {
         return responseTime;
     }
@@ -56,7 +56,7 @@ public class EndUserSummary
      * Returns the throughput of the application.
      * @return The throughput of the application
      */
-    public float getThroughput()
+    public Float getThroughput()
     {
         return throughput;
     }
@@ -65,7 +65,7 @@ public class EndUserSummary
      * Returns the apdex target of the application.
      * @return The apdex target of the application
      */
-    public float getApdexTarget()
+    public Float getApdexTarget()
     {
         return apdexTarget;
     }
@@ -74,7 +74,7 @@ public class EndUserSummary
      * Returns the apdex score of the application.
      * @return The apdex score of the application
      */
-    public float getApdexScore()
+    public Float getApdexScore()
     {
         return apdexScore;
     }

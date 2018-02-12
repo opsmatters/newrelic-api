@@ -58,7 +58,7 @@ public class ServerSummary
      * Returns the cpu of the server.
      * @return The cpu of the server
      */
-    public float getCpu()
+    public Float getCpu()
     {
         return cpu;
     }
@@ -67,7 +67,7 @@ public class ServerSummary
      * Returns the cpu steal of the server.
      * @return The cpu steal of the server
      */
-    public float getCpuStolen()
+    public Float getCpuStolen()
     {
         return cpuStolen;
     }
@@ -76,7 +76,7 @@ public class ServerSummary
      * Returns the disk I/O of the server.
      * @return The disk I/O of the server
      */
-    public float getDiskIo()
+    public Float getDiskIo()
     {
         return diskIo;
     }
@@ -85,7 +85,7 @@ public class ServerSummary
      * Returns the memory of the server.
      * @return The memory of the server
      */
-    public float getMemory()
+    public Float getMemory()
     {
         return memory;
     }
@@ -94,7 +94,7 @@ public class ServerSummary
      * Returns the memory used of the server.
      * @return The memory used of the server
      */
-    public int getMemoryUsed()
+    public Integer getMemoryUsed()
     {
         return memoryUsed;
     }
@@ -103,7 +103,7 @@ public class ServerSummary
      * Returns the total memory of the server.
      * @return The total memory of the server
      */
-    public int getMemoryTotal()
+    public Integer getMemoryTotal()
     {
         return memoryTotal;
     }
@@ -112,7 +112,7 @@ public class ServerSummary
      * Returns the fullest disk of the server.
      * @return The fullest disk of the server
      */
-    public float getFullestDisk()
+    public Float getFullestDisk()
     {
         return fullestDisk;
     }
@@ -121,7 +121,7 @@ public class ServerSummary
      * Returns the fullest disk free of the server.
      * @return The fullest disk free of the server
      */
-    public int getFullestDiskFree()
+    public Integer getFullestDiskFree()
     {
         return fullestDiskFree;
     }

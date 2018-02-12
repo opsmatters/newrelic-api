@@ -150,7 +150,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Sets the policy id of the alert condition.
      * @param policyId The policy id of the alert condition
      */
-    public void setPolicyId(long policyId)
+    public void setPolicyId(Long policyId)
     {
         this.policyId = policyId;
     }
@@ -159,7 +159,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Returns the policy id of the alert condition.
      * @return The policy id of the alert condition
      */
-    public long getPolicyId()
+    public Long getPolicyId()
     {
         return policyId;
     }
@@ -204,7 +204,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Returns the date the object was created.
      * @return The date the object was created
      */
-    public long getCreatedAtEpochMillis()
+    public Long getCreatedAtEpochMillis()
     {
         return createdAtEpochMillis;
     }
@@ -213,7 +213,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Returns the date the object was last updated.
      * @return The date the object was last updated
      */
-    public long getUpdatedAtEpochMillis()
+    public Long getUpdatedAtEpochMillis()
     {
         return updatedAtEpochMillis;
     }

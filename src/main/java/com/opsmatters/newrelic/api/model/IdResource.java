@@ -36,7 +36,7 @@ public abstract class IdResource
      * Sets the id of the resource.
      * @param id The id of the resource
      */
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -45,7 +45,7 @@ public abstract class IdResource
      * Returns the id of the resource.
      * @return The id of the resource
      */
-    public long getId()
+    public Long getId()
     {
         return id;
     }
