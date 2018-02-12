@@ -26,6 +26,7 @@ import java.util.List;
 public class Errors
 {
     private List<Error> errors;
+    private ErrorMessages error;
 
     /**
      * Default constructor.
@@ -58,7 +59,43 @@ public class Errors
      */
     public int numErrors()
     {
-        return errors != null ? errors.size() : -1;
+        return (errors != null ? errors.size() : -1);
+    }
+
+    /**
+     * Returns the error messages.
+     * @return The error messages
+     */
+    public ErrorMessages getMessages()
+    {
+        return error;
+    }
+
+    /**
+     * Sets the error messages.
+     * @param error The error messages
+     */
+    public void setMessages(ErrorMessages error)
+    {
+        this.error = error;
+    }
+
+    /**
+     * Returns the number of error messages.
+     * @return The number of error messages
+     */
+    public int numMessages()
+    {
+        return (error != null ? error.numMessages() : -1);
+    }
+
+    /**
+     * Returns <CODE>true</CODE> if this object contains errors.
+     * @return <CODE>true</CODE> if this object contains errors
+     */
+    public boolean hasErrors()
+    {
+        return numErrors() > 0 || numMessages() > 0;
     }
 
     /**
@@ -68,6 +105,7 @@ public class Errors
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
+
         if(errors != null)
         {
             for(Error error : errors)
@@ -77,6 +115,12 @@ public class Errors
                 sb.append(error);
             }
         }
+
+        if(error != null)
+        {
+            sb.append(error);
+        }
+
         return sb.toString();
     }
 }

@@ -630,7 +630,7 @@ public class HttpContext
                 errors = response.readEntity(ERRORS);
             throw new RuntimeException(method+" returned response "
                 +response.getStatus()+" "+response.getStatusInfo().getReasonPhrase()
-                +(errors != null && errors.numErrors() > 0 ? " ("+errors+")" : ""));
+                +(errors != null && errors.hasErrors() ? " ("+errors+")" : ""));
         }
     }
 
