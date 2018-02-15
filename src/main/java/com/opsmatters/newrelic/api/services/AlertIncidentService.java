@@ -19,7 +19,7 @@ package com.opsmatters.newrelic.api.services;
 import java.util.Collection;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.alerts.AlertIncident;
-import com.opsmatters.newrelic.util.QueryParameterList;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * The set of operations used for alert incidents.

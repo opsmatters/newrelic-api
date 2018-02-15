@@ -29,6 +29,14 @@ import com.opsmatters.newrelic.api.model.insights.widgets.Widget;
  */
 public class Dashboard extends IdResource
 {
+    // The field names
+    public static final String TITLE = "title";
+    public static final String ICON = "icon";
+    public static final String VISIBILITY = "visibility";
+    public static final String EDITABLE = "editable";
+    public static final String FILTER = "filter";
+    public static final String WIDGETS = "widgets";
+
     private String title;
 
     private String icon;

@@ -25,6 +25,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class DrilldownPresentation extends Presentation
 {
+    // The field names
+    public static final String DRILLDOWN_DASHBOARD_ID = "drilldown_dashboard_id";
+
     @SerializedName("drilldown_dashboard_id")
     private Long drilldownDashboardId;
 

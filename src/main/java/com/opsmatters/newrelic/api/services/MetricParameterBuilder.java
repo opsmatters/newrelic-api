@@ -17,8 +17,8 @@
 package com.opsmatters.newrelic.api.services;
 
 import java.util.List;
-import com.opsmatters.newrelic.util.Utils;
-import com.opsmatters.newrelic.util.QueryParameterList;
+import com.opsmatters.newrelic.api.util.Utils;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * Builder to make metric parameter construction easier.

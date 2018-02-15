@@ -23,6 +23,9 @@ package com.opsmatters.newrelic.api.model.insights;
  */
 public class Metadata
 {
+    // The field names
+    public static final String VERSION = "version";
+
     private Integer version;
 
     /**

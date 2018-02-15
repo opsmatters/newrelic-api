@@ -20,7 +20,7 @@ import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.alerts.policies.AlertPolicy;
-import com.opsmatters.newrelic.util.QueryParameterList;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * The set of operations used for alert policies.

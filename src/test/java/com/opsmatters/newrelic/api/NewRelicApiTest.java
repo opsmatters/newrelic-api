@@ -108,7 +108,7 @@ import com.opsmatters.newrelic.api.model.plugins.PluginData;
 import com.opsmatters.newrelic.api.model.plugins.Component;
 import com.opsmatters.newrelic.api.model.plugins.MetricTimeslice;
 import com.opsmatters.newrelic.api.model.Status;
-import com.opsmatters.newrelic.util.Utils;
+import com.opsmatters.newrelic.api.util.Utils;
 
 /**
  * The set of tests used for New Relic API services.

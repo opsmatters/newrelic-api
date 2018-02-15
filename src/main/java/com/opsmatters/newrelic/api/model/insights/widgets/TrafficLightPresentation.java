@@ -27,6 +27,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class TrafficLightPresentation extends Presentation
 {
+    // The field names
+    public static final String TRAFFIC_LIGHT = "traffic_light";
+
     @SerializedName("traffic_lights")
     List<TrafficLight> trafficLights;
 

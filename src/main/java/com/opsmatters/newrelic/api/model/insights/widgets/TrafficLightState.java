@@ -23,6 +23,11 @@ package com.opsmatters.newrelic.api.model.insights.widgets;
  */
 public class TrafficLightState
 {
+    // The field names
+    public static final String TYPE = "type";
+    public static final String MIN = "min";
+    public static final String MAX = "max";
+
     private String type;
 
     private Integer min;

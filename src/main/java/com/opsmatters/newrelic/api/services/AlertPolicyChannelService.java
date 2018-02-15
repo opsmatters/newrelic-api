@@ -19,7 +19,7 @@ package com.opsmatters.newrelic.api.services;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.alerts.policies.AlertPolicyChannel;
-import com.opsmatters.newrelic.util.QueryParameterList;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * The set of operations used for alert policy channels.

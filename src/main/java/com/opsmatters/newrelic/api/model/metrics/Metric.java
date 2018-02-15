@@ -27,6 +27,12 @@ import com.opsmatters.newrelic.api.model.NamedResource;
  */
 public class Metric implements NamedResource
 {
+    // The field names
+    public static final String NAME = "name";
+    public static final String UNITS = "units";
+    public static final String SCOPE = "scope";
+    public static final String VALUES = "values";
+
     private String name;
     private String units;
     private String scope;

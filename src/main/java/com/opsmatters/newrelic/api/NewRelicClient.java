@@ -19,7 +19,7 @@ package com.opsmatters.newrelic.api;
 import java.util.logging.Logger;
 import javax.ws.rs.client.Client;
 import com.opsmatters.newrelic.api.services.HttpContext;
-import com.opsmatters.newrelic.httpclient.HttpClientProvider;
+import com.opsmatters.newrelic.api.httpclient.HttpClientProvider;
 
 /**
  * Client used to invoke New Relic operations using the REST API.

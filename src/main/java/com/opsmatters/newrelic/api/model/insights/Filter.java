@@ -27,6 +27,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Filter
 {
+    // The field names
+    public static final String EVENT_TYPES = "event_types";
+    public static final String ATTRIBUTES = "attributes";
+
     @SerializedName("event_types")
     private List<String> eventTypes;
 

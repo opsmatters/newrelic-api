@@ -23,6 +23,9 @@ package com.opsmatters.newrelic.api.model.insights.widgets;
  */
 public class MarkdownData extends WidgetData
 {
+    // The field names
+    public static final String SOURCE = "source";
+
     private String source;
 
     /**

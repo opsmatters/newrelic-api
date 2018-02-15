@@ -19,8 +19,8 @@ package com.opsmatters.newrelic.api.services;
 import java.util.Collection;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.alerts.AlertViolation;
-import com.opsmatters.newrelic.util.QueryParameterList;
-import com.opsmatters.newrelic.util.Utils;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
+import com.opsmatters.newrelic.api.util.Utils;
 
 /**
  * The set of operations used for alert violations.

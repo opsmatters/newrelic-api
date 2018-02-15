@@ -23,6 +23,9 @@ package com.opsmatters.newrelic.api.model.insights.widgets;
  */
 public class ThresholdPresentation extends Presentation
 {
+    // The field names
+    public static final String THRESHOLD = "threshold";
+
     private Threshold threshold;
 
     /**

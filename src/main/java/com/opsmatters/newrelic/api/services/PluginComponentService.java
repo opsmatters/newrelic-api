@@ -23,7 +23,7 @@ import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.plugins.PluginComponent;
 import com.opsmatters.newrelic.api.model.metrics.Metric;
 import com.opsmatters.newrelic.api.model.metrics.MetricData;
-import com.opsmatters.newrelic.util.QueryParameterList;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * The set of operations used for plugin components.

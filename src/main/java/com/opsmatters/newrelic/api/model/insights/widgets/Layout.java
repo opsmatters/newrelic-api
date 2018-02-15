@@ -23,13 +23,19 @@ package com.opsmatters.newrelic.api.model.insights.widgets;
  */
 public class Layout
 {
-    private Integer width;
-
-    private Integer height;
+    // The field names
+    public static final String ROW = "row";
+    public static final String COLUMN = "column";
+    public static final String WIDTH = "width";
+    public static final String HEIGHT = "height";
 
     private Integer row;
 
     private Integer column;
+
+    private Integer width;
+
+    private Integer height;
 
     /**
      * Default constructor.

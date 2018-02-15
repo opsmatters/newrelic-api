@@ -26,6 +26,12 @@ import java.util.ArrayList;
  */
 public class TrafficLight
 {
+    // The field names
+    public static final String ID = "id";
+    public static final String TITLE = "title";
+    public static final String SUBTITLE = "subtitle";
+    public static final String STATES = "states";
+
     private String id;
 
     private String title;

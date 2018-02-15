@@ -27,6 +27,14 @@ import com.opsmatters.newrelic.api.model.metrics.Metric;
  */
 public class MetricsData extends WidgetData
 {
+    // The field names
+    public static final String DURATION = "duration";
+    public static final String END_TIME = "end_time";
+    public static final String ENTITY_IDS = "entity_ids";
+    public static final String METRICS = "metrics";
+    public static final String ORDER_BY = "order_by";
+    public static final String LIMIT = "limit";
+
     private Integer duration;
 
     @SerializedName("end_time")

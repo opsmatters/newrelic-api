@@ -21,8 +21,8 @@ import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.insights.Dashboard;
-import com.opsmatters.newrelic.util.QueryParameterList;
-import com.opsmatters.newrelic.util.Utils;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
+import com.opsmatters.newrelic.api.util.Utils;
 
 /**
  * The set of operations used for dashboards.

@@ -1,4 +1,0 @@
-/**
- * The key transaction deserializer classes used for New Relic.
- */
-package com.opsmatters.newrelic.httpclient.deserializers.transactions; 

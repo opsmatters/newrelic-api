@@ -23,6 +23,10 @@ package com.opsmatters.newrelic.api.model.insights.widgets;
  */
 public class Presentation
 {
+    // The field names
+    public static final String TITLE = "title";
+    public static final String NOTES = "notes";
+
     private String title;
 
     private String notes;

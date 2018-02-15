@@ -27,6 +27,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public abstract class Widget
 {
+    // The field names
+    public static final String VISUALIZATION = "visualization";
+    public static final String ACCOUNT_ID = "account_id";
+    public static final String DATA = "data";
+    public static final String LAYOUT = "layout";
+
     private String visualization;
 
     @SerializedName("account_id")

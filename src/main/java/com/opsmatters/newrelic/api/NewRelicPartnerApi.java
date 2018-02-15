@@ -17,8 +17,8 @@
 package com.opsmatters.newrelic.api;
 
 import java.util.logging.Logger;
-import com.opsmatters.newrelic.httpclient.ApiKeyHttpClientProvider;
-import com.opsmatters.newrelic.httpclient.HttpClientProvider;
+import com.opsmatters.newrelic.api.httpclient.ApiKeyHttpClientProvider;
+import com.opsmatters.newrelic.api.httpclient.HttpClientProvider;
 import com.opsmatters.newrelic.api.services.PartnerAccountService;
 import com.opsmatters.newrelic.api.services.PartnerUserService;
 import com.opsmatters.newrelic.api.services.PartnerSubscriptionService;

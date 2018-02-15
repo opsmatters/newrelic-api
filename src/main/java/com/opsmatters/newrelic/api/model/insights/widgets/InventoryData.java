@@ -28,6 +28,10 @@ import java.util.HashMap;
  */
 public class InventoryData extends WidgetData
 {
+    // The field names
+    public static final String SOURCES = "sources";
+    public static final String FILTERS = "filters";
+
     private List<String> sources;
 
     private Map<String,String> filters;

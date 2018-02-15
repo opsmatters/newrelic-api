@@ -23,6 +23,9 @@ package com.opsmatters.newrelic.api.model.insights.widgets;
  */
 public class EventsData extends WidgetData
 {
+    // The field names
+    public static final String NRQL = "nrql";
+
     private String nrql;
 
     /**

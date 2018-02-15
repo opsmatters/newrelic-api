@@ -23,6 +23,10 @@ package com.opsmatters.newrelic.api.model.insights.widgets;
  */
 public class Threshold
 {
+    // The field names
+    public static final String RED = "red";
+    public static final String YELLOW = "yellow";
+
     private Integer red;
 
     private Integer yellow;
