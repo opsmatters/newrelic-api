@@ -26,6 +26,10 @@ import com.opsmatters.newrelic.api.model.alerts.IncidentPreference;
  */
 public class AlertPolicy extends NamedIdResource
 {
+    // The field names
+    public static final String NAME = "name";
+    public static final String INCIDENT_PREFERENCE = "incident_preference";
+
     @SerializedName("incident_preference")
     private String incidentPreference;
 
