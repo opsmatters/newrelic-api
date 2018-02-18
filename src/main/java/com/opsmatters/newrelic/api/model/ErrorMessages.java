@@ -77,6 +77,9 @@ public class ErrorMessages
      */
     public String toString()
     {
-        return title+": "+messages;
+        String ret = title;
+        if(messages != null)
+            ret += ": "+messages;
+        return ret;
     }
 }

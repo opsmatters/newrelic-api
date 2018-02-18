@@ -59,7 +59,7 @@ public class Errors
      */
     public int numErrors()
     {
-        return (errors != null ? errors.size() : -1);
+        return errors != null ? errors.size() : -1;
     }
 
     /**
@@ -86,7 +86,16 @@ public class Errors
      */
     public int numMessages()
     {
-        return (error != null ? error.numMessages() : -1);
+        return error != null ? error.numMessages() : -1;
+    }
+
+    /**
+     * Returns the title of the error messages.
+     * @return The title of the error messages
+     */
+    public String getTitle()
+    {
+        return error != null ? error.getTitle() : null;
     }
 
     /**
@@ -95,7 +104,7 @@ public class Errors
      */
     public boolean hasErrors()
     {
-        return numErrors() > 0 || numMessages() > 0;
+        return numErrors() > 0 || numMessages() > 0 || getTitle() != null;
     }
 
     /**
