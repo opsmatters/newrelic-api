@@ -25,6 +25,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class NrqlAlertCondition extends TermsCondition
 {
+    // The field names
+    public static final String VALUE_FUNCTION = "value_function";
+
     @SerializedName("value_function")
     private String valueFunction;
 

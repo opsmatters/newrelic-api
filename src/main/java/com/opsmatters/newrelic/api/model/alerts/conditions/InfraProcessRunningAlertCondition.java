@@ -25,6 +25,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class InfraProcessRunningAlertCondition extends InfraAlertCondition
 {
+    // The field names
+    public static final String PROCESS_WHERE_CLAUSE = "process_where_clause";
+    public static final String COMPARISON = "comparison";
+
     /**
      * The type of the alert condition.
      */

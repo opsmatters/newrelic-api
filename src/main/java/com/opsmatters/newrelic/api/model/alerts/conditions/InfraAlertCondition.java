@@ -25,6 +25,14 @@ import com.google.gson.annotations.SerializedName;
  */
 public abstract class InfraAlertCondition extends BaseCondition
 {
+    // The field names
+    public static final String TYPE = "type";
+    public static final String WHERE_CLAUSE = "where_clause";
+    public static final String FILTER = "filter";
+    public static final String CRITICAL_THRESHOLD = "critical_threshold";
+    public static final String WARNING_THRESHOLD = "warning_threshold";
+    public static final String POLICY_ID = "policy_id";
+
     private String type;
 
     @SerializedName("where_clause")

@@ -25,6 +25,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PluginsAlertCondition extends MetricCondition
 {
+    // The field names
+    public static final String METRIC_DESCRIPTION = "metric_description";
+    public static final String VALUE_FUNCTION = "value_function";
+
     @SerializedName("metric_description")
     private String metricDescription;
 

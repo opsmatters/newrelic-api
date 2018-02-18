@@ -25,6 +25,11 @@ import com.google.gson.annotations.SerializedName;
  */
 public class AlertThreshold
 {
+    // The field names
+    public static final String VALUE = "value";
+    public static final String DURATION = "duration";
+    public static final String TIME_FUNCTION = "time_function";
+
     private Integer value;
 
     @SerializedName("duration_minutes")

@@ -25,6 +25,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Nrql
 {
+    // The field names
+    public static final String QUERY = "query";
+    public static final String SINCE_VALUE = "since_value";
+
     private String query;
 
     @SerializedName("since_value")

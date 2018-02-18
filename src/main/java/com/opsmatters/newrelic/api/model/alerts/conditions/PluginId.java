@@ -23,6 +23,10 @@ package com.opsmatters.newrelic.api.model.alerts.conditions;
  */
 public class PluginId
 {
+    // The field names
+    public static final String ID = "id";
+    public static final String GUID = "guid";
+
     private String id;
     private String guid;
     

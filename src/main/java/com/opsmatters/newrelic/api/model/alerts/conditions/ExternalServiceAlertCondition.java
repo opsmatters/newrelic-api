@@ -25,6 +25,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public abstract class ExternalServiceAlertCondition extends MetricCondition
 {
+    // The field names
+    public static final String TYPE = "type";
+    public static final String EXTERNAL_SERVICE_URL = "external_service_url";
+
     private String type;
 
     @SerializedName("external_service_url")

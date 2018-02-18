@@ -26,6 +26,11 @@ import com.opsmatters.newrelic.api.model.NamedResource;
  */
 public class Label implements NamedResource
 {
+    // The field names
+    public static final String KEY = "key";
+    public static final String CATEGORY = "category";
+    public static final String NAME = "name";
+
     private String key;
     private String category;
     private String name;

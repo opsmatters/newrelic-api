@@ -25,6 +25,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public class InfraMetricAlertCondition extends InfraAlertCondition
 {
+    // The field names
+    public static final String EVENT_TYPE = "event_type";
+    public static final String COMPARISON = "comparison";
+    public static final String SELECT_VALUE = "select_value";
+    public static final String INTEGRATION_PROVIDER = "integration_provider";
+
     /**
      * The type of the alert condition.
      */

@@ -26,6 +26,11 @@ import com.opsmatters.newrelic.api.model.NamedIdResource;
  */
 public abstract class BaseCondition extends NamedIdResource
 {
+    // The field names
+    public static final String NAME = "name";
+    public static final String ENABLED = "enabled";
+    public static final String RUNBOOK_URL = "runbook_url";
+
     private Boolean enabled;
 
     @SerializedName("runbook_url")

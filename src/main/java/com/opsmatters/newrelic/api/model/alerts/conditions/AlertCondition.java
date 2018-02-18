@@ -25,6 +25,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public abstract class AlertCondition extends MetricCondition
 {
+    // The field names
+    public static final String TYPE = "type";
+    public static final String GC_METRIC = "gc_metric";
+    public static final String CONDITION_SCOPE = "condition_scope";
+    public static final String VIOLATION_CLOSE_TIMER = "violation_close_timer";
+
     private String type;
 
     @SerializedName("gc_metric")

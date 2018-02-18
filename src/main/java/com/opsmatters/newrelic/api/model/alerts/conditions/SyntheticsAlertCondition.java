@@ -25,6 +25,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class SyntheticsAlertCondition extends BaseCondition
 {
+    // The field names
+    public static final String MONITOR_ID = "monitor_id";
+
     @SerializedName("monitor_id")
     private String monitorId;
 

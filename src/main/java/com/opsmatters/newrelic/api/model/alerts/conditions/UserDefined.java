@@ -25,6 +25,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class UserDefined
 {
+    // The field names
+    public static final String METRIC = "metric";
+    public static final String VALUE_FUNCTION = "value_function";
+
     private String metric;
 
     @SerializedName("value_function")

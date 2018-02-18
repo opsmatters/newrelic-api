@@ -26,6 +26,13 @@ import com.opsmatters.newrelic.api.model.alerts.Priority;
  */
 public class Term
 {
+    // The field names
+    public static final String DURATION = "duration";
+    public static final String OPERATOR = "operator";
+    public static final String PRIORITY = "priority";
+    public static final String THRESHOLD = "threshold";
+    public static final String TIME_FUNCTION = "time_function";
+
     private String duration;
     private String operator;
     private String priority;
