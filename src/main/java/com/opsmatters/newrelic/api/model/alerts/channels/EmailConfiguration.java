@@ -27,7 +27,7 @@ public class EmailConfiguration extends ChannelConfiguration
 {
     // The field names
     public static final String RECIPIENTS = "recipients";
-    public static final String INCLUDE_JSON_ATTACHMENTS = "include_json_attachment";
+    public static final String INCLUDE_JSON_ATTACHMENT = "include_json_attachment";
 
     /**
      * The type of the channel configuration.
