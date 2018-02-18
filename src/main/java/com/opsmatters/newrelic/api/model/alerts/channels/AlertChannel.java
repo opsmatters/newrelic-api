@@ -26,6 +26,10 @@ import com.opsmatters.newrelic.api.model.NamedIdResource;
  */
 public abstract class AlertChannel<T extends ChannelConfiguration> extends NamedIdResource
 {
+    // The field names
+    public static final String NAME = "name";
+    public static final String TYPE = "type";
+
     private String type;
     private T configuration;
     private ChannelLinks links;

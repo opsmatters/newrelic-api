@@ -25,6 +25,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public class OpsGenieConfiguration extends ChannelConfiguration
 {
+    // The field names
+    public static final String API_KEY = "api_key";
+    public static final String TEAMS = "teams";
+    public static final String TAGS = "tags";
+    public static final String RECIPIENTS = "recipients";
+
     /**
      * The type of the channel configuration.
      */

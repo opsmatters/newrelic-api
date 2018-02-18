@@ -25,6 +25,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class VictorOpsConfiguration extends ChannelConfiguration
 {
+    // The field names
+    public static final String KEY = "key";
+    public static final String ROUTE_KEY = "route_key";
+
     /**
      * The type of the channel configuration.
      */

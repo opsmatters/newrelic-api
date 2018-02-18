@@ -25,6 +25,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PagerDutyConfiguration extends ChannelConfiguration
 {
+    // The field names
+    public static final String SERVICE_KEY = "service_key";
+
     /**
      * The type of the channel configuration.
      */

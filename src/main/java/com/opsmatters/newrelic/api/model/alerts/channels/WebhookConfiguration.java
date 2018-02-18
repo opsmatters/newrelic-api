@@ -27,6 +27,14 @@ import com.google.gson.annotations.SerializedName;
  */
 public class WebhookConfiguration extends ChannelConfiguration
 {
+    // The field names
+    public static final String BASE_URL = "base_url";
+    public static final String AUTH_USERNAME = "auth_username";
+    public static final String AUTH_PASSWORD = "auth_password";
+    public static final String PAYLOAD_TYPE = "payload_type";
+    public static final String PAYLOAD = "payload";
+    public static final String HEADERS = "headers";
+
     /**
      * The type of the channel configuration.
      */

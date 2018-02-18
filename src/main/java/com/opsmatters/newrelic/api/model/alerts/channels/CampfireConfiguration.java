@@ -23,6 +23,11 @@ package com.opsmatters.newrelic.api.model.alerts.channels;
  */
 public class CampfireConfiguration extends ChannelConfiguration
 {
+    // The field names
+    public static final String SUBDOMAIN = "subdomain";
+    public static final String TOKEN = "token";
+    public static final String ROOM = "room";
+
     /**
      * The type of the channel configuration.
      */

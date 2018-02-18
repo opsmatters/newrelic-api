@@ -25,6 +25,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public class HipChatConfiguration extends ChannelConfiguration
 {
+    // The field names
+    public static final String AUTH_TOKEN = "auth_token";
+    public static final String ROOM_ID = "room_id";
+
     /**
      * The type of the channel configuration.
      */

@@ -25,6 +25,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class UserConfiguration extends ChannelConfiguration
 {
+    // The field names
+    public static final String USER_ID = "user_id";
+
     /**
      * The type of the channel configuration.
      */

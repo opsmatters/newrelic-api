@@ -23,6 +23,10 @@ package com.opsmatters.newrelic.api.model.alerts.channels;
  */
 public class xMattersConfiguration extends ChannelConfiguration
 {
+    // The field names
+    public static final String URL = "url";
+    public static final String CHANNEL = "channel";
+
     /**
      * The type of the channel configuration.
      */
