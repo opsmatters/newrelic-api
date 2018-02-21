@@ -108,6 +108,7 @@ import com.opsmatters.newrelic.api.model.plugins.PluginData;
 import com.opsmatters.newrelic.api.model.plugins.Component;
 import com.opsmatters.newrelic.api.model.plugins.MetricTimeslice;
 import com.opsmatters.newrelic.api.model.Status;
+import com.opsmatters.newrelic.api.exceptions.ErrorResponseException;
 import com.opsmatters.newrelic.api.util.Utils;
 
 /**
@@ -719,7 +720,7 @@ public class NewRelicApiTest
             logger.info("Get APM condition: "+condition.getId());
             ret = api.alertConditions().show(policy.getId(), condition.getId());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             //logger.severe("Error in get APM condition: "+e.getMessage());
         }
@@ -784,7 +785,7 @@ public class NewRelicApiTest
             logger.info("Get NRQL condition: "+condition.getId());
             ret = api.nrqlAlertConditions().show(policy.getId(), condition.getId());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             //logger.severe("Error in get NRQL condition: "+e.getMessage());
         }
@@ -844,7 +845,7 @@ public class NewRelicApiTest
             logger.info("Get external service condition: "+condition.getId());
             ret = api.externalServiceAlertConditions().show(policy.getId(), condition.getId());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             //logger.severe("Error in get external service condition: "+e.getMessage());
         }
@@ -912,7 +913,7 @@ public class NewRelicApiTest
             logger.info("Get Plugins condition: "+condition.getId());
             ret = api.pluginsAlertConditions().show(policy.getId(), condition.getId());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             //logger.severe("Error in get plugins condition: "+e.getMessage());
         }
@@ -962,7 +963,7 @@ public class NewRelicApiTest
             logger.info("Get Synthetics condition: "+condition.getId());
             ret = api.syntheticsAlertConditions().show(policy.getId(), condition.getId());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             //logger.severe("Error in get Synthetics condition: "+e.getMessage());
         }
@@ -1042,7 +1043,7 @@ public class NewRelicApiTest
             logger.info("Get infra condition: "+condition.getId());
             ret = api.infraAlertConditions().show(condition.getId());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             //logger.severe("Error in get infra condition: "+e.getMessage());
         }
@@ -1151,7 +1152,7 @@ public class NewRelicApiTest
             logger.info("Get alert events: ");
             ret = api.alertEvents().list();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             // Throws 404 error if no events found
             logger.warning("Error in get alert events: "+e.getMessage());
@@ -1180,7 +1181,7 @@ public class NewRelicApiTest
             logger.info("Get alert events with filters: "+filters);
             ret = api.alertEvents().list(filters);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             // Throws 404 error if no events found
             logger.warning("Error in alert events: "+e.getMessage());
@@ -1206,7 +1207,7 @@ public class NewRelicApiTest
             long endDate = System.currentTimeMillis();
             ret = api.alertViolations().list(startDate, endDate, false);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get alert violations: "+e.getMessage());
         }
@@ -1223,7 +1224,7 @@ public class NewRelicApiTest
             logger.info("Get alert incidents: ");
             ret = api.alertIncidents().list(false);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get alert incidents: "+e.getMessage());
         }
@@ -1270,7 +1271,7 @@ public class NewRelicApiTest
                 .build();
             ret = api.applications().list(filters);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get applications: "+e.getMessage());
         }
@@ -1351,7 +1352,7 @@ public class NewRelicApiTest
             logger.info("Get mobile applications: ");
             ret = api.mobileApplications().list();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get mobile applications: "+e.getMessage());
         }
@@ -1404,9 +1405,9 @@ public class NewRelicApiTest
                 .build();
             ret = api.keyTransactions().list(filters);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
-            if(e.getMessage().indexOf("403 Forbidden") == -1) // requires full access
+            if(e.getStatus() != 403) // requires full access
                 Assert.fail("Error in get key transactions: "+e.getMessage());
         }
 
@@ -1433,7 +1434,7 @@ public class NewRelicApiTest
                 .build();
             ret = api.applicationHosts().list(applicationId, filters);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get application hosts: "+e.getMessage());
         }
@@ -1485,7 +1486,7 @@ public class NewRelicApiTest
                 .build();
             ret = api.applicationInstances().list(applicationId, filters);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get application instances: "+e.getMessage());
         }
@@ -1538,7 +1539,7 @@ public class NewRelicApiTest
                 .build();
             ret = api.plugins().list(filters);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get plugins: "+e.getMessage());
         }
@@ -1567,7 +1568,7 @@ public class NewRelicApiTest
                 .build();
             ret = api.pluginComponents().list(filters);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get plugin components: "+e.getMessage());
         }
@@ -1584,7 +1585,7 @@ public class NewRelicApiTest
             logger.info("Get plugin component metric names: "+id);
             metrics = api.pluginComponents().metricNames(id, "Threads/SummaryState/");
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get plugin component metric names: "+e.getMessage());
         }
@@ -1609,7 +1610,7 @@ public class NewRelicApiTest
         {
             metrics = api.pluginComponents().metricData(id, parameters).get();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get plugin component metric data: "+e.getMessage());
         }
@@ -1651,7 +1652,7 @@ public class NewRelicApiTest
             logger.info("Get deployments: ");
             ret = api.deployments().list(applicationId);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get deployments: "+e.getMessage());
         }
@@ -1695,7 +1696,7 @@ public class NewRelicApiTest
                 .build();
             ret = api.servers().list(filters);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get servers: "+e.getMessage());
         }
@@ -1775,7 +1776,7 @@ public class NewRelicApiTest
             logger.info("Get labels: ");
             ret = api.labels().list();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get labels: "+e.getMessage());
         }
@@ -1792,9 +1793,9 @@ public class NewRelicApiTest
             Optional<Label> ret = api.labels().show(label.getKey());
             Assert.assertFalse(ret.isPresent());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
-            if(e.getMessage().indexOf("404 Not Found") == -1) // throws 404 if label contains illegal characters
+            if(e.getStatus() != 404) // throws 404 if label contains illegal characters
                 Assert.fail("Error in delete label: "+e.getMessage());
             else
                 logger.warning("Error in delete label: "+e.getMessage());
@@ -1818,7 +1819,7 @@ public class NewRelicApiTest
             logger.info("Get users: ");
             ret = api.users().list();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get users: "+e.getMessage());
         }
@@ -1833,7 +1834,7 @@ public class NewRelicApiTest
             logger.info("Reset user: "+id);
             api.users().resetPassword(id);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in reset user: "+e.getMessage());
         }
@@ -1906,7 +1907,7 @@ public class NewRelicApiTest
             logger.info("Get monitors: ");
             ret = api.monitors().list();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get monitors: "+e.getMessage());
         }
@@ -1937,7 +1938,7 @@ public class NewRelicApiTest
             Optional<Monitor> ret = api.monitors().update(input);
             Assert.assertTrue(ret.isPresent());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in update monitor: "+e.getMessage());
         }
@@ -1966,7 +1967,7 @@ public class NewRelicApiTest
             Optional<Monitor> ret = api.monitors().patch(input);
             Assert.assertTrue(ret.isPresent());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in patch monitor: "+e.getMessage());
         }
@@ -1982,9 +1983,9 @@ public class NewRelicApiTest
             Optional<Monitor> ret = api.monitors().show(monitor.getId());
             Assert.assertFalse(ret.isPresent());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
-             if(e.getMessage().indexOf("404 Not Found") == -1) // throws 404
+             if(e.getStatus() != 404) // throws 404
                  Assert.fail("Error in get monitors: "+e.getMessage());
         }
     }
@@ -2012,7 +2013,7 @@ public class NewRelicApiTest
             logger.info("Get monitors for label: "+label.getCategory()+":"+label.getName());
             ret = api.monitors().list(label);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get monitors for label: "+e.getMessage());
         }
@@ -2035,7 +2036,7 @@ public class NewRelicApiTest
             logger.info("Get locations: ");
             ret = api.locations().list();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get locations: "+e.getMessage());
         }
@@ -2056,7 +2057,7 @@ public class NewRelicApiTest
             logger.info("Get query data: "+query);
             ret = api.queries().list(accountId, query).get();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             //Assert.fail("Error in get query data: "+e.getMessage());
             logger.severe("Error in get query data: "+e.getMessage());
@@ -2284,7 +2285,7 @@ public class NewRelicApiTest
             logger.info("Get dashboards: ");
             ret = api.dashboards().list();
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get dashboards: "+e.getMessage());
         }
@@ -2305,7 +2306,7 @@ public class NewRelicApiTest
             ret = api.dashboards().list(filters);
             Assert.assertTrue(ret.iterator().next() != null);
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
             Assert.fail("Error in get dashboards: "+e.getMessage());
         }
@@ -2331,9 +2332,9 @@ public class NewRelicApiTest
             Optional<Dashboard> ret = api.dashboards().show(dashboard.getId());
             Assert.assertFalse(ret.isPresent());
         }
-        catch(RuntimeException e)
+        catch(ErrorResponseException e)
         {
-             if(e.getMessage().indexOf("404 Not Found") == -1) // throws 404
+             if(e.getStatus() != 404) // throws 404
                  Assert.fail("Error in get dashboards: "+e.getMessage());
         }
     }

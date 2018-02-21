@@ -32,6 +32,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.model.ErrorResponse;
+import com.opsmatters.newrelic.api.exceptions.ErrorResponseException;
 
 /**
  * Represents the set of HTTP operations to be used with the API calls.  
@@ -628,9 +629,8 @@ public class HttpContext
             ErrorResponse error = null;
             if(response.hasEntity())
                 error = response.readEntity(ERROR);
-            throw new RuntimeException(method+" returned response "
-                +response.getStatus()+" "+response.getStatusInfo().getReasonPhrase()
-                +(error != null && error.hasError() ? " ("+error+")" : ""));
+            throw new ErrorResponseException(method, response.getStatus(), 
+                response.getStatusInfo().getReasonPhrase(), error);
         }
     }
 
