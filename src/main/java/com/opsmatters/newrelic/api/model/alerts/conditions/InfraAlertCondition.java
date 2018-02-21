@@ -31,7 +31,6 @@ public abstract class InfraAlertCondition extends BaseCondition
     public static final String FILTER = "filter";
     public static final String CRITICAL_THRESHOLD = "critical_threshold";
     public static final String WARNING_THRESHOLD = "warning_threshold";
-    public static final String POLICY_ID = "policy_id";
 
     private String type;
 
@@ -158,6 +157,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Sets the policy id of the alert condition.
      * @param policyId The policy id of the alert condition
      */
+    @Override
     public void setPolicyId(Long policyId)
     {
         this.policyId = policyId;
@@ -167,6 +167,7 @@ public abstract class InfraAlertCondition extends BaseCondition
      * Returns the policy id of the alert condition.
      * @return The policy id of the alert condition
      */
+    @Override
     public Long getPolicyId()
     {
         return policyId;

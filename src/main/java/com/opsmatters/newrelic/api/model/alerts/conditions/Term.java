@@ -31,6 +31,8 @@ public class Term
     public static final String OPERATOR = "operator";
     public static final String PRIORITY = "priority";
     public static final String THRESHOLD = "threshold";
+    public static final String CRITICAL_THRESHOLD = "critical_threshold";
+    public static final String WARNING_THRESHOLD = "warning_threshold";
     public static final String TIME_FUNCTION = "time_function";
 
     private String duration;
@@ -362,6 +364,17 @@ public class Term
          * @return This object
          */
         public Builder priority(String priority)
+        {
+            term.setPriority(priority);
+            return this;
+        }
+
+        /**
+         * Sets the priority of the term.
+         * @param priority The priority of the term
+         * @return This object
+         */
+        public Builder priority(Priority priority)
         {
             term.setPriority(priority);
             return this;

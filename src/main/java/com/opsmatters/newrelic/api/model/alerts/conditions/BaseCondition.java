@@ -30,11 +30,16 @@ public abstract class BaseCondition extends NamedIdResource
     public static final String NAME = "name";
     public static final String ENABLED = "enabled";
     public static final String RUNBOOK_URL = "runbook_url";
+    public static final String POLICY_ID = "policy_id";
+    public static final String POLICY_NAME = "policy_name";
+    public static final String CONDITION_TYPE = "condition_type";
 
     private Boolean enabled;
 
     @SerializedName("runbook_url")
     private String runbookUrl;
+
+    protected transient Long policyId;
     
     /**
      * Default constructor.
@@ -77,6 +82,24 @@ public abstract class BaseCondition extends NamedIdResource
     public String getRunbookUrl()
     {
         return runbookUrl;
+    }
+
+    /**
+     * Sets the policy id of the alert condition.
+     * @param policyId The policy id of the alert condition
+     */
+    public void setPolicyId(Long policyId)
+    {
+        this.policyId = policyId;
+    }
+
+    /**
+     * Returns the policy id of the alert condition.
+     * @return The policy id of the alert condition
+     */
+    public Long getPolicyId()
+    {
+        return policyId;
     }
 
     /**
