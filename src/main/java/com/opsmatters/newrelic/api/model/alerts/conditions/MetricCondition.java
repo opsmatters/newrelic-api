@@ -29,7 +29,7 @@ public abstract class MetricCondition extends TermsCondition
     // The field names
     public static final String METRIC = "metric";
     public static final String ENTITIES = "entities";
-    public static final String APPLICATION_FILTER = "application_filter";
+    public static final String FILTER = "filter";
 
     private String metric;
     private List<Long> entities = new ArrayList<Long>();
