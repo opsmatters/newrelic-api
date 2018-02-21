@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class ErrorMessages
+public class ErrorMessages extends ErrorResponse
 {
     private String title;
     private List<String> messages;
@@ -69,6 +69,16 @@ public class ErrorMessages
     public int numMessages()
     {
         return messages != null ? messages.size() : -1;
+    }
+
+    /**
+     * Returns <CODE>true</CODE> if this object contains errors.
+     * @return <CODE>true</CODE> if this object contains errors
+     */
+    @Override
+    public boolean hasError()
+    {
+        return title != null || numMessages() > 0;
     }
 
     /**

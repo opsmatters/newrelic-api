@@ -19,19 +19,18 @@ package com.opsmatters.newrelic.api.model;
 import java.util.List;
 
 /**
- * Used to marshall a REST API error response.
+ * Used to marshall a REST API errors response.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class Errors
+public class ErrorDetails extends ErrorResponse
 {
-    private List<Error> errors;
-    private ErrorMessages error;
+    private List<ErrorDetail> errors;
 
     /**
      * Default constructor.
      */
-    public Errors()
+    public ErrorDetails()
     {
     }
 
@@ -39,7 +38,7 @@ public class Errors
      * Returns the error messages.
      * @return The error messages
      */
-    public List<Error> getErrors()
+    public List<ErrorDetail> getErrors()
     {
         return errors;
     }
@@ -48,7 +47,7 @@ public class Errors
      * Sets the error messages.
      * @param errors The error messages
      */
-    public void setErrors(List<Error> errors)
+    public void setErrors(List<ErrorDetail> errors)
     {
         this.errors = errors;
     }
@@ -63,48 +62,13 @@ public class Errors
     }
 
     /**
-     * Returns the error messages.
-     * @return The error messages
-     */
-    public ErrorMessages getMessages()
-    {
-        return error;
-    }
-
-    /**
-     * Sets the error messages.
-     * @param error The error messages
-     */
-    public void setMessages(ErrorMessages error)
-    {
-        this.error = error;
-    }
-
-    /**
-     * Returns the number of error messages.
-     * @return The number of error messages
-     */
-    public int numMessages()
-    {
-        return error != null ? error.numMessages() : -1;
-    }
-
-    /**
-     * Returns the title of the error messages.
-     * @return The title of the error messages
-     */
-    public String getTitle()
-    {
-        return error != null ? error.getTitle() : null;
-    }
-
-    /**
      * Returns <CODE>true</CODE> if this object contains errors.
      * @return <CODE>true</CODE> if this object contains errors
      */
-    public boolean hasErrors()
+    @Override
+    public boolean hasError()
     {
-        return numErrors() > 0 || numMessages() > 0 || getTitle() != null;
+        return numErrors() > 0;
     }
 
     /**
@@ -117,17 +81,12 @@ public class Errors
 
         if(errors != null)
         {
-            for(Error error : errors)
+            for(ErrorDetail error : errors)
             {
                 if(sb.length() > 0)
                     sb.append(" / ");
                 sb.append(error);
             }
-        }
-
-        if(error != null)
-        {
-            sb.append(error);
         }
 
         return sb.toString();

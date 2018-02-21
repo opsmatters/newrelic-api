@@ -17,45 +17,18 @@
 package com.opsmatters.newrelic.api.model;
 
 /**
- * Used to marshall a REST API error message.
+ * The base class for REST API error messages.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class Error
+public class ErrorResponse
 {
-    private String error;
-
     /**
-     * Default constructor.
+     * Returns <CODE>true</CODE> if this response contains an error.
+     * @return <CODE>true</CODE> if this response contains an derror
      */
-    public Error()
+    public boolean hasError()
     {
-    }
-
-    /**
-     * Returns the error message.
-     * @return The error message
-     */
-    public String getError()
-    {
-        return error;
-    }
-
-    /**
-     * Sets the error message.
-     * @param error The error message
-     */
-    public void setError(String error)
-    {
-        this.error = error;
-    }
-
-    /**
-     * Returns the error message.
-     * @return The error message
-     */
-    public String toString()
-    {
-        return error;
+        return false;
     }
 }

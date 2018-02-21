@@ -38,6 +38,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.opsmatters.newrelic.api.model.ErrorResponse;
 import com.opsmatters.newrelic.api.model.alerts.AlertIncident;
 import com.opsmatters.newrelic.api.model.alerts.AlertViolation;
 import com.opsmatters.newrelic.api.model.alerts.AlertEvent;
@@ -87,6 +88,7 @@ import com.opsmatters.newrelic.api.httpclient.serializers.labels.LabelSerializer
 import com.opsmatters.newrelic.api.httpclient.serializers.insights.DashboardSerializer;
 import com.opsmatters.newrelic.api.httpclient.serializers.accounts.PartnerUserSerializer;
 import com.opsmatters.newrelic.api.httpclient.serializers.accounts.ProductSubscriptionsSerializer;
+import com.opsmatters.newrelic.api.httpclient.deserializers.ErrorResponseDeserializer;
 import com.opsmatters.newrelic.api.httpclient.deserializers.alerts.AlertIncidentsDeserializer;
 import com.opsmatters.newrelic.api.httpclient.deserializers.alerts.AlertViolationsDeserializer;
 import com.opsmatters.newrelic.api.httpclient.deserializers.alerts.AlertEventsDeserializer;
@@ -196,6 +198,7 @@ public final class GsonMessageBodyHandler implements MessageBodyWriter<Object>, 
         {
             GsonBuilder builder = new GsonBuilder();
 
+            builder.registerTypeAdapter(ErrorResponse.class, new ErrorResponseDeserializer());
             builder.registerTypeAdapter(AlertPolicy.class, new AlertPolicySerializer());
             builder.registerTypeAdapter(AlertPolicy.class, new AlertPolicyDeserializer());
             builder.registerTypeAdapter(ALERT_POLICIES_TYPE, new AlertPoliciesDeserializer());

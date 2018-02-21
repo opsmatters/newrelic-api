@@ -31,7 +31,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.google.common.base.Optional;
-import com.opsmatters.newrelic.api.model.Errors;
+import com.opsmatters.newrelic.api.model.ErrorResponse;
 
 /**
  * Represents the set of HTTP operations to be used with the API calls.  
@@ -50,7 +50,7 @@ public class HttpContext
     private boolean throwExceptions = false;
     private String uriPrefix = "";
 
-    private static final GenericType<Errors> ERRORS = new GenericType<Errors>(){};
+    private static final GenericType<ErrorResponse> ERROR = new GenericType<ErrorResponse>(){};
     
     /**
      * Constructor that takes a client, protocol, hostname and port.
@@ -625,12 +625,12 @@ public class HttpContext
              && response.getStatus() != 201 
              && response.getStatus() != 204)
         {
-            Errors errors = null;
+            ErrorResponse error = null;
             if(response.hasEntity())
-                errors = response.readEntity(ERRORS);
+                error = response.readEntity(ERROR);
             throw new RuntimeException(method+" returned response "
                 +response.getStatus()+" "+response.getStatusInfo().getReasonPhrase()
-                +(errors != null && errors.hasErrors() ? " ("+errors+")" : ""));
+                +(error != null && error.hasError() ? " ("+error+")" : ""));
         }
     }
 
