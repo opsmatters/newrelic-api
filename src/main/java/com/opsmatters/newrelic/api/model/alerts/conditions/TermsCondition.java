@@ -63,6 +63,15 @@ public abstract class TermsCondition extends BaseCondition
     }
 
     /**
+     * Returns the number of terms for the condition.
+     * @return The number of terms
+     */
+    public int numTerms()
+    {
+        return terms != null ? terms.size() : 0;
+    }
+
+    /**
      * Returns a string representation of the object.
      */
     @Override

@@ -341,6 +341,15 @@ public class Dashboard extends IdResource
     }
 
     /**
+     * Returns the number of widgets.
+     * @return The number of widgets
+     */
+    public int numWidgets()
+    {
+        return widgets != null ? widgets.size() : 0;
+    }
+
+    /**
      * Returns the date the dashboard was created.
      * @return The date the dashboard was created
      */

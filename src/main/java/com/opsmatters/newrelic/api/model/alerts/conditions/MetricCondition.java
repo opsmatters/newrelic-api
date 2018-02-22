@@ -87,6 +87,15 @@ public abstract class MetricCondition extends TermsCondition
     }
 
     /**
+     * Returns the number of entities for the condition.
+     * @return The number of entities
+     */
+    public int numEntities()
+    {
+        return entities != null ? entities.size() : 0;
+    }
+
+    /**
      * Returns the array of entities for the condition.
      * @return The array of entities
      */
