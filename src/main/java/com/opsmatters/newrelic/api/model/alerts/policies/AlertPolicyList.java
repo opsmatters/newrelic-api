@@ -31,10 +31,26 @@ public class AlertPolicyList
     private Map<Long,AlertPolicy> ids = new LinkedHashMap<Long,AlertPolicy>();
 
     /**
+     * Default constructor.
+     */
+    public AlertPolicyList()
+    {
+    }
+
+    /**
      * Constructor that takes a list of alert policies.
      * @param policies The alert policies for the list
      */
     public AlertPolicyList(List<AlertPolicy> policies)
+    {
+        add(policies);
+    }
+
+    /**
+     * Adds a list of alert policies.
+     * @param policies The alert policies to add
+     */
+    public void add(List<AlertPolicy> policies)
     {
         for(AlertPolicy policy : policies)
         {
