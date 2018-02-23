@@ -28,6 +28,10 @@ import com.opsmatters.newrelic.api.model.IdResource;
  */
 public class AlertPolicyChannel extends IdResource
 {
+    // The field names
+    public static final String CHANNELS = "channels";
+    public static final String CHANNEL_IDS = "channel_ids";
+
     @SerializedName("channel_ids")
     private List<Long> channelIds = new ArrayList<Long>();
 
