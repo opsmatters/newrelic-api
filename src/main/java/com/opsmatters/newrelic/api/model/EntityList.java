@@ -92,21 +92,53 @@ public class EntityList
     }
 
     /**
-     * Returns the entities that match the given name.
-     * @param name The name of the entities (including wildcards)
-     * @return The entities that match the given name
+     * Returns the entities that match the given comma-separated list of entities.
+     * @param str The comma-separated list of entities (including wildcards)
+     * @return The entities that match the given list
      */
-    public List<Entity> list(String name)
+    public List<Entity> list(String str)
+    {
+        Map<String,Entity> map = new LinkedHashMap<String,Entity>();
+
+        if(str == null || str.length() == 0) // Select all entities by default
+            str = "%";
+        String[] tokens = str.split(",");
+        for(String token : tokens)
+        {
+            token = token.trim();
+            if(token.length() > 0)
+            {
+                Pattern pattern = Pattern.compile(token.replace("?", ".?").replace("%", ".*?"));
+                for(Entity entity : names.values())
+                {
+                   if(pattern.matcher(entity.getName()).matches())
+                        map.put(entity.getName(), entity);
+                }
+            }
+        }
+
+        List<Entity> ret = new ArrayList<Entity>();
+        ret.addAll(map.values());
+        return ret;
+    }
+
+    /**
+     * Returns the entities that match the given ids.
+     * @param ids The list of the entity ids
+     * @return The entities that match the given ids
+     */
+    public List<Entity> list(List<Long> ids)
     {
         List<Entity> ret = new ArrayList<Entity>();
 
-        if(name == null || name.length() == 0) // Select all entities by default
-            name = "%";
-        Pattern pattern = Pattern.compile(name.replace("?", ".?").replace("%", ".*?"));
-        for(Entity entity : names.values())
+        if(ids != null)
         {
-            if(pattern.matcher(entity.getName()).matches())
-                ret.add(entity);
+            for(Long id : ids)
+            {
+                Entity entity = get(id);
+                if(entity != null)
+                    ret.add(entity);
+            }
         }
 
         return ret;
