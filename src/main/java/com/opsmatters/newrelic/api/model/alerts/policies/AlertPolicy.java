@@ -16,9 +16,11 @@
 
 package com.opsmatters.newrelic.api.model.alerts.policies;
 
+import java.util.List;
 import com.google.gson.annotations.SerializedName;
 import com.opsmatters.newrelic.api.model.NamedIdResource;
 import com.opsmatters.newrelic.api.model.alerts.IncidentPreference;
+
 /**
  * Represents a New Relic alert policy.  
  * 
@@ -38,6 +40,9 @@ public class AlertPolicy extends NamedIdResource
 
     @SerializedName("updated_at")
     private Long updatedAt;
+
+    // Added to facilitate adding channels to alert policies
+    private transient AlertPolicyChannel channels;
 
     /**
      * Default constructor.
@@ -92,6 +97,33 @@ public class AlertPolicy extends NamedIdResource
     }
 
     /**
+     * Sets the channels for the policy.
+     * @param channels The channels for the policy
+     */
+    public void setChannels(AlertPolicyChannel channels)
+    {
+        this.channels = channels;
+    }
+
+    /**
+     * Sets the channels for the policy.
+     * @param channelIds The channels for the policy
+     */
+    public void setChannelIds(List<Long> channelIds)
+    {
+        setChannels(AlertPolicyChannel.builder().channelIds(channelIds).build());
+    }
+
+    /**
+     * Returns the channels for the policy.
+     * @return The channels for the policy
+     */
+    public AlertPolicyChannel getChannels()
+    {
+        return channels;
+    }
+
+    /**
      * Returns a string representation of the object.
      */
     @Override
@@ -101,6 +133,7 @@ public class AlertPolicy extends NamedIdResource
             +", incidentPreference="+incidentPreference
             +", createdAt="+createdAt
             +", updatedAt="+updatedAt
+            +", channels="+channels
             +"]";
     }
 

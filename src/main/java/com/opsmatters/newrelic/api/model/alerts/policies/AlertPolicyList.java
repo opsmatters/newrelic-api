@@ -73,10 +73,19 @@ public class AlertPolicyList
     /**
      * Returns the alert policy for the given id.
      * @param id The id of the alert policy
-     * @return The alert policy for the given name
+     * @return The alert policy for the given id
      */
     public AlertPolicy get(long id)
     {
         return ids.get(id);
+    }
+
+    /**
+     * Returns the number of alert policies.
+     * @return The number of alert policies
+     */
+    public int size()
+    {
+        return ids.size();
     }
 }

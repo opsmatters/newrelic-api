@@ -52,6 +52,15 @@ public class AlertPolicyChannel extends IdResource
     }
 
     /**
+     * Sets the list of channel ids for the policy.
+     * @param channelIds The list of channel ids
+     */
+    public void setChannelIds(List<Long> channelIds)
+    {
+        this.channelIds = channelIds;
+    }
+
+    /**
      * Returns the array of channel ids for the policy.
      * @return The array of channel ids
      */
@@ -72,5 +81,53 @@ public class AlertPolicyChannel extends IdResource
         return "AlertPolicyChannel ["+super.toString()
             +", channelIds="+channelIds
             +"]";
+    }
+
+    /**
+     * Returns a builder for the alert policy channel.
+     * @return The builder instance.
+     */
+    public static Builder builder()
+    {
+        return new Builder();
+    }
+
+    /**
+     * Builder to make alert policy channel construction easier.
+     */
+    public static class Builder
+    {
+        private AlertPolicyChannel policyChannel = new AlertPolicyChannel();
+
+        /**
+         * Sets the id of the alert policy channel.
+         * @param id The id of the alert policy channel
+         * @return This object
+         */
+        public Builder id(long id)
+        {
+            policyChannel.setId(id);
+            return this;
+        }
+
+        /**
+         * Sets the channel ids of the alert policy channel.
+         * @param channelIds The channel ids of the alert policy channel
+         * @return This object
+         */
+        public Builder channelIds(List<Long> channelIds)
+        {
+            policyChannel.setChannelIds(channelIds);
+            return this;
+        }
+
+        /**
+         * Returns the configured alert policy channel instance
+         * @return The alert policy channel instance
+         */
+        public AlertPolicyChannel build()
+        {
+            return policyChannel;
+        }
     }
 }

@@ -75,11 +75,20 @@ public class EntityList
     /**
      * Returns the entity for the given id.
      * @param id The id of the entity
-     * @return The entity for the given name
+     * @return The entity for the given id
      */
     public Entity get(long id)
     {
         return ids.get(id);
+    }
+
+    /**
+     * Returns the number of entities.
+     * @return The number of entities
+     */
+    public int size()
+    {
+        return ids.size();
     }
 
     /**
