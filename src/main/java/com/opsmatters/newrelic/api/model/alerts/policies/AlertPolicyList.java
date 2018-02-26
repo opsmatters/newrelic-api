@@ -17,8 +17,10 @@
 package com.opsmatters.newrelic.api.model.alerts.policies;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.regex.Pattern;
 
 /**
  * Adds lookup functions to a list of New Relic alert policies.
@@ -87,5 +89,58 @@ public class AlertPolicyList
     public int size()
     {
         return ids.size();
+    }
+
+    /**
+     * Returns the policies that match the given comma-separated list of policies.
+     * @param str The comma-separated list of policies (including wildcards)
+     * @return The policies that match the given list
+     */
+    public List<AlertPolicy> list(String str)
+    {
+        Map<String,AlertPolicy> map = new LinkedHashMap<String,AlertPolicy>();
+
+        if(str == null || str.length() == 0) // Select all policies by default
+            str = "%";
+        String[] tokens = str.split(",");
+        for(String token : tokens)
+        {
+            token = token.trim();
+            if(token.length() > 0)
+            {
+                Pattern pattern = Pattern.compile(token.replace("?", ".?").replace("%", ".*?"));
+                for(AlertPolicy policy : names.values())
+                {
+                   if(pattern.matcher(policy.getName()).matches())
+                        map.put(policy.getName(), policy);
+                }
+            }
+        }
+
+        List<AlertPolicy> ret = new ArrayList<AlertPolicy>();
+        ret.addAll(map.values());
+        return ret;
+    }
+
+    /**
+     * Returns the policies that match the given ids.
+     * @param ids The list of the policy ids
+     * @return The policies that match the given ids
+     */
+    public List<AlertPolicy> list(List<Long> ids)
+    {
+        List<AlertPolicy> ret = new ArrayList<AlertPolicy>();
+
+        if(ids != null)
+        {
+            for(Long id : ids)
+            {
+                AlertPolicy policy = get(id);
+                if(policy != null)
+                    ret.add(policy);
+            }
+        }
+
+        return ret;
     }
 }
