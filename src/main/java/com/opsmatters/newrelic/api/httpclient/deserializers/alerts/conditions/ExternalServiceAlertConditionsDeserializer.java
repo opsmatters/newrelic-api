@@ -61,8 +61,10 @@ public class ExternalServiceAlertConditionsDeserializer implements JsonDeseriali
                         {
                             case APM:
                                 values.add(gson.fromJson(condition, ApmExternalServiceAlertCondition.class));
+                                break;
                             case MOBILE:
                                 values.add(gson.fromJson(condition, MobileExternalServiceAlertCondition.class));
+                                break;
                         }
                     }
                 }
