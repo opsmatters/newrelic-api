@@ -17,19 +17,15 @@
 package com.opsmatters.newrelic.api.model.alerts.channels;
 
 import java.util.List;
-import java.util.Map;
-import java.util.LinkedHashMap;
+import com.opsmatters.newrelic.api.util.ResourceList;
 
 /**
  * Adds lookup functions to a list of New Relic alert channels.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertChannelList
+public class AlertChannelList extends ResourceList<AlertChannel>
 {
-    private Map<String,AlertChannel> names = new LinkedHashMap<String,AlertChannel>();
-    private Map<Long,AlertChannel> ids = new LinkedHashMap<Long,AlertChannel>();
-
     /**
      * Default constructor.
      */
@@ -44,48 +40,5 @@ public class AlertChannelList
     public AlertChannelList(List<AlertChannel> channels)
     {
         add(channels);
-    }
-
-    /**
-     * Adds a list of alert channels.
-     * @param channels The alert channels to add
-     */
-    public void add(List<AlertChannel> channels)
-    {
-        for(AlertChannel channel : channels)
-        {
-            names.put(channel.getName(), channel);
-            if(channel.getId() != null)
-                ids.put(channel.getId(), channel);
-        }
-    }
-
-    /**
-     * Returns the first alert channel for the given name.
-     * @param name The name of the alert channel
-     * @return The first alert channel for the given name
-     */
-    public AlertChannel get(String name)
-    {
-        return names.get(name);
-    }
-
-    /**
-     * Returns the alert channel for the given id.
-     * @param id The id of the alert channel
-     * @return The alert channel for the given id
-     */
-    public AlertChannel get(long id)
-    {
-        return ids.get(id);
-    }
-
-    /**
-     * Returns the number of alert channels.
-     * @return The number of alert channels
-     */
-    public int size()
-    {
-        return ids.size();
     }
 }

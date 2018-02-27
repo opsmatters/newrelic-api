@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 import com.opsmatters.newrelic.api.model.IdResource;
+import com.opsmatters.newrelic.api.model.NamedResource;
 import com.opsmatters.newrelic.api.model.insights.widgets.Widget;
 
 /**
@@ -27,7 +28,7 @@ import com.opsmatters.newrelic.api.model.insights.widgets.Widget;
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class Dashboard extends IdResource
+public class Dashboard extends IdResource implements NamedResource
 {
     // The field names
     public static final String TITLE = "title";
@@ -194,6 +195,24 @@ public class Dashboard extends IdResource
     public String getTitle()
     {
         return title;
+    }
+
+    /**
+     * Sets the title of the dashboard.
+     * @param name The title of the dashboard
+     */
+    public void setName(String name)
+    {
+        setName(name);
+    }
+
+    /**
+     * Returns the title of the dashboard.
+     * @return The title of the dashboard
+     */
+    public String getName()
+    {
+        return getTitle();
     }
 
     /**

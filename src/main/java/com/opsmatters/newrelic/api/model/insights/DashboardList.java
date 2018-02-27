@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-package com.opsmatters.newrelic.api.model;
+package com.opsmatters.newrelic.api.model.insights;
 
 import java.util.List;
 import com.opsmatters.newrelic.api.util.ResourceList;
 
 /**
- * Adds lookup functions to a list of New Relic entities.
+ * Adds lookup functions to a list of New Relic dashboards.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class EntityList extends ResourceList<Entity>
+public class DashboardList extends ResourceList<Dashboard>
 {
     /**
      * Default constructor.
      */
-    public EntityList()
+    public DashboardList()
     {
     }
 
     /**
-     * Constructor that takes a list of entities.
-     * @param entities The entities for the list
+     * Constructor that takes a list of dashboards.
+     * @param dashboards The dashboards for the list
      */
-    public EntityList(List<Entity> entities)
+    public DashboardList(List<Dashboard> dashboards)
     {
-        add(entities);
+        add(dashboards);
     }
 }

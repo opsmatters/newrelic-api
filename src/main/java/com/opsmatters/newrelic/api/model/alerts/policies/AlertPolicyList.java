@@ -17,21 +17,15 @@
 package com.opsmatters.newrelic.api.model.alerts.policies;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.regex.Pattern;
+import com.opsmatters.newrelic.api.util.ResourceList;
 
 /**
  * Adds lookup functions to a list of New Relic alert policies.
  * 
  * @author Gerald Curley (opsmatters)
  */
-public class AlertPolicyList
+public class AlertPolicyList extends ResourceList<AlertPolicy>
 {
-    private Map<String,AlertPolicy> names = new LinkedHashMap<String,AlertPolicy>();
-    private Map<Long,AlertPolicy> ids = new LinkedHashMap<Long,AlertPolicy>();
-
     /**
      * Default constructor.
      */
@@ -46,101 +40,5 @@ public class AlertPolicyList
     public AlertPolicyList(List<AlertPolicy> policies)
     {
         add(policies);
-    }
-
-    /**
-     * Adds a list of alert policies.
-     * @param policies The alert policies to add
-     */
-    public void add(List<AlertPolicy> policies)
-    {
-        for(AlertPolicy policy : policies)
-        {
-            names.put(policy.getName(), policy);
-            if(policy.getId() != null)
-                ids.put(policy.getId(), policy);
-        }
-    }
-
-    /**
-     * Returns the first alert policy for the given name.
-     * @param name The name of the alert policy
-     * @return The first alert policy for the given name
-     */
-    public AlertPolicy get(String name)
-    {
-        return names.get(name);
-    }
-
-    /**
-     * Returns the alert policy for the given id.
-     * @param id The id of the alert policy
-     * @return The alert policy for the given id
-     */
-    public AlertPolicy get(long id)
-    {
-        return ids.get(id);
-    }
-
-    /**
-     * Returns the number of alert policies.
-     * @return The number of alert policies
-     */
-    public int size()
-    {
-        return ids.size();
-    }
-
-    /**
-     * Returns the policies that match the given comma-separated list of policies.
-     * @param str The comma-separated list of policies (including wildcards)
-     * @return The policies that match the given list
-     */
-    public List<AlertPolicy> list(String str)
-    {
-        Map<String,AlertPolicy> map = new LinkedHashMap<String,AlertPolicy>();
-
-        if(str == null || str.length() == 0) // Select all policies by default
-            str = "%";
-        String[] tokens = str.split(",");
-        for(String token : tokens)
-        {
-            token = token.trim();
-            if(token.length() > 0)
-            {
-                Pattern pattern = Pattern.compile(token.replace("?", ".?").replace("%", ".*?"));
-                for(AlertPolicy policy : names.values())
-                {
-                   if(pattern.matcher(policy.getName()).matches())
-                        map.put(policy.getName(), policy);
-                }
-            }
-        }
-
-        List<AlertPolicy> ret = new ArrayList<AlertPolicy>();
-        ret.addAll(map.values());
-        return ret;
-    }
-
-    /**
-     * Returns the policies that match the given ids.
-     * @param ids The list of the policy ids
-     * @return The policies that match the given ids
-     */
-    public List<AlertPolicy> list(List<Long> ids)
-    {
-        List<AlertPolicy> ret = new ArrayList<AlertPolicy>();
-
-        if(ids != null)
-        {
-            for(Long id : ids)
-            {
-                AlertPolicy policy = get(id);
-                if(policy != null)
-                    ret.add(policy);
-            }
-        }
-
-        return ret;
     }
 }
