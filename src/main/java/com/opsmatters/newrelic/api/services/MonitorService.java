@@ -25,6 +25,7 @@ import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.synthetics.Monitor;
 import com.opsmatters.newrelic.api.model.synthetics.Script;
 import com.opsmatters.newrelic.api.model.labels.Label;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * The set of operations used for Synthetics monitors.
@@ -45,23 +46,42 @@ public class MonitorService extends BaseFluent
 
     /**
      * Returns the set of monitors.
+     * @param offset The monitor count offset. Defaults to 0.
+     * @param limit The number of results per page, maximum 100. Defaults to 20.
+     * @return The set of monitors
+     */
+    public Collection<Monitor> list(int offset, int limit)
+    {
+        QueryParameterList queryParams = new QueryParameterList();
+        if(offset > 0)
+            queryParams.add("offset", Integer.toString(offset));
+        if(limit > 0)
+            queryParams.add("limit", Integer.toString(limit));
+        return HTTP.GET("/v3/monitors", null, queryParams, MONITORS).get();
+    }
+
+    /**
+     * Returns the set of monitors.
+     * <P> Defaults to page size of 20 monitors with 0 offset.
      * @return The set of monitors
      */
     public Collection<Monitor> list()
     {
-        return HTTP.GET("/v3/monitors", MONITORS).get();
+        return list(0, -1);
     }
 
     /**
      * Returns the set of monitors with the given type and where the name contains the given (partial) name.
      * @param name The name of the monitors to return. Can be a partial name. A null value returns all monitors.
      * @param type The type of the monitors to return. A null value returns all monitors.
+     * @param offset The monitor count offset. Defaults to 0.
+     * @param limit The number of results per page, maximum 100. Defaults to 20.
      * @return The set of monitors
      */
-    public Collection<Monitor> list(String name, String type)
+    public Collection<Monitor> list(String name, String type, int offset, int limit)
     {
         List<Monitor> ret = new ArrayList<Monitor>();
-        Collection<Monitor> monitors = list();
+        Collection<Monitor> monitors = list(offset, limit);
         for(Monitor monitor : monitors)
         {
             if((name == null || monitor.getName().toLowerCase().indexOf(name) != -1)
@@ -71,6 +91,18 @@ public class MonitorService extends BaseFluent
             }
         }
         return ret;
+    }
+
+    /**
+     * Returns the set of monitors with the given type and where the name contains the given (partial) name.
+     * <P> Defaults to page size of 20 monitors with 0 offset.
+     * @param name The name of the monitors to return. Can be a partial name. A null value returns all monitors.
+     * @param type The type of the monitors to return. A null value returns all monitors.
+     * @return The set of monitors
+     */
+    public Collection<Monitor> list(String name, String type)
+    {
+        return list(name, type, 0, -1);
     }
 
     /**
