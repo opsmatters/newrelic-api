@@ -16,6 +16,7 @@
 
 package com.opsmatters.newrelic.api.services;
 
+import java.util.List;
 import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
@@ -41,11 +42,22 @@ public class AlertPolicyService extends BaseFluent
 
     /**
      * Returns the set of alert policies.
+     * @param queryParams The query parameters
+     * @return The set of alert policies
+     */
+    public Collection<AlertPolicy> list(List<String> queryParams)
+    {
+        return HTTP.GET("/v2/alerts_policies.json", null, queryParams, ALERT_POLICIES).get();
+    }
+
+    /**
+     * Returns the set of alert policies.
      * @return The set of alert policies
      */
     public Collection<AlertPolicy> list()
     {
-        return HTTP.GET("/v2/alerts_policies.json", null, null, ALERT_POLICIES).get();
+        QueryParameterList queryParams = null;
+        return list(queryParams);
     }
 
     /**
@@ -55,10 +67,7 @@ public class AlertPolicyService extends BaseFluent
      */
     public Collection<AlertPolicy> list(String name)
     {
-        QueryParameterList queryParams = new QueryParameterList();
-        if(name != null)
-            queryParams.add("filter[name]", name);
-        return HTTP.GET("/v2/alerts_policies.json", null, queryParams, ALERT_POLICIES).get();
+        return list(filters().name(name).build());
     }
 
     /**
@@ -122,5 +131,55 @@ public class AlertPolicyService extends BaseFluent
     {
         HTTP.DELETE(String.format("/v2/alerts_policies/%d.json", policyId));       
         return this;
+    }
+
+    /**
+     * Returns a builder for the alert policy filters.
+     * @return The builder instance.
+     */
+    public static FilterBuilder filters()
+    {
+        return new FilterBuilder();
+    }
+
+    /**
+     * Builder to make filter construction easier.
+     */
+    public static class FilterBuilder
+    {
+        private QueryParameterList filters = new QueryParameterList();
+
+        /**
+         * Adds the name filter to the filters.
+         * @param name The name to filter on
+         * @return This object
+         */
+        public FilterBuilder name(String name)
+        {
+            if(name != null)
+                filters.add("filter[name]", name);
+            return this;
+        }
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
+            return this;
+        }
+
+        /**
+         * Returns the configured filters
+         * @return The filters
+         */
+        public List<String> build()
+        {
+            return filters;
+        }
     }
 }

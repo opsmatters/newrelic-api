@@ -16,12 +16,13 @@
 
 package com.opsmatters.newrelic.api.services;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.labels.Label;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * The set of operations used for labels.
@@ -42,11 +43,22 @@ public class LabelService extends BaseFluent
 
     /**
      * Returns the set of labels.
+     * @param queryParams The query parameters
+     * @return The set of labels
+     */
+    public Collection<Label> list(List<String> queryParams)
+    {
+        return HTTP.GET("/v2/labels.json", null, queryParams, LABELS).get();
+    }
+
+    /**
+     * Returns the set of labels.
      * @return The set of labels
      */
     public Collection<Label> list()
     {
-        return HTTP.GET("/v2/labels.json", null, null, LABELS).get();
+        QueryParameterList queryParams = null;
+        return list(queryParams);
     }
 
     /**
@@ -104,5 +116,43 @@ public class LabelService extends BaseFluent
     {
         HTTP.DELETE(String.format("/v2/labels/%s.json", encode(key)));       
         return this;
+    }
+
+    /**
+     * Returns a builder for the label filters.
+     * @return The builder instance.
+     */
+    public static FilterBuilder filters()
+    {
+        return new FilterBuilder();
+    }
+
+    /**
+     * Builder to make filter construction easier.
+     */
+    public static class FilterBuilder
+    {
+        private QueryParameterList filters = new QueryParameterList();
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
+            return this;
+        }
+
+        /**
+         * Returns the configured filters
+         * @return The filters
+         */
+        public List<String> build()
+        {
+            return filters;
+        }
     }
 }

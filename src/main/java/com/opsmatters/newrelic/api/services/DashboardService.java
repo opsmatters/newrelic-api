@@ -255,6 +255,18 @@ public class DashboardService extends BaseFluent
         }
 
         /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
+            return this;
+        }
+
+        /**
          * Returns the configured filters
          * @return The filters
          */

@@ -42,15 +42,23 @@ public class ExternalServiceAlertConditionService extends BaseFluent
     }
 
     /**
+     * Returns the set of alert conditions for the given query parameters.
+     * @param queryParams The query parameters
+     * @return The set of alert conditions
+     */
+    public Collection<ExternalServiceAlertCondition> list(List<String> queryParams)
+    {
+        return HTTP.GET("/v2/alerts_external_service_conditions.json", null, queryParams, EXTERNAL_SERVICE_ALERT_CONDITIONS).get();
+    }
+
+    /**
      * Returns the set of alert conditions for the given policy id.
      * @param policyId The id of the alert policy to return the conditions for
      * @return The set of alert conditions
      */
     public Collection<ExternalServiceAlertCondition> list(long policyId)
     {
-        QueryParameterList queryParams = new QueryParameterList();
-        queryParams.add("policy_id", new Long(policyId));
-        return HTTP.GET("/v2/alerts_external_service_conditions.json", null, queryParams, EXTERNAL_SERVICE_ALERT_CONDITIONS).get();
+        return list(filters().policyId(policyId).build());
     }
 
     /**
@@ -121,5 +129,55 @@ public class ExternalServiceAlertConditionService extends BaseFluent
     {
         HTTP.DELETE(String.format("/v2/alerts_external_service_conditions/%d.json", conditionId));       
         return this;
+    }
+
+    /**
+     * Returns a builder for the external service alert condition filters.
+     * @return The builder instance.
+     */
+    public static FilterBuilder filters()
+    {
+        return new FilterBuilder();
+    }
+
+    /**
+     * Builder to make filter construction easier.
+     */
+    public static class FilterBuilder
+    {
+        private QueryParameterList filters = new QueryParameterList();
+
+        /**
+         * Adds the policyId filter to the filters.
+         * @param policyId The policyId to filter on
+         * @return This object
+         */
+        public FilterBuilder policyId(long policyId)
+        {
+            if(policyId > 0L)
+                filters.add("policy_id", policyId);
+            return this;
+        }
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
+            return this;
+        }
+
+        /**
+         * Returns the configured filters
+         * @return The filters
+         */
+        public List<String> build()
+        {
+            return filters;
+        }
     }
 }

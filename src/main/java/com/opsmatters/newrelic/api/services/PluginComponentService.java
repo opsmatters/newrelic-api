@@ -16,8 +16,8 @@
 
 package com.opsmatters.newrelic.api.services;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.plugins.PluginComponent;
@@ -163,6 +163,18 @@ public class PluginComponentService extends BaseFluent
         public FilterBuilder healthStatus(boolean healthStatus)
         {
             filters.add("health_status", Boolean.toString(healthStatus));
+            return this;
+        }
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
             return this;
         }
 

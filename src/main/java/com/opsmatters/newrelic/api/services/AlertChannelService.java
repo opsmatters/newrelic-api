@@ -25,6 +25,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.alerts.channels.AlertChannel;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * The set of operations used for alert channels.
@@ -45,11 +46,22 @@ public class AlertChannelService extends BaseFluent
 
     /**
      * Returns the set of alert channels.
+     * @param queryParams The query parameters
+     * @return The set of alert channels
+     */
+    public Collection<AlertChannel> list(List<String> queryParams)
+    {
+        return HTTP.GET("/v2/alerts_channels.json", null, queryParams, ALERT_CHANNELS).get();
+    }
+
+    /**
+     * Returns the set of alert channels.
      * @return The set of alert channels
      */
     public Collection<AlertChannel> list()
     {
-        return HTTP.GET("/v2/alerts_channels.json", null, null, ALERT_CHANNELS).get();
+        QueryParameterList queryParams = null;
+        return list(queryParams);
     }
 
     /**
@@ -149,5 +161,43 @@ public class AlertChannelService extends BaseFluent
     {
         HTTP.DELETE(String.format("/v2/alerts_channels/%d.json", channelId));
         return this;
+    }
+
+    /**
+     * Returns a builder for the alert channel filters.
+     * @return The builder instance.
+     */
+    public static FilterBuilder filters()
+    {
+        return new FilterBuilder();
+    }
+
+    /**
+     * Builder to make filter construction easier.
+     */
+    public static class FilterBuilder
+    {
+        private QueryParameterList filters = new QueryParameterList();
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
+            return this;
+        }
+
+        /**
+         * Returns the configured filters
+         * @return The filters
+         */
+        public List<String> build()
+        {
+            return filters;
+        }
     }
 }

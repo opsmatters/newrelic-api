@@ -16,8 +16,8 @@
 
 package com.opsmatters.newrelic.api.services;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Collection;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.EntityType;
 import com.opsmatters.newrelic.api.model.accounts.Product;
@@ -169,6 +169,18 @@ public class AlertEventService extends BaseFluent
         public FilterBuilder incidentId(long incidentId)
         {
             filters.add("filter[incident_id]", incidentId);
+            return this;
+        }
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
             return this;
         }
 

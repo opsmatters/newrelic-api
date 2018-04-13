@@ -42,7 +42,7 @@ public class InfraAlertConditionService extends BaseFluent
     }
 
     /**
-     * Returns the set of alert conditions for the given policy id.
+     * Returns the set of alert conditions for the given query parameters.
      * @param queryParams The query parameters
      * @return The set of alert conditions
      */

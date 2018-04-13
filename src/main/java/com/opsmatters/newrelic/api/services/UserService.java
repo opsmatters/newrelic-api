@@ -16,9 +16,9 @@
 
 package com.opsmatters.newrelic.api.services;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.accounts.User;
@@ -136,6 +136,18 @@ public class UserService extends BaseFluent
         public FilterBuilder ids(String ids)
         {
             filters.add("filter[ids]", ids);
+            return this;
+        }
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
             return this;
         }
 

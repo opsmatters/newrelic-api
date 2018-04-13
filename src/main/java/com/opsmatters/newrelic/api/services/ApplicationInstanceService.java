@@ -16,8 +16,8 @@
 
 package com.opsmatters.newrelic.api.services;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.applications.ApplicationInstance;
@@ -113,6 +113,15 @@ public class ApplicationInstanceService extends BaseFluent
     }
 
     /**
+     * Returns a builder for the metric data parameters.
+     * @return The builder instance.
+     */
+    public static MetricParameterBuilder metrics()
+    {
+        return new MetricParameterBuilder();
+    }
+
+    /**
      * Returns a builder for the application instance filters.
      * @return The builder instance.
      */
@@ -151,6 +160,18 @@ public class ApplicationInstanceService extends BaseFluent
         }
 
         /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
+            return this;
+        }
+
+        /**
          * Returns the configured filters
          * @return The filters
          */
@@ -158,14 +179,5 @@ public class ApplicationInstanceService extends BaseFluent
         {
             return filters;
         }
-    }
-
-    /**
-     * Returns a builder for the metric data parameters.
-     * @return The builder instance.
-     */
-    public static MetricParameterBuilder metrics()
-    {
-        return new MetricParameterBuilder();
     }
 }

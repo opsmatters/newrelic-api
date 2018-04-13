@@ -16,10 +16,12 @@
 
 package com.opsmatters.newrelic.api.services;
 
+import java.util.List;
 import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.deployments.Deployment;
+import com.opsmatters.newrelic.api.util.QueryParameterList;
 
 /**
  * The set of operations used for deployments.
@@ -41,11 +43,22 @@ public class DeploymentService extends BaseFluent
     /**
      * Returns the set of deployments.
      * @param applicationId The application id for the deployments
+     * @param queryParams The query parameters
+     * @return The set of deployments
+     */
+    public Collection<Deployment> list(long applicationId, List<String> queryParams)
+    {
+        return HTTP.GET(String.format("/v2/applications/%d/deployments.json", applicationId), null, queryParams, DEPLOYMENTS).get();
+    }
+
+    /**
+     * Returns the set of deployments.
+     * @param applicationId The application id for the deployments
      * @return The set of deployments
      */
     public Collection<Deployment> list(long applicationId)
     {
-        return HTTP.GET(String.format("/v2/applications/%d/deployments.json", applicationId), null, null, DEPLOYMENTS).get();
+        return list(applicationId, null);
     }
 
     /**
@@ -89,5 +102,43 @@ public class DeploymentService extends BaseFluent
     {
         HTTP.DELETE(String.format("/v2/applications/%d/deployments/%d.json", applicationId, deploymentId));       
         return this;
+    }
+
+    /**
+     * Returns a builder for the deployment filters.
+     * @return The builder instance.
+     */
+    public static FilterBuilder filters()
+    {
+        return new FilterBuilder();
+    }
+
+    /**
+     * Builder to make filter construction easier.
+     */
+    public static class FilterBuilder
+    {
+        private QueryParameterList filters = new QueryParameterList();
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
+            return this;
+        }
+
+        /**
+         * Returns the configured filters
+         * @return The filters
+         */
+        public List<String> build()
+        {
+            return filters;
+        }
     }
 }

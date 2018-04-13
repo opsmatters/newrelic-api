@@ -16,9 +16,9 @@
 
 package com.opsmatters.newrelic.api.services;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 import com.google.common.base.Optional;
 import com.opsmatters.newrelic.api.NewRelicClient;
 import com.opsmatters.newrelic.api.model.applications.MobileApplication;
@@ -44,12 +44,24 @@ public class MobileApplicationService extends BaseFluent
     }
 
     /**
+     * Returns the set of Mobile applications with the given query parameters.
+     * @param queryParams The query parameters
+     * @return The set of applications
+     */
+    public Collection<MobileApplication> list(List<String> queryParams)
+    {
+        return HTTP.GET("/v2/mobile_applications.json", null, queryParams, MOBILE_APPLICATIONS).get();
+    }
+
+    /**
      * Returns the set of Mobile applications.
      * @return The set of applications
      */
     public Collection<MobileApplication> list()
     {
-        return HTTP.GET("/v2/mobile_applications.json", MOBILE_APPLICATIONS).get();
+        List<String> queryParams = null;
+        return list(queryParams);
+
     }
 
     /**
@@ -121,5 +133,65 @@ public class MobileApplicationService extends BaseFluent
     public static MetricParameterBuilder metrics()
     {
         return new MetricParameterBuilder();
+    }
+
+    /**
+     * Returns a builder for the Browser application filters.
+     * @return The builder instance.
+     */
+    public static FilterBuilder filters()
+    {
+        return new FilterBuilder();
+    }
+
+    /**
+     * Builder to make filter construction easier.
+     */
+    public static class FilterBuilder
+    {
+        private QueryParameterList filters = new QueryParameterList();
+
+        /**
+         * Adds the name filter to the filters.
+         * @param name The name to filter on
+         * @return This object
+         */
+        public FilterBuilder name(String name)
+        {
+            filters.add("filter[name]", name);
+            return this;
+        }
+
+        /**
+         * Adds the id filter to the filters.
+         * @param ids The comma-separated list of ids to filter on
+         * @return This object
+         */
+        public FilterBuilder ids(String ids)
+        {
+            filters.add("filter[ids]", ids);
+            return this;
+        }
+
+        /**
+         * Adds the page filter to the filters.
+         * @param page The page to filter on
+         * @return This object
+         */
+        public FilterBuilder page(int page)
+        {
+            if(page >= 0)
+                filters.add("page", page);
+            return this;
+        }
+
+        /**
+         * Returns the configured filters
+         * @return The filters
+         */
+        public List<String> build()
+        {
+            return filters;
+        }
     }
 }
