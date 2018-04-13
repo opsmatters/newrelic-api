@@ -46,18 +46,23 @@ public class MonitorService extends BaseFluent
 
     /**
      * Returns the set of monitors.
+     * @param queryParams The query parameters
+     * @return The set of monitors
+     */
+    public Collection<Monitor> list(List<String> queryParams)
+    {
+        return HTTP.GET("/v3/monitors", null, queryParams, MONITORS).get();
+    }
+
+    /**
+     * Returns the set of monitors.
      * @param offset The monitor count offset. Defaults to 0.
      * @param limit The number of results per page, maximum 100. Defaults to 20.
      * @return The set of monitors
      */
     public Collection<Monitor> list(int offset, int limit)
     {
-        QueryParameterList queryParams = new QueryParameterList();
-        if(offset > 0)
-            queryParams.add("offset", Integer.toString(offset));
-        if(limit > 0)
-            queryParams.add("limit", Integer.toString(limit));
-        return HTTP.GET("/v3/monitors", null, queryParams, MONITORS).get();
+        return list(filters().offset(offset).limit(limit).build());
     }
 
     /**
@@ -216,5 +221,55 @@ public class MonitorService extends BaseFluent
     {
         HTTP.DELETE(String.format("/v1/monitors/%s/labels/%s", monitorId, label.getKey()));
         return this;
+    }
+
+    /**
+     * Returns a builder for the monitor filters.
+     * @return The builder instance.
+     */
+    public static FilterBuilder filters()
+    {
+        return new FilterBuilder();
+    }
+
+    /**
+     * Builder to make filter construction easier.
+     */
+    public static class FilterBuilder
+    {
+        private QueryParameterList filters = new QueryParameterList();
+
+        /**
+         * Adds the offset filter to the filters.
+         * @param offset The offset to filter on
+         * @return This object
+         */
+        public FilterBuilder offset(int offset)
+        {
+            if(offset >= 0)
+                filters.add("offset", offset);
+            return this;
+        }
+
+        /**
+         * Adds the limit filter to the filters.
+         * @param limit The limit to filter on
+         * @return This object
+         */
+        public FilterBuilder limit(int limit)
+        {
+            if(limit >= 0)
+                filters.add("limit", limit);
+            return this;
+        }
+
+        /**
+         * Returns the configured filters
+         * @return The filters
+         */
+        public List<String> build()
+        {
+            return filters;
+        }
     }
 }
