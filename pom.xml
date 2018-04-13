@@ -29,7 +29,7 @@
     <url>https://github.com/opsmatters/newrelic-api</url>
     <connection>scm:git:https://github.com/opsmatters/newrelic-api.git</connection>
     <developerConnection>scm:git:https://github.com/opsmatters/newrelic-api.git</developerConnection>
-    <tag>newrelic-api-1.0.10</tag>
+    <tag>newrelic-api-1.0.11</tag>
   </scm>
 
   <developers>
