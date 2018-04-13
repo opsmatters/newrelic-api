@@ -43,14 +43,54 @@ public class InfraAlertConditionService extends BaseFluent
 
     /**
      * Returns the set of alert conditions for the given policy id.
+     * @param queryParams The query parameters
+     * @return The set of alert conditions
+     */
+    public Collection<InfraAlertCondition> list(List<String> queryParams)
+    {
+        return HTTP.GET("/v2/alerts/conditions", null, queryParams, INFRA_ALERT_CONDITIONS).get();
+    }
+
+    /**
+     * Returns the set of alert conditions for the given policy id.
+     * @param policyId The id of the alert policy to return the conditions for
+     * @param offset The item count offset
+     * @param limit The number of results per page, maximum 50
+     * @return The set of alert conditions
+     */
+    public Collection<InfraAlertCondition> list(long policyId, int offset, int limit)
+    {
+        return list(filters().policyId(policyId).offset(offset).limit(limit).build());
+    }
+
+    /**
+     * Returns the set of alert conditions for the given policy id.
      * @param policyId The id of the alert policy to return the conditions for
      * @return The set of alert conditions
      */
     public Collection<InfraAlertCondition> list(long policyId)
     {
-        QueryParameterList queryParams = new QueryParameterList();
-        queryParams.add("policy_id", policyId);
-        return HTTP.GET("/v2/alerts/conditions", null, queryParams, INFRA_ALERT_CONDITIONS).get();
+        return list(policyId, 0, -1);
+    }
+
+    /**
+     * Returns the set of alert conditions for the given policy id and name.
+     * @param policyId The id of the alert policy to return the conditions for
+     * @param name The name of the conditions
+     * @param offset The item count offset
+     * @param limit The number of results per page, maximum 50
+     * @return The set of alert conditions
+     */
+    public Collection<InfraAlertCondition> list(long policyId, String name, int offset, int limit)
+    {
+        List<InfraAlertCondition> ret = new ArrayList<InfraAlertCondition>();
+        Collection<InfraAlertCondition> conditions = list(policyId, offset, limit);
+        for(InfraAlertCondition condition : conditions)
+        {
+            if(condition.getName().equals(name))
+                ret.add(condition);
+        }
+        return ret;
     }
 
     /**
@@ -61,14 +101,7 @@ public class InfraAlertConditionService extends BaseFluent
      */
     public Collection<InfraAlertCondition> list(long policyId, String name)
     {
-        List<InfraAlertCondition> ret = new ArrayList<InfraAlertCondition>();
-        Collection<InfraAlertCondition> conditions = list(policyId);
-        for(InfraAlertCondition condition : conditions)
-        {
-            if(condition.getName().equals(name))
-                ret.add(condition);
-        }
-        return ret;
+        return list(policyId, name, 0, -1);
     }
 
     /**
@@ -110,5 +143,67 @@ public class InfraAlertConditionService extends BaseFluent
     {
         HTTP.DELETE(String.format("/v2/alerts/conditions/%d", conditionId));       
         return this;
+    }
+
+    /**
+     * Returns a builder for the infrastructure alert condition filters.
+     * @return The builder instance.
+     */
+    public static FilterBuilder filters()
+    {
+        return new FilterBuilder();
+    }
+
+    /**
+     * Builder to make filter construction easier.
+     */
+    public static class FilterBuilder
+    {
+        private QueryParameterList filters = new QueryParameterList();
+
+        /**
+         * Adds the policyId filter to the filters.
+         * @param policyId The policyId to filter on
+         * @return This object
+         */
+        public FilterBuilder policyId(long policyId)
+        {
+            if(policyId > 0L)
+                filters.add("policy_id", policyId);
+            return this;
+        }
+
+        /**
+         * Adds the offset filter to the filters.
+         * @param offset The offset to filter on
+         * @return This object
+         */
+        public FilterBuilder offset(int offset)
+        {
+            if(offset >= 0)
+                filters.add("offset", offset);
+            return this;
+        }
+
+        /**
+         * Adds the limit filter to the filters.
+         * @param limit The limit to filter on
+         * @return This object
+         */
+        public FilterBuilder limit(int limit)
+        {
+            if(limit >= 0)
+                filters.add("limit", limit);
+            return this;
+        }
+
+        /**
+         * Returns the configured filters
+         * @return The filters
+         */
+        public List<String> build()
+        {
+            return filters;
+        }
     }
 }
