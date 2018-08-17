@@ -27,6 +27,10 @@ import java.util.Map;
 public class QueryData
 {
     private List<Map<String,Object>> results;
+    
+    private List<Map<String,Object>> facets;
+    
+    private Map<String,Object> totalResult;
 
     private Map<String,Object> performanceStats;
 
@@ -47,7 +51,19 @@ public class QueryData
     {
         return results;
     }
+    
+    /**
+     * Returns the list of facets.
+     * @return The list of facets
+     */
+    public List<Map<String,Object>> getFacets() {
+    		return facets;
+    }
 
+    public Map<String,Object> getTotalResult() {
+    		return totalResult;
+    }
+    
     /**
      * Returns the list of performance stats.
      * @return The list of performance stats
@@ -73,7 +89,9 @@ public class QueryData
     public String toString()
     {
         return "QueryData [results="+results
-            +", performanceStats="+performanceStats
+           +", facets="+facets
+           +", totalResult="+totalResult
+           +", performanceStats="+performanceStats
             +", metadata="+metadata
             +"]";
     }
