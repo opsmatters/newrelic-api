@@ -44,7 +44,7 @@ public class QueryData
     }
 
     /**
-     * Returns the list of results.
+     * Returns the list of results. Not applicable for a faceted query.
      * @return The list of results
      */
     public List<Map<String,Object>> getResults()
@@ -53,15 +53,26 @@ public class QueryData
     }
     
     /**
-     * Returns the list of facets.
+     * Returns the list of facets. Applicable only for a faceted query.
      * @return The list of facets
      */
     public List<Map<String,Object>> getFacets() {
-    		return facets;
+            return facets;
     }
 
-    public Map<String,Object> getTotalResult() {
-    		return totalResult;
+    /**
+     * Returns the result for all entities that match within the query timeframe, regardless of the FACET clause. 
+     * Applicable only for a faceted query. For instance, the <b>total result</b> of this faceted query:
+     * <br/><br/>
+     * <code>SELECT count(*) FROM PageView FACET pageUrl</code> 
+     * <br/><br/>
+     * is the same as the <b>result</b> of this non-faceted query:
+     * <br/><br/>
+     * <code>SELECT count(*) FROM PageView</code>
+     * @return the total results for a faceted query
+     */
+     public Map<String,Object> getTotalResult() {
+    	return totalResult;
     }
     
     /**
