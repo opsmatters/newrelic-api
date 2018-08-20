@@ -62,10 +62,14 @@ public class QueryData
 
     /**
      * Returns the result for all entities that match within the query timeframe, regardless of the FACET clause. 
-     * Applicable only for a faceted query. For instance, the <b>total result</b> of this faceted query:
-     * <code>SELECT count(*) FROM PageView FACET pageUrl</code> 
-     * is the same as the <b>result</b> of this non-faceted query:
-     * <code>SELECT count(*) FROM PageView</code>
+     * Applicable only for a faceted query. For instance, the total result of this faceted query:
+     * 
+     * SELECT count(*) FROM PageView FACET pageUrl
+     * 
+     * is the same as the result of this non-faceted query:
+     * 
+     * SELECT count(*) FROM PageView
+     * 
      * @return the total results for a faceted query
      */
      public Map<String,Object> getTotalResult() {
