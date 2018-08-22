@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.opsmatters</groupId>
   <artifactId>newrelic-api</artifactId>
-  <version>1.0.12-SNAPSHOT</version>
+  <version>1.0.12</version>
   <packaging>jar</packaging>
   <name>New Relic API</name>
   <description>
@@ -29,7 +29,7 @@
     <url>https://github.com/opsmatters/newrelic-api</url>
     <connection>scm:git:https://github.com/opsmatters/newrelic-api.git</connection>
     <developerConnection>scm:git:https://github.com/opsmatters/newrelic-api.git</developerConnection>
-    <tag>newrelic-api-1.0.11</tag>
+    <tag>newrelic-api-1.0.12</tag>
   </scm>
 
   <developers>
