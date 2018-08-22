@@ -27,6 +27,10 @@ import java.util.Map;
 public class QueryData
 {
     private List<Map<String,Object>> results;
+    
+    private List<Map<String,Object>> facets;
+    
+    private Map<String,Object> totalResult;
 
     private Map<String,Object> performanceStats;
 
@@ -40,14 +44,38 @@ public class QueryData
     }
 
     /**
-     * Returns the list of results.
+     * Returns the list of results. Not applicable for a faceted query.
      * @return The list of results
      */
     public List<Map<String,Object>> getResults()
     {
         return results;
     }
+    
+    /**
+     * Returns the list of facets. Applicable only for a faceted query.
+     * @return The list of facets
+     */
+    public List<Map<String,Object>> getFacets() {
+            return facets;
+    }
 
+    /**
+     * Returns the result for all entities that match within the query timeframe, regardless of the FACET clause. 
+     * Applicable only for a faceted query. For instance, the total result of this faceted query:
+     * 
+     * SELECT count(*) FROM PageView FACET pageUrl
+     * 
+     * is the same as the result of this non-faceted query:
+     * 
+     * SELECT count(*) FROM PageView
+     * 
+     * @return the total results for a faceted query
+     */
+     public Map<String,Object> getTotalResult() {
+    	return totalResult;
+    }
+    
     /**
      * Returns the list of performance stats.
      * @return The list of performance stats
@@ -73,7 +101,9 @@ public class QueryData
     public String toString()
     {
         return "QueryData [results="+results
-            +", performanceStats="+performanceStats
+           +", facets="+facets
+           +", totalResult="+totalResult
+           +", performanceStats="+performanceStats
             +", metadata="+metadata
             +"]";
     }

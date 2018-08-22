@@ -151,6 +151,7 @@ public class NewRelicApiTest
     private String monitorCategory = "Monitors";
     private String monitorLabel = "Test";
     private String insightsQuery = "SELECT average(duration) FROM PageView";
+    private String facetedInsightsQuery = "SELECT average(duration) FROM PageView FACET pageUrl";
     private String dashboardName = "test-dashboard";
     private String pluginHost = "my-host";
 
@@ -526,6 +527,13 @@ public class NewRelicApiTest
             Assert.assertTrue(data.getResults().size() > 0);
         }
 
+        // Get the results of a faceted query
+        data = getQueryResult(api, accountId, facetedInsightsQuery);
+        if (data != null) {
+        		logger.info("Faceted Query data: " + data.getFacets());
+        		Assert.assertTrue(data.getFacets().size() > 0);
+        		Assert.assertNotNull(data.getTotalResult());
+        }
         logger.info("Completed test: "+testName);
     }
 
